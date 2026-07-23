@@ -270,6 +270,45 @@ See [`demo/guides/mark-attendance.json`](demo/guides/mark-attendance.json) for a
 
 Supported actions are `click`, `input`, and `manual`. A manual step may omit `selector`.
 
+## Scoring (resilient targeting)
+
+During recording, System Guider stores a CSS selector plus optional **match hints**
+(`text`, `href`, `section`, `id`, and similar). During playback, if the primary selector
+fails or is weak, candidates are ranked by `scoreElement(match)`.
+
+**`data-guider` is optional.** Guides work without it — scoring uses the other hints.
+Add `data-guider="…"` on important controls when you want the most stable targets.
+
+### Hint fields
+
+- `dataGuider` — strongest when present (`data-guider="…"`)
+- `id`, `text` / visible label, `href`, `section` (sidebar group)
+- `name`, `placeholder`, `ariaLabel`, `role`, `tag`, `type`
+
+### Score weights (approximate)
+
+| Signal | Score impact |
+|---|---|
+| `data-guider` exact match | **+100** (mismatch **−40**) |
+| element `id` exact | **+80** |
+| `href` exact / suffix / partial | **+45** / **+28** / **+12** (mismatch **−25**) |
+| visible text exact / word-set | **+50** / **+40** (weaker partials lower) |
+| section label | **+30** / **+12** (mismatch **−20**) |
+| `name` / `role` / `type` / `tag` | **+25** / **+6** / **+6** / **+4** |
+
+Default threshold for accepting a scored match is **40** (`SCORE_THRESHOLD`).
+
+### Best practice
+
+```html
+<!-- Prefer stable hooks (optional) -->
+<button data-guider="save-timesheet">Save</button>
+<input data-guider="timesheet-date" type="date">
+```
+
+Resolution order: CSS selector → scored candidates from match hints
+(`data-guider` ranks highest when present).
+
 ## Public API
 
 ```js
@@ -324,18 +363,3 @@ Only one initialized instance is active at a time. Initializing another instance
 ## License
 
 MIT
-
-## Documentation (Word)
-
-Official library guide for GitHub:
-
-[`docs/System-Guider-Library-Guide.docx`](docs/System-Guider-Library-Guide.docx)
-
-Includes: install into a host project (`npm install github:…`), usage, access policy, scoring, uninstall, and push-to-GitHub steps.
-
-Regenerate:
-
-```bash
-npm install docx --no-save
-npm run docs:docx
-```
