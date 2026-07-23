@@ -323,7 +323,7 @@ npm install "file:../system-guider"`),
         ),
 
         h2('2.5 Wire the frontend (required after npm install)'),
-        numbered('Create or edit a JS entry file that boots the guider, for example resources/js/system-guider-init.js:'),
+        numbered('Create or edit an init module that boots the guider (for example system-guider-init.js next to your JS entry):'),
         ...codeBlock(`import SystemGuider from 'system-guider'
 import 'system-guider/style.css'
 
@@ -336,7 +336,7 @@ window.systemGuider = SystemGuider.init({
     downloadFallback: false,
   },
 })`),
-        numbered('Import that file from your main app entry (for example resources/js/app.js):'),
+        numbered('Import that file from your JavaScript entry file (the file Vite/Webpack boots — e.g. resources/js/app.js, src/main.js, src/index.js):'),
         ...codeBlock(`import './system-guider-init.js'`),
         numbered('Pass the logged-in account id from your host auth (example):'),
         ...codeBlock(`window.systemGuider.setAccountId(currentUserId)

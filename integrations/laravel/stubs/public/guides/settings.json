@@ -2,5 +2,8 @@
   "version": 1,
   "resetBeforePlay": "none",
   "reloadOnNavigate": false,
-  "resetBeforePlayDelay": 450
+  "resetBeforePlayDelay": 450,
+  "editorAccountIds": [],
+  "bypassPin": "123456",
+  "hiddenUrls": ["/login"]
 }

@@ -1,63 +1,67 @@
-# Smart Attendance — System Guider setup
+# Smart Attendance — System Guider
 
-**System Guider is a pure JS library.** Laravel handles saving guides to disk.
-
-Guides live as JSON in your app:
+System Guider is a JavaScript library. This app uses Laravel only to persist guide JSON to disk.
 
 ```text
 smart-attendance-system/
   public/
     guides/
       index.json
+      settings.json
       attendance/
         create-timesheet.json
 ```
 
-- **Play** → reads `/guides/index.json` + JSON files (static, works on all devices)
-- **Save** → browser calls `POST /__sg/guides` (Laravel controller)
+| Action | Behavior |
+|---|---|
+| Play | Static `/guides/index.json` + JSON files |
+| Save | `POST /__sg/guides` (Laravel controller) |
 
-## Install
+## Install (in order)
 
-```powershell
-# 1. Build the library
-cd C:\Users\PC\connected-devices\system-guider
-npm install
-npm run build
+**1.** Build the library and install into this app:
 
-# 2. Install into Smart Attendance
-cd C:\xampp8.0\htdocs\smart-attendance-system
-npm install "file:C:/Users/PC/connected-devices/system-guider"
+```bash
+cd /path/to/system-guider
+npm install && npm run build
 
-# 3. Publish controller, routes, and guides folder
+cd /path/to/smart-attendance-system
+npm install "file:/path/to/system-guider"
+```
+
+**2.** Add to `package.json` (once):
+
+```json
+"system-guider:install": "node node_modules/system-guider/integrations/laravel/install.js"
+```
+
+**3.** Publish:
+
+```bash
 npm run system-guider:install
 ```
 
-Overwrite existing files:
-
-```powershell
-npm run system-guider:install -- --force
-```
-
-## Frontend
-
-In `resources/js/app.js`:
+**4.** Import from your JavaScript entry file and pass the logged-in account id:
 
 ```js
 import './system-guider-init.js'
+// guider.setAccountId(currentUserId) — must match editorAccountIds
 ```
 
-Then:
+**5.** Edit `public/guides/settings.json` — add editor account ids:
 
-```powershell
+```json
+"editorAccountIds": ["1"]
+```
+
+**6.** Run the frontend:
+
+```bash
 npm run dev
 ```
 
-## Vite dev middleware (optional)
+## Vite middleware (optional)
 
-For save without Laravel during pure Vite dev, use Node middleware — see `vite.guide-storage.example.js`.
+For save during pure Vite dev without Laravel, see `vite.guide-storage.example.js`.
 
-Production uses the Laravel `/__sg/guides` route instead.
-
-## Without save API
-
-Set `fileStorage: false` and use **Download JSON** / **Load JSON** from the panel, then place files manually under `public/guides/{route}/`.
+Production uses the Laravel `/__sg/guides` route.
