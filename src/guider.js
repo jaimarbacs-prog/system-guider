@@ -515,7 +515,7 @@ export class Guider {
           await this.reloadFileGuides()
           if (result.via === 'download') {
             globalThis.alert?.(
-              `Guide downloaded as ${String(result.path).replace(/\//g, '__')}. Place it in Smart Attendance public/guides/ (same route folders).`,
+              `Guide downloaded as ${String(result.path).replace(/\//g, '__')}. Place it in your app public/guides/ (same route folders).`,
             )
           }
         })

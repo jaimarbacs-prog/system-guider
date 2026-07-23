@@ -1,5 +1,5 @@
 /**
- * Generates docs/System-Guider-Guide.docx — professional library documentation.
+ * Generates docs/System-Guider-Library-Guide.docx — professional library documentation for GitHub.
  * Run: npm run docs:docx
  */
 import {
@@ -26,7 +26,6 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const outDir = join(__dirname, '..', 'docs')
 const outFile = join(outDir, 'System-Guider-Library-Guide.docx')
-const outFileLegacy = join(outDir, 'System-Guider-Guide.docx')
 
 const FONT = 'Calibri'
 const MONO = 'Consolas'
@@ -291,7 +290,7 @@ const doc = new Document({
           [
             ['GitHub', 'Library is on GitHub', 'npm install github:jaimarbacs-prog/system-guider#main'],
             ['GitHub tag', 'Pin a release', 'npm install github:jaimarbacs-prog/system-guider#v1.0.0'],
-            ['Local file', 'Developing the library next to the app', 'npm install "file:C:/Users/PC/connected-devices/system-guider"'],
+            ['Local file', 'Developing the library next to the app', 'npm install "file:../system-guider"'],
             ['npm registry', 'Package published to npm', 'npm install system-guider'],
           ],
           [1800, 2800, 4760],
@@ -313,14 +312,14 @@ const doc = new Document({
 
         h2('2.4 Full example — install from a local folder'),
         numbered('Build the library once (in the library folder):'),
-        ...codeBlock(`cd C:\\Users\\PC\\connected-devices\\system-guider
+        ...codeBlock(`cd C:\\path\\to\\system-guider
 npm install
 npm run build`),
-        numbered('Install into the host app using a file: path:'),
+        numbered('Install into the host app using a relative file: path:'),
         ...codeBlock(`cd C:\\path\\to\\your-host-app
-npm install "file:C:/Users/PC/connected-devices/system-guider"`),
+npm install "file:../system-guider"`),
         note(
-          'Use forward slashes in the file: path on Windows. After you change the library, run npm run build in system-guider, then reinstall or npm update in the host if needed.',
+          'Use a relative file: path when the library sits next to the host app. After you change the library, run npm run build in system-guider, then reinstall in the host if needed.',
         ),
 
         h2('2.5 Wire the frontend (required after npm install)'),
@@ -590,13 +589,15 @@ npm uninstall system-guider`),
         h2('11.2 First-time push from your PC'),
         numbered('Open Command Prompt or PowerShell.'),
         numbered('Go to the library folder:'),
-        ...codeBlock(`cd C:\\Users\\PC\\connected-devices\\system-guider`),
+        ...codeBlock(`cd C:\\path\\to\\system-guider`),
         numbered('Build before push (so dist/ is ready for consumers):'),
         ...codeBlock(`npm install
 npm run build`),
         numbered('Initialize git (skip if already done):'),
         ...codeBlock(`git init
 git branch -M main`),
+        numbered('If a nested empty clone folder exists (system-guider\\system-guider), remove it first:'),
+        ...codeBlock(`rmdir /s /q system-guider`),
         numbered('Stage and commit (IMPORTANT — do this before push):'),
         ...codeBlock(`git add .
 git status
@@ -608,11 +609,11 @@ git commit -m "Initial commit: System Guider library"`),
         numbered('Push:'),
         ...codeBlock(`git push -u origin main`),
         note(
-          'Error "src refspec main does not match any" means there is no commit yet. Run git add . and git commit first, then push again.',
+          'Error "src refspec main does not match any" means there is no commit yet. Run git add . and git commit first, then push again. Error "system-guider/ does not have a commit checked out" means a nested empty clone folder exists — delete it, then git add again.',
         ),
 
         h2('11.3 Later updates (you push changes)'),
-        ...codeBlock(`cd C:\\Users\\PC\\connected-devices\\system-guider
+        ...codeBlock(`cd C:\\path\\to\\system-guider
 npm run build
 git add .
 git commit -m "Describe your change"
@@ -671,18 +672,15 @@ function tryWrite(path) {
     return true
   } catch (error) {
     if (error && error.code === 'EBUSY') {
-      console.warn(`Skipped ${path} (file is open/locked).`)
+      console.warn(`Skipped ${path} (file is open/locked). Close Word and re-run npm run docs:docx`)
       return false
     }
     throw error
   }
 }
 
-const wrotePrimary = tryWrite(outFile)
-const wroteLegacy = tryWrite(outFileLegacy)
-if (!wrotePrimary && !wroteLegacy) {
+if (!tryWrite(outFile)) {
   const fallback = join(outDir, `System-Guider-Library-Guide-${Date.now()}.docx`)
   writeFileSync(fallback, buffer)
   console.log(`Wrote fallback ${fallback} (${buffer.length} bytes)`)
-  console.warn('Close open Word docs and re-run: npm run docs:docx')
 }

@@ -13,7 +13,7 @@ SystemGuider.init({
     publicBase: '/guides',
     downloadFallback: false,
   },
-  storageKey: 'smart-attendance:guider-draft',
+  storageKey: 'app:guider-draft',
   urlMatch: 'pathname',
   resetBeforePlay: 'none',
   resetBeforePlayDelay: 450,

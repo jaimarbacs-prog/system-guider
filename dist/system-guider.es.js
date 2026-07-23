@@ -3879,7 +3879,7 @@ class ss {
       var s;
       await this.reloadFileGuides(), i.via === "download" && ((s = globalThis.alert) == null || s.call(
         globalThis,
-        `Guide downloaded as ${String(i.path).replace(/\//g, "__")}. Place it in Smart Attendance public/guides/ (same route folders).`
+        `Guide downloaded as ${String(i.path).replace(/\//g, "__")}. Place it in your app public/guides/ (same route folders).`
       ));
     }).catch((i) => {
       var s;

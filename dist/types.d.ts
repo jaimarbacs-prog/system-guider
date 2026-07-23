@@ -108,7 +108,7 @@ export interface GuiderOptions {
   overlayOpacity?: number
   allowClose?: boolean
   storageKey?: string
-  /** Host-app JSON storage (e.g. Smart Attendance public/guides). Default false. */
+  /** Host-app JSON storage (public/guides). Default false. */
   fileStorage?: boolean | {
     baseUrl?: string
     publicBase?: string

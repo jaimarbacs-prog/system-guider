@@ -4,22 +4,31 @@ Publishes the PHP save API and guide storage folder into a Laravel app.
 
 ## Install (one command)
 
-From your Laravel project (e.g. Smart Attendance):
+From your Laravel host project:
 
 ```powershell
-# 1. Build the library (once, or after library changes)
-cd C:\Users\PC\connected-devices\system-guider
+# 1. Install from GitHub
+cd C:\path\to\your-laravel-app
+npm install github:jaimarbacs-prog/system-guider#main
+
+# 2. Add this script to package.json (once):
+#    "system-guider:install": "node node_modules/system-guider/integrations/laravel/install.js"
+
+# 3. Publish controller, routes, and guides folder
+npm run system-guider:install
+```
+
+### Local library development (optional)
+
+```powershell
+# Build the library first
+cd C:\path\to\system-guider
 npm install
 npm run build
 
-# 2. Install the npm package
+# Install into the host via relative/local path
 cd C:\path\to\your-laravel-app
-npm install "file:C:/Users/PC/connected-devices/system-guider"
-
-# 3. Add this script to package.json (once):
-#    "system-guider:install": "node node_modules/system-guider/integrations/laravel/install.js"
-
-# 4. Publish controller, routes, and guides folder
+npm install "file:../system-guider"
 npm run system-guider:install
 ```
 

@@ -19,7 +19,7 @@ npm install
 npm run build
 ```
 
-Run the Smart Attendance demo:
+Run the local demo:
 
 ```bash
 npm run dev
@@ -67,7 +67,7 @@ The library is **100% JavaScript**. Guides are JSON files in your app (`public/g
 For local dev, add optional **Node middleware** (not PHP):
 
 ```js
-// vite.config.js in Smart Attendance
+// vite.config.js in your Laravel / Vite host app
 import { createGuideStorageMiddleware } from 'system-guider/guide-storage'
 import { resolve } from 'path'
 
@@ -82,16 +82,16 @@ export default defineConfig({
 
 Or set `fileStorage: false` and use Download/Load JSON from the panel.
 
-See `integrations/smart-attendance/README.md`.
+### Laravel install
 
-### Laravel install (Smart Attendance)
+From your Laravel host project:
 
 ```powershell
-npm install "file:C:/Users/PC/connected-devices/system-guider"
+npm install github:jaimarbacs-prog/system-guider#main
 npm run system-guider:install
 ```
 
-Add to your Laravel app `package.json`:
+Add to your Laravel app `package.json` (once):
 
 ```json
 "system-guider:install": "node node_modules/system-guider/integrations/laravel/install.js"
@@ -151,21 +151,21 @@ Copy the generated files from `dist/` into the host project:
 </script>
 ```
 
-## Integrate with Smart Attendance (Laravel)
+## Integrate with a Laravel host
 
-Guides are saved in **Smart Attendance** (`public/guides/`), not in this library.
+Guides are saved in the **host app** (`public/guides/`), not inside this library repo.
 
 ```powershell
-cd smart-attendance-system
-npm install "file:C:/Users/PC/connected-devices/system-guider"
+cd your-laravel-app
+npm install github:jaimarbacs-prog/system-guider#main
 npm run system-guider:install
 ```
 
 Then add `import './system-guider-init.js'` in `resources/js/app.js`.
 
-See [`integrations/smart-attendance/README.md`](integrations/smart-attendance/README.md) and [`integrations/laravel/README.md`](integrations/laravel/README.md).
+See [`integrations/laravel/README.md`](integrations/laravel/README.md).
 
-### Quick init (Smart Attendance `resources/js/app.js`)
+### Quick init (`resources/js/app.js`)
 
 ```js
 import './system-guider-init.js'
@@ -181,11 +181,11 @@ SystemGuider.init({
   showLauncher: true,
   guidesByUrl: false,              // play from JSON files, not localStorage
   fileStorage: {
-    baseUrl: '/__sg/guides',       // optional Node dev middleware
+    baseUrl: '/__sg/guides',       // save API
     publicBase: '/guides',         // public/guides/*.json
     downloadFallback: false,
   },
-  storageKey: 'smart-attendance:guider-draft',
+  storageKey: 'app:guider-draft',
 })
 ```
 
@@ -215,7 +215,7 @@ Stable hooks are recommended because generated CSS paths can change when the hos
 
 ```js
 const guider = SystemGuider.init({
-  storageKey: 'smart-attendance:guide-draft',
+  storageKey: 'app:guide-draft',
 })
 
 document.querySelector('#train-guide').addEventListener('click', () => {
@@ -327,9 +327,11 @@ MIT
 
 ## Documentation (Word)
 
-Professional library documentation:
+Official library guide for GitHub:
 
 [`docs/System-Guider-Library-Guide.docx`](docs/System-Guider-Library-Guide.docx)
+
+Includes: install into a host project (`npm install github:…`), usage, access policy, scoring, uninstall, and push-to-GitHub steps.
 
 Regenerate:
 
