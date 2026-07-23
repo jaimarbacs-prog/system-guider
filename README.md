@@ -360,6 +360,23 @@ Only one initialized instance is active at a time. Initializing another instance
 7. Verify input steps block Next until a value is selected.
 8. Verify a missing selector shows Skip instead of crashing.
 
+## Uninstall
+
+From your **host** project (the app that installed the package):
+
+```powershell
+cd your-host-app
+npm uninstall system-guider
+```
+
+Then clean up host wiring:
+
+1. Remove `import './system-guider-init.js'` (or any `SystemGuider.init(...)`) from your JS entry.
+2. Remove the `system-guider:install` script from `package.json` if you added it.
+3. If you ran the Laravel publisher, remove or stop requiring `routes/system-guider.php`, and optionally delete `SystemGuiderController.php`.
+4. Optionally delete `public/guides/` if you no longer need saved guides.
+5. Rebuild frontend assets: `npm run build` (or `npm run dev`).
+
 ## License
 
 MIT
