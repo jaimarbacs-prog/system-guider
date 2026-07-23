@@ -1,0 +1,42 @@
+{
+  "name": "system-guider",
+  "version": "1.0.0",
+  "description": "Record and replay interactive UI guides with a modern left panel",
+  "type": "module",
+  "main": "./dist/system-guider.umd.js",
+  "module": "./dist/system-guider.es.js",
+  "types": "./dist/types.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/system-guider.es.js",
+      "default": "./dist/system-guider.umd.js"
+    },
+    "./style.css": "./dist/system-guider.css",
+    "./guide-storage": "./scripts/file-storage-middleware.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "integrations"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/copy-types.js",
+    "preview": "vite preview",
+    "docs:docx": "node scripts/generate-guide-docx.mjs",
+    "system-guider:install": "node integrations/laravel/install.js"
+  },
+  "keywords": [
+    "tour",
+    "guide",
+    "onboarding",
+    "walkthrough",
+    "system-guider"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

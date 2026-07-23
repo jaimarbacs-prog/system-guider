@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "resetBeforePlay": "none",
+  "reloadOnNavigate": false,
+  "resetBeforePlayDelay": 450
+}
