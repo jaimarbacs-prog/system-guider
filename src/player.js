@@ -702,16 +702,24 @@ export class Player {
     }
 
     const readValue = () => {
-      if (element instanceof HTMLInputElement && ['checkbox', 'radio'].includes(element.type)) {
-        return String(element.checked)
-      }
-      // Only real form controls have a meaningful .value — never read it from div.p-dropdown.
-      if (
+      const control = (
         element instanceof HTMLInputElement
         || element instanceof HTMLTextAreaElement
         || element instanceof HTMLSelectElement
+      )
+        ? element
+        : element.querySelector?.('input:not([type="hidden"]), textarea, select') || element
+
+      if (control instanceof HTMLInputElement && ['checkbox', 'radio'].includes(control.type)) {
+        return String(control.checked)
+      }
+      // Only real form controls have a meaningful .value — never read it from div.p-dropdown.
+      if (
+        control instanceof HTMLInputElement
+        || control instanceof HTMLTextAreaElement
+        || control instanceof HTMLSelectElement
       ) {
-        return String(element.value ?? '')
+        return String(control.value ?? '')
       }
       return readPrimeLabel()
     }
@@ -749,35 +757,107 @@ export class Player {
       this.overlay.highlight(host, false, { blockOutside: true })
     }
 
+    const isTextValueStep = !isInteractionOnly && !isPrimeChoice && !isAutocomplete
+
+    const blurField = () => {
+      const control = (
+        element instanceof HTMLInputElement
+        || element instanceof HTMLTextAreaElement
+      )
+        ? element
+        : element.querySelector?.('input:not([type="hidden"]), textarea')
+      if (control instanceof HTMLElement) {
+        try { control.blur() } catch { /* ignore */ }
+      }
+      try {
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+      } catch { /* ignore */ }
+    }
+
     const goNext = () => {
       if (this.active && this.index === stepIndex) this.next()
+    }
+
+    const advanceNow = (field = element) => {
+      if (!this.active || this.index !== stepIndex || hasInteracted) return
+      hasInteracted = true
+      lastObservedValue = readValue()
+      clearTimeout(autoAdvanceTimer)
+      this.overlay.hideGoChip?.()
+      if (field instanceof Element) {
+        this.lastChoiceField = field
+        this.lastCompletedField = resolveInteractiveField(field) || field
+      }
+      notify()
+      blurField()
+      this.overlay.hide()
+      autoAdvanceTimer = setTimeout(goNext, isTextValueStep ? Math.min(delay, 120) : delay)
+    }
+
+    const syncGoChip = () => {
+      if (!isTextValueStep) return
+      if (!this.active || this.index !== stepIndex || hasInteracted) {
+        this.overlay.hideGoChip?.()
+        return
+      }
+      if (isMet()) {
+        this.overlay.showGoChip?.(() => {
+          if (!this.active || this.index !== stepIndex || hasInteracted) return
+          if (!isMet()) {
+            notify()
+            this.overlay.hideGoChip?.()
+            return
+          }
+          advanceNow(element)
+        }, 'Go')
+      } else {
+        this.overlay.hideGoChip?.()
+      }
     }
 
     const completeInteraction = (field = element) => {
       if (!this.active || this.index !== stepIndex || hasInteracted) return
       // Multiselect: only finish after the panel is closed (X / outside click / toggle).
       if (shouldDeferMultiSelectAdvance()) return
-      hasInteracted = true
-      lastObservedValue = readValue()
-      clearTimeout(autoAdvanceTimer)
-      if (field instanceof Element) {
-        this.lastChoiceField = field
-        this.lastCompletedField = resolveInteractiveField(field) || field
-      }
-      notify()
+
       // Choice/PrimeVue selects advance on interaction even when "require value" is on.
       const canAdvance = isInteractionOnly || isPrimeChoice
         ? true
         : isMet()
-      if (!canAdvance || !this.autoAdvanceOnInput) return
-      // Hide now so the guide never looks like it returned to this dropdown.
-      this.overlay.hide()
-      autoAdvanceTimer = setTimeout(goNext, delay)
+
+      if (!canAdvance) {
+        notify()
+        syncGoChip()
+        return
+      }
+
+      // Plain text: show Go — blur + advance only when the user confirms.
+      if (isTextValueStep) {
+        lastObservedValue = readValue()
+        notify()
+        syncGoChip()
+        return
+      }
+
+      if (!this.autoAdvanceOnInput) {
+        hasInteracted = true
+        lastObservedValue = readValue()
+        if (field instanceof Element) {
+          this.lastChoiceField = field
+          this.lastCompletedField = resolveInteractiveField(field) || field
+        }
+        notify()
+        return
+      }
+
+      advanceNow(field)
     }
 
     const belongsToThisField = (node) => {
       if (!(node instanceof Element)) return false
       if (node === element || element.contains(node)) return true
+      const nested = element.querySelector?.('input, textarea, select')
+      if (nested && (node === nested || nested.contains(node))) return true
       const resolved = resolveInteractiveField(node)
       if (resolved && (resolved === element || element.contains(resolved) || resolved.contains?.(element))) {
         return true
@@ -857,6 +937,10 @@ export class Player {
       }
       // Ignore bubbled events from unrelated controls while waiting on a choice field.
       if (isInteractionOnly && target instanceof Element && !belongsToThisField(target)) {
+        return
+      }
+      // Plain text inputs: only advance from events on THIS field (ignore other inputs).
+      if (!isInteractionOnly && !isPrimeChoice && target instanceof Element && !belongsToThisField(target)) {
         return
       }
       scheduleComplete(element)
@@ -1028,8 +1112,22 @@ export class Player {
         tryCompleteMultiSelectAfterClose()
         return
       }
-      if (readValue() !== lastObservedValue) scheduleComplete(element)
+      if (readValue() !== lastObservedValue) {
+        lastObservedValue = readValue()
+        scheduleComplete(element)
+        return
+      }
+      if (isTextValueStep) syncGoChip()
     }, 80)
+
+    const onEnterKey = (event) => {
+      if (!isTextValueStep || hasInteracted) return
+      if (event.key !== 'Enter') return
+      if (!belongsToThisField(event.target instanceof Element ? event.target : element)) return
+      if (!isMet()) return
+      event.preventDefault()
+      advanceNow(element)
+    }
 
     this.waitCleanup = () => {
       clearTimeout(autoAdvanceTimer)
@@ -1037,15 +1135,21 @@ export class Player {
       labelObserver?.disconnect()
       expandedObserver?.disconnect()
       multiSelectObserver?.disconnect()
+      this.overlay.hideGoChip?.()
       element.removeEventListener('input', onValueEvent)
       element.removeEventListener('change', onValueEvent)
       document.removeEventListener('change', onValueEvent, true)
       document.removeEventListener('input', onValueEvent, true)
+      document.removeEventListener('keydown', onEnterKey, true)
       document.removeEventListener('pointerdown', onDocPointer, true)
       document.removeEventListener('pointerup', onDocPointer, true)
       document.removeEventListener('click', onDocPointer, true)
     }
     notify()
+    if (isTextValueStep) {
+      document.addEventListener('keydown', onEnterKey, true)
+      syncGoChip()
+    }
   }
 
   async applyHideDelay(step) {

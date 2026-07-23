@@ -2291,6 +2291,36 @@ html[data-sg-animations="off"] .sg-spotlight--fade-in {
   outline-offset: 2px;
 }
 
+.sg-go-chip {
+  position: fixed;
+  margin: 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--sg-skip-bg, #2563eb);
+  color: var(--sg-skip-text, #fff);
+  font: 700 12px/1.2 var(--sg-font);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+  transition: filter 140ms ease, transform 140ms ease;
+}
+
+.sg-go-chip:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.sg-go-chip:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.sg-go-chip[hidden] {
+  display: none;
+}
+
 .sg-step-tip {
   position: fixed;
   width: min(260px, calc(100vw - 24px));

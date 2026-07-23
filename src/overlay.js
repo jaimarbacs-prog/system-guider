@@ -218,6 +218,8 @@ export class SpotlightOverlay {
     this.frame = null
     this.blocks = null
     this.skipChip = null
+    this.goChip = null
+    this.onGo = null
     this.stepTip = null
     this.stepTipContent = null
     this.guideCursor = null
@@ -250,6 +252,11 @@ export class SpotlightOverlay {
       event.preventDefault()
       event.stopPropagation()
       this.onSkip?.()
+    }
+    this.onGoClick = (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      this.onGo?.()
     }
   }
 
@@ -468,6 +475,40 @@ export class SpotlightOverlay {
     document.body.append(this.skipChip)
   }
 
+  mountGoChip() {
+    if (this.goChip) return
+    this.goChip = document.createElement('button')
+    this.goChip.type = 'button'
+    this.goChip.className = 'sg-go-chip'
+    this.goChip.textContent = 'Go'
+    this.goChip.style.zIndex = String(this.zIndex + 32)
+    this.goChip.hidden = true
+    this.goChip.addEventListener('click', this.onGoClick)
+    document.body.append(this.goChip)
+  }
+
+  /** Show Continue/Go for text input steps (blur + advance on click). */
+  showGoChip(onGo, label = 'Go') {
+    this.mountGoChip()
+    this.onGo = typeof onGo === 'function' ? onGo : null
+    this.goChip.textContent = String(label || 'Go')
+    this.goChip.hidden = false
+    this.positionSkipChipFallback()
+    // Reposition against the current highlight if available.
+    if (this.frame) {
+      const x = Number.parseFloat(this.frame.style.getPropertyValue('--sg-x')) || 0
+      const y = Number.parseFloat(this.frame.style.getPropertyValue('--sg-y')) || 0
+      const w = Number.parseFloat(this.frame.style.getPropertyValue('--sg-w')) || 0
+      const h = Number.parseFloat(this.frame.style.getPropertyValue('--sg-h')) || 0
+      if (w > 0 && h > 0) this.positionSkipChip(x, y, w, h)
+    }
+  }
+
+  hideGoChip() {
+    this.onGo = null
+    if (this.goChip) this.goChip.hidden = true
+  }
+
   mountStepTip() {
     if (this.stepTip) return
     this.stepTip = document.createElement('div')
@@ -548,33 +589,54 @@ export class SpotlightOverlay {
     const tipVisible = this.stepTip && !this.stepTip.hidden
     const tipW = tipVisible ? (this.stepTip.offsetWidth || 220) : 0
     const tipH = tipVisible ? (this.stepTip.offsetHeight || 48) : 0
+    const goVisible = this.goChip && !this.goChip.hidden
+    const goW = goVisible ? (this.goChip.offsetWidth || 72) : 0
+    const goH = goVisible ? (this.goChip.offsetHeight || 36) : 0
     const chipW = this.skipChip && !this.skipChip.hidden ? (this.skipChip.offsetWidth || 100) : 0
     const chipH = this.skipChip && !this.skipChip.hidden ? (this.skipChip.offsetHeight || 36) : 0
-    const clusterW = Math.max(tipW, chipW)
-    const clusterH = (tipVisible ? tipH : 0) + (tipVisible && chipW ? 8 : 0) + (chipW ? chipH : 0)
+    const actionsGap = 8
 
-    let left = x + w + gap
-    let top = y
+    // Go first — flush to the right of the highlighted input.
+    let goLeft = 0
+    let goTop = 0
+    if (goVisible) {
+      goLeft = x + w + gap
+      goTop = y + Math.max(0, Math.round((h - goH) / 2))
+      if (goLeft + goW > vw - 8) {
+        goLeft = Math.max(8, x - goW - gap)
+      }
+      if (goTop < 8) goTop = 8
+      if (goTop + goH > vh - 8) goTop = Math.max(8, vh - goH - 8)
+      this.goChip.style.left = `${goLeft}px`
+      this.goChip.style.top = `${goTop}px`
+    }
+
+    // Tip + Skip sit beside Go (or beside the input if Go is hidden).
+    const clusterW = Math.max(tipW, chipW)
+    const clusterH = (tipVisible ? tipH : 0)
+      + (tipVisible && chipW ? actionsGap : 0)
+      + (chipW ? chipH : 0)
+
+    let left = goVisible ? goLeft + goW + gap : x + w + gap
+    let top = goVisible ? Math.min(goTop, y) : y
 
     if (left + clusterW > vw - 8) {
       left = Math.min(Math.max(8, x), vw - clusterW - 8)
-      top = y - clusterH - gap
-    }
-    if (top < 8) {
       top = y + h + gap
     }
+    if (top < 8) top = 8
+    if (top + clusterH > vh - 8) top = Math.max(8, vh - clusterH - 8)
 
     left = Math.min(Math.max(8, left), vw - clusterW - 8)
-    top = Math.min(Math.max(8, top), vh - clusterH - 8)
 
     if (tipVisible) {
-      this.stepTip.style.left = `${Math.round(left)}px`
-      this.stepTip.style.top = `${Math.round(top)}px`
-      top += tipH + 8
+      this.stepTip.style.left = `${left}px`
+      this.stepTip.style.top = `${top}px`
+      top += tipH + actionsGap
     }
     if (this.skipChip && !this.skipChip.hidden) {
-      this.skipChip.style.left = `${Math.round(left)}px`
-      this.skipChip.style.top = `${Math.round(top)}px`
+      this.skipChip.style.left = `${left}px`
+      this.skipChip.style.top = `${top}px`
     }
   }
 
@@ -583,25 +645,35 @@ export class SpotlightOverlay {
     const tipVisible = this.stepTip && !this.stepTip.hidden
     const tipW = tipVisible ? (this.stepTip.offsetWidth || 220) : 0
     const tipH = tipVisible ? (this.stepTip.offsetHeight || 48) : 0
+    const goVisible = this.goChip && !this.goChip.hidden
+    const goW = goVisible ? (this.goChip.offsetWidth || 72) : 0
+    const goH = goVisible ? (this.goChip.offsetHeight || 36) : 0
     const chipW = this.skipChip && !this.skipChip.hidden ? (this.skipChip.offsetWidth || 100) : 0
     const chipH = this.skipChip && !this.skipChip.hidden ? (this.skipChip.offsetHeight || 36) : 0
+    const actionsGap = 8
     const warningVisible = this.warningBanner && !this.warningBanner.hidden
     const waitingVisible = this.waitingBanner && !this.waitingBanner.hidden
-    const warningH = warningVisible ? (this.warningBanner.offsetHeight || 72) : 0
+    const warningH = warningVisible ? (this.warningBanner.offsetHeight || 40) : 0
     const waitingH = waitingVisible ? (this.waitingBanner.offsetHeight || 40) : 0
     const bottomGap = 24 + warningH + waitingH + (warningVisible || waitingVisible ? 12 : 0)
-    const clusterH = (tipVisible ? tipH + 8 : 0) + (chipW ? chipH : 0)
-    let top = Math.max(8, window.innerHeight - clusterH - bottomGap)
+    const clusterH = (tipVisible ? tipH + actionsGap : 0) + (chipW ? chipH : 0)
+
     const left = Math.max(8, Math.round((window.innerWidth - Math.max(tipW, chipW || tipW)) / 2))
+    let top = Math.max(8, window.innerHeight - bottomGap - clusterH - (goVisible ? goH + actionsGap : 0))
 
     if (tipVisible) {
       this.stepTip.style.left = `${left}px`
-      this.stepTip.style.top = `${Math.round(top)}px`
-      top += tipH + 8
+      this.stepTip.style.top = `${top}px`
+      top += tipH + actionsGap
     }
     if (this.skipChip && !this.skipChip.hidden) {
-      this.skipChip.style.left = `${Math.max(8, Math.round((window.innerWidth - chipW) / 2))}px`
-      this.skipChip.style.top = `${Math.round(top)}px`
+      this.skipChip.style.left = `${left}px`
+      this.skipChip.style.top = `${top}px`
+      top += chipH + actionsGap
+    }
+    if (goVisible) {
+      this.goChip.style.left = `${Math.max(8, Math.round((window.innerWidth - goW) / 2))}px`
+      this.goChip.style.top = `${top}px`
     }
   }
 
@@ -968,6 +1040,7 @@ export class SpotlightOverlay {
     }
     if (this.controlsEnabled) this.positionSkipChipFallback()
     this.hideWaiting()
+    this.hideGoChip()
     this.hideStepTip()
     this.hideGuideCursor()
   }
@@ -991,6 +1064,12 @@ export class SpotlightOverlay {
       this.skipChip.removeEventListener('click', this.onSkipClick)
       this.skipChip.remove()
       this.skipChip = null
+    }
+    if (this.goChip) {
+      this.goChip.removeEventListener('click', this.onGoClick)
+      this.goChip.remove()
+      this.goChip = null
+      this.onGo = null
     }
     if (this.stepTip) {
       this.stepTip.remove()
