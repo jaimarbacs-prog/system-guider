@@ -6,7 +6,7 @@
   "editorAccountIds": [],
   "bypassPin": "123456",
   "showAccountId": false,
-  "hiddenUrls": ["/login", "/"],
+  "hiddenUrls": ["/login"],
   "launcher": {
     "size": 80,
     "position": "bottom-right",

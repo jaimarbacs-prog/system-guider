@@ -53,10 +53,10 @@ export const defaultGuiderSettings = () => ({
   showAccountId: false,
   /**
    * Pathname prefixes/paths where the floating toolbar is hidden.
-   * Includes `/` for apps that serve login at the root (route name login).
-   * Examples: /login, /, /time-log
+   * Default: login only. Add `/` if your app serves login (or no-guider pages) at the root.
+   * Examples: /login, /time-log
    */
-  hiddenUrls: ['/login', '/'],
+  hiddenUrls: ['/login'],
   launcher: defaultLauncherSettings(),
   ui: defaultUiSettings(),
 })

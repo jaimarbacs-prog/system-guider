@@ -710,6 +710,7 @@ export class SpotlightOverlay {
   positionSkipChip(x, y, w, h) {
     if (!this.controlsEnabled) return
     const gap = 10
+    const pad = 8
     const vw = window.innerWidth
     const vh = window.innerHeight
     const tipVisible = this.stepTip && !this.stepTip.hidden
@@ -728,32 +729,64 @@ export class SpotlightOverlay {
     if (goVisible) {
       goLeft = x + w + gap
       goTop = y + Math.max(0, Math.round((h - goH) / 2))
-      if (goLeft + goW > vw - 8) {
-        goLeft = Math.max(8, x - goW - gap)
+      if (goLeft + goW > vw - pad) {
+        goLeft = Math.max(pad, x - goW - gap)
       }
-      if (goTop < 8) goTop = 8
-      if (goTop + goH > vh - 8) goTop = Math.max(8, vh - goH - 8)
+      if (goTop < pad) goTop = pad
+      if (goTop + goH > vh - pad) goTop = Math.max(pad, vh - goH - pad)
       this.goChip.style.left = `${goLeft}px`
       this.goChip.style.top = `${goTop}px`
     }
 
-    // Tip + Skip sit beside Go (or beside the input if Go is hidden).
     const clusterW = Math.max(tipW, chipW)
     const clusterH = (tipVisible ? tipH : 0)
       + (tipVisible && chipW ? actionsGap : 0)
       + (chipW ? chipH : 0)
 
-    let left = goVisible ? goLeft + goW + gap : x + w + gap
-    let top = goVisible ? Math.min(goTop, y) : y
+    const hlCx = x + w / 2
+    const hlCy = y + h / 2
+    const clamp = (left, top) => ({
+      left: Math.min(Math.max(pad, left), Math.max(pad, vw - clusterW - pad)),
+      top: Math.min(Math.max(pad, top), Math.max(pad, vh - clusterH - pad)),
+    })
 
-    if (left + clusterW > vw - 8) {
-      left = Math.min(Math.max(8, x), vw - clusterW - 8)
-      top = y + h + gap
+    // Prefer placements glued to the highlight (below / above / side), not viewport corners.
+    const candidates = [
+      clamp(hlCx - clusterW / 2, y + h + gap), // below, centered
+      clamp(hlCx - clusterW / 2, y - clusterH - gap), // above, centered
+      clamp(x - clusterW - gap, hlCy - clusterH / 2), // left, centered
+      clamp(x + w + gap, hlCy - clusterH / 2), // right, centered
+      clamp(x, y + h + gap), // below-start
+      clamp(x + w - clusterW, y + h + gap), // below-end
+    ]
+
+    if (goVisible) {
+      candidates.unshift(
+        clamp(goLeft + goW + gap, Math.min(goTop, y)),
+        clamp(goLeft - clusterW - gap, Math.min(goTop, y)),
+      )
     }
-    if (top < 8) top = 8
-    if (top + clusterH > vh - 8) top = Math.max(8, vh - clusterH - 8)
 
-    left = Math.min(Math.max(8, left), vw - clusterW - 8)
+    let best = candidates[0]
+    let bestScore = Infinity
+    for (const spot of candidates) {
+      const tipCx = spot.left + clusterW / 2
+      const tipCy = spot.top + clusterH / 2
+      const dx = tipCx - hlCx
+      const dy = tipCy - hlCy
+      let score = dx * dx + dy * dy
+      // Prefer placements that do not cover the highlighted target.
+      const overlapX = Math.max(0, Math.min(spot.left + clusterW, x + w) - Math.max(spot.left, x))
+      const overlapY = Math.max(0, Math.min(spot.top + clusterH, y + h) - Math.max(spot.top, y))
+      if (overlapX > 0 && overlapY > 0) score += 1_000_000 + overlapX * overlapY
+      if (score < bestScore) {
+        bestScore = score
+        best = spot
+      }
+    }
+
+    let left = best.left
+    let top = best.top
 
     if (tipVisible) {
       this.stepTip.style.left = `${left}px`
@@ -769,6 +802,15 @@ export class SpotlightOverlay {
 
   positionSkipChipFallback() {
     if (!this.controlsEnabled) return
+    const host = this.highlightHost || this.target
+    if (host instanceof Element && host.isConnected) {
+      const rect = host.getBoundingClientRect()
+      if (rect.width > 0 && rect.height > 0) {
+        this.positionSkipChip(rect.left, rect.top, rect.width, rect.height)
+        return
+      }
+    }
+
     const tipVisible = this.stepTip && !this.stepTip.hidden
     const tipW = tipVisible ? (this.stepTip.offsetWidth || 220) : 0
     const tipH = tipVisible ? (this.stepTip.offsetHeight || 48) : 0
@@ -791,13 +833,7 @@ export class SpotlightOverlay {
     if (tipVisible) {
       this.stepTip.style.left = `${left}px`
       this.stepTip.style.top = `${top}px`
-      const host = this.highlightHost || this.target
-      if (host instanceof Element && host.isConnected) {
-        const rect = host.getBoundingClientRect()
-        if (rect.width > 0 && rect.height > 0) {
-          this.updateStepTipArrow(rect.left, rect.top, rect.width, rect.height)
-        }
-      }
+      this.stepTip.removeAttribute('data-arrow')
       top += tipH + actionsGap
     }
     if (this.skipChip && !this.skipChip.hidden) {

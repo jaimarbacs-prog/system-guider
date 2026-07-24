@@ -18,14 +18,16 @@ import {
   Header,
   Footer,
   PageNumber,
+  ImageRun,
 } from 'docx'
-import { writeFileSync, mkdirSync } from 'fs'
+import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const outDir = join(__dirname, '..', 'docs')
 const outFile = join(outDir, 'System-Guider-Library-Guide.docx')
+const highlightTipPath = join(outDir, 'images', 'highlight-tip.png')
 
 const FONT = 'Calibri'
 const MONO = 'Consolas'
@@ -186,6 +188,42 @@ const codeBlock = (src) => {
 
 const spacer = () => new Paragraph({ spacing: { after: 80 }, children: [] })
 
+function highlightFigure() {
+  if (!existsSync(highlightTipPath)) return []
+  const bytes = readFileSync(highlightTipPath)
+  return [
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 120, after: 80 },
+      children: [
+        new ImageRun({
+          type: 'png',
+          data: bytes,
+          transformation: { width: 540, height: 338 },
+          altText: {
+            title: 'Playback highlight',
+            description: 'Spotlight on the target with coachmark tip nearby',
+            name: 'highlight-tip',
+          },
+        }),
+      ],
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 200 },
+      children: [
+        new TextRun({
+          text: 'Playback highlight: spotlight on the target, coachmark tip beside it with step progress, End Tutorial, and Skip Step.',
+          italics: true,
+          size: 18,
+          font: FONT,
+          color: MUTED,
+        }),
+      ],
+    }),
+  ]
+}
+
 const doc = new Document({
   creator: 'System Guider',
   title: 'System Guider — Library Documentation',
@@ -259,6 +297,7 @@ const doc = new Document({
         title('System Guider'),
         subtitle('Interactive UI guide recording & playback library'),
         meta('Documentation v1.0.0  ·  JavaScript (ESM / UMD)  ·  TypeScript declarations included'),
+        ...highlightFigure(),
 
         // ——— TOC-like overview ———
         h1('1. Introduction'),

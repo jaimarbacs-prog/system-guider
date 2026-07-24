@@ -8,7 +8,7 @@ Framework-independent JavaScript library for **recording, editing, and replaying
   <img src="docs/images/highlight-tip.png" alt="Spotlight highlight with step tip, End Tutorial and Skip Step" width="900" />
 </p>
 
-<p align="center"><em>Playback highlight: spotlight on the target, coachmark tip with step progress, description, End Tutorial, and Skip Step.</em></p>
+<p align="center"><em>Playback highlight: spotlight on the target, coachmark tip beside it with step progress, End Tutorial, and Skip Step.</em></p>
 
 ## Purpose
 

@@ -1,10 +1,10 @@
 const gt = (n, t, e = "") => {
   const s = document.createElement("button");
   return s.type = "button", s.className = `sg-button ${e ? `sg-button--${e}` : ""}`.trim(), s.dataset.action = t, s.textContent = n, s;
-}, A = (n, t, e) => {
+}, B = (n, t, e) => {
   const s = document.createElement(n);
   return s.className = t, s.textContent = e, s;
-}, Y = (n, t = "ghost", { icon: e = "", ariaLabel: s = "", withLabel: i = !1 } = {}) => {
+}, Q = (n, t = "ghost", { icon: e = "", ariaLabel: s = "", withLabel: i = !1 } = {}) => {
   const r = document.createElement("button");
   return r.type = "button", r.className = `sg-button sg-button--tiny ${t ? `sg-button--${t}` : ""}`.trim(), e ? (r.classList.add(i ? "sg-button--with-icon" : "sg-button--icon"), i ? r.innerHTML = `${e}<span>${n}</span>` : r.innerHTML = e, r.setAttribute("aria-label", s || n), r.title = s || n) : r.textContent = n, r;
 }, Bs = `
@@ -112,11 +112,11 @@ const gt = (n, t, e = "") => {
   });
   const a = document.createElement("div");
   a.className = "sg-string-list__actions";
-  const c = Y("Save", "primary", { icon: hs, ariaLabel: "Save" });
+  const c = Q("Save", "primary", { icon: hs, ariaLabel: "Save" });
   c.addEventListener("click", (d) => {
     d.preventDefault(), d.stopPropagation(), s();
   });
-  const l = Y("Cancel", "ghost", { icon: Ps, ariaLabel: "Cancel" });
+  const l = Q("Cancel", "ghost", { icon: Ps, ariaLabel: "Cancel" });
   return l.addEventListener("click", (d) => {
     d.preventDefault(), d.stopPropagation(), i();
   }), a.append(c, l), r.append(o, a), r;
@@ -149,7 +149,7 @@ class Ks {
         <rect class="sg-recording-indicator__bar" x="19" y="6.5" width="2.5" height="5" rx="1.25"/>
       </svg>
     `;
-    const r = A("span", "sg-recording-indicator__status", "Recording..."), o = document.createElement("span");
+    const r = B("span", "sg-recording-indicator__status", "Recording..."), o = document.createElement("span");
     o.className = "sg-recording-indicator__divider", o.setAttribute("aria-hidden", "true");
     const a = document.createElement("button");
     a.type = "button", a.className = "sg-recording-indicator__stop", a.title = "Stop recording", a.setAttribute("aria-label", "Stop recording");
@@ -159,7 +159,7 @@ class Ks {
         <rect x="1.5" y="1.5" width="9" height="9" rx="2"/>
       </svg>
     `;
-    const l = A("span", "sg-recording-indicator__stop-label", "Stop");
+    const l = B("span", "sg-recording-indicator__stop-label", "Stop");
     return a.append(c, l), a.addEventListener("click", (d) => {
       var h, p;
       d.preventDefault(), d.stopPropagation(), (p = (h = this.handlers)["stop-recording"]) == null || p.call(h);
@@ -193,8 +193,8 @@ class Ks {
     const r = 16, o = e.width, a = e.height, c = window.innerWidth, l = window.innerHeight, d = c - t.right - r, h = t.left - r, p = l - t.bottom - r, u = t.top - r;
     let g = e.left, f = e.top;
     d >= o ? (g = t.right + r, f = Math.min(Math.max(8, t.top), Math.max(8, l - a - 8))) : h >= o ? (g = t.left - o - r, f = Math.min(Math.max(8, t.top), Math.max(8, l - a - 8))) : p >= Math.min(a, 180) ? (g = this.clampPosition(e.left, 0).left, f = t.bottom + r) : u >= Math.min(a, 180) ? (g = this.clampPosition(e.left, 0).left, f = t.top - a - r) : d >= h ? (g = Math.max(8, Math.min(c - o - 8, t.right + r)), f = Math.min(Math.max(8, t.top), Math.max(8, l - a - 8))) : (g = Math.max(8, Math.min(c - o - 8, t.left - o - r)), f = Math.min(Math.max(8, t.top), Math.max(8, l - a - 8)));
-    const y = this.clampPosition(g, f);
-    Math.abs(y.left - e.left) < 2 && Math.abs(y.top - e.top) < 2 || (this.position = y, this.applyPosition());
+    const b = this.clampPosition(g, f);
+    Math.abs(b.left - e.left) < 2 && Math.abs(b.top - e.top) < 2 || (this.position = b, this.applyPosition());
   }
   update(t) {
     this.state = { ...this.state, ...t }, this.applyTheme(), this.render();
@@ -239,20 +239,20 @@ class Ks {
     `;
     const c = document.createElement("div");
     c.className = "sg-panel__brand-copy", t === "recording" ? c.append(
-      A("span", "sg-eyebrow", "● LIVE RECORDING"),
-      A("h2", "sg-panel__title", this.titleForMode(t))
+      B("span", "sg-eyebrow", "● LIVE RECORDING"),
+      B("h2", "sg-panel__title", this.titleForMode(t))
     ) : c.append(
-      A("h2", "sg-panel__title", "System Guider"),
-      A("div", "sg-panel__subtitle", this.titleForMode(t))
+      B("h2", "sg-panel__title", "System Guider"),
+      B("div", "sg-panel__subtitle", this.titleForMode(t))
     ), o.append(a, c);
     const l = document.createElement("div");
     if (l.className = "sg-panel__header-actions", t === "manage-routes") {
-      const u = Y(e ? "Open" : "Minimize", "ghost", {
+      const u = Q(e ? "Open" : "Minimize", "ghost", {
         icon: e ? Rs : Is,
         ariaLabel: e ? "Open settings" : "Minimize"
       });
       if (u.dataset.action = "toggle-collapse", u.classList.add("sg-panel__chrome-btn", "sg-panel__header-minimize"), u.setAttribute("aria-expanded", String(!e)), l.append(u), !e) {
-        const g = Y("Close", "ghost", {
+        const g = Q("Close", "ghost", {
           icon: Gs,
           ariaLabel: "Close settings"
         });
@@ -309,54 +309,54 @@ class Ks {
     }, p = () => {
       a.replaceChildren();
       const u = document.createElement("div");
-      u.className = "sg-string-list__head", u.append(A("span", "sg-string-list__label", t));
-      const g = Y(o, "secondary", { icon: Bs, ariaLabel: o || "Add" });
-      g.classList.add("sg-string-list__add"), g.disabled = l !== null, g.addEventListener("click", (y) => {
+      u.className = "sg-string-list__head", u.append(B("span", "sg-string-list__label", t));
+      const g = Q(o, "secondary", { icon: Bs, ariaLabel: o || "Add" });
+      g.classList.add("sg-string-list__add"), g.disabled = l !== null, g.addEventListener("click", (b) => {
         var m;
-        y.preventDefault(), y.stopPropagation(), l = "add", d = "", p(), (m = a.querySelector(".sg-string-list__draft-input")) == null || m.focus();
+        b.preventDefault(), b.stopPropagation(), l = "add", d = "", p(), (m = a.querySelector(".sg-string-list__draft-input")) == null || m.focus();
       }), u.append(g), a.append(u);
       const f = document.createElement("ul");
       if (f.className = "sg-string-list__items", l === "add" && f.append(ts({
         value: d,
         placeholder: i,
-        onChange: (y) => {
-          d = y;
+        onChange: (b) => {
+          d = b;
         },
         onSave: () => {
-          const y = String(d || "").trim();
-          if (!y) {
+          const b = String(d || "").trim();
+          if (!b) {
             l = null, d = "", p();
             return;
           }
-          if (c.includes(y)) {
+          if (c.includes(b)) {
             l = null, d = "", p();
             return;
           }
-          h([...c, y]);
+          h([...c, b]);
         },
         onCancel: () => {
           l = null, d = "", p();
         }
       })), !c.length && l !== "add") {
-        const y = document.createElement("li");
-        y.className = "sg-string-list__empty", y.textContent = r, f.append(y);
+        const b = document.createElement("li");
+        b.className = "sg-string-list__empty", b.textContent = r, f.append(b);
       }
-      c.forEach((y, m) => {
+      c.forEach((b, m) => {
         if (l === m) {
           f.append(ts({
             value: d,
             placeholder: i,
-            onChange: (T) => {
-              d = T;
+            onChange: (E) => {
+              d = E;
             },
             onSave: () => {
-              const T = String(d || "").trim();
-              if (!T) {
+              const E = String(d || "").trim();
+              if (!E) {
                 l = null, d = "", p();
                 return;
               }
-              const C = [...c];
-              C[m] = T, h([...new Set(C)]);
+              const k = [...c];
+              k[m] = E, h([...new Set(k)]);
             },
             onCancel: () => {
               l = null, d = "", p();
@@ -366,31 +366,31 @@ class Ks {
         }
         const v = document.createElement("li");
         v.className = "sg-string-list__item";
-        const _ = document.createElement("code");
-        _.className = "sg-string-list__value", _.textContent = y, _.title = y;
-        const E = document.createElement("div");
-        E.className = "sg-string-list__actions";
-        const k = Y("Edit", "ghost", { icon: Ye, ariaLabel: "Edit" });
-        k.disabled = l !== null, k.addEventListener("click", (T) => {
-          var C, N;
-          T.preventDefault(), T.stopPropagation(), l = m, d = y, p(), (C = a.querySelector(".sg-string-list__draft-input")) == null || C.focus(), (N = a.querySelector(".sg-string-list__draft-input")) == null || N.select();
+        const w = document.createElement("code");
+        w.className = "sg-string-list__value", w.textContent = b, w.title = b;
+        const C = document.createElement("div");
+        C.className = "sg-string-list__actions";
+        const x = Q("Edit", "ghost", { icon: Ye, ariaLabel: "Edit" });
+        x.disabled = l !== null, x.addEventListener("click", (E) => {
+          var k, L;
+          E.preventDefault(), E.stopPropagation(), l = m, d = b, p(), (k = a.querySelector(".sg-string-list__draft-input")) == null || k.focus(), (L = a.querySelector(".sg-string-list__draft-input")) == null || L.select();
         });
-        const w = Y("Delete", "danger", { icon: Pe, ariaLabel: "Delete" });
-        w.disabled = l !== null, w.addEventListener("click", (T) => {
-          T.preventDefault(), T.stopPropagation(), h(c.filter((C, N) => N !== m));
-        }), E.append(k, w), v.append(_, E), f.append(v);
+        const _ = Q("Delete", "danger", { icon: Pe, ariaLabel: "Delete" });
+        _.disabled = l !== null, _.addEventListener("click", (E) => {
+          E.preventDefault(), E.stopPropagation(), h(c.filter((k, L) => L !== m));
+        }), C.append(x, _), v.append(w, C), f.append(v);
       }), a.append(f);
     };
     return p(), a;
   }
   renderIdle(t) {
     t.append(
-      A("p", "sg-lead", "Record actions, refine the steps, then replay a polished walkthrough.")
-    ), this.state.pageUrl && t.append(A("p", "sg-page-key", `Page: ${this.state.pageUrl}`)), this.renderPageGuidesList(t);
+      B("p", "sg-lead", "Record actions, refine the steps, then replay a polished walkthrough.")
+    ), this.state.pageUrl && t.append(B("p", "sg-page-key", `Page: ${this.state.pageUrl}`)), this.renderPageGuidesList(t);
     const e = document.createElement("div");
     e.className = "sg-empty", e.append(
-      A("strong", "", this.state.hasPageGuide ? "Guide ready for this page" : "Ready when you are"),
-      A(
+      B("strong", "", this.state.hasPageGuide ? "Guide ready for this page" : "Ready when you are"),
+      B(
         "span",
         "",
         this.state.hasPageGuide ? "Use Play guides, or tap Record on the floating launcher to capture a new flow." : "Tap Record on the floating launcher to capture a new flow."
@@ -401,7 +401,7 @@ class Ks {
     const e = Array.isArray(this.state.pageGuides) ? this.state.pageGuides : [];
     if (!e.length) return;
     const s = document.createElement("div");
-    s.className = "sg-page-guides sg-settings-content__section", s.append(A("div", "sg-page-guides__label", "Saved guides on this page"));
+    s.className = "sg-page-guides sg-settings-content__section", s.append(B("div", "sg-page-guides__label", "Saved guides on this page"));
     const i = document.createElement("ul");
     i.className = "sg-page-guides__list", e.forEach((r, o) => {
       const a = document.createElement("li");
@@ -414,7 +414,7 @@ class Ks {
   }
   renderSteps(t, e) {
     var i, r;
-    if (this.state.flashMessage && t.append(A("p", "sg-status", this.state.flashMessage)), e === "recording") {
+    if (this.state.flashMessage && t.append(B("p", "sg-status", this.state.flashMessage)), e === "recording") {
       const o = !!this.state.recordingAppend, a = Number(this.state.newStepsCount) || 0, c = document.createElement("p");
       c.className = "sg-lead", o ? c.textContent = a > 0 ? `Keep going — ${a} new step${a === 1 ? "" : "s"} added. Interact again for more, then Stop Recording.` : "Interact with the page as many times as you need. Each action becomes a new step. Click Stop Recording when done." : c.textContent = a > 0 ? `Capturing… ${a} step${a === 1 ? "" : "s"} so far. Keep interacting, then Stop Recording.` : "Perform the flow on screen. Add as many steps as you need, then Stop Recording.", t.append(c);
     }
@@ -428,53 +428,53 @@ class Ks {
       const d = document.createElement("span");
       d.className = "sg-guide-field__label-left";
       const h = document.createElement("span");
-      h.className = "sg-guide-field__label-icon", h.setAttribute("aria-hidden", "true"), h.innerHTML = Us, d.append(h, document.createTextNode("Guide name")), this.state.dirty && d.append(A("em", "sg-guide-editor__badge", "Unsaved"));
-      const p = Y("Save", "primary", { icon: hs, withLabel: !0, ariaLabel: "Save guide" });
+      h.className = "sg-guide-field__label-icon", h.setAttribute("aria-hidden", "true"), h.innerHTML = Us, d.append(h, document.createTextNode("Guide name")), this.state.dirty && d.append(B("em", "sg-guide-editor__badge", "Unsaved"));
+      const p = Q("Save", "primary", { icon: hs, withLabel: !0, ariaLabel: "Save guide" });
       p.dataset.action = "save-page", p.classList.add("sg-guide-field__save"), p.disabled = this.state.steps.length === 0, l.append(d, p), c.append(l);
       const u = document.createElement("input");
-      u.className = "sg-field sg-field--guide-title", u.value = this.state.guideTitle || "", u.dataset.guideField = "title", u.placeholder = "Example: Create employee schedule", u.setAttribute("aria-label", "Guide name"), u.addEventListener("keydown", (N) => {
-        N.key === "Enter" && (N.preventDefault(), u.blur());
+      u.className = "sg-field sg-field--guide-title", u.value = this.state.guideTitle || "", u.dataset.guideField = "title", u.placeholder = "Example: Create employee schedule", u.setAttribute("aria-label", "Guide name"), u.addEventListener("keydown", (L) => {
+        L.key === "Enter" && (L.preventDefault(), u.blur());
       }), u.addEventListener("blur", () => {
-        var N, G;
-        (G = (N = this.handlers).commitGuideTitle) == null || G.call(N);
+        var L, I;
+        (I = (L = this.handlers).commitGuideTitle) == null || I.call(L);
       }), c.append(u);
       const g = document.createElement("details");
       g.className = "sg-step-settings sg-guide-settings";
       const f = document.createElement("summary");
       f.className = "sg-step-settings__summary sg-step-settings__summary--split", f.innerHTML = '<span>Guide options</span><span class="sg-step-settings__chevron" aria-hidden="true">▾</span>', g.append(f);
-      const y = document.createElement("div");
-      y.className = "sg-step-settings__body";
+      const b = document.createElement("div");
+      b.className = "sg-step-settings__body";
       const m = document.createElement("label");
       m.className = "sg-check";
       const v = document.createElement("input");
       v.type = "checkbox", v.dataset.guideSetting = "reloadOnNavigate", v.checked = !!((i = this.state.guideSettings) != null && i.reloadOnNavigate), m.append(v, document.createTextNode(" Reload on other route"));
-      const _ = document.createElement("label");
-      _.className = "sg-check";
-      const E = document.createElement("input");
-      E.type = "checkbox", E.dataset.guideSetting = "resetBeforePlay", E.checked = ((r = this.state.guideSettings) == null ? void 0 : r.resetBeforePlay) === "reload", _.append(E, document.createTextNode(" Reload before play")), y.append(m, _), g.append(y), c.append(g), a.append(c);
-      const k = document.createElement("div");
-      k.className = "sg-guide-editor__steps";
-      const w = document.createElement("div");
-      w.className = "sg-guide-editor__steps-head";
-      const T = document.createElement("div");
-      T.className = "sg-guide-editor__steps-meta", T.append(
-        A("span", "sg-guide-editor__steps-label", "Steps"),
-        A("span", "sg-guide-editor__steps-count", String(o))
+      const w = document.createElement("label");
+      w.className = "sg-check";
+      const C = document.createElement("input");
+      C.type = "checkbox", C.dataset.guideSetting = "resetBeforePlay", C.checked = ((r = this.state.guideSettings) == null ? void 0 : r.resetBeforePlay) === "reload", w.append(C, document.createTextNode(" Reload before play")), b.append(m, w), g.append(b), c.append(g), a.append(c);
+      const x = document.createElement("div");
+      x.className = "sg-guide-editor__steps";
+      const _ = document.createElement("div");
+      _.className = "sg-guide-editor__steps-head";
+      const E = document.createElement("div");
+      E.className = "sg-guide-editor__steps-meta", E.append(
+        B("span", "sg-guide-editor__steps-label", "Steps"),
+        B("span", "sg-guide-editor__steps-count", String(o))
       );
-      const C = gt("Add steps", "add-steps", "secondary");
-      C.classList.add("sg-button--compact", "sg-guide-editor__add-steps"), w.append(T, C), k.append(w), a.append(k), t.append(a), this._stepsBlock = k, this.state.focusGuideTitle && queueMicrotask(() => {
+      const k = gt("Add steps", "add-steps", "secondary");
+      k.classList.add("sg-button--compact", "sg-guide-editor__add-steps"), _.append(E, k), x.append(_), a.append(x), t.append(a), this._stepsBlock = x, this.state.focusGuideTitle && queueMicrotask(() => {
         u.focus(), u.select();
       });
     } else
       this._stepsBlock = null;
     if (!this.state.steps.length) {
-      const o = A("div", "sg-empty", e === "manage" ? "No steps in this guide yet." : "No steps yet — start interacting with the page.");
+      const o = B("div", "sg-empty", e === "manage" ? "No steps in this guide yet." : "No steps yet — start interacting with the page.");
       e === "manage" && this._stepsBlock ? this._stepsBlock.append(o) : t.append(o);
       return;
     }
     const s = document.createElement("ol");
     s.className = "sg-step-list", this.state.steps.forEach((o, a) => {
-      var m, v, _, E, k;
+      var m, v, w, C, x;
       const c = document.createElement("li");
       c.className = "sg-step", c.dataset.stepId = o.id, c.draggable = !1, o.invalid && c.classList.add("sg-step--invalid");
       const l = Number(this.state.recordingStepsBaseline) || 0, d = e === "recording" && a >= l;
@@ -483,164 +483,164 @@ class Ks {
       h.className = "sg-step__top";
       const p = document.createElement("div");
       if (p.className = "sg-step__top-left", e === "manage") {
-        const w = document.createElement("span");
-        w.className = "sg-step__drag", w.draggable = !0, w.title = "Drag to reorder", w.setAttribute("aria-label", `Drag step ${a + 1}`), w.textContent = "⋮⋮", w.addEventListener("dragstart", (T) => {
-          T.dataTransfer.setData("text/plain", o.id), T.dataTransfer.effectAllowed = "move", c.classList.add("sg-step--dragging");
-        }), w.addEventListener("dragend", () => {
+        const _ = document.createElement("span");
+        _.className = "sg-step__drag", _.draggable = !0, _.title = "Drag to reorder", _.setAttribute("aria-label", `Drag step ${a + 1}`), _.textContent = "⋮⋮", _.addEventListener("dragstart", (E) => {
+          E.dataTransfer.setData("text/plain", o.id), E.dataTransfer.effectAllowed = "move", c.classList.add("sg-step--dragging");
+        }), _.addEventListener("dragend", () => {
           c.classList.remove("sg-step--dragging");
-        }), p.append(w);
+        }), p.append(_);
       }
       if (p.append(
-        A("span", "sg-step__number", String(a + 1)),
-        A("span", "sg-step__action", o.action)
-      ), d && p.append(A("span", "sg-step__new", "New")), o.invalid && p.append(A("span", "sg-step__warning", "Target missing")), h.append(p), e === "manage") {
-        const w = document.createElement("div");
-        w.className = "sg-step__top-right";
-        const T = Y("Play", "ghost", { icon: Ie, withLabel: !0, ariaLabel: "Play from here" });
-        T.classList.add("sg-step__play"), T.addEventListener("click", (N) => {
-          var G, D;
-          N.preventDefault(), N.stopPropagation(), (D = (G = this.handlers)["play-here"]) == null || D.call(G, o.id);
+        B("span", "sg-step__number", String(a + 1)),
+        B("span", "sg-step__action", o.action)
+      ), d && p.append(B("span", "sg-step__new", "New")), o.invalid && p.append(B("span", "sg-step__warning", "Target missing")), h.append(p), e === "manage") {
+        const _ = document.createElement("div");
+        _.className = "sg-step__top-right";
+        const E = Q("Play", "ghost", { icon: Ie, withLabel: !0, ariaLabel: "Play from here" });
+        E.classList.add("sg-step__play"), E.addEventListener("click", (L) => {
+          var I, G;
+          L.preventDefault(), L.stopPropagation(), (G = (I = this.handlers)["play-here"]) == null || G.call(I, o.id);
         });
-        const C = Y("Remove", "danger", { icon: Pe, ariaLabel: "Remove step" });
-        C.classList.add("sg-step__remove-icon"), C.addEventListener("click", (N) => {
-          var G, D;
-          N.preventDefault(), N.stopPropagation(), (D = (G = this.handlers).remove) == null || D.call(G, o.id);
-        }), w.append(T, C), h.append(w);
+        const k = Q("Remove", "danger", { icon: Pe, ariaLabel: "Remove step" });
+        k.classList.add("sg-step__remove-icon"), k.addEventListener("click", (L) => {
+          var I, G;
+          L.preventDefault(), L.stopPropagation(), (G = (I = this.handlers).remove) == null || G.call(I, o.id);
+        }), _.append(E, k), h.append(_);
       }
       const u = document.createElement("input");
       u.className = "sg-field sg-step__title", u.value = o.title, u.dataset.field = "title", u.disabled = e === "recording", u.placeholder = "Step title", u.setAttribute("aria-label", `Step ${a + 1} title`);
       const g = document.createElement("div");
       g.className = "sg-step__selector-wrap";
-      const f = A("code", "sg-step__selector", o.selector || "No target");
+      const f = B("code", "sg-step__selector", o.selector || "No target");
       if (g.append(f), e === "manage" && o.selector) {
-        const w = Y("Copy", "ghost", { icon: Re, ariaLabel: "Copy selector" });
-        w.classList.add("sg-step__selector-copy"), w.addEventListener("click", async (T) => {
-          var C, N;
-          T.preventDefault(), T.stopPropagation();
+        const _ = Q("Copy", "ghost", { icon: Re, ariaLabel: "Copy selector" });
+        _.classList.add("sg-step__selector-copy"), _.addEventListener("click", async (E) => {
+          var k, L;
+          E.preventDefault(), E.stopPropagation();
           try {
-            await ((N = (C = navigator.clipboard) == null ? void 0 : C.writeText) == null ? void 0 : N.call(C, String(o.selector))), w.title = "Copied", setTimeout(() => {
-              w.title = "Copy selector";
+            await ((L = (k = navigator.clipboard) == null ? void 0 : k.writeText) == null ? void 0 : L.call(k, String(o.selector))), _.title = "Copied", setTimeout(() => {
+              _.title = "Copy selector";
             }, 1e3);
           } catch {
           }
-        }), g.append(w);
+        }), g.append(_);
       }
-      const y = document.createElement("div");
-      if (y.className = "sg-step__body", y.append(u, g), c.append(h, y), e === "manage" || e === "recording") {
-        const w = document.createElement("div");
-        w.className = "sg-step__controls";
-        const T = (G, D, Q = "") => {
-          const z = gt(G, D, Q);
-          return z.classList.add("sg-button--compact"), z.addEventListener("click", (P) => {
-            var F, O;
-            P.preventDefault(), P.stopPropagation(), (O = (F = this.handlers)[D]) == null || O.call(F, o.id);
-          }), z;
-        }, C = document.createElement("div");
-        C.className = "sg-step__controls-left";
-        const N = document.createElement("div");
-        if (N.className = "sg-step__controls-right", e === "manage") {
+      const b = document.createElement("div");
+      if (b.className = "sg-step__body", b.append(u, g), c.append(h, b), e === "manage" || e === "recording") {
+        const _ = document.createElement("div");
+        _.className = "sg-step__controls";
+        const E = (I, G, J = "") => {
+          const j = gt(I, G, J);
+          return j.classList.add("sg-button--compact"), j.addEventListener("click", (T) => {
+            var O, $;
+            T.preventDefault(), T.stopPropagation(), ($ = (O = this.handlers)[G]) == null || $.call(O, o.id);
+          }), j;
+        }, k = document.createElement("div");
+        k.className = "sg-step__controls-left";
+        const L = document.createElement("div");
+        if (L.className = "sg-step__controls-right", e === "manage") {
           if (o.action === "input") {
-            const z = document.createElement("label");
-            z.className = "sg-check sg-check--compact";
-            const P = document.createElement("input");
-            P.type = "checkbox", P.dataset.field = "waitRequired", P.checked = !!((m = o.waitFor) != null && m.required), z.append(P, document.createTextNode(" Require value")), C.append(z);
+            const j = document.createElement("label");
+            j.className = "sg-check sg-check--compact";
+            const T = document.createElement("input");
+            T.type = "checkbox", T.dataset.field = "waitRequired", T.checked = !!((m = o.waitFor) != null && m.required), j.append(T, document.createTextNode(" Require value")), k.append(j);
           }
-          const G = this.state.steps.length, D = a + 1, Q = (z) => {
-            const P = document.createElement("div");
-            P.className = "sg-step__move-picker";
-            const F = z === "up", O = gt(F ? "↑" : "↓", "", "ghost");
-            O.classList.add("sg-button--compact", "sg-step__move-btn"), O.setAttribute("aria-haspopup", "listbox"), O.setAttribute("aria-expanded", "false"), O.title = F ? "Move to an earlier step" : "Move to a later step", O.setAttribute("aria-label", F ? `Move step ${D} to an earlier position` : `Move step ${D} to a later position`);
-            const X = F ? Array.from({ length: a }, ($, H) => D - 1 - H) : Array.from({ length: G - D }, ($, H) => D + 1 + H);
-            X.length || (O.disabled = !0);
+          const I = this.state.steps.length, G = a + 1, J = (j) => {
+            const T = document.createElement("div");
+            T.className = "sg-step__move-picker";
+            const O = j === "up", $ = gt(O ? "↑" : "↓", "", "ghost");
+            $.classList.add("sg-button--compact", "sg-step__move-btn"), $.setAttribute("aria-haspopup", "listbox"), $.setAttribute("aria-expanded", "false"), $.title = O ? "Move to an earlier step" : "Move to a later step", $.setAttribute("aria-label", O ? `Move step ${G} to an earlier position` : `Move step ${G} to a later position`);
+            const K = O ? Array.from({ length: a }, (R, D) => G - 1 - D) : Array.from({ length: I - G }, (R, D) => G + 1 + D);
+            K.length || ($.disabled = !0);
             const q = document.createElement("div");
-            return q.className = "sg-step__move-menu", q.hidden = !0, q.setAttribute("role", "listbox"), q.setAttribute("aria-label", F ? "Earlier step numbers" : "Later step numbers"), X.forEach(($) => {
-              const H = document.createElement("button");
-              H.type = "button", H.className = "sg-step__move-option", H.textContent = String($), H.setAttribute("role", "option"), H.title = `Move to step ${$}`, H.addEventListener("click", (lt) => {
+            return q.className = "sg-step__move-menu", q.hidden = !0, q.setAttribute("role", "listbox"), q.setAttribute("aria-label", O ? "Earlier step numbers" : "Later step numbers"), K.forEach((R) => {
+              const D = document.createElement("button");
+              D.type = "button", D.className = "sg-step__move-option", D.textContent = String(R), D.setAttribute("role", "option"), D.title = `Move to step ${R}`, D.addEventListener("click", (et) => {
                 var tt, ct;
-                lt.preventDefault(), lt.stopPropagation(), this.closeMoveMenus(), (ct = (tt = this.handlers)["move-to"]) == null || ct.call(tt, o.id, $);
-              }), q.append(H);
-            }), O.addEventListener("click", ($) => {
-              if ($.preventDefault(), $.stopPropagation(), O.disabled) return;
-              const H = q.hidden;
-              this.closeMoveMenus(), H && (q.hidden = !1, O.setAttribute("aria-expanded", "true"));
-            }), P.append(O, q), P;
+                et.preventDefault(), et.stopPropagation(), this.closeMoveMenus(), (ct = (tt = this.handlers)["move-to"]) == null || ct.call(tt, o.id, R);
+              }), q.append(D);
+            }), $.addEventListener("click", (R) => {
+              if (R.preventDefault(), R.stopPropagation(), $.disabled) return;
+              const D = q.hidden;
+              this.closeMoveMenus(), D && (q.hidden = !1, $.setAttribute("aria-expanded", "true"));
+            }), T.append($, q), T;
           };
-          C.append(Q("up"), Q("down"));
+          k.append(J("up"), J("down"));
         } else
-          N.append(
-            T("Play", "play-here", "ghost"),
-            T("Remove", "remove", "danger")
+          L.append(
+            E("Play", "play-here", "ghost"),
+            E("Remove", "remove", "danger")
           );
-        if (w.append(C), N.childNodes.length && w.append(N), e === "manage") {
-          const G = document.createElement("details");
-          G.className = "sg-step-settings";
-          const D = document.createElement("summary");
-          D.className = "sg-step-settings__summary sg-step-settings__summary--split", D.innerHTML = `
+        if (_.append(k), L.childNodes.length && _.append(L), e === "manage") {
+          const I = document.createElement("details");
+          I.className = "sg-step-settings";
+          const G = document.createElement("summary");
+          G.className = "sg-step-settings__summary sg-step-settings__summary--split", G.innerHTML = `
             <span class="sg-step-settings__summary-left">
               <span class="sg-step-settings__gear" aria-hidden="true">${Qe}</span>
               Settings
             </span>
             <span class="sg-step-settings__chevron" aria-hidden="true">▾</span>
-          `, G.append(D);
-          const Q = document.createElement("div");
-          Q.className = "sg-step-settings__body";
-          const z = document.createElement("label");
-          z.className = "sg-step-settings__field", z.append(document.createTextNode("Step description"));
-          const P = document.createElement("textarea");
-          P.className = "sg-field sg-step__description", P.rows = 2, P.value = o.description || "", P.dataset.field = "description", P.placeholder = "Shown next to the highlight while playing", P.setAttribute("aria-label", `Step ${a + 1} description`), z.append(P);
-          const F = document.createElement("label");
-          F.className = "sg-check";
-          const O = document.createElement("input");
-          O.type = "checkbox", O.dataset.stepSetting = "autoScroll", O.checked = ((v = o.settings) == null ? void 0 : v.autoScroll) !== !1, F.append(O, document.createTextNode(" Auto-scroll"));
-          const X = document.createElement("label");
-          X.className = "sg-step-settings__field", X.append(document.createTextNode("Show delay (ms)"));
+          `, I.append(G);
+          const J = document.createElement("div");
+          J.className = "sg-step-settings__body";
+          const j = document.createElement("label");
+          j.className = "sg-step-settings__field", j.append(document.createTextNode("Step description"));
+          const T = document.createElement("textarea");
+          T.className = "sg-field sg-step__description", T.rows = 2, T.value = o.description || "", T.dataset.field = "description", T.placeholder = "Shown next to the highlight while playing", T.setAttribute("aria-label", `Step ${a + 1} description`), j.append(T);
+          const O = document.createElement("label");
+          O.className = "sg-check";
+          const $ = document.createElement("input");
+          $.type = "checkbox", $.dataset.stepSetting = "autoScroll", $.checked = ((v = o.settings) == null ? void 0 : v.autoScroll) !== !1, O.append($, document.createTextNode(" Auto-scroll"));
+          const K = document.createElement("label");
+          K.className = "sg-step-settings__field", K.append(document.createTextNode("Show delay (ms)"));
           const q = document.createElement("input");
-          q.type = "number", q.min = "0", q.step = "50", q.className = "sg-field", q.value = String(((_ = o.settings) == null ? void 0 : _.delay) ?? 0), q.dataset.stepSetting = "delay", X.append(q);
-          const $ = document.createElement("label");
-          $.className = "sg-step-settings__field", $.append(document.createTextNode("Hide delay (ms)"));
-          const H = document.createElement("input");
-          H.type = "number", H.min = "0", H.step = "50", H.className = "sg-field", H.value = String(((E = o.settings) == null ? void 0 : E.hideDelay) ?? 0), H.dataset.stepSetting = "hideDelay", $.append(H);
-          const lt = document.createElement("label");
-          lt.className = "sg-check";
+          q.type = "number", q.min = "0", q.step = "50", q.className = "sg-field", q.value = String(((w = o.settings) == null ? void 0 : w.delay) ?? 0), q.dataset.stepSetting = "delay", K.append(q);
+          const R = document.createElement("label");
+          R.className = "sg-step-settings__field", R.append(document.createTextNode("Hide delay (ms)"));
+          const D = document.createElement("input");
+          D.type = "number", D.min = "0", D.step = "50", D.className = "sg-field", D.value = String(((C = o.settings) == null ? void 0 : C.hideDelay) ?? 0), D.dataset.stepSetting = "hideDelay", R.append(D);
+          const et = document.createElement("label");
+          et.className = "sg-check";
           const tt = document.createElement("input");
-          tt.type = "checkbox", tt.dataset.stepSetting = "autoSkipMissing", tt.checked = ((k = o.settings) == null ? void 0 : k.autoSkipMissing) !== !1, lt.append(tt, document.createTextNode(" Auto-skip if missing")), Q.append(z, F, X, $, lt), G.append(Q), c.append(w, G);
+          tt.type = "checkbox", tt.dataset.stepSetting = "autoSkipMissing", tt.checked = ((x = o.settings) == null ? void 0 : x.autoSkipMissing) !== !1, et.append(tt, document.createTextNode(" Auto-skip if missing")), J.append(j, O, K, R, et), I.append(J), c.append(_, I);
         } else
-          c.append(w);
+          c.append(_);
       }
       s.append(c);
     }), e === "manage" && this._stepsBlock ? this._stepsBlock.append(s) : t.append(s);
   }
   renderManageRoutes(t) {
-    this.state.flashMessage && t.append(A("p", "sg-status", this.state.flashMessage));
+    this.state.flashMessage && t.append(B("p", "sg-status", this.state.flashMessage));
     const e = this.state.settings || {}, s = Array.isArray(this.state.allGuides) ? this.state.allGuides : [], i = document.createElement("div");
     i.className = "sg-page-guides";
     const r = document.createElement("div");
     r.className = "sg-page-guides__label-row";
     const o = document.createElement("span");
-    if (o.className = "sg-page-guides__label-icon", o.setAttribute("aria-hidden", "true"), o.innerHTML = Fs, r.append(o, A("div", "sg-page-guides__label", `All guides (${s.length})`)), i.append(r), !s.length)
-      i.append(A("p", "sg-lead", "No guides saved yet."));
+    if (o.className = "sg-page-guides__label-icon", o.setAttribute("aria-hidden", "true"), o.innerHTML = Fs, r.append(o, B("div", "sg-page-guides__label", `All guides (${s.length})`)), i.append(r), !s.length)
+      i.append(B("p", "sg-lead", "No guides saved yet."));
     else {
-      const L = /* @__PURE__ */ new Map();
-      s.forEach((B) => {
-        const x = B.url || "/";
-        L.has(x) || L.set(x, []), L.get(x).push(B);
-      }), [...L.entries()].sort((B, x) => B[0].localeCompare(x[0])).forEach(([B, x]) => {
+      const N = /* @__PURE__ */ new Map();
+      s.forEach((P) => {
+        const M = P.url || "/";
+        N.has(M) || N.set(M, []), N.get(M).push(P);
+      }), [...N.entries()].sort((P, M) => P[0].localeCompare(M[0])).forEach(([P, M]) => {
         const W = document.createElement("div");
         W.className = "sg-manage-section";
-        const et = document.createElement("div");
-        et.className = "sg-manage-section__path";
+        const st = document.createElement("div");
+        st.className = "sg-manage-section__path";
         const mt = document.createElement("span");
-        mt.className = "sg-manage-section__path-icon", mt.setAttribute("aria-hidden", "true"), mt.innerHTML = Hs, et.append(mt, document.createTextNode(B)), W.append(et);
+        mt.className = "sg-manage-section__path-icon", mt.setAttribute("aria-hidden", "true"), mt.innerHTML = Hs, st.append(mt, document.createTextNode(P)), W.append(st);
         const Yt = document.createElement("ul");
-        Yt.className = "sg-page-guides__list", x.forEach((Ct) => {
+        Yt.className = "sg-page-guides__list", M.forEach((Ct) => {
           const yt = document.createElement("li");
           yt.className = "sg-page-guides__item sg-page-guides__item--actions", yt.dataset.guideId = Ct.id;
-          const Le = document.createElement("div");
-          Le.className = "sg-page-guides__copy";
-          const Ne = document.createElement("div");
-          Ne.className = "sg-page-guides__head";
           const Me = document.createElement("div");
-          Me.className = "sg-page-guides__title-row";
+          Me.className = "sg-page-guides__copy";
+          const Le = document.createElement("div");
+          Le.className = "sg-page-guides__head";
+          const Ne = document.createElement("div");
+          Ne.className = "sg-page-guides__title-row";
           const Ze = String(Ct.title || "Untitled").split(" · "), Xe = (Ze[0] || "Untitled").trim(), Je = Ze.slice(1).join(" · ").trim(), As = `${Ct.steps} step${Ct.steps === 1 ? "" : "s"}`, Ae = /^(\d+)\s+steps?$/i.test(Xe), se = document.createElement("div");
           if (se.className = "sg-page-guides__title-line", !Ae) {
             const ht = document.createElement("strong");
@@ -654,114 +654,114 @@ class Ks {
             ht.className = "sg-page-guides__meta sg-page-guides__meta--solo", ht.textContent = "Untitled guide", se.append(ht);
           }
           const Be = document.createElement("span");
-          Be.className = "sg-page-guides__badge", Be.textContent = As, Me.append(se, Be), Ne.append(Me), Le.append(Ne);
+          Be.className = "sg-page-guides__badge", Be.textContent = As, Ne.append(se, Be), Le.append(Ne), Me.append(Le);
           const fe = document.createElement("div");
           fe.className = "sg-page-guides__actions";
-          const ie = Y("Play", "secondary", { icon: Ie, ariaLabel: "Play guide" });
+          const ie = Q("Play", "secondary", { icon: Ie, ariaLabel: "Play guide" });
           if (ie.classList.add("sg-page-guides__action", "sg-page-guides__action--play"), ie.dataset.action = "play-guide", ie.dataset.guideId = Ct.id, this.state.readOnly)
             fe.append(ie);
           else {
-            const ht = Y("Edit", "secondary", { icon: Ye, ariaLabel: "Edit steps" });
+            const ht = Q("Edit", "secondary", { icon: Ye, ariaLabel: "Edit steps" });
             ht.classList.add("sg-page-guides__action", "sg-page-guides__action--edit"), ht.dataset.action = "edit-guide", ht.dataset.guideId = Ct.id;
-            const me = Y("Delete", "danger", { icon: Pe, ariaLabel: "Delete guide" });
+            const me = Q("Delete", "danger", { icon: Pe, ariaLabel: "Delete guide" });
             me.classList.add("sg-page-guides__action", "sg-page-guides__action--delete"), me.dataset.action = "delete-guide", me.dataset.guideId = Ct.id, fe.append(ht, ie, me);
           }
-          yt.append(Le, fe), Yt.append(yt);
+          yt.append(Me, fe), Yt.append(yt);
         }), W.append(Yt), i.append(W);
       });
     }
     const a = document.createElement("div");
     a.className = "sg-guides-tools";
-    const c = Y("Load", "secondary", { icon: Os, withLabel: !0 });
+    const c = Q("Load", "secondary", { icon: Os, withLabel: !0 });
     c.dataset.action = "load";
-    const l = Y("Paste", "secondary", { icon: $s, withLabel: !0 });
+    const l = Q("Paste", "secondary", { icon: $s, withLabel: !0 });
     l.dataset.action = "paste";
-    const d = Y("Export", "primary", { icon: Ds, withLabel: !0 });
+    const d = Q("Export", "primary", { icon: Ds, withLabel: !0 });
     d.dataset.action = "download-all", a.append(c, l, d), i.append(a), t.append(i);
     const h = document.createElement("div");
     h.className = "sg-settings sg-settings--nested sg-settings-card sg-account-panel";
     const p = document.createElement("div");
     p.className = "sg-account-panel__head";
     const u = document.createElement("span");
-    u.className = "sg-account-panel__head-icon", u.setAttribute("aria-hidden", "true"), u.innerHTML = Ws, p.append(u, A("div", "sg-page-guides__label", "Current account")), h.append(p);
-    const g = this.state.accountId, f = !(g == null || g === ""), y = document.createElement("div");
-    y.className = `sg-account-card${f ? "" : " sg-account-card--empty"}`;
+    u.className = "sg-account-panel__head-icon", u.setAttribute("aria-hidden", "true"), u.innerHTML = Ws, p.append(u, B("div", "sg-page-guides__label", "Current account")), h.append(p);
+    const g = this.state.accountId, f = !(g == null || g === ""), b = document.createElement("div");
+    b.className = `sg-account-card${f ? "" : " sg-account-card--empty"}`;
     const m = document.createElement("div");
     m.className = "sg-account-card__left";
     const v = document.createElement("span");
     v.className = "sg-account-card__badge", v.textContent = "ID";
-    const _ = document.createElement("div");
-    _.className = "sg-account-card__meta", _.append(A("span", "sg-account-card__caption", "Your account ID"));
-    const E = document.createElement("strong");
-    if (E.className = "sg-account-card__value", E.textContent = f ? String(g) : "Not signed in", E.title = f ? "Logged-in account ID from the host app" : "Host app has not passed an account ID yet", _.append(E), m.append(v, _), y.append(m), f) {
-      const L = Y("Copy", "secondary", {
+    const w = document.createElement("div");
+    w.className = "sg-account-card__meta", w.append(B("span", "sg-account-card__caption", "Your account ID"));
+    const C = document.createElement("strong");
+    if (C.className = "sg-account-card__value", C.textContent = f ? String(g) : "Not signed in", C.title = f ? "Logged-in account ID from the host app" : "Host app has not passed an account ID yet", w.append(C), m.append(v, w), b.append(m), f) {
+      const N = Q("Copy", "secondary", {
         icon: Re,
         withLabel: !0,
         ariaLabel: "Copy account ID"
       });
-      L.classList.add("sg-account-card__copy"), L.addEventListener("click", async (B) => {
-        var et, mt;
-        B.preventDefault(), B.stopPropagation();
-        const x = String(g), W = L.querySelector("span");
+      N.classList.add("sg-account-card__copy"), N.addEventListener("click", async (P) => {
+        var st, mt;
+        P.preventDefault(), P.stopPropagation();
+        const M = String(g), W = N.querySelector("span");
         try {
-          await ((mt = (et = navigator.clipboard) == null ? void 0 : et.writeText) == null ? void 0 : mt.call(et, x)), W ? W.textContent = "Copied" : L.textContent = "Copied", setTimeout(() => {
-            W ? W.textContent = "Copy" : L.innerHTML = `${Re}<span>Copy</span>`;
+          await ((mt = (st = navigator.clipboard) == null ? void 0 : st.writeText) == null ? void 0 : mt.call(st, M)), W ? W.textContent = "Copied" : N.textContent = "Copied", setTimeout(() => {
+            W ? W.textContent = "Copy" : N.innerHTML = `${Re}<span>Copy</span>`;
           }, 1200);
         } catch {
-          W ? W.textContent = x : L.textContent = x;
+          W ? W.textContent = M : N.textContent = M;
         }
-      }), y.append(L);
+      }), b.append(N);
     }
-    h.append(y);
-    const k = document.createElement("p");
-    k.className = "sg-account-panel__hint";
-    const w = document.createElement("span");
-    w.className = "sg-account-panel__hint-icon", w.setAttribute("aria-hidden", "true"), w.innerHTML = js;
-    const T = document.createElement("span");
-    f ? T.innerHTML = "Add this ID under <strong>Access</strong> to allow editing." : T.textContent = "Sign in or pass an account ID from the host app.", k.append(w, T), h.append(k);
-    const C = document.createElement("div");
-    C.className = "sg-settings sg-settings--nested sg-settings-card sg-defaults-panel";
-    const N = document.createElement("div");
-    N.className = "sg-defaults-panel__head";
-    const G = document.createElement("span");
-    G.className = "sg-defaults-panel__head-icon", G.setAttribute("aria-hidden", "true"), G.innerHTML = Qe, N.append(G, A("div", "sg-page-guides__label", "Default settings")), C.append(N);
-    const D = document.createElement("div");
-    D.className = "sg-defaults-panel__checks";
-    const Q = document.createElement("label");
-    Q.className = "sg-check sg-settings__row sg-defaults-panel__check";
-    const z = document.createElement("input");
-    z.type = "checkbox", z.dataset.setting = "reloadOnNavigate", z.checked = !!e.reloadOnNavigate, Q.append(z, document.createTextNode(" Reload when opening another route")), D.append(Q);
-    const P = document.createElement("label");
-    P.className = "sg-check sg-settings__row sg-defaults-panel__check";
-    const F = document.createElement("input");
-    F.type = "checkbox", F.dataset.setting = "resetBeforePlay", F.checked = e.resetBeforePlay === "reload", P.append(F, document.createTextNode(" Reload page before playing")), D.append(P), C.append(D);
-    const O = document.createElement("label");
-    O.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", O.append(document.createTextNode("Reload resume delay (ms)"));
-    const X = document.createElement("div");
-    X.className = "sg-field-shell";
+    h.append(b);
+    const x = document.createElement("p");
+    x.className = "sg-account-panel__hint";
+    const _ = document.createElement("span");
+    _.className = "sg-account-panel__hint-icon", _.setAttribute("aria-hidden", "true"), _.innerHTML = js;
+    const E = document.createElement("span");
+    f ? E.innerHTML = "Add this ID under <strong>Access</strong> to allow editing." : E.textContent = "Sign in or pass an account ID from the host app.", x.append(_, E), h.append(x);
+    const k = document.createElement("div");
+    k.className = "sg-settings sg-settings--nested sg-settings-card sg-defaults-panel";
+    const L = document.createElement("div");
+    L.className = "sg-defaults-panel__head";
+    const I = document.createElement("span");
+    I.className = "sg-defaults-panel__head-icon", I.setAttribute("aria-hidden", "true"), I.innerHTML = Qe, L.append(I, B("div", "sg-page-guides__label", "Default settings")), k.append(L);
+    const G = document.createElement("div");
+    G.className = "sg-defaults-panel__checks";
+    const J = document.createElement("label");
+    J.className = "sg-check sg-settings__row sg-defaults-panel__check";
+    const j = document.createElement("input");
+    j.type = "checkbox", j.dataset.setting = "reloadOnNavigate", j.checked = !!e.reloadOnNavigate, J.append(j, document.createTextNode(" Reload when opening another route")), G.append(J);
+    const T = document.createElement("label");
+    T.className = "sg-check sg-settings__row sg-defaults-panel__check";
+    const O = document.createElement("input");
+    O.type = "checkbox", O.dataset.setting = "resetBeforePlay", O.checked = e.resetBeforePlay === "reload", T.append(O, document.createTextNode(" Reload page before playing")), G.append(T), k.append(G);
+    const $ = document.createElement("label");
+    $.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", $.append(document.createTextNode("Reload resume delay (ms)"));
+    const K = document.createElement("div");
+    K.className = "sg-field-shell";
     const q = document.createElement("span");
     q.className = "sg-field-shell__icon", q.setAttribute("aria-hidden", "true"), q.innerHTML = qs;
-    const $ = document.createElement("input");
-    $.type = "number", $.min = "0", $.max = "10000", $.step = "50", $.className = "sg-field sg-field--shell", $.dataset.setting = "resetBeforePlayDelay", $.value = String(e.resetBeforePlayDelay ?? 450), X.append(q, $), O.append(X), C.append(O);
-    const H = document.createElement("label");
-    H.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", H.append(document.createTextNode("Theme mode"));
-    const lt = document.createElement("div");
-    lt.className = "sg-field-shell sg-field-shell--select";
+    const R = document.createElement("input");
+    R.type = "number", R.min = "0", R.max = "10000", R.step = "50", R.className = "sg-field sg-field--shell", R.dataset.setting = "resetBeforePlayDelay", R.value = String(e.resetBeforePlayDelay ?? 450), K.append(q, R), $.append(K), k.append($);
+    const D = document.createElement("label");
+    D.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", D.append(document.createTextNode("Theme mode"));
+    const et = document.createElement("div");
+    et.className = "sg-field-shell sg-field-shell--select";
     const tt = document.createElement("span");
     tt.className = "sg-field-shell__icon", tt.setAttribute("aria-hidden", "true"), tt.innerHTML = zs;
     const ct = document.createElement("select");
     ct.className = "sg-field sg-field--shell", ct.dataset.setting = "theme", [
       ["dark", "Dark"],
       ["light", "Light"]
-    ].forEach(([L, B]) => {
-      const x = document.createElement("option");
-      x.value = L, x.textContent = B, (e.theme || "dark") === L && (x.selected = !0), ct.append(x);
+    ].forEach(([N, P]) => {
+      const M = document.createElement("option");
+      M.value = N, M.textContent = P, (e.theme || "dark") === N && (M.selected = !0), ct.append(M);
     });
-    const I = document.createElement("span");
-    I.className = "sg-field-shell__chevron", I.setAttribute("aria-hidden", "true"), I.textContent = "▾", lt.append(tt, ct, I), H.append(lt), C.append(H);
+    const H = document.createElement("span");
+    H.className = "sg-field-shell__chevron", H.setAttribute("aria-hidden", "true"), H.textContent = "▾", et.append(tt, ct, H), D.append(et), k.append(D);
     const U = document.createElement("div");
-    U.className = "sg-settings sg-settings--nested sg-settings-card", U.append(A("div", "sg-page-guides__label", "Access & toolbar"));
-    const R = this.createEditableStringList({
+    U.className = "sg-settings sg-settings--nested sg-settings-card", U.append(B("div", "sg-page-guides__label", "Access & toolbar"));
+    const F = this.createEditableStringList({
       label: "Editor account IDs (not listed = Play only)",
       settingKey: "editorAccountIds",
       items: Array.isArray(e.editorAccountIds) ? e.editorAccountIds : [],
@@ -769,14 +769,14 @@ class Ks {
       emptyText: "No editor accounts — Play only for everyone",
       addLabel: "Add"
     });
-    U.append(R);
-    const j = document.createElement("label");
-    j.className = "sg-step-settings__field sg-settings__row", j.append(document.createTextNode("Bypass PIN (hover orb + type to open panel)"));
-    const V = document.createElement("div");
-    V.className = "sg-password-field";
-    const Z = document.createElement("input");
-    Z.type = "password", Z.className = "sg-field", Z.inputMode = "numeric", Z.autocomplete = "new-password", Z.placeholder = "••••••", Z.maxLength = 12, Z.dataset.setting = "bypassPin", Z.value = String(e.bypassPin ?? "123456");
-    const xt = Y("Show", "ghost", {
+    U.append(F);
+    const z = document.createElement("label");
+    z.className = "sg-step-settings__field sg-settings__row", z.append(document.createTextNode("Bypass PIN (hover orb + type to open panel)"));
+    const Z = document.createElement("div");
+    Z.className = "sg-password-field";
+    const X = document.createElement("input");
+    X.type = "password", X.className = "sg-field", X.inputMode = "numeric", X.autocomplete = "new-password", X.placeholder = "••••••", X.maxLength = 12, X.dataset.setting = "bypassPin", X.value = String(e.bypassPin ?? "123456");
+    const Et = Q("Show", "ghost", {
       icon: `
         <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
           <path d="M1.8 8s2.6-4.2 6.2-4.2S14.2 8 14.2 8s-2.6 4.2-6.2 4.2S1.8 8 1.8 8Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
@@ -785,15 +785,15 @@ class Ks {
       `,
       ariaLabel: "Show PIN"
     });
-    xt.classList.add("sg-password-field__toggle"), xt.addEventListener("click", (L) => {
-      L.preventDefault(), L.stopPropagation();
-      const B = Z.type === "password";
-      Z.type = B ? "text" : "password", xt.title = B ? "Hide PIN" : "Show PIN", xt.setAttribute("aria-label", B ? "Hide PIN" : "Show PIN");
-    }), V.append(Z, xt), j.append(V), U.append(j);
-    const Lt = document.createElement("label");
-    Lt.className = "sg-check sg-settings__row";
+    Et.classList.add("sg-password-field__toggle"), Et.addEventListener("click", (N) => {
+      N.preventDefault(), N.stopPropagation();
+      const P = X.type === "password";
+      X.type = P ? "text" : "password", Et.title = P ? "Hide PIN" : "Show PIN", Et.setAttribute("aria-label", P ? "Hide PIN" : "Show PIN");
+    }), Z.append(X, Et), z.append(Z), U.append(z);
+    const Mt = document.createElement("label");
+    Mt.className = "sg-check sg-settings__row";
     const Ot = document.createElement("input");
-    Ot.type = "checkbox", Ot.dataset.setting = "showAccountId", Ot.checked = !!e.showAccountId, Lt.append(Ot, document.createTextNode(" Show account ID on launcher")), U.append(Lt);
+    Ot.type = "checkbox", Ot.dataset.setting = "showAccountId", Ot.checked = !!e.showAccountId, Mt.append(Ot, document.createTextNode(" Show account ID on launcher")), U.append(Mt);
     const pe = this.createEditableStringList({
       label: "Hide toolbar on URLs",
       settingKey: "hiddenUrls",
@@ -802,13 +802,13 @@ class Ks {
       emptyText: "No hidden URLs — toolbar shows everywhere",
       addLabel: "Add"
     });
-    U.append(pe), U.append(A(
+    U.append(pe), U.append(B(
       "p",
       "sg-lead",
       "Only listed IDs can record or manage. The bypass PIN provides recovery access."
     ));
     const dt = e.ui || {}, ft = document.createElement("div");
-    ft.className = "sg-settings sg-settings--nested sg-settings-card", ft.append(A("div", "sg-page-guides__label", "Playback appearance"));
+    ft.className = "sg-settings sg-settings--nested sg-settings-card", ft.append(B("div", "sg-page-guides__label", "Playback appearance"));
     const $t = document.createElement("label");
     $t.className = "sg-step-settings__field sg-settings__row", $t.append(document.createTextNode("Font family"));
     const Dt = document.createElement("select");
@@ -818,15 +818,15 @@ class Ks {
       ["arial", "Arial"],
       ["roboto", "Roboto"],
       ["serif", "Serif"]
-    ].forEach(([L, B]) => {
-      const x = document.createElement("option");
-      x.value = L, x.textContent = B, (dt.fontFamily || "system") === L && (x.selected = !0), Dt.append(x);
+    ].forEach(([N, P]) => {
+      const M = document.createElement("option");
+      M.value = N, M.textContent = P, (dt.fontFamily || "system") === N && (M.selected = !0), Dt.append(M);
     }), $t.append(Dt), ft.append($t);
-    const Vt = (L, B, x) => {
+    const Vt = (N, P, M) => {
       const W = document.createElement("label");
       W.className = "sg-check sg-settings__row";
-      const et = document.createElement("input");
-      et.type = "checkbox", et.dataset.setting = L, et.checked = !!x, W.append(et, document.createTextNode(` ${B}`)), ft.append(W);
+      const st = document.createElement("input");
+      st.type = "checkbox", st.dataset.setting = N, st.checked = !!M, W.append(st, document.createTextNode(` ${P}`)), ft.append(W);
     };
     Vt("ui.animations", "Enable animations", dt.animations !== !1), Vt("ui.spotlightFade", "Spotlight fade in/out", dt.spotlightFade !== !1), Vt("ui.animatedCursor", "Animated cursor between steps", dt.animatedCursor);
     const Ht = document.createElement("label");
@@ -837,9 +837,9 @@ class Ks {
       ["pulse", "Pulse"],
       ["wobble", "Wobble"],
       ["fade", "Fade"]
-    ].forEach(([L, B]) => {
-      const x = document.createElement("option");
-      x.value = L, x.textContent = B, (dt.highlightMotion || "pulse") === L && (x.selected = !0), Ft.append(x);
+    ].forEach(([N, P]) => {
+      const M = document.createElement("option");
+      M.value = N, M.textContent = P, (dt.highlightMotion || "pulse") === N && (M.selected = !0), Ft.append(M);
     }), Ht.append(Ft), ft.append(Ht);
     const Ut = document.createElement("label");
     Ut.className = "sg-step-settings__field sg-settings__row", Ut.append(document.createTextNode("Transition speed (ms)"));
@@ -847,48 +847,48 @@ class Ks {
     St.type = "number", St.min = "0", St.max = "1000", St.step = "20", St.className = "sg-field", St.dataset.setting = "ui.transitionMs", St.value = String(dt.transitionMs ?? 220), Ut.append(St), ft.append(Ut);
     const Bt = document.createElement("div");
     Bt.className = "sg-appearance-dim sg-settings__row";
-    const b = document.createElement("div");
-    b.className = "sg-appearance-dim__head", b.append(A("span", "sg-appearance-dim__label", "Overlay dim"));
+    const y = document.createElement("div");
+    y.className = "sg-appearance-dim__head", y.append(B("span", "sg-appearance-dim__label", "Overlay dim"));
     const S = document.createElement("span");
     S.className = "sg-appearance-dim__value";
-    const M = document.createElement("input");
-    M.type = "range", M.min = "0", M.max = "90", M.step = "5", M.className = "sg-field sg-field--range", M.dataset.setting = "ui.overlayOpacity", M.value = String(Math.round((Number(dt.overlayOpacity) || 0.58) * 100)), S.textContent = `${M.value}%`, M.addEventListener("input", () => {
-      S.textContent = `${M.value}%`, Bt.style.setProperty("--sg-dim-pct", `${M.value}%`);
-    }), Bt.style.setProperty("--sg-dim-pct", `${M.value}%`), b.append(S), Bt.append(b, M), ft.append(Bt);
-    const it = document.createElement("div");
-    it.className = "sg-settings__colors";
-    const K = (L, B, x) => {
+    const A = document.createElement("input");
+    A.type = "range", A.min = "0", A.max = "90", A.step = "5", A.className = "sg-field sg-field--range", A.dataset.setting = "ui.overlayOpacity", A.value = String(Math.round((Number(dt.overlayOpacity) || 0.58) * 100)), S.textContent = `${A.value}%`, A.addEventListener("input", () => {
+      S.textContent = `${A.value}%`, Bt.style.setProperty("--sg-dim-pct", `${A.value}%`);
+    }), Bt.style.setProperty("--sg-dim-pct", `${A.value}%`), y.append(S), Bt.append(y, A), ft.append(Bt);
+    const nt = document.createElement("div");
+    nt.className = "sg-settings__colors";
+    const V = (N, P, M) => {
       const W = document.createElement("label");
       W.className = "sg-settings__color-row";
-      const et = document.createElement("span");
-      et.className = "sg-settings__color-meta", et.append(A("span", "sg-settings__color-label", B));
+      const st = document.createElement("span");
+      st.className = "sg-settings__color-meta", st.append(B("span", "sg-settings__color-label", P));
       const mt = document.createElement("span");
       mt.className = "sg-settings__color-hex";
-      const Yt = String(x || "#000000").toLowerCase();
-      mt.textContent = Yt, et.append(mt);
+      const Yt = String(M || "#000000").toLowerCase();
+      mt.textContent = Yt, st.append(mt);
       const Ct = document.createElement("span");
       Ct.className = "sg-settings__color-swatch";
       const yt = document.createElement("input");
-      yt.type = "color", yt.dataset.setting = L, yt.value = Yt, yt.setAttribute("aria-label", B), yt.addEventListener("input", () => {
+      yt.type = "color", yt.dataset.setting = N, yt.value = Yt, yt.setAttribute("aria-label", P), yt.addEventListener("input", () => {
         mt.textContent = String(yt.value || "").toLowerCase();
-      }), Ct.append(yt), W.append(et, Ct), it.append(W);
+      }), Ct.append(yt), W.append(st, Ct), nt.append(W);
     };
-    K("ui.tipBg", "Tip background", dt.tipBg || "#0f1b33"), K("ui.tipText", "Tip text", dt.tipText || "#f8fafc"), K("ui.skipBg", "Skip background", dt.skipBg || "#2563eb"), K("ui.skipText", "Skip text", dt.skipText || "#ffffff"), K("ui.spotlightColor", "Spotlight", dt.spotlightColor || "#3b82f6"), ft.append(it);
-    const nt = gt("Reset appearance", "reset-ui-settings", "secondary");
-    nt.classList.add("sg-button--compact", "sg-appearance-reset"), ft.append(nt);
+    V("ui.tipBg", "Tip background", dt.tipBg || "#0f1b33"), V("ui.tipText", "Tip text", dt.tipText || "#f8fafc"), V("ui.skipBg", "Skip background", dt.skipBg || "#2563eb"), V("ui.skipText", "Skip text", dt.skipText || "#ffffff"), V("ui.spotlightColor", "Spotlight", dt.spotlightColor || "#3b82f6"), ft.append(nt);
+    const rt = gt("Reset appearance", "reset-ui-settings", "secondary");
+    rt.classList.add("sg-button--compact", "sg-appearance-reset"), ft.append(rt);
     const ut = e.launcher || {}, _t = document.createElement("div");
-    _t.className = "sg-settings sg-settings--nested sg-settings-card", _t.append(A("div", "sg-page-guides__label", "Orb"));
-    const rt = document.createElement("label");
-    rt.className = "sg-step-settings__field sg-settings__row", rt.append(document.createTextNode("Size"));
+    _t.className = "sg-settings sg-settings--nested sg-settings-card", _t.append(B("div", "sg-page-guides__label", "Orb"));
+    const ot = document.createElement("label");
+    ot.className = "sg-step-settings__field sg-settings__row", ot.append(document.createTextNode("Size"));
     const pt = document.createElement("select");
     pt.className = "sg-field", pt.dataset.setting = "launcher.size", [
       ["56", "Small"],
       ["68", "Medium"],
       ["80", "Large"]
-    ].forEach(([L, B]) => {
-      const x = document.createElement("option");
-      x.value = L, x.textContent = B, Number(ut.size ?? 80) === Number(L) && (x.selected = !0), pt.append(x);
-    }), rt.append(pt);
+    ].forEach(([N, P]) => {
+      const M = document.createElement("option");
+      M.value = N, M.textContent = P, Number(ut.size ?? 80) === Number(N) && (M.selected = !0), pt.append(M);
+    }), ot.append(pt);
     const kt = document.createElement("label");
     kt.className = "sg-step-settings__field sg-settings__row", kt.append(document.createTextNode("Position"));
     const Wt = document.createElement("select");
@@ -897,30 +897,30 @@ class Ks {
       ["bottom-left", "Bottom left"],
       ["top-right", "Top right"],
       ["top-left", "Top left"]
-    ].forEach(([L, B]) => {
-      const x = document.createElement("option");
-      x.value = L, x.textContent = B, (ut.position || "bottom-right") === L && (x.selected = !0), Wt.append(x);
+    ].forEach(([N, P]) => {
+      const M = document.createElement("option");
+      M.value = N, M.textContent = P, (ut.position || "bottom-right") === N && (M.selected = !0), Wt.append(M);
     }), kt.append(Wt);
     const Zt = document.createElement("label");
     Zt.className = "sg-check sg-settings__row";
     const jt = document.createElement("input");
-    jt.type = "checkbox", jt.dataset.setting = "launcher.animations", jt.checked = ut.animations !== !1, Zt.append(jt, document.createTextNode(" Animate orb")), _t.append(rt, kt, Zt);
+    jt.type = "checkbox", jt.dataset.setting = "launcher.animations", jt.checked = ut.animations !== !1, Zt.append(jt, document.createTextNode(" Animate orb")), _t.append(ot, kt, Zt);
     const Xt = document.createElement("div");
     Xt.className = "sg-settings-layout";
-    const Nt = document.createElement("nav");
-    Nt.className = "sg-settings-sidebar", Nt.setAttribute("aria-label", "Panel sections"), Nt.append(A("div", "sg-settings-sidebar__title", "System Guider"));
+    const Lt = document.createElement("nav");
+    Lt.className = "sg-settings-sidebar", Lt.setAttribute("aria-label", "Panel sections"), Lt.append(B("div", "sg-settings-sidebar__title", "System Guider"));
     const qt = document.createElement("div");
     qt.className = "sg-settings-content";
     const Pt = {
       guides: i,
       account: h,
-      general: C,
+      general: k,
       access: U,
       appearance: ft,
       orb: _t
     };
-    Object.entries(Pt).forEach(([L, B]) => {
-      B.classList.add("sg-settings-content__section"), B.dataset.settingsSection = L;
+    Object.entries(Pt).forEach(([N, P]) => {
+      P.classList.add("sg-settings-content__section"), P.dataset.settingsSection = N;
     }), qt.append(...Object.values(Pt));
     const ee = {
       guides: `
@@ -965,20 +965,20 @@ class Ks {
           <path d="M9 1.75v1.5M9 14.75v1.5M1.75 9h1.5M14.75 9h1.5" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
         </svg>
       `
-    }, ge = (L) => {
-      this.settingsSection = Pt[L] ? L : "guides", Object.entries(Pt).forEach(([B, x]) => {
-        x.hidden = B !== this.settingsSection;
-      }), Nt.querySelectorAll(".sg-settings-sidebar__item").forEach((B) => {
-        const x = B.dataset.section === this.settingsSection;
-        B.classList.toggle("is-active", x), B.setAttribute("aria-current", x ? "page" : "false");
+    }, ge = (N) => {
+      this.settingsSection = Pt[N] ? N : "guides", Object.entries(Pt).forEach(([P, M]) => {
+        M.hidden = P !== this.settingsSection;
+      }), Lt.querySelectorAll(".sg-settings-sidebar__item").forEach((P) => {
+        const M = P.dataset.section === this.settingsSection;
+        P.classList.toggle("is-active", M), P.setAttribute("aria-current", M ? "page" : "false");
       }), qt.scrollTop = 0;
-    }, Jt = (L, B, x) => {
+    }, Jt = (N, P, M) => {
       const W = document.createElement("button");
-      return W.type = "button", W.className = "sg-settings-sidebar__item", W.innerHTML = ee[B] || ee.general, W.dataset.tooltip = L, W.dataset.section = x, W.setAttribute("aria-label", L), W.title = L, W.addEventListener("click", () => {
-        ge(x);
-      }), Nt.append(W), W;
+      return W.type = "button", W.className = "sg-settings-sidebar__item", W.innerHTML = ee[P] || ee.general, W.dataset.tooltip = N, W.dataset.section = M, W.setAttribute("aria-label", N), W.title = N, W.addEventListener("click", () => {
+        ge(M);
+      }), Lt.append(W), W;
     };
-    Jt("Guides", "guides", "guides"), Jt("Account", "account", "account"), Jt("Defaults", "general", "general"), Jt("Access", "access", "access"), Jt("Appearance", "appearance", "appearance"), Jt("Orb", "orb", "orb"), Xt.append(Nt, qt), t.append(Xt), ge(this.settingsSection);
+    Jt("Guides", "guides", "guides"), Jt("Account", "account", "account"), Jt("Defaults", "general", "general"), Jt("Access", "access", "access"), Jt("Appearance", "appearance", "appearance"), Jt("Orb", "orb", "orb"), Xt.append(Lt, qt), t.append(Xt), ge(this.settingsSection);
   }
   renderPlayback(t) {
     const {
@@ -989,23 +989,23 @@ class Ks {
       autoSkipping: o
     } = this.state, a = document.createElement("div");
     a.className = "sg-progress", a.append(
-      A("span", "", `Step ${Math.min(s + 1, i)} of ${i}`),
-      A("span", "", `${i ? Math.round((s + 1) / i * 100) : 0}%`)
+      B("span", "", `Step ${Math.min(s + 1, i)} of ${i}`),
+      B("span", "", `${i ? Math.round((s + 1) / i * 100) : 0}%`)
     );
     const c = document.createElement("div");
     c.className = "sg-progress__bar";
     const l = document.createElement("span");
     if (l.style.width = `${i ? (s + 1) / i * 100 : 0}%`, c.append(l), t.append(a, c), e && t.append(
-      A("h3", "sg-playback__title", e.title),
-      A("p", "sg-playback__description", e.description)
+      B("h3", "sg-playback__title", e.title),
+      B("p", "sg-playback__description", e.description)
     ), r) {
       const d = String(this.state.message || "").trim();
-      t.append(A(
+      t.append(B(
         "p",
         "sg-status sg-status--error",
         d || (o ? "Target not found. Skipping to the next step…" : "Target not found. Follow this guide's requirements first, then continue — or skip this step.")
       ));
-    } else this.state.waiting && (this.state.waitKind === "target" || this.state.waitKind === "navigate") && t.append(A(
+    } else this.state.waiting && (this.state.waitKind === "target" || this.state.waitKind === "navigate") && t.append(B(
       "p",
       "sg-status sg-status--waiting",
       String(this.state.message || "Waiting…").trim() || "Waiting…"
@@ -1017,7 +1017,7 @@ class Ks {
       return null;
     if (t === "manage") {
       e.classList.add("sg-panel__footer--manage");
-      const s = Y("Play guide", "secondary", {
+      const s = Q("Play guide", "secondary", {
         icon: Ie,
         withLabel: !0,
         ariaLabel: "Play guide"
@@ -1070,34 +1070,34 @@ class Ks {
     });
   }
   handleInput(t) {
-    var l, d, h, p, u, g, f, y, m, v, _, E;
+    var l, d, h, p, u, g, f, b, m, v, w, C;
     const e = zt(t);
     if (!e) return;
     const s = e.dataset.setting;
     if (s) {
-      const k = e.type === "checkbox" ? e.checked : e.value;
-      (d = (l = this.handlers)["update-setting"]) == null || d.call(l, s, k);
+      const x = e.type === "checkbox" ? e.checked : e.value;
+      (d = (l = this.handlers)["update-setting"]) == null || d.call(l, s, x);
       return;
     }
     const i = e.dataset.guideSetting;
     if (i) {
-      const k = e.dataset.guideId || this.state.currentGuideId, w = e.type === "checkbox" ? e.checked : e.value;
-      (p = (h = this.handlers)["edit-guide-setting"]) == null || p.call(h, k, i, w);
+      const x = e.dataset.guideId || this.state.currentGuideId, _ = e.type === "checkbox" ? e.checked : e.value;
+      (p = (h = this.handlers)["edit-guide-setting"]) == null || p.call(h, x, i, _);
       return;
     }
     const r = e.dataset.stepSetting;
     if (r) {
-      const k = (u = e.closest("[data-step-id]")) == null ? void 0 : u.dataset.stepId, w = e.type === "checkbox" ? e.checked : e.value;
-      (f = (g = this.handlers)["edit-step-setting"]) == null || f.call(g, k, r, w);
+      const x = (u = e.closest("[data-step-id]")) == null ? void 0 : u.dataset.stepId, _ = e.type === "checkbox" ? e.checked : e.value;
+      (f = (g = this.handlers)["edit-step-setting"]) == null || f.call(g, x, r, _);
       return;
     }
     const o = e.dataset.guideField;
     if (o) {
-      (m = (y = this.handlers).editGuide) == null || m.call(y, o, e.value);
+      (m = (b = this.handlers).editGuide) == null || m.call(b, o, e.value);
       return;
     }
     const a = e.dataset.field, c = (v = e.closest("[data-step-id]")) == null ? void 0 : v.dataset.stepId;
-    !a || !c || (E = (_ = this.handlers).edit) == null || E.call(_, c, a, a === "waitRequired" ? e.checked : e.value);
+    !a || !c || (C = (w = this.handlers).edit) == null || C.call(w, c, a, a === "waitRequired" ? e.checked : e.value);
   }
   handlePreview(t) {
     var i, r, o;
@@ -1181,23 +1181,23 @@ class Ks {
 const Qt = (n) => {
   var t;
   return (t = globalThis.CSS) != null && t.escape ? globalThis.CSS.escape(n) : String(n).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
-}, at = (n) => String(n || "").replace(/\s+/g, " ").trim().toLowerCase(), ps = (n) => {
+}, lt = (n) => String(n || "").replace(/\s+/g, " ").trim().toLowerCase(), ps = (n) => {
   var o, a, c, l;
   if (!(n instanceof Element)) return "";
   const t = ((o = n.closest) == null ? void 0 : o.call(n, ".p-float-label")) || n.parentElement, e = (a = t == null ? void 0 : t.querySelector) == null ? void 0 : a.call(t, ":scope > label, label");
   if (e) {
-    const d = at(e.textContent);
+    const d = lt(e.textContent);
     if (d) return d;
   }
   const s = (c = n.querySelector) == null ? void 0 : c.call(n, '.nav-link-title, .menu-title, .sidebar-title, [class*="title"]');
   if (s) {
-    const d = at(s.textContent);
+    const d = lt(s.textContent);
     if (d) return d;
   }
   const i = n.cloneNode(!0);
   (l = i.querySelectorAll) == null || l.call(i, "script, style, svg, i, .nav-icon, .sidebar-pending-dot, .badge, .p-dropdown-label, .p-multiselect-label").forEach((d) => d.remove());
-  const r = at(i.textContent);
-  return r || at(
+  const r = lt(i.textContent);
+  return r || lt(
     n.getAttribute("aria-label") || n.getAttribute("title") || n.getAttribute("placeholder") || n.getAttribute("name") || ""
   );
 }, gs = (n) => {
@@ -1235,9 +1235,9 @@ function fs(n) {
     let c = e.previousElementSibling;
     for (; c; ) {
       if ((s = c.matches) != null && s.call(c, t))
-        return at(c.textContent).slice(0, 80);
+        return lt(c.textContent).slice(0, 80);
       const h = (i = c.querySelector) == null ? void 0 : i.call(c, t);
-      if (h) return at(h.textContent).slice(0, 80);
+      if (h) return lt(h.textContent).slice(0, 80);
       c = c.previousElementSibling;
     }
     const l = e.parentElement;
@@ -1245,9 +1245,9 @@ function fs(n) {
     let d = l.previousElementSibling;
     for (; d; ) {
       if ((r = d.matches) != null && r.call(d, t))
-        return at(d.textContent).slice(0, 80);
+        return lt(d.textContent).slice(0, 80);
       const h = (o = d.querySelector) == null ? void 0 : o.call(d, t);
-      if (h) return at(h.textContent).slice(0, 80);
+      if (h) return lt(h.textContent).slice(0, 80);
       d = d.previousElementSibling;
     }
     e = l;
@@ -1255,9 +1255,9 @@ function fs(n) {
   return "";
 }
 function Vs(n) {
-  var f, y, m;
+  var f, b, m;
   if (!(n instanceof Element)) return null;
-  const t = ((f = n.closest) == null ? void 0 : f.call(n, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")) || ((y = n.matches) != null && y.call(n, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? n : null), e = t || n, s = ps(e), i = gs(e), r = fs(e), o = e.getAttribute("data-guider") || "", a = at(t ? "" : e.getAttribute("aria-label") || ""), c = e.getAttribute("name") || "", l = at(e.getAttribute("placeholder") || ""), d = e.getAttribute("role") || (t ? "combobox" : ""), h = e.tagName.toLowerCase(), p = e.getAttribute("type") || "", u = t && ((m = [...t.querySelectorAll("[id]")].find((v) => v.id && !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(v.id))) == null ? void 0 : m.id) || "", g = !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(e.id || "") && e.id || u || "";
+  const t = ((f = n.closest) == null ? void 0 : f.call(n, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")) || ((b = n.matches) != null && b.call(n, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? n : null), e = t || n, s = ps(e), i = gs(e), r = fs(e), o = e.getAttribute("data-guider") || "", a = lt(t ? "" : e.getAttribute("aria-label") || ""), c = e.getAttribute("name") || "", l = lt(e.getAttribute("placeholder") || ""), d = e.getAttribute("role") || (t ? "combobox" : ""), h = e.tagName.toLowerCase(), p = e.getAttribute("type") || "", u = t && ((m = [...t.querySelectorAll("[id]")].find((v) => v.id && !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(v.id))) == null ? void 0 : m.id) || "", g = !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(e.id || "") && e.id || u || "";
   return !s && !i && !o && !c && !a && !g ? null : {
     ...s ? { text: s } : {},
     ...i ? { href: i } : {},
@@ -1273,7 +1273,7 @@ function Vs(n) {
   };
 }
 function ye(n, t) {
-  const e = at(n), s = at(t);
+  const e = lt(n), s = lt(t);
   if (!e || !s) return 0;
   if (e === s) return 50;
   const i = e.split(/\s+/).filter(Boolean), r = s.split(/\s+/).filter(Boolean);
@@ -1286,11 +1286,11 @@ function ye(n, t) {
   return s.includes(e) && e.length >= 3 ? 8 : 0;
 }
 function Zs(n, t) {
-  const e = at(n).replace(/\/+$/, ""), s = at(t).replace(/\/+$/, "");
+  const e = lt(n).replace(/\/+$/, ""), s = lt(t).replace(/\/+$/, "");
   return !e || !s ? 0 : e === s ? 45 : e.endsWith(s) || s.endsWith(e) ? 28 : e.includes(s) || s.includes(e) ? 12 : -25;
 }
 function Xs(n, t) {
-  const e = at(n), s = at(t);
+  const e = lt(n), s = lt(t);
   return !e || !s ? 0 : e === s ? 30 : e.includes(s) || s.includes(e) ? 12 : -20;
 }
 function es(n, t) {
@@ -1353,7 +1353,7 @@ const ne = (n) => {
   var t;
   return (t = globalThis.CSS) != null && t.escape ? globalThis.CSS.escape(n) : String(n).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
 };
-function ot(n) {
+function at(n) {
   return n instanceof Element ? n.matches(
     'input[type="password"], [data-guider-ignore], [contenteditable][data-sensitive]'
   ) : !0;
@@ -1425,7 +1425,7 @@ function te(n) {
     return null;
   }
 }
-function Et(n) {
+function xt(n) {
   if (!(n instanceof Element) || !n.isConnected) return !1;
   const t = getComputedStyle(n);
   if (t.display === "none" || t.visibility === "hidden" || Number(t.opacity) === 0)
@@ -1438,8 +1438,8 @@ function ei(n) {
   const t = n.getBoundingClientRect();
   return !(t.bottom < 0 || t.right < 0 || t.top > window.innerHeight || t.left > window.innerWidth);
 }
-function Ee(n) {
-  return Et(n) && ei(n);
+function xe(n) {
+  return xt(n) && ei(n);
 }
 function si(n, { behavior: t = "smooth", block: e = "center" } = {}) {
   if (!(n instanceof Element) || !n.isConnected) return;
@@ -1470,8 +1470,8 @@ function de(n) {
   var i, r, o, a;
   if (!(n instanceof Element)) return null;
   const t = (i = n.closest) == null ? void 0 : i.call(n, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
-  if (t && Et(t)) return t;
-  if (Et(n)) {
+  if (t && xt(t)) return t;
+  if (xt(n)) {
     const c = (r = n.closest) == null ? void 0 : r.call(
       n,
       '.p-overlaypanel, .modal-content, .card, .offcanvas, [class*="overlay-custom"], .filter-panel'
@@ -1485,7 +1485,7 @@ function de(n) {
       e = e.parentElement;
       continue;
     }
-    if (Ee(e)) return e;
+    if (xe(e)) return e;
     e = e.parentElement;
   }
   const s = n.closest([
@@ -1505,11 +1505,11 @@ function de(n) {
     '[class*="FormItem"]',
     "label"
   ].join(", "));
-  if (s && Et(s)) {
+  if (s && xt(s)) {
     const c = s.getBoundingClientRect();
     if (c.width <= 420 && c.height <= 280) return s;
   }
-  return Et(n) ? n : null;
+  return xt(n) ? n : null;
 }
 function ii(n) {
   return [n.top, n.left, n.width, n.height].map((t) => Math.round(t * 2) / 2).join(":");
@@ -1524,7 +1524,7 @@ async function ni(n, {
   let r = "", o = 0;
   for (; Date.now() <= i; ) {
     if (!n.isConnected) return null;
-    if (!Et(n))
+    if (!xt(n))
       o = 0, r = "";
     else {
       const a = ii(n.getBoundingClientRect());
@@ -1532,7 +1532,7 @@ async function ni(n, {
     }
     await new Promise((a) => setTimeout(a, s));
   }
-  return Ee(n) ? n : null;
+  return xe(n) ? n : null;
 }
 const ri = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), oi = /* @__PURE__ */ new Set(["system", "inter", "arial", "roboto", "serif"]), ai = /* @__PURE__ */ new Set(["bottom-right", "bottom-left", "top-right", "top-left"]), rs = {
   system: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -1579,10 +1579,10 @@ const ri = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), oi = /*
   showAccountId: !1,
   /**
    * Pathname prefixes/paths where the floating toolbar is hidden.
-   * Includes `/` for apps that serve login at the root (route name login).
-   * Examples: /login, /, /time-log
+   * Default: login only. Add `/` if your app serves login (or no-guider pages) at the root.
+   * Examples: /login, /time-log
    */
-  hiddenUrls: ["/login", "/"],
+  hiddenUrls: ["/login"],
   launcher: ms(),
   ui: Ue()
 });
@@ -1668,7 +1668,7 @@ function ui(n = {}) {
     animations: n.animations !== !1
   };
 }
-function Mt(n = {}) {
+function Nt(n = {}) {
   var r, o;
   const t = ys();
   if (!n || typeof n != "object" || Array.isArray(n)) return t;
@@ -1700,7 +1700,7 @@ function Mt(n = {}) {
   };
 }
 function oe(n = {}) {
-  const t = Mt(n), e = t.ui, s = t.theme === "light" ? "light" : "dark", i = document.documentElement;
+  const t = Nt(n), e = t.ui, s = t.theme === "light" ? "light" : "dark", i = document.documentElement;
   return i && (i.dataset.sgTheme = s, i.style.setProperty("--sg-tip-bg", e.tipBg), i.style.setProperty("--sg-tip-text", e.tipText), i.style.setProperty("--sg-skip-bg", e.skipBg), i.style.setProperty("--sg-skip-text", e.skipText), i.style.setProperty("--sg-spotlight", e.spotlightColor), i.style.setProperty("--sg-overlay-opacity", String(e.overlayOpacity)), i.style.setProperty("--sg-spotlight-ms", `${e.transitionMs}ms`), i.style.setProperty("--sg-font-family", rs[e.fontFamily] || rs.system), i.dataset.sgAnimations = e.animations ? "on" : "off", i.dataset.sgHighlightMotion = e.highlightMotion, i.dataset.sgSpotlightFade = e.spotlightFade ? "on" : "off"), e;
 }
 const Tt = 'input:not([type="password"]), textarea, select', ws = [
@@ -1799,7 +1799,7 @@ function Ss(n) {
   var t;
   return (t = globalThis.CSS) != null && t.escape ? globalThis.CSS.escape(n) : String(n).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
-function st(n) {
+function it(n) {
   return n instanceof Element ? n.matches(wt) ? n : n.closest(wt) : null;
 }
 function gi(n) {
@@ -1811,7 +1811,7 @@ function gi(n) {
 }
 function fi(n) {
   var i;
-  const t = st(n) || n, e = ((i = t.closest) == null ? void 0 : i.call(t, '.p-float-label, .form-group, .mb-1, .mb-3, .col, [class*="form-group"]')) || t.parentElement;
+  const t = it(n) || n, e = ((i = t.closest) == null ? void 0 : i.call(t, '.p-float-label, .form-group, .mb-1, .mb-3, .col, [class*="form-group"]')) || t.parentElement;
   if (!(e instanceof Element)) return "";
   const s = e.querySelector(":scope > label, label");
   return s instanceof Element ? s.textContent.trim().replace(/\s+/g, " ") : "";
@@ -1923,7 +1923,7 @@ function yi(n) {
 }
 function bi(n) {
   var o;
-  const t = st(n), e = At(fi(n));
+  const t = it(n), e = At(fi(n));
   if (e) return e;
   const s = n.matches("input, textarea, select"), i = !s && !t ? At(_s(n)) : "";
   if (i) return i;
@@ -2035,40 +2035,40 @@ function as(n) {
     '.p-calendar input[aria-expanded="true"], .p-calendar [aria-expanded="true"], input[aria-expanded="true"]'
   );
   for (const h of t) {
-    if (!(h instanceof Element) || ot(h)) continue;
+    if (!(h instanceof Element) || at(h)) continue;
     const p = h.closest(".p-calendar") || h, u = (c = p.matches) != null && c.call(p, "input") ? p : (l = p.querySelector) == null ? void 0 : l.call(p, 'input:not([type="hidden"])');
-    if (u && !ot(u)) return u;
+    if (u && !at(u)) return u;
   }
   const e = document.querySelector(".p-calendar.p-inputwrapper-focus, .p-calendar.p-focus, .p-calendar.p-overlay-open");
   if (e) {
     const h = e.querySelector('input:not([type="hidden"])');
-    if (h && !ot(h)) return h;
+    if (h && !at(h)) return h;
   }
   const s = document.activeElement;
-  if (s instanceof HTMLInputElement && Gt(s) && !ot(s))
+  if (s instanceof HTMLInputElement && Gt(s) && !at(s))
     return s;
-  const r = [...(document.querySelector('.p-overlaypanel, .modal.show, [role="dialog"]') || document.body).querySelectorAll('input:not([type="hidden"]):not([type="password"])')].filter((h) => Gt(h) && !ot(h));
+  const r = [...(document.querySelector('.p-overlaypanel, .modal.show, [role="dialog"]') || document.body).querySelectorAll('input:not([type="hidden"]):not([type="password"])')].filter((h) => Gt(h) && !at(h));
   if (!r.length) return null;
   const o = ((d = n.getBoundingClientRect) == null ? void 0 : d.call(n).top) ?? 0, a = r.map((h) => ({ node: h, top: h.getBoundingClientRect().top })).filter((h) => h.top <= o + 8).sort((h, p) => p.top - h.top)[0];
   return (a == null ? void 0 : a.node) || r[0] || null;
 }
 function It(n) {
-  return n instanceof Element ? !!(n instanceof HTMLSelectElement || Gt(n) || st(n) || n.closest(Se) || n.matches('[role="combobox"], [aria-autocomplete], [aria-haspopup="listbox"]') || n.getAttribute("aria-expanded") != null || n.closest('[role="combobox"]')) : !1;
+  return n instanceof Element ? !!(n instanceof HTMLSelectElement || Gt(n) || it(n) || n.closest(Se) || n.matches('[role="combobox"], [aria-autocomplete], [aria-haspopup="listbox"]') || n.getAttribute("aria-expanded") != null || n.closest('[role="combobox"]')) : !1;
 }
 function ke(n) {
   if (!n) return null;
-  const t = st(n);
+  const t = it(n);
   if (t) return t;
   if (n.matches(Tt) || n.matches('[role="combobox"]')) return n;
   const e = n.querySelector(`${Tt}, [role="combobox"]`);
-  return st(e) || e;
+  return it(e) || e;
 }
 function De(n) {
   if (!(n instanceof Element)) return null;
   const t = n.querySelector('[role="listbox"], .p-dropdown-items, .p-multiselect-items, .p-autocomplete-items'), e = (t == null ? void 0 : t.id) || n.id;
   if (e) {
-    const i = Ss(e), r = te(`[aria-controls="${i}"], [aria-owns="${i}"]`), o = st(r) || ke(r);
-    if (o) return st(o) || o;
+    const i = Ss(e), r = te(`[aria-controls="${i}"], [aria-owns="${i}"]`), o = it(r) || ke(r);
+    if (o) return it(o) || o;
   }
   const s = document.querySelector([
     ".p-dropdown.p-overlay-open",
@@ -2079,7 +2079,7 @@ function De(n) {
     `${wt} [aria-expanded="true"]`,
     `${wt}[aria-expanded="true"]`
   ].join(", "));
-  return st(s);
+  return it(s);
 }
 function Ge(n) {
   var t;
@@ -2101,7 +2101,7 @@ function Ge(n) {
 function bt(n) {
   var c;
   if (!(n instanceof Element)) return null;
-  const t = st(n);
+  const t = it(n);
   if (t) return t;
   if (he(n)) {
     const l = n.closest(".p-datepicker, .flatpickr-calendar, .dp__menu, .ant-picker-dropdown, .p-datepicker-panel"), d = as(l || n);
@@ -2121,7 +2121,7 @@ function bt(n) {
   const i = n.closest(Tt);
   if (i) return i;
   const r = n.matches('[role="combobox"]') ? n : n.closest('[role="combobox"]');
-  if (r) return st(r) || r;
+  if (r) return it(r) || r;
   const o = n.closest(ws);
   if (o) {
     if (he(o)) {
@@ -2133,27 +2133,27 @@ function bt(n) {
     const l = De(o.closest(Se) || o.closest(os));
     if (l) return l;
     const d = document.activeElement;
-    if (d instanceof Element && (d.matches(Tt) || d.matches('[role="combobox"]') || st(d)) && !ot(d))
-      return st(d) || d;
+    if (d instanceof Element && (d.matches(Tt) || d.matches('[role="combobox"]') || it(d)) && !at(d))
+      return it(d) || d;
     const h = o.closest(os);
     if (h != null && h.id) {
-      const m = Ss(h.id), v = te(`[aria-controls="${m}"], [aria-owns="${m}"]`), _ = ke(v);
-      if (_) return _;
+      const m = Ss(h.id), v = te(`[aria-controls="${m}"], [aria-owns="${m}"]`), w = ke(v);
+      if (w) return w;
     }
     const p = document.querySelector(
       `${wt} [aria-expanded="true"], ${wt}[aria-expanded="true"], [aria-expanded="true"]`
     ), u = ke(p);
-    if (u && !ot(u)) return u;
+    if (u && !at(u)) return u;
     const g = Ge(h) || Ge(o) || Ge(p);
     if (g) {
       const m = g.querySelector(wt);
-      if (m && !ot(m)) return m;
+      if (m && !at(m)) return m;
       const v = g.querySelector(`select, ${Tt}, [role="combobox"]`);
-      if (v && !ot(v)) return st(v) || v;
+      if (v && !at(v)) return it(v) || v;
     }
-    const y = [...((h == null ? void 0 : h.closest('.modal.show, .modal, [role="dialog"], .p-overlaypanel, form')) || document.body).querySelectorAll(`${wt}, select, [role="combobox"]`)].filter((m) => !ot(m)).map((m) => st(m) || m);
-    if (y.length) {
-      const m = ((c = h == null ? void 0 : h.getBoundingClientRect) == null ? void 0 : c.call(h).top) ?? o.getBoundingClientRect().top, v = y.map((_) => ({ node: _, top: _.getBoundingClientRect().top })).filter((_) => _.top <= m + 8).sort((_, E) => E.top - _.top)[0];
+    const b = [...((h == null ? void 0 : h.closest('.modal.show, .modal, [role="dialog"], .p-overlaypanel, form')) || document.body).querySelectorAll(`${wt}, select, [role="combobox"]`)].filter((m) => !at(m)).map((m) => it(m) || m);
+    if (b.length) {
+      const m = ((c = h == null ? void 0 : h.getBoundingClientRect) == null ? void 0 : c.call(h).top) ?? o.getBoundingClientRect().top, v = b.map((w) => ({ node: w, top: w.getBoundingClientRect().top })).filter((w) => w.top <= m + 8).sort((w, C) => C.top - w.top)[0];
       if (v) return v.node;
     }
   }
@@ -2168,8 +2168,8 @@ function _i(n = document) {
   const t = [
     ...n.querySelectorAll(`${wt}, select, [role="combobox"], input:not([type="hidden"]):not([type="password"]), textarea`)
   ], e = /* @__PURE__ */ new Set();
-  return t.map((s) => st(s) || s).filter((s) => {
-    if (e.has(s) || ot(s)) return !1;
+  return t.map((s) => it(s) || s).filter((s) => {
+    if (e.has(s) || at(s)) return !1;
     e.add(s);
     const i = getComputedStyle(s);
     if (i.display === "none" || i.visibility === "hidden") return !1;
@@ -2178,19 +2178,19 @@ function _i(n = document) {
   });
 }
 function Kt() {
-  const n = De(document.querySelector(Se)) || st(document.querySelector([
+  const n = De(document.querySelector(Se)) || it(document.querySelector([
     ".p-dropdown.p-overlay-open",
     ".p-multiselect.p-overlay-open",
     `${wt} [aria-expanded="true"]`,
     `${wt}[aria-expanded="true"]`
   ].join(", ")));
-  if (n && !ot(n)) return n;
+  if (n && !at(n)) return n;
   const t = document.querySelector('[aria-expanded="true"]'), e = ke(t);
-  if (e && !ot(e)) return e;
+  if (e && !at(e)) return e;
   const s = document.querySelector('.modal.show, [role="dialog"][aria-modal="true"], [role="dialog"].show, .p-overlaypanel');
   if (!s) return null;
   const i = document.activeElement;
-  return i instanceof Element && s.contains(i) && (i.matches(Tt) || i.matches('[role="combobox"]') || st(i)) && !ot(i) ? st(i) || i : null;
+  return i instanceof Element && s.contains(i) && (i.matches(Tt) || i.matches('[role="combobox"]') || it(i)) && !at(i) ? it(i) || i : null;
 }
 class ki {
   constructor({ onStep: t }) {
@@ -2203,13 +2203,13 @@ class ki {
     this.active = !1, document.removeEventListener("click", this.onClick, !0), document.removeEventListener("focusin", this.onFocus, !0);
   }
   shouldIgnore(t) {
-    return !this.active || !(t instanceof Element) || ot(t) || !!t.closest(".sg-panel, .sg-overlay, .sg-launcher, .sg-recording-indicator");
+    return !this.active || !(t instanceof Element) || at(t) || !!t.closest(".sg-panel, .sg-overlay, .sg-launcher, .sg-recording-indicator");
   }
   capture(t, e) {
-    var v, _;
+    var v, w;
     if (this.shouldIgnore(t)) return;
     const s = e === "click" && Rt(t), i = bt(t);
-    if (!i || ot(i)) return;
+    if (!i || at(i)) return;
     const r = ti(i);
     if (!r) return;
     const o = i.matches(Tt), a = It(i) || s, c = o || s || a ? "input" : e, l = Date.now(), d = `${c}:${r}`, h = c === "input" && d === this.lastKey, p = d === this.lastKey && l - this.lastAt < 300;
@@ -2222,7 +2222,7 @@ class ki {
       action: c,
       element: i,
       optionText: g
-    }), y = wi({
+    }), b = wi({
       title: f,
       label: u,
       choiceField: a,
@@ -2231,12 +2231,12 @@ class ki {
       optionText: g
     }), m = Vs(i);
     this.onStep({
-      id: ((_ = (v = globalThis.crypto) == null ? void 0 : v.randomUUID) == null ? void 0 : _.call(v)) || `step-${l}-${Math.random().toString(36).slice(2, 7)}`,
+      id: ((w = (v = globalThis.crypto) == null ? void 0 : v.randomUUID) == null ? void 0 : w.call(v)) || `step-${l}-${Math.random().toString(36).slice(2, 7)}`,
       selector: r,
       ...m ? { match: m } : {},
       action: c,
       title: f,
-      description: y,
+      description: b,
       waitFor: o || s || a ? {
         type: "input",
         required: !0,
@@ -2263,7 +2263,7 @@ class ki {
     this.stop();
   }
 }
-const Ci = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>', Ei = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>', xi = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>', xe = [
+const Ci = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>', xi = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>', Ei = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>', Ee = [
   "td.day",
   ".day",
   '[role="gridcell"]',
@@ -2377,9 +2377,9 @@ function Ti(n) {
   const t = n.closest(Cs);
   if (t && Ce(t)) return t;
   const e = n.closest('table, [role="grid"]');
-  return e && e.querySelector(xe) && Ce(e) ? e : null;
+  return e && e.querySelector(Ee) && Ce(e) ? e : null;
 }
-function Li(n) {
+function Mi(n) {
   if (!(n instanceof Element)) return [];
   const t = n.getBoundingClientRect();
   return [...document.querySelectorAll([
@@ -2394,7 +2394,7 @@ function Li(n) {
     ".p-autocomplete-panel"
   ].join(", "))].filter((s) => {
     var c;
-    if (!He(s) || !Ce(s) || s === n || n.contains(s) || !(s.matches(Cs) || !!((c = s.querySelector) != null && c.call(s, xe))) && !s.matches(je)) return !1;
+    if (!He(s) || !Ce(s) || s === n || n.contains(s) || !(s.matches(Cs) || !!((c = s.querySelector) != null && c.call(s, Ee))) && !s.matches(je)) return !1;
     const r = s.getBoundingClientRect(), o = r.top >= t.top - 48 && r.top <= t.bottom + 380, a = r.left < t.right + 140 && r.right > t.left - 140;
     return o && a;
   });
@@ -2417,12 +2417,12 @@ function ls(n = null) {
   };
   return document.querySelectorAll(je).forEach((s) => {
     !He(s) || !Ce(s) || e(s) && t.add(s);
-  }), document.querySelectorAll(xe).forEach((s) => {
+  }), document.querySelectorAll(Ee).forEach((s) => {
     const i = Ti(s);
     i && He(i) && e(i) && t.add(i);
-  }), n instanceof Element && Li(n).forEach((s) => t.add(s)), [...t];
+  }), n instanceof Element && Mi(n).forEach((s) => t.add(s)), [...t];
 }
-class Ni {
+class Li {
   constructor({
     overlayOpacity: t = 0.58,
     zIndex: e = 2147483e3,
@@ -2597,19 +2597,19 @@ class Ni {
     u.type = "button", u.className = "sg-step-tip__close", u.setAttribute("aria-label", "End tutorial"), u.innerHTML = Ci, u.addEventListener("click", this.onEndClick), d.append(h, p, u);
     const g = document.createElement("div");
     if (g.className = "sg-step-tip__title", g.textContent = r, this.stepTip.append(l, d, g), o) {
-      const k = document.createElement("div");
-      k.className = "sg-step-tip__description", k.textContent = o, this.stepTip.append(k);
+      const x = document.createElement("div");
+      x.className = "sg-step-tip__description", x.textContent = o, this.stepTip.append(x);
     }
     const f = document.createElement("div");
     f.className = "sg-step-tip__divider";
-    const y = document.createElement("div");
-    y.className = "sg-step-tip__actions";
+    const b = document.createElement("div");
+    b.className = "sg-step-tip__actions";
     const m = document.createElement("button");
-    m.type = "button", m.className = "sg-step-tip__end", m.innerHTML = `${xi}<span>End Tutorial</span>`, m.addEventListener("click", this.onEndClick);
+    m.type = "button", m.className = "sg-step-tip__end", m.innerHTML = `${Ei}<span>End Tutorial</span>`, m.addEventListener("click", this.onEndClick);
     const v = document.createElement("button");
     v.type = "button", v.className = "sg-step-tip__next";
-    const E = (c ? Number(a) >= Number(c) : !1) ? "Finish" : this.skipLabel || "Skip Step";
-    v.innerHTML = `<span>${E}</span>${Ei}`, v.addEventListener("click", this.onSkipClick), y.append(m, v), this.stepTip.append(f, y), this.stepTip.hidden = !1;
+    const C = (c ? Number(a) >= Number(c) : !1) ? "Finish" : this.skipLabel || "Skip Step";
+    v.innerHTML = `<span>${C}</span>${xi}`, v.addEventListener("click", this.onSkipClick), b.append(m, v), this.stepTip.append(f, b), this.stepTip.hidden = !1;
   }
   hideStepTip() {
     this.stepTip && (this.stepTip.hidden = !0, this.stepTip.removeAttribute("data-arrow"), this.stepTip.style.removeProperty("--sg-arrow-offset"), this.stepTip.style.removeProperty("--sg-arrow-fill")), this.stepTipContent = null, this.skipChip && (this.skipChip.hidden = !this.controlsEnabled);
@@ -2629,46 +2629,72 @@ class Ni {
    */
   updateStepTipArrow(t, e, s, i) {
     if (!this.stepTip || this.stepTip.hidden) return;
-    const r = this.stepTip, o = r.getBoundingClientRect(), a = o.left, c = o.top, l = o.width || r.offsetWidth || 220, d = o.height || r.offsetHeight || 48, h = a + l / 2, p = c + d / 2, u = t + s / 2, g = e + i / 2, f = a + l, y = c + d, m = t + s, v = e + i, _ = {
+    const r = this.stepTip, o = r.getBoundingClientRect(), a = o.left, c = o.top, l = o.width || r.offsetWidth || 220, d = o.height || r.offsetHeight || 48, h = a + l / 2, p = c + d / 2, u = t + s / 2, g = e + i / 2, f = a + l, b = c + d, m = t + s, v = e + i, w = {
       left: a - m,
       right: t - f,
       top: c - v,
-      bottom: e - y
+      bottom: e - b
     };
-    let E = "left", k = -1 / 0;
-    for (const [C, N] of Object.entries(_))
-      N > k && (k = N, E = C);
-    if (k < 4) {
-      const C = u - h, N = g - p;
-      E = Math.abs(C) >= Math.abs(N) ? C < 0 ? "left" : "right" : N < 0 ? "top" : "bottom";
+    let C = "left", x = -1 / 0;
+    for (const [k, L] of Object.entries(w))
+      L > x && (x = L, C = k);
+    if (x < 4) {
+      const k = u - h, L = g - p;
+      C = Math.abs(k) >= Math.abs(L) ? k < 0 ? "left" : "right" : L < 0 ? "top" : "bottom";
     }
-    const w = 18;
-    let T = 0;
-    E === "left" || E === "right" ? T = Math.min(Math.max(g - c, w), d - w) : T = Math.min(Math.max(u - a, w), l - w), r.dataset.arrow = E, r.style.setProperty("--sg-arrow-offset", `${Math.round(T)}px`), r.style.setProperty("--sg-arrow-fill", this.resolveStepTipFill());
+    const _ = 18;
+    let E = 0;
+    C === "left" || C === "right" ? E = Math.min(Math.max(g - c, _), d - _) : E = Math.min(Math.max(u - a, _), l - _), r.dataset.arrow = C, r.style.setProperty("--sg-arrow-offset", `${Math.round(E)}px`), r.style.setProperty("--sg-arrow-fill", this.resolveStepTipFill());
   }
   positionSkipChip(t, e, s, i) {
     if (!this.controlsEnabled) return;
-    const r = 10, o = window.innerWidth, a = window.innerHeight, c = this.stepTip && !this.stepTip.hidden, l = c ? this.stepTip.offsetWidth || 220 : 0, d = c ? this.stepTip.offsetHeight || 48 : 0, h = this.goChip && !this.goChip.hidden, p = h ? this.goChip.offsetWidth || 72 : 0, u = h ? this.goChip.offsetHeight || 36 : 0, g = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, f = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, y = 8;
-    let m = 0, v = 0;
-    h && (m = t + s + r, v = e + Math.max(0, Math.round((i - u) / 2)), m + p > o - 8 && (m = Math.max(8, t - p - r)), v < 8 && (v = 8), v + u > a - 8 && (v = Math.max(8, a - u - 8)), this.goChip.style.left = `${m}px`, this.goChip.style.top = `${v}px`);
-    const _ = Math.max(l, g), E = (c ? d : 0) + (c && g ? y : 0) + (g ? f : 0);
-    let k = h ? m + p + r : t + s + r, w = h ? Math.min(v, e) : e;
-    k + _ > o - 8 && (k = Math.min(Math.max(8, t), o - _ - 8), w = e + i + r), w < 8 && (w = 8), w + E > a - 8 && (w = Math.max(8, a - E - 8)), k = Math.min(Math.max(8, k), o - _ - 8), c && (this.stepTip.style.left = `${k}px`, this.stepTip.style.top = `${w}px`, this.updateStepTipArrow(t, e, s, i), w += d + y), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${k}px`, this.skipChip.style.top = `${w}px`);
+    const r = 10, o = 8, a = window.innerWidth, c = window.innerHeight, l = this.stepTip && !this.stepTip.hidden, d = l ? this.stepTip.offsetWidth || 220 : 0, h = l ? this.stepTip.offsetHeight || 48 : 0, p = this.goChip && !this.goChip.hidden, u = p ? this.goChip.offsetWidth || 72 : 0, g = p ? this.goChip.offsetHeight || 36 : 0, f = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, b = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, m = 8;
+    let v = 0, w = 0;
+    p && (v = t + s + r, w = e + Math.max(0, Math.round((i - g) / 2)), v + u > a - o && (v = Math.max(o, t - u - r)), w < o && (w = o), w + g > c - o && (w = Math.max(o, c - g - o)), this.goChip.style.left = `${v}px`, this.goChip.style.top = `${w}px`);
+    const C = Math.max(d, f), x = (l ? h : 0) + (l && f ? m : 0) + (f ? b : 0), _ = t + s / 2, E = e + i / 2, k = (T, O) => ({
+      left: Math.min(Math.max(o, T), Math.max(o, a - C - o)),
+      top: Math.min(Math.max(o, O), Math.max(o, c - x - o))
+    }), L = [
+      k(_ - C / 2, e + i + r),
+      // below, centered
+      k(_ - C / 2, e - x - r),
+      // above, centered
+      k(t - C - r, E - x / 2),
+      // left, centered
+      k(t + s + r, E - x / 2),
+      // right, centered
+      k(t, e + i + r),
+      // below-start
+      k(t + s - C, e + i + r)
+      // below-end
+    ];
+    p && L.unshift(
+      k(v + u + r, Math.min(w, e)),
+      k(v - C - r, Math.min(w, e))
+    );
+    let I = L[0], G = 1 / 0;
+    for (const T of L) {
+      const O = T.left + C / 2, $ = T.top + x / 2, K = O - _, q = $ - E;
+      let R = K * K + q * q;
+      const D = Math.max(0, Math.min(T.left + C, t + s) - Math.max(T.left, t)), et = Math.max(0, Math.min(T.top + x, e + i) - Math.max(T.top, e));
+      D > 0 && et > 0 && (R += 1e6 + D * et), R < G && (G = R, I = T);
+    }
+    let J = I.left, j = I.top;
+    l && (this.stepTip.style.left = `${J}px`, this.stepTip.style.top = `${j}px`, this.updateStepTipArrow(t, e, s, i), j += h + m), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${J}px`, this.skipChip.style.top = `${j}px`);
   }
   positionSkipChipFallback() {
     if (!this.controlsEnabled) return;
-    const t = this.stepTip && !this.stepTip.hidden, e = t ? this.stepTip.offsetWidth || 220 : 0, s = t ? this.stepTip.offsetHeight || 48 : 0, i = this.goChip && !this.goChip.hidden, r = i ? this.goChip.offsetWidth || 72 : 0, o = i ? this.goChip.offsetHeight || 36 : 0, a = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, c = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, l = 8, d = this.warningBanner && !this.warningBanner.hidden, h = this.waitingBanner && !this.waitingBanner.hidden, p = d ? this.warningBanner.offsetHeight || 40 : 0, u = h ? this.waitingBanner.offsetHeight || 40 : 0, g = 24 + p + u + (d || h ? 12 : 0), f = (t ? s + l : 0) + (a ? c : 0), y = Math.max(8, Math.round((window.innerWidth - Math.max(e, a || e)) / 2));
-    let m = Math.max(8, window.innerHeight - g - f - (i ? o + l : 0));
-    if (t) {
-      this.stepTip.style.left = `${y}px`, this.stepTip.style.top = `${m}px`;
-      const v = this.highlightHost || this.target;
-      if (v instanceof Element && v.isConnected) {
-        const _ = v.getBoundingClientRect();
-        _.width > 0 && _.height > 0 && this.updateStepTipArrow(_.left, _.top, _.width, _.height);
+    const t = this.highlightHost || this.target;
+    if (t instanceof Element && t.isConnected) {
+      const w = t.getBoundingClientRect();
+      if (w.width > 0 && w.height > 0) {
+        this.positionSkipChip(w.left, w.top, w.width, w.height);
+        return;
       }
-      m += s + l;
     }
-    this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${y}px`, this.skipChip.style.top = `${m}px`, m += c + l), i && (this.goChip.style.left = `${Math.max(8, Math.round((window.innerWidth - r) / 2))}px`, this.goChip.style.top = `${m}px`);
+    const e = this.stepTip && !this.stepTip.hidden, s = e ? this.stepTip.offsetWidth || 220 : 0, i = e ? this.stepTip.offsetHeight || 48 : 0, r = this.goChip && !this.goChip.hidden, o = r ? this.goChip.offsetWidth || 72 : 0, a = r ? this.goChip.offsetHeight || 36 : 0, c = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, l = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, d = 8, h = this.warningBanner && !this.warningBanner.hidden, p = this.waitingBanner && !this.waitingBanner.hidden, u = h ? this.warningBanner.offsetHeight || 40 : 0, g = p ? this.waitingBanner.offsetHeight || 40 : 0, f = 24 + u + g + (h || p ? 12 : 0), b = (e ? i + d : 0) + (c ? l : 0), m = Math.max(8, Math.round((window.innerWidth - Math.max(s, c || s)) / 2));
+    let v = Math.max(8, window.innerHeight - f - b - (r ? a + d : 0));
+    e && (this.stepTip.style.left = `${m}px`, this.stepTip.style.top = `${v}px`, this.stepTip.removeAttribute("data-arrow"), v += i + d), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${m}px`, this.skipChip.style.top = `${v}px`, v += l + d), r && (this.goChip.style.left = `${Math.max(8, Math.round((window.innerWidth - o) / 2))}px`, this.goChip.style.top = `${v}px`);
   }
   createBlock(t) {
     const e = document.createElement("div");
@@ -2676,7 +2702,7 @@ class Ni {
   }
   highlight(t, e = !0, { blockOutside: s = !1, tip: i = null } = {}) {
     var r, o;
-    t instanceof Element && (this.hideWarning(), this.hideWaiting(), this.hideGuideCursor(), this.targetLostNotified = !1, this.mount(), this.controlsEnabled && (this.mountSkipChip(), this.mountStepTip()), this.root && (this.root.style.display = "", this.root.style.setProperty("--sg-overlay-opacity", String(((r = this.ui) == null ? void 0 : r.overlayOpacity) ?? this.opacity))), this.clearRelayoutTimers(), this.unobserveTarget(), this.target = t, this.highlightHost = de(t) || t, this.blockOutside = !!s, this.root.classList.toggle("sg-overlay--blocking", this.blockOutside), this.raiseTarget(this.blockOutside ? this.highlightHost : null), i && i.title ? this.setStepTip(i) : this.hideStepTip(), e && Et(this.highlightHost) && si(this.highlightHost, { behavior: "smooth", block: "center" }), this.observeTarget(this.highlightHost), this.watchMenus(), this.root.classList.add("sg-overlay--visible"), this.syncSpotlightMotionClass(), this.frame && this.motionsEnabled() && ((o = this.ui) != null && o.spotlightFade) && (this.frame.classList.remove("sg-spotlight--fade-in"), this.frame.offsetWidth, this.frame.classList.add("sg-spotlight--fade-in")), this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter(), [80, 180, 320, 520, 800].forEach((a) => {
+    t instanceof Element && (this.hideWarning(), this.hideWaiting(), this.hideGuideCursor(), this.targetLostNotified = !1, this.mount(), this.controlsEnabled && (this.mountSkipChip(), this.mountStepTip()), this.root && (this.root.style.display = "", this.root.style.setProperty("--sg-overlay-opacity", String(((r = this.ui) == null ? void 0 : r.overlayOpacity) ?? this.opacity))), this.clearRelayoutTimers(), this.unobserveTarget(), this.target = t, this.highlightHost = de(t) || t, this.blockOutside = !!s, this.root.classList.toggle("sg-overlay--blocking", this.blockOutside), this.raiseTarget(this.blockOutside ? this.highlightHost : null), i && i.title ? this.setStepTip(i) : this.hideStepTip(), e && xt(this.highlightHost) && si(this.highlightHost, { behavior: "smooth", block: "center" }), this.observeTarget(this.highlightHost), this.watchMenus(), this.root.classList.add("sg-overlay--visible"), this.syncSpotlightMotionClass(), this.frame && this.motionsEnabled() && ((o = this.ui) != null && o.spotlightFade) && (this.frame.classList.remove("sg-spotlight--fade-in"), this.frame.offsetWidth, this.frame.classList.add("sg-spotlight--fade-in")), this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter(), [80, 180, 320, 520, 800].forEach((a) => {
       this.relayoutTimers.push(setTimeout(() => {
         this.target && (this.highlightHost = de(this.target) || this.target, this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter());
       }, a));
@@ -2806,7 +2832,7 @@ class Ni {
     this.frame.style.setProperty("--sg-x", `${t}px`), this.frame.style.setProperty("--sg-y", `${e}px`), this.frame.style.setProperty("--sg-w", `${s}px`), this.frame.style.setProperty("--sg-h", `${i}px`), this.blocks.top.style.cssText = `top:0;left:0;width:${r}px;height:${e}px;`, this.blocks.left.style.cssText = `top:${e}px;left:0;width:${t}px;height:${i}px;`, this.blocks.right.style.cssText = `top:${e}px;left:${t + s}px;width:${Math.max(0, r - t - s)}px;height:${i}px;`, this.blocks.bottom.style.cssText = `top:${e + i}px;left:0;width:${r}px;height:${Math.max(0, o - e - i)}px;`;
   }
   raiseTarget(t) {
-    if (this.raisedTarget && this.raisedTarget !== t && this.restoreTarget(), !t || this.raisedTarget === t || !Ee(t)) return;
+    if (this.raisedTarget && this.raisedTarget !== t && this.restoreTarget(), !t || this.raisedTarget === t || !xe(t)) return;
     this.raisedTarget = t, this.previousTargetStyle = {
       position: t.style.position,
       zIndex: t.style.zIndex,
@@ -2834,7 +2860,7 @@ class Ni {
     }), this.skipChip && (this.skipChip.removeEventListener("click", this.onSkipClick), this.skipChip.remove(), this.skipChip = null), this.goChip && (this.goChip.removeEventListener("click", this.onGoClick), this.goChip.remove(), this.goChip = null, this.onGo = null), this.stepTip && (this.stepTip.remove(), this.stepTip = null, this.stepTipContent = null), this.warningBanner && (this.warningBanner.remove(), this.warningBanner = null), this.waitingBanner && (this.waitingBanner.remove(), this.waitingBanner = null), this.guideCursor && (clearTimeout(this.cursorTimer), this.guideCursor.remove(), this.guideCursor = null), (t = this.root) == null || t.remove(), this.root = null, this.frame = null, this.blocks = null, this.target = null, this.highlightHost = null;
   }
 }
-function Mi(n, t) {
+function Ni(n, t) {
   var o, a, c, l;
   const e = n instanceof Element ? n : t;
   if (!(e instanceof Element)) return !1;
@@ -2868,10 +2894,10 @@ class Bi {
     ui: u = null,
     onChange: g,
     onFail: f,
-    onComplete: y,
+    onComplete: b,
     onClickAdvance: m = null
   }) {
-    this.overlay = t, this.timeout = e, this.autoAdvanceOnInput = s, this.autoAdvanceDelay = i, this.autoSkipMissing = r, this.autoSkipMissingDelay = o, this.stableWaitTimeout = a, this.targetWaitTimeout = Math.max(1e3, Number(c) || 2e4), this.targetRetryInterval = Math.max(50, Number(l) || 250), this.targetReadyHits = Math.max(1, Number(d) || 2), this.stepDelay = h, this.autoScroll = p !== !1, this.ui = ue(u || {}), this.onChange = g, this.onFail = f, this.onComplete = y, this.onClickAdvance = m, this.steps = [], this.index = 0, this.active = !1, this.token = 0, this.waitCleanup = null, this.autoSkipTimer = null, this.navWaitTimer = null, this.readyWaitInterval = null, this.readyWaitResolve = null, this.targetLostTimer = null, this.rebindDebounceTimer = null, this.waitingForNavigation = !1, this.lastChoiceField = null, this.lastCompletedField = null;
+    this.overlay = t, this.timeout = e, this.autoAdvanceOnInput = s, this.autoAdvanceDelay = i, this.autoSkipMissing = r, this.autoSkipMissingDelay = o, this.stableWaitTimeout = a, this.targetWaitTimeout = Math.max(1e3, Number(c) || 2e4), this.targetRetryInterval = Math.max(50, Number(l) || 250), this.targetReadyHits = Math.max(1, Number(d) || 2), this.stepDelay = h, this.autoScroll = p !== !1, this.ui = ue(u || {}), this.onChange = g, this.onFail = f, this.onComplete = b, this.onClickAdvance = m, this.steps = [], this.index = 0, this.active = !1, this.token = 0, this.waitCleanup = null, this.autoSkipTimer = null, this.navWaitTimer = null, this.readyWaitInterval = null, this.readyWaitResolve = null, this.targetLostTimer = null, this.rebindDebounceTimer = null, this.waitingForNavigation = !1, this.lastChoiceField = null, this.lastCompletedField = null;
   }
   setUiOptions(t) {
     this.ui = ue(t || {});
@@ -2887,9 +2913,9 @@ class Bi {
   findStepTarget(t) {
     if (!(t != null && t.selector) && !(t != null && t.match)) return null;
     const e = ss(t.match, { selector: t.selector || "" });
-    if (e && Et(e)) return e;
+    if (e && xt(e)) return e;
     const s = te(t.selector);
-    return s && Et(s) ? s : null;
+    return s && xt(s) ? s : null;
   }
   clearReadyWait(t = null) {
     var s, i;
@@ -2912,7 +2938,7 @@ class Bi {
       const h = (u) => {
         this.readyWaitResolve === d && this.clearReadyWait(u);
       }, p = () => {
-        var y, m, v, _;
+        var b, m, v, w;
         if (!this.active || e !== this.token) {
           h(null);
           return;
@@ -2934,14 +2960,14 @@ class Bi {
         const f = Math.max(0, Math.ceil((r - g) / 1e3));
         if (f !== l) {
           l = f;
-          const E = `Waiting… ${f}s`;
+          const C = `Waiting… ${f}s`;
           this.onChange(t, this.index, {
             waiting: !0,
             failed: !1,
             waitKind: "target",
             retryCount: o,
-            message: E
-          }), (m = (y = this.overlay).showWaiting) == null || m.call(y, E, { seconds: f }), (_ = (v = this.overlay).positionSkipChipFallback) == null || _.call(v);
+            message: C
+          }), (m = (b = this.overlay).showWaiting) == null || m.call(b, C, { seconds: f }), (w = (v = this.overlay).positionSkipChipFallback) == null || w.call(v);
         }
       };
       p(), this.readyWaitResolve === d && (this.readyWaitInterval = setInterval(p, this.targetRetryInterval));
@@ -2989,13 +3015,13 @@ class Bi {
     return e;
   }
   async showCurrent() {
-    var p, u, g, f, y, m, v, _, E, k, w, T, C, N, G, D, Q, z, P, F, O, X, q, $, H, lt, tt, ct;
+    var p, u, g, f, b, m, v, w, C, x, _, E, k, L, I, G, J, j, T, O, $, K, q, R, D, et, tt, ct;
     if (!this.active) return;
     this.clearWait();
     const t = ++this.token, e = this.steps[this.index], s = ((u = (p = this.overlay) == null ? void 0 : p.getHighlightCenter) == null ? void 0 : u.call(p)) || ((g = this.overlay) == null ? void 0 : g.lastHighlightCenter) || null;
     this.onChange(e, this.index, { waiting: !1, failed: !1 }), this.overlay.hide();
     const i = Number((f = e == null ? void 0 : e.settings) == null ? void 0 : f.delay) || 0;
-    if (i > 0 && (await new Promise((I) => setTimeout(I, i)), !this.active || t !== this.token))
+    if (i > 0 && (await new Promise((H) => setTimeout(H, i)), !this.active || t !== this.token))
       return;
     if (e.action === "manual" || !e.selector && !e.match) {
       this.overlay.hide();
@@ -3005,70 +3031,70 @@ class Bi {
     if (!this.active || t !== this.token) return;
     let o = this.normalizeStepTarget(e, r);
     if (o) {
-      const I = !!this.lastCompletedField, U = I ? Math.min(220, this.stableWaitTimeout) : this.stableWaitTimeout;
+      const H = !!this.lastCompletedField, U = H ? Math.min(220, this.stableWaitTimeout) : this.stableWaitTimeout;
       o = await ni(o, {
         timeout: U,
-        stableFrames: I ? 2 : 4
+        stableFrames: H ? 2 : 4
       }) || o;
     }
     if (!this.active || t !== this.token) return;
-    if (o && !Et(o)) {
-      const I = await this.waitUntilTargetReady(e, t);
+    if (o && !xt(o)) {
+      const H = await this.waitUntilTargetReady(e, t);
       if (!this.active || t !== this.token) return;
-      o = this.normalizeStepTarget(e, I);
+      o = this.normalizeStepTarget(e, H);
     }
     if (!this.active || t !== this.token) return;
-    const a = !!(o && (It(o) || Gt(o)) || ((y = e.waitFor) == null ? void 0 : y.mode) === "interaction" || Rt(r));
-    if (a && (!o || !Ee(o))) {
-      const I = (R) => {
-        var V, Z, xt, Lt;
-        if (!(R instanceof Element)) return !1;
-        if ((V = R.matches) != null && V.call(R, 'input[type="search"]')) return !0;
-        const j = [
-          (Z = R.getAttribute) == null ? void 0 : Z.call(R, "placeholder"),
-          (xt = R.getAttribute) == null ? void 0 : xt.call(R, "name"),
-          (Lt = R.getAttribute) == null ? void 0 : Lt.call(R, "aria-label"),
-          R.id,
-          R.className
+    const a = !!(o && (It(o) || Gt(o)) || ((b = e.waitFor) == null ? void 0 : b.mode) === "interaction" || Rt(r));
+    if (a && (!o || !xe(o))) {
+      const H = (F) => {
+        var Z, X, Et, Mt;
+        if (!(F instanceof Element)) return !1;
+        if ((Z = F.matches) != null && Z.call(F, 'input[type="search"]')) return !0;
+        const z = [
+          (X = F.getAttribute) == null ? void 0 : X.call(F, "placeholder"),
+          (Et = F.getAttribute) == null ? void 0 : Et.call(F, "name"),
+          (Mt = F.getAttribute) == null ? void 0 : Mt.call(F, "aria-label"),
+          F.id,
+          F.className
         ].filter(Boolean).join(" ").toLowerCase();
-        return /\bsearch\b/.test(j);
+        return /\bsearch\b/.test(z);
       }, U = document.querySelector('.modal.show, [role="dialog"][aria-modal="true"], [role="dialog"].show');
       if (U) {
-        const R = _i(U).filter((V) => (V.matches('select, [role="combobox"]') || It(V)) && !I(V));
-        let j = Kt();
-        if (j && I(j) && (j = null), !j && this.lastChoiceField && U.contains(this.lastChoiceField)) {
-          const V = ((v = (m = this.lastChoiceField).getBoundingClientRect) == null ? void 0 : v.call(m).top) ?? -1 / 0;
-          j = R.find((Z) => Z.getBoundingClientRect().top > V + 4) || null;
+        const F = _i(U).filter((Z) => (Z.matches('select, [role="combobox"]') || It(Z)) && !H(Z));
+        let z = Kt();
+        if (z && H(z) && (z = null), !z && this.lastChoiceField && U.contains(this.lastChoiceField)) {
+          const Z = ((v = (m = this.lastChoiceField).getBoundingClientRect) == null ? void 0 : v.call(m).top) ?? -1 / 0;
+          z = F.find((X) => X.getBoundingClientRect().top > Z + 4) || null;
         }
-        j || (j = R[0] || null), j && (o = j);
+        z || (z = F[0] || null), z && (o = z);
       }
     }
     const c = de(o) || o;
     if (!o && !c) {
       this.overlay.hide();
-      const I = this.missingTargetMessage(e);
-      (E = (_ = this.overlay).showWarning) == null || E.call(_, I), this.onFail(e, this.index), this.onChange(e, this.index, {
+      const H = this.missingTargetMessage(e);
+      (C = (w = this.overlay).showWarning) == null || C.call(w, H), this.onFail(e, this.index), this.onChange(e, this.index, {
         waiting: !1,
         failed: !0,
         autoSkipping: !1,
         failKind: "missing-target",
-        message: I
-      }), (w = (k = this.overlay).positionSkipChipFallback) == null || w.call(k);
+        message: H
+      }), (_ = (x = this.overlay).positionSkipChipFallback) == null || _.call(x);
       return;
     }
-    (C = (T = this.overlay).hideWarning) == null || C.call(T), (G = (N = this.overlay).hideWaiting) == null || G.call(N);
+    (k = (E = this.overlay).hideWarning) == null || k.call(E), (I = (L = this.overlay).hideWaiting) == null || I.call(L);
     const l = o || c;
-    if (s && ((D = this.ui) != null && D.animatedCursor) && ((Q = this.ui) != null && Q.animations)) {
-      const I = (z = l.getBoundingClientRect) == null ? void 0 : z.call(l);
-      if (I && I.width >= 1 && I.height >= 1) {
+    if (s && ((G = this.ui) != null && G.animatedCursor) && ((J = this.ui) != null && J.animations)) {
+      const H = (j = l.getBoundingClientRect) == null ? void 0 : j.call(l);
+      if (H && H.width >= 1 && H.height >= 1) {
         const U = {
-          x: I.left + I.width / 2,
-          y: I.top + I.height / 2
+          x: H.left + H.width / 2,
+          y: H.top + H.height / 2
         };
-        if (await ((F = (P = this.overlay).animateCursorTo) == null ? void 0 : F.call(P, s, U, this.ui.transitionMs)), !this.active || t !== this.token) return;
+        if (await ((O = (T = this.overlay).animateCursorTo) == null ? void 0 : O.call(T, s, U, this.ui.transitionMs)), !this.active || t !== this.token) return;
       }
     }
-    const d = e.action === "input" || ((O = e.waitFor) == null ? void 0 : O.type) === "input" || a || It(l), h = ((X = e == null ? void 0 : e.settings) == null ? void 0 : X.autoScroll) !== !1;
+    const d = e.action === "input" || (($ = e.waitFor) == null ? void 0 : $.type) === "input" || a || It(l), h = ((K = e == null ? void 0 : e.settings) == null ? void 0 : K.autoScroll) !== !1;
     if (this.overlay.highlight(c || l, h, {
       // Keep spotlight cutout for selects so the active field stays bright.
       blockOutside: !0,
@@ -3079,20 +3105,20 @@ class Bi {
         totalSteps: this.steps.length
       }
     }), d) {
-      let I = (q = l.matches) != null && q.call(l, "input, textarea, select, .p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? l : (($ = l.querySelector) == null ? void 0 : $.call(l, "input, textarea, select, .p-dropdown, .p-multiselect")) || l;
-      const U = (H = I.closest) == null ? void 0 : H.call(I, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
-      U && (I = U);
-      const R = Number((lt = e == null ? void 0 : e.settings) == null ? void 0 : lt.autoAdvanceDelay), j = this.autoAdvanceDelay;
-      Number.isFinite(R) && (this.autoAdvanceDelay = R);
-      const V = a || It(I) || !!U || ((tt = e.waitFor) == null ? void 0 : tt.mode) === "interaction";
-      this.watchInput(I, {
+      let H = (q = l.matches) != null && q.call(l, "input, textarea, select, .p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? l : ((R = l.querySelector) == null ? void 0 : R.call(l, "input, textarea, select, .p-dropdown, .p-multiselect")) || l;
+      const U = (D = H.closest) == null ? void 0 : D.call(H, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
+      U && (H = U);
+      const F = Number((et = e == null ? void 0 : e.settings) == null ? void 0 : et.autoAdvanceDelay), z = this.autoAdvanceDelay;
+      Number.isFinite(F) && (this.autoAdvanceDelay = F);
+      const Z = a || It(H) || !!U || ((tt = e.waitFor) == null ? void 0 : tt.mode) === "interaction";
+      this.watchInput(H, {
         ...e,
         waitFor: {
           type: "input",
           required: !0,
-          mode: V ? "interaction" : ((ct = e.waitFor) == null ? void 0 : ct.mode) || "value"
+          mode: Z ? "interaction" : ((ct = e.waitFor) == null ? void 0 : ct.mode) || "value"
         }
-      }, !0), this.autoAdvanceDelay = j;
+      }, !0), this.autoAdvanceDelay = z;
       return;
     }
     e.action === "click" && this.watchClick(l, e);
@@ -3105,7 +3131,7 @@ class Bi {
       const o = r.target instanceof Element ? r.target : null;
       if (!o || !(o === t || t.contains(o)) || !this.active || this.index !== s) return;
       this.overlay.hide(), this.clearWait();
-      const a = this.resolveNextIndex(s), c = Mi(o, t);
+      const a = this.resolveNextIndex(s), c = Ni(o, t);
       if ((l = this.onClickAdvance) == null || l.call(this, e, s, a, { mayNavigate: c }), await this.applyHideDelay(e), !!this.active) {
         if (a >= this.steps.length) {
           this.complete();
@@ -3136,7 +3162,7 @@ class Bi {
     const t = this.steps[this.index];
     if (!t) return !1;
     const e = ((i = this.overlay) == null ? void 0 : i.target) || ((r = this.overlay) == null ? void 0 : r.highlightHost);
-    if (!(e instanceof Element) || !e.isConnected || !Et(e) || !((a = (o = this.overlay) == null ? void 0 : o.root) != null && a.classList.contains("sg-overlay--visible"))) return !1;
+    if (!(e instanceof Element) || !e.isConnected || !xt(e) || !((a = (o = this.overlay) == null ? void 0 : o.root) != null && a.classList.contains("sg-overlay--visible"))) return !1;
     const s = this.findStepTarget(t);
     return s ? s === e || e.contains(s) || s.contains(e) : !1;
   }
@@ -3186,8 +3212,8 @@ class Bi {
     const i = this.index, r = (Ot = t == null ? void 0 : t.closest) == null ? void 0 : Ot.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
     r && (t = r);
     const o = t instanceof HTMLSelectElement, a = Gt(t), c = !!((pe = t == null ? void 0 : t.matches) != null && pe.call(t, ".p-autocomplete") || (dt = t == null ? void 0 : t.closest) != null && dt.call(t, ".p-autocomplete")), l = !!((ft = t == null ? void 0 : t.matches) != null && ft.call(t, ".p-multiselect") || ($t = t == null ? void 0 : t.closest) != null && $t.call(t, ".p-multiselect")), d = !!((Dt = t == null ? void 0 : t.matches) != null && Dt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") || (Vt = t == null ? void 0 : t.closest) != null && Vt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")), h = o || a || ((Ht = e.waitFor) == null ? void 0 : Ht.mode) === "interaction" || It(t) || d, p = t instanceof HTMLInputElement && ["date", "datetime-local", "time", "month", "week", "color", "range"].includes(t.type);
-    let u = !1, g = !1, f = !1, y = null, m = null, v = null, _ = null;
-    const E = o || p || h || d || c ? Math.min(this.autoAdvanceDelay || 0, 50) : this.autoAdvanceDelay, k = ((Ft = t.closest) == null ? void 0 : Ft.call(t, '.modal.show, .modal, [role="dialog"], .p-overlaypanel')) || document.querySelector('.modal.show, [role="dialog"], .p-overlaypanel') || document, w = je, T = [
+    let u = !1, g = !1, f = !1, b = null, m = null, v = null, w = null;
+    const C = o || p || h || d || c ? Math.min(this.autoAdvanceDelay || 0, 50) : this.autoAdvanceDelay, x = ((Ft = t.closest) == null ? void 0 : Ft.call(t, '.modal.show, .modal, [role="dialog"], .p-overlaypanel')) || document.querySelector('.modal.show, [role="dialog"], .p-overlaypanel') || document, _ = je, E = [
       ".p-dropdown-item",
       ".p-multiselect-item",
       ".p-autocomplete-item",
@@ -3199,12 +3225,12 @@ class Bi {
       ".n-base-select-option",
       ".vs__dropdown-option",
       ".multiselect__option"
-    ].join(", "), C = [
+    ].join(", "), k = [
       ".p-autocomplete-panel",
       ".p-dropdown-panel",
       ".p-multiselect-panel",
       ".p-cascadeselect-panel"
-    ].join(", "), N = [
+    ].join(", "), L = [
       "select",
       '[role="combobox"]',
       "input",
@@ -3235,141 +3261,141 @@ class Bi {
       ".mx-input-append",
       ".ant-picker-suffix",
       ".p-datepicker-trigger"
-    ].join(", "), G = (b) => !!(b instanceof Element && (b.matches(xe) || Rt(b))), D = () => {
-      var it, K, nt;
+    ].join(", "), I = (y) => !!(y instanceof Element && (y.matches(Ee) || Rt(y))), G = () => {
+      var nt, V, rt;
       if (!l || !(t instanceof Element)) return !1;
-      if (t.classList.contains("p-overlay-open") || t.classList.contains("p-inputwrapper-focus") && t.querySelector('[aria-expanded="true"]') || t.getAttribute("aria-expanded") === "true" || (it = t.querySelector) != null && it.call(t, '[aria-expanded="true"]')) return !0;
-      const b = document.querySelector(".p-multiselect-panel");
-      if (!(b instanceof Element)) return !1;
-      const S = (K = globalThis.getComputedStyle) == null ? void 0 : K.call(globalThis, b);
+      if (t.classList.contains("p-overlay-open") || t.classList.contains("p-inputwrapper-focus") && t.querySelector('[aria-expanded="true"]') || t.getAttribute("aria-expanded") === "true" || (nt = t.querySelector) != null && nt.call(t, '[aria-expanded="true"]')) return !0;
+      const y = document.querySelector(".p-multiselect-panel");
+      if (!(y instanceof Element)) return !1;
+      const S = (V = globalThis.getComputedStyle) == null ? void 0 : V.call(globalThis, y);
       if (S && (S.display === "none" || S.visibility === "hidden")) return !1;
-      const M = bt(b) || Kt();
-      return !!(M && (M === t || t.contains(M) || (nt = M.contains) != null && nt.call(M, t)));
-    }, Q = () => l && D(), z = () => {
-      var M, it;
-      const b = (M = t.matches) != null && M.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? t : (it = t.closest) == null ? void 0 : it.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
-      if (!b) return "";
-      const S = b.querySelector(".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
+      const A = bt(y) || Kt();
+      return !!(A && (A === t || t.contains(A) || (rt = A.contains) != null && rt.call(A, t)));
+    }, J = () => l && G(), j = () => {
+      var A, nt;
+      const y = (A = t.matches) != null && A.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? t : (nt = t.closest) == null ? void 0 : nt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
+      if (!y) return "";
+      const S = y.querySelector(".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
       return !S || S.classList.contains("p-placeholder") || S.classList.contains("p-dropdown-label-empty") ? "" : S instanceof HTMLInputElement ? String(S.value || "").trim() : String(S.textContent || "").trim();
-    }, P = () => {
+    }, T = () => {
       var S;
-      const b = t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement ? t : ((S = t.querySelector) == null ? void 0 : S.call(t, 'input:not([type="hidden"]), textarea, select')) || t;
-      return b instanceof HTMLInputElement && ["checkbox", "radio"].includes(b.type) ? String(b.checked) : b instanceof HTMLInputElement || b instanceof HTMLTextAreaElement || b instanceof HTMLSelectElement ? String(b.value ?? "") : z();
+      const y = t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement ? t : ((S = t.querySelector) == null ? void 0 : S.call(t, 'input:not([type="hidden"]), textarea, select')) || t;
+      return y instanceof HTMLInputElement && ["checkbox", "radio"].includes(y.type) ? String(y.checked) : y instanceof HTMLInputElement || y instanceof HTMLTextAreaElement || y instanceof HTMLSelectElement ? String(y.value ?? "") : j();
     };
-    let F = P();
-    const O = () => h ? u : t instanceof HTMLInputElement && ["checkbox", "radio"].includes(t.type) ? t.checked : d ? u || !!z() : String(P()).trim().length > 0, X = () => {
+    let O = T();
+    const $ = () => h ? u : t instanceof HTMLInputElement && ["checkbox", "radio"].includes(t.type) ? t.checked : d ? u || !!j() : String(T()).trim().length > 0, K = () => {
       this.onChange(e, i, {
-        waiting: s && !O(),
+        waiting: s && !$(),
         failed: !1,
         waitKind: h || d ? "choice" : "input"
       });
-    }, q = (b) => {
-      var it, K;
-      if (!(b instanceof Element)) return;
-      const S = de(b) || b;
-      if (this.overlay.target === S || this.overlay.highlightHost === S || this.overlay.target === b || this.overlay.highlightHost === b) {
-        (K = (it = this.overlay).refreshMenus) == null || K.call(it);
+    }, q = (y) => {
+      var nt, V;
+      if (!(y instanceof Element)) return;
+      const S = de(y) || y;
+      if (this.overlay.target === S || this.overlay.highlightHost === S || this.overlay.target === y || this.overlay.highlightHost === y) {
+        (V = (nt = this.overlay).refreshMenus) == null || V.call(nt);
         return;
       }
       this.overlay.highlight(S, !1, { blockOutside: !0 });
-    }, $ = !h && !d && !c, H = () => {
+    }, R = !h && !d && !c, D = () => {
       var S;
-      const b = t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement ? t : (S = t.querySelector) == null ? void 0 : S.call(t, 'input:not([type="hidden"]), textarea');
-      if (b instanceof HTMLElement)
+      const y = t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement ? t : (S = t.querySelector) == null ? void 0 : S.call(t, 'input:not([type="hidden"]), textarea');
+      if (y instanceof HTMLElement)
         try {
-          b.blur();
+          y.blur();
         } catch {
         }
       try {
         document.activeElement instanceof HTMLElement && document.activeElement.blur();
       } catch {
       }
-    }, lt = () => {
+    }, et = () => {
       this.active && this.index === i && this.next();
-    }, tt = (b = t) => {
-      var S, M;
-      !this.active || this.index !== i || u || (u = !0, F = P(), clearTimeout(y), (M = (S = this.overlay).hideGoChip) == null || M.call(S), b instanceof Element && (this.lastChoiceField = b, this.lastCompletedField = bt(b) || b), X(), H(), this.overlay.hide(), y = setTimeout(lt, $ ? Math.min(E, 120) : E));
+    }, tt = (y = t) => {
+      var S, A;
+      !this.active || this.index !== i || u || (u = !0, O = T(), clearTimeout(b), (A = (S = this.overlay).hideGoChip) == null || A.call(S), y instanceof Element && (this.lastChoiceField = y, this.lastCompletedField = bt(y) || y), K(), D(), this.overlay.hide(), b = setTimeout(et, R ? Math.min(C, 120) : C));
     }, ct = () => {
-      var b, S, M, it, K, nt;
-      if ($) {
+      var y, S, A, nt, V, rt;
+      if (R) {
         if (!this.active || this.index !== i || u) {
-          (S = (b = this.overlay).hideGoChip) == null || S.call(b);
+          (S = (y = this.overlay).hideGoChip) == null || S.call(y);
           return;
         }
-        O() ? (it = (M = this.overlay).showGoChip) == null || it.call(M, () => {
+        $() ? (nt = (A = this.overlay).showGoChip) == null || nt.call(A, () => {
           var ut, _t;
           if (!(!this.active || this.index !== i || u)) {
-            if (!O()) {
-              X(), (_t = (ut = this.overlay).hideGoChip) == null || _t.call(ut);
+            if (!$()) {
+              K(), (_t = (ut = this.overlay).hideGoChip) == null || _t.call(ut);
               return;
             }
             tt(t);
           }
-        }, "Go") : (nt = (K = this.overlay).hideGoChip) == null || nt.call(K);
+        }, "Go") : (rt = (V = this.overlay).hideGoChip) == null || rt.call(V);
       }
-    }, I = (b = t) => {
-      if (!this.active || this.index !== i || u || Q()) return;
-      if (!(h || d ? !0 : O())) {
-        X(), ct();
+    }, H = (y = t) => {
+      if (!this.active || this.index !== i || u || J()) return;
+      if (!(h || d ? !0 : $())) {
+        K(), ct();
         return;
       }
-      if ($) {
-        F = P(), X(), ct();
+      if (R) {
+        O = T(), K(), ct();
         return;
       }
       if (!this.autoAdvanceOnInput) {
-        u = !0, F = P(), b instanceof Element && (this.lastChoiceField = b, this.lastCompletedField = bt(b) || b), X();
+        u = !0, O = T(), y instanceof Element && (this.lastChoiceField = y, this.lastCompletedField = bt(y) || y), K();
         return;
       }
-      tt(b);
-    }, U = (b) => {
-      var nt, ut, _t, rt;
-      if (!(b instanceof Element)) return !1;
-      if (b === t || t.contains(b)) return !0;
-      const S = (nt = t.querySelector) == null ? void 0 : nt.call(t, "input, textarea, select");
-      if (S && (b === S || S.contains(b))) return !0;
-      const M = bt(b);
-      if (M && (M === t || t.contains(M) || (ut = M.contains) != null && ut.call(M, t)))
+      tt(y);
+    }, U = (y) => {
+      var rt, ut, _t, ot;
+      if (!(y instanceof Element)) return !1;
+      if (y === t || t.contains(y)) return !0;
+      const S = (rt = t.querySelector) == null ? void 0 : rt.call(t, "input, textarea, select");
+      if (S && (y === S || S.contains(y))) return !0;
+      const A = bt(y);
+      if (A && (A === t || t.contains(A) || (ut = A.contains) != null && ut.call(A, t)))
         return !0;
-      if (b.closest(C) && (c || d)) {
-        const pt = bt(b) || Kt();
+      if (y.closest(k) && (c || d)) {
+        const pt = bt(y) || Kt();
         if (pt && (pt === t || t.contains(pt) || (_t = pt.contains) != null && _t.call(pt, t)))
           return !0;
         const kt = Kt();
         return !!(kt && (kt === t || t.contains(kt)));
       }
-      const K = Kt();
-      return !!(K && (K === t || t.contains(K) || (rt = K.contains) != null && rt.call(K, t)));
-    }, R = (b = t) => {
-      !this.active || this.index !== i || u || Q() || (clearTimeout(y), y = setTimeout(() => I(b), 0));
-    }, j = () => {
-      !l || u || Q() || (f || P() !== F) && R(t);
-    }, V = (b) => {
-      const S = b == null ? void 0 : b.target;
+      const V = Kt();
+      return !!(V && (V === t || t.contains(V) || (ot = V.contains) != null && ot.call(V, t)));
+    }, F = (y = t) => {
+      !this.active || this.index !== i || u || J() || (clearTimeout(b), b = setTimeout(() => H(y), 0));
+    }, z = () => {
+      !l || u || J() || (f || T() !== O) && F(t);
+    }, Z = (y) => {
+      const S = y == null ? void 0 : y.target;
       if (c) {
         if (!f) return;
-        R(t);
+        F(t);
         return;
       }
       if (l) {
-        U(S instanceof Element ? S : t) && (f = !0, g = !0), j();
+        U(S instanceof Element ? S : t) && (f = !0, g = !0), z();
         return;
       }
-      if (!(d && !a && !o && ((b == null ? void 0 : b.type) === "input" || (b == null ? void 0 : b.type) === "change" && !f && !g))) {
-        if (h && S instanceof Element && (k.contains(S) || !!S.closest(w) || U(S)) && (S.matches("select, input, textarea") || It(S) || Rt(S))) {
-          if (d && S.matches("input, textarea") && !Rt(S) && (b == null ? void 0 : b.type) === "input")
+      if (!(d && !a && !o && ((y == null ? void 0 : y.type) === "input" || (y == null ? void 0 : y.type) === "change" && !f && !g))) {
+        if (h && S instanceof Element && (x.contains(S) || !!S.closest(_) || U(S)) && (S.matches("select, input, textarea") || It(S) || Rt(S))) {
+          if (d && S.matches("input, textarea") && !Rt(S) && (y == null ? void 0 : y.type) === "input")
             return;
-          R(bt(S) || t);
+          F(bt(S) || t);
           return;
         }
-        h && S instanceof Element && !U(S) || !h && !d && S instanceof Element && !U(S) || R(t);
+        h && S instanceof Element && !U(S) || !h && !d && S instanceof Element && !U(S) || F(t);
       }
-    }, Z = (b) => {
-      var pt, kt, Wt, Zt, jt, Xt, Nt, qt;
+    }, X = (y) => {
+      var pt, kt, Wt, Zt, jt, Xt, Lt, qt;
       if (!h || u) return;
-      const S = b.target instanceof Element ? b.target : null;
+      const S = y.target instanceof Element ? y.target : null;
       if (!S) return;
-      const M = k.contains(S), K = !!S.closest(w), nt = S.closest(T), ut = G(S);
+      const A = x.contains(S), V = !!S.closest(_), rt = S.closest(E), ut = I(S);
       if (l && !!S.closest([
         ".p-multiselect-close",
         ".p-multiselect-remove",
@@ -3377,54 +3403,54 @@ class Bi {
         '[data-pc-section="clearicon"]',
         ".p-multiselect-header .p-multiselect-close"
       ].join(", ")) && U(S)) {
-        g = !0, setTimeout(j, 40);
+        g = !0, setTimeout(z, 40);
         return;
       }
-      if ((nt || ut) && U(S)) {
-        if (g = !0, S.matches("input, textarea") && !nt && !ut) {
+      if ((rt || ut) && U(S)) {
+        if (g = !0, S.matches("input, textarea") && !rt && !ut) {
           (kt = (pt = this.overlay).refreshMenus) == null || kt.call(pt);
           return;
         }
-        if (c && !nt) {
+        if (c && !rt) {
           (Zt = (Wt = this.overlay).refreshMenus) == null || Zt.call(Wt);
           return;
         }
-        if (b.type === "pointerdown" || b.type === "pointerup" || b.type === "click" || ut) {
+        if (y.type === "pointerdown" || y.type === "pointerup" || y.type === "click" || ut) {
           if (f = !0, l) {
             (Xt = (jt = this.overlay).refreshMenus) == null || Xt.call(jt);
             return;
           }
-          R(bt(S) || Kt() || t);
+          F(bt(S) || Kt() || t);
         }
         return;
       }
-      if (!M && !K && !ut) {
-        l && g && setTimeout(j, 40);
+      if (!A && !V && !ut) {
+        l && g && setTimeout(z, 40);
         return;
       }
-      const rt = S.closest(N);
-      if (rt && (M || k.contains(rt)) && !K && !nt && !ut) {
+      const ot = S.closest(L);
+      if (ot && (A || x.contains(ot)) && !V && !rt && !ut) {
         g = !0;
-        const Pt = bt(rt) || rt;
-        if ((U(Pt) || U(rt)) && (q(Pt), (qt = (Nt = this.overlay).refreshMenus) == null || qt.call(Nt), l && setTimeout(j, 40)), rt instanceof HTMLSelectElement && b.type === "pointerdown") {
-          const ee = () => R(Pt), ge = Date.now();
-          rt.addEventListener("change", ee, { once: !0 }), rt.addEventListener("focusout", () => {
+        const Pt = bt(ot) || ot;
+        if ((U(Pt) || U(ot)) && (q(Pt), (qt = (Lt = this.overlay).refreshMenus) == null || qt.call(Lt), l && setTimeout(z, 40)), ot instanceof HTMLSelectElement && y.type === "pointerdown") {
+          const ee = () => F(Pt), ge = Date.now();
+          ot.addEventListener("change", ee, { once: !0 }), ot.addEventListener("focusout", () => {
             Date.now() - ge < 280 || setTimeout(ee, 40);
           }, { once: !0 });
         }
       }
     };
-    if (t.addEventListener("input", V), t.addEventListener("change", V), document.addEventListener("change", V, !0), document.addEventListener("input", V, !0), document.addEventListener("pointerdown", Z, !0), document.addEventListener("pointerup", Z, !0), document.addEventListener("click", Z, !0), d && typeof MutationObserver < "u") {
-      const b = (Ut = t.querySelector) == null ? void 0 : Ut.call(t, ".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
-      b && !c && (m = new MutationObserver(() => {
-        if (P() !== F) {
+    if (t.addEventListener("input", Z), t.addEventListener("change", Z), document.addEventListener("change", Z, !0), document.addEventListener("input", Z, !0), document.addEventListener("pointerdown", X, !0), document.addEventListener("pointerup", X, !0), document.addEventListener("click", X, !0), d && typeof MutationObserver < "u") {
+      const y = (Ut = t.querySelector) == null ? void 0 : Ut.call(t, ".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
+      y && !c && (m = new MutationObserver(() => {
+        if (T() !== O) {
           if (l) {
-            f = !0, g = !0, j();
+            f = !0, g = !0, z();
             return;
           }
-          R(t);
+          F(t);
         }
-      }), m.observe(b, {
+      }), m.observe(y, {
         characterData: !0,
         childList: !0,
         subtree: !0,
@@ -3435,42 +3461,42 @@ class Bi {
       S && (v = new MutationObserver(() => {
         if (!(!g || u) && S.getAttribute("aria-expanded") === "false" && !(c && !f)) {
           if (l) {
-            j();
+            z();
             return;
           }
-          (f || P() !== F) && R(t);
+          (f || T() !== O) && F(t);
         }
-      }), v.observe(S, { attributes: !0, attributeFilter: ["aria-expanded"] })), l && (_ = new MutationObserver(() => {
-        j();
-      }), _.observe(t, {
+      }), v.observe(S, { attributes: !0, attributeFilter: ["aria-expanded"] })), l && (w = new MutationObserver(() => {
+        z();
+      }), w.observe(t, {
         attributes: !0,
         attributeFilter: ["class", "aria-expanded"]
       }));
     }
-    const xt = setInterval(() => {
+    const Et = setInterval(() => {
       if (!u) {
         if (c) {
           if (!f) return;
-          R(t);
+          F(t);
           return;
         }
         if (l) {
-          P() !== F && (f = !0, g = !0), j();
+          T() !== O && (f = !0, g = !0), z();
           return;
         }
-        if (P() !== F) {
-          F = P(), R(t);
+        if (T() !== O) {
+          O = T(), F(t);
           return;
         }
-        $ && ct();
+        R && ct();
       }
-    }, 80), Lt = (b) => {
-      !$ || u || b.key === "Enter" && U(b.target instanceof Element ? b.target : t) && O() && (b.preventDefault(), tt(t));
+    }, 80), Mt = (y) => {
+      !R || u || y.key === "Enter" && U(y.target instanceof Element ? y.target : t) && $() && (y.preventDefault(), tt(t));
     };
     this.waitCleanup = () => {
-      var b, S;
-      clearTimeout(y), clearInterval(xt), m == null || m.disconnect(), v == null || v.disconnect(), _ == null || _.disconnect(), (S = (b = this.overlay).hideGoChip) == null || S.call(b), t.removeEventListener("input", V), t.removeEventListener("change", V), document.removeEventListener("change", V, !0), document.removeEventListener("input", V, !0), document.removeEventListener("keydown", Lt, !0), document.removeEventListener("pointerdown", Z, !0), document.removeEventListener("pointerup", Z, !0), document.removeEventListener("click", Z, !0);
-    }, X(), $ && (document.addEventListener("keydown", Lt, !0), ct());
+      var y, S;
+      clearTimeout(b), clearInterval(Et), m == null || m.disconnect(), v == null || v.disconnect(), w == null || w.disconnect(), (S = (y = this.overlay).hideGoChip) == null || S.call(y), t.removeEventListener("input", Z), t.removeEventListener("change", Z), document.removeEventListener("change", Z, !0), document.removeEventListener("input", Z, !0), document.removeEventListener("keydown", Mt, !0), document.removeEventListener("pointerdown", X, !0), document.removeEventListener("pointerup", X, !0), document.removeEventListener("click", X, !0);
+    }, K(), R && (document.addEventListener("keydown", Mt, !0), ct());
   }
   async applyHideDelay(t) {
     var s;
@@ -3509,7 +3535,7 @@ class Bi {
     this.stop();
   }
 }
-function J(n) {
+function Y(n) {
   const t = String(n || "/").trim() || "/";
   try {
     if (/^https?:\/\//i.test(t))
@@ -3520,7 +3546,7 @@ function J(n) {
   return e.startsWith("/") ? e : `/${e}`;
 }
 function Pi(n) {
-  return J(n).split("/").map((t) => t.trim()).filter(Boolean);
+  return Y(n).split("/").map((t) => t.trim()).filter(Boolean);
 }
 function Ii(n) {
   return String(n || "root").replace(/[-_]+/g, " ").replace(/\b\w/g, (t) => t.toUpperCase());
@@ -3534,7 +3560,7 @@ function Ri(n = []) {
   }), i.children.get(r));
   for (const i of n) {
     if (!i || typeof i != "object") continue;
-    const r = J(i.url || "/"), o = Pi(r);
+    const r = Y(i.url || "/"), o = Pi(r);
     if (!o.length) {
       t.guides.push(i);
       continue;
@@ -3552,10 +3578,10 @@ function Ri(n = []) {
   });
   return [s(t)].filter((i) => i.guides.length > 0 || i.children.length > 0);
 }
-function Es(n, t = 0, e = []) {
+function xs(n, t = 0, e = []) {
   for (const s of n || []) {
     const i = [];
-    Es(s.children, t + 1, i);
+    xs(s.children, t + 1, i);
     const r = s.guides || [];
     if (r.length) {
       e.push({ type: "section", depth: t, path: s.path, label: s.label });
@@ -3585,7 +3611,7 @@ const Gi = `
   <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/>
   <rect x="8.5" y="8.5" width="7" height="7" rx="1.2" fill="currentColor"/>
 </svg>`;
-function xs(n = "sg") {
+function Es(n = "sg") {
   return `
 <svg class="sg-siri" viewBox="0 0 80 80" aria-hidden="true" focusable="false">
   <defs>
@@ -3655,7 +3681,7 @@ function xs(n = "sg") {
   <ellipse cx="34" cy="19" rx="15" ry="5" fill="#ffffff" opacity="0.12" transform="rotate(-12 34 19)"/>
 </svg>`;
 }
-const Hi = xs("sgA"), Fi = xs("sgB"), Ui = `
+const Hi = Es("sgA"), Fi = Es("sgB"), Ui = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M9 3.75h6M5.25 6.75h13.5M8.25 6.75V18a1.5 1.5 0 0 0 1.5 1.5h4.5a1.5 1.5 0 0 0 1.5-1.5V6.75" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M10.5 10.5v6M13.5 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
@@ -3910,8 +3936,8 @@ class Vi {
         return;
       }
       if (e === "search-select") {
-        const f = (c = t.target.closest("[data-guide-id]")) == null ? void 0 : c.dataset.guideId, y = (l = this.searchGuides) == null ? void 0 : l.find((m) => m.id === f);
-        y && this.selectSearchGuide(y);
+        const f = (c = t.target.closest("[data-guide-id]")) == null ? void 0 : c.dataset.guideId, b = (l = this.searchGuides) == null ? void 0 : l.find((m) => m.id === f);
+        b && this.selectSearchGuide(b);
         return;
       }
       if (e === "close-picker" && this.hideGuideOptions(), e === "open-manage") {
@@ -3919,10 +3945,10 @@ class Vi {
         this.hideGuideOptions(), (d = this.onOpenManage) == null || d.call(this);
       }
       if (e === "select-guide") {
-        const f = (h = t.target.closest("[data-guide-id]")) == null ? void 0 : h.dataset.guideId, y = (p = this.guides) == null ? void 0 : p.find((m) => m.id === f);
-        if (y) {
+        const f = (h = t.target.closest("[data-guide-id]")) == null ? void 0 : h.dataset.guideId, b = (p = this.guides) == null ? void 0 : p.find((m) => m.id === f);
+        if (b) {
           const m = this.onSelectGuide;
-          this.hideGuideOptions(), m == null || m(y);
+          this.hideGuideOptions(), m == null || m(b);
         }
       }
       if (e === "delete-guide") {
@@ -4058,39 +4084,39 @@ class Vi {
     const g = document.createElement("div");
     if (g.className = "sg-guide-picker__list", t.length)
       if (s) {
-        const f = Es(Ri(t));
-        let y = 0;
+        const f = xs(Ri(t));
+        let b = 0;
         f.forEach((m) => {
           if (m.type === "section") {
             const v = document.createElement("div");
             v.className = "sg-guide-picker__section", v.style.setProperty("--sg-toc-depth", String(m.depth));
-            const _ = J(i), E = J(m.path);
-            (_ === E || E !== "/" && _.startsWith(`${E}/`)) && v.classList.add("is-current");
-            const k = document.createElement("span");
-            k.className = "sg-guide-picker__section-label", k.textContent = m.label;
-            const w = document.createElement("span");
-            w.className = "sg-guide-picker__section-meta";
-            const T = document.createElement("span");
-            T.className = "sg-guide-picker__section-path", T.textContent = m.path;
-            const C = document.createElement("button");
-            C.type = "button", C.className = "sg-guide-picker__copy-path", C.title = "Copy path", C.setAttribute("aria-label", `Copy ${m.path}`), C.innerHTML = qi, C.addEventListener("click", async (N) => {
-              var G, D;
-              N.preventDefault(), N.stopPropagation();
+            const w = Y(i), C = Y(m.path);
+            (w === C || C !== "/" && w.startsWith(`${C}/`)) && v.classList.add("is-current");
+            const x = document.createElement("span");
+            x.className = "sg-guide-picker__section-label", x.textContent = m.label;
+            const _ = document.createElement("span");
+            _.className = "sg-guide-picker__section-meta";
+            const E = document.createElement("span");
+            E.className = "sg-guide-picker__section-path", E.textContent = m.path;
+            const k = document.createElement("button");
+            k.type = "button", k.className = "sg-guide-picker__copy-path", k.title = "Copy path", k.setAttribute("aria-label", `Copy ${m.path}`), k.innerHTML = qi, k.addEventListener("click", async (L) => {
+              var I, G;
+              L.preventDefault(), L.stopPropagation();
               try {
-                await ((D = (G = navigator.clipboard) == null ? void 0 : G.writeText) == null ? void 0 : D.call(G, m.path)), C.classList.add("is-copied"), setTimeout(() => C.classList.remove("is-copied"), 900);
+                await ((G = (I = navigator.clipboard) == null ? void 0 : I.writeText) == null ? void 0 : G.call(I, m.path)), k.classList.add("is-copied"), setTimeout(() => k.classList.remove("is-copied"), 900);
               } catch {
               }
-            }), w.append(T, C), v.append(k, w), g.append(v);
+            }), _.append(E, k), v.append(x, _), g.append(v);
             return;
           }
-          y += 1, g.append(this.createGuideRow(m.guide, y, {
+          b += 1, g.append(this.createGuideRow(m.guide, b, {
             depth: m.depth,
             currentUrl: i
           }));
         });
       } else
-        t.forEach((f, y) => {
-          g.append(this.createGuideRow(f, y + 1, { depth: 0, currentUrl: i }));
+        t.forEach((f, b) => {
+          g.append(this.createGuideRow(f, b + 1, { depth: 0, currentUrl: i }));
         });
     else {
       const f = document.createElement("div");
@@ -4101,8 +4127,8 @@ class Vi {
   createGuideRow(t, e, { depth: s = 0, currentUrl: i = "/" } = {}) {
     const r = document.createElement("div");
     r.className = "sg-guide-picker__row", r.dataset.guideId = t.id, r.style.setProperty("--sg-toc-depth", String(s));
-    const o = J(t.url || "/");
-    o === J(i) && r.classList.add("is-current-page");
+    const o = Y(t.url || "/");
+    o === Y(i) && r.classList.add("is-current-page");
     const a = document.createElement("button");
     a.type = "button", a.className = "sg-guide-picker__option", a.dataset.action = "select-guide", a.dataset.guideId = t.id;
     const c = document.createElement("span");
@@ -4111,16 +4137,16 @@ class Vi {
     l.className = "sg-guide-picker__copy";
     const d = document.createElement("strong"), h = String(t.title || "Untitled guide").trim(), p = h.split(" · "), u = (p[0] || "Untitled guide").trim(), g = p.slice(1).join(" · ").trim(), f = /^\d+\s+steps?$/i.test(u);
     d.textContent = f ? g || "Untitled guide" : h;
-    const y = document.createElement("small"), m = Array.isArray(t.steps) ? t.steps.length : Number(t.steps) || 0, v = document.createElement("span");
+    const b = document.createElement("small"), m = Array.isArray(t.steps) ? t.steps.length : Number(t.steps) || 0, v = document.createElement("span");
     v.className = "sg-guide-picker__path", v.textContent = o;
-    const _ = document.createElement("span");
-    _.className = "sg-guide-picker__dot", _.textContent = "·";
-    const E = document.createElement("span");
-    E.textContent = `${m} step${m === 1 ? "" : "s"}`, y.append(v, _, E), l.append(d, y);
-    const k = document.createElement("span");
-    k.className = "sg-guide-picker__play", k.setAttribute("aria-hidden", "true"), k.innerHTML = zi, a.append(c, l, k);
-    const w = document.createElement("button");
-    return w.type = "button", w.className = "sg-guide-picker__delete", w.dataset.action = "delete-guide", w.dataset.guideId = t.id, w.setAttribute("aria-label", `Delete ${t.title || "guide"}`), w.title = "Delete guide", w.innerHTML = Ui, this.readOnly && (w.hidden = !0), r.append(a, w), r;
+    const w = document.createElement("span");
+    w.className = "sg-guide-picker__dot", w.textContent = "·";
+    const C = document.createElement("span");
+    C.textContent = `${m} step${m === 1 ? "" : "s"}`, b.append(v, w, C), l.append(d, b);
+    const x = document.createElement("span");
+    x.className = "sg-guide-picker__play", x.setAttribute("aria-hidden", "true"), x.innerHTML = zi, a.append(c, l, x);
+    const _ = document.createElement("button");
+    return _.type = "button", _.className = "sg-guide-picker__delete", _.dataset.action = "delete-guide", _.dataset.guideId = t.id, _.setAttribute("aria-label", `Delete ${t.title || "guide"}`), _.title = "Delete guide", _.innerHTML = Ui, this.readOnly && (_.hidden = !0), r.append(a, _), r;
   }
   hideGuideOptions() {
     this.optionsRoot.hidden = !0, this.optionsRoot.replaceChildren(), this.guides = null, this.onSelectGuide = null, this.syncClosedRail();
@@ -4232,27 +4258,27 @@ function nn(n = "pathname") {
   var t;
   return sn((t = globalThis.location) == null ? void 0 : t.href, n);
 }
-function Ls(n) {
+function Ms(n) {
   return `${n || "system-guider"}:by-url`;
 }
 function qe(n) {
   if (typeof localStorage > "u") return {};
   try {
-    const t = localStorage.getItem(Ls(n)), e = t ? JSON.parse(t) : {};
+    const t = localStorage.getItem(Ms(n)), e = t ? JSON.parse(t) : {};
     return e && typeof e == "object" ? e : {};
   } catch {
     return {};
   }
 }
-function Ns(n, t) {
-  typeof localStorage > "u" || localStorage.setItem(Ls(n), JSON.stringify(t));
+function Ls(n, t) {
+  typeof localStorage > "u" || localStorage.setItem(Ms(n), JSON.stringify(t));
 }
 function ze(n) {
   return Array.isArray(n) ? n.filter(Boolean) : n ? [n] : [];
 }
 function be(n, t, e) {
   const s = qe(n), i = ze(s[t]), r = i.findIndex((o) => (o == null ? void 0 : o.id) === e.id);
-  return r >= 0 ? i[r] = e : i.push(e), s[t] = i, Ns(n, s), i;
+  return r >= 0 ? i[r] = e : i.push(e), s[t] = i, Ls(n, s), i;
 }
 function rn(n) {
   const t = qe(n), e = [];
@@ -4264,7 +4290,7 @@ function rn(n) {
 }
 function on(n, t, e) {
   const s = qe(n), i = ze(s[t]).filter((r) => (r == null ? void 0 : r.id) !== e);
-  return i.length ? s[t] = i : delete s[t], Ns(n, s), i;
+  return i.length ? s[t] = i : delete s[t], Ls(n, s), i;
 }
 function Ke(n) {
   return `${n || "system-guider"}:pending-play`;
@@ -4285,15 +4311,15 @@ function an(n) {
 function ae(n) {
   typeof sessionStorage > "u" || sessionStorage.removeItem(Ke(n));
 }
-function Ms(n) {
+function Ns(n) {
   return String(n || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "untitled";
 }
 function ln(n) {
-  const t = String(n || "/").split(/[\\/]+/).map((e) => e.trim()).filter(Boolean).map(Ms);
+  const t = String(n || "/").split(/[\\/]+/).map((e) => e.trim()).filter(Boolean).map(Ns);
   return t.length ? t.join("/") : "root";
 }
 function cn(n) {
-  return `${Ms((n == null ? void 0 : n.title) || (n == null ? void 0 : n.id) || "guide")}.json`;
+  return `${Ns((n == null ? void 0 : n.title) || (n == null ? void 0 : n.id) || "guide")}.json`;
 }
 function Fe(n, t = n == null ? void 0 : n.url) {
   return `${ln(t)}/${cn(n)}`;
@@ -4465,10 +4491,10 @@ class yn {
       fileStorage: !1,
       ...t,
       labels: { ...mn, ...t.labels }
-    }, this.settings = Mt({
+    }, this.settings = Nt({
       ...ys(),
       ...t.settings || {}
-    }), this.options.resetBeforePlay = this.settings.resetBeforePlay || this.options.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay ?? this.options.resetBeforePlayDelay, oe(this.settings), this.fileStorage = dn(this.options.fileStorage), this.fileGuides = [], this.guideSaveTimer = null, this.settingsSaveTimer = null, this.apiReady = !this.fileStorage, this.apiProbeTimer = null, this.guide = le(this.getUrlKey()), this.mode = "idle", this.dirty = !1, this.recordingAppend = !1, this.destroyed = !1, this.recordingStepsBaseline = 0, this.panelVisible = !this.options.showLauncher, this.readOnly = !1, this.bypassUnlocked = !1, this.launcherVisible = this.options.showLauncher !== !1, this.accountId = t.accountId ?? null, this.overlay = new Ni({
+    }), this.options.resetBeforePlay = this.settings.resetBeforePlay || this.options.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay ?? this.options.resetBeforePlayDelay, oe(this.settings), this.fileStorage = dn(this.options.fileStorage), this.fileGuides = [], this.guideSaveTimer = null, this.settingsSaveTimer = null, this.apiReady = !this.fileStorage, this.apiProbeTimer = null, this.guide = le(this.getUrlKey()), this.mode = "idle", this.dirty = !1, this.recordingAppend = !1, this.destroyed = !1, this.recordingStepsBaseline = 0, this.panelVisible = !this.options.showLauncher, this.readOnly = !1, this.bypassUnlocked = !1, this.launcherVisible = this.options.showLauncher !== !1, this.accountId = t.accountId ?? null, this.overlay = new Li({
       ...this.options,
       skipLabel: ((e = this.options.labels) == null ? void 0 : e.skip) || "Skip Step",
       onSkip: () => this.skip(),
@@ -4498,8 +4524,8 @@ class yn {
       onChange: (u, g, f) => this.onPlaybackChange(u, g, f),
       onFail: (u, g) => this.onPlaybackFail(u, g),
       onComplete: () => this.onPlaybackComplete(),
-      onClickAdvance: (u, g, f, y) => {
-        this.persistPlaybackProgress(f, y);
+      onClickAdvance: (u, g, f, b) => {
+        this.persistPlaybackProgress(f, b);
       }
     }), this.playbackResumeTimer = null, this.panel = new Ks({
       labels: this.options.labels,
@@ -4559,7 +4585,7 @@ class yn {
       try {
         const a = await gn(this.fileStorage);
         if (!a) return;
-        this.settings = Mt({
+        this.settings = Nt({
           ...this.settings,
           ...a,
           ...this.options.settings || {}
@@ -4690,8 +4716,8 @@ class yn {
     return this.getGuidesForCurrentPage()[0] || null;
   }
   getGuidesForCurrentPage() {
-    const t = J(this.getUrlKey());
-    return this.getAllGuides().filter((e) => J(e.url || "/") === t);
+    const t = Y(this.getUrlKey());
+    return this.getAllGuides().filter((e) => Y(e.url || "/") === t);
   }
   getAllGuides() {
     const t = [];
@@ -4756,7 +4782,7 @@ class yn {
   async playGuide(t) {
     var r;
     this.assertUsable();
-    const e = vt(t), s = J(e.url || "/"), i = J(this.getUrlKey());
+    const e = vt(t), s = Y(e.url || "/"), i = Y(this.getUrlKey());
     if (s !== i) {
       if (ve(this.options.storageKey, {
         guideId: e.id,
@@ -4779,7 +4805,7 @@ class yn {
     if (this.assertUsable(), this.readOnly) return this;
     if (!t) return this;
     if (!((r = globalThis.confirm) != null && r.call(globalThis, "Delete this page guide? This cannot be undone."))) return this;
-    const e = this.getAllGuides().find((c) => c.id === t), s = J((e == null ? void 0 : e.url) || this.getUrlKey());
+    const e = this.getAllGuides().find((c) => c.id === t), s = Y((e == null ? void 0 : e.url) || this.getUrlKey());
     this.options.guidesByUrl && on(this.options.storageKey, s, t), this.fileGuides = (this.fileGuides || []).filter((c) => c.id !== t), this.fileStorage && e && un(this.fileStorage, {
       guideId: t,
       urlKey: s,
@@ -4788,7 +4814,7 @@ class yn {
     });
     const i = this.getAllGuides().filter((c) => c.id !== t);
     if (((o = this.guide) == null ? void 0 : o.id) === t) {
-      const c = i.find((l) => J(l.url) === J(this.getUrlKey())) || i[0];
+      const c = i.find((l) => Y(l.url) === Y(this.getUrlKey())) || i[0];
       c ? this.load(c, { dirty: !1, mode: this.mode === "manage-routes" ? "manage-routes" : "idle" }) : (this.guide = le(this.getUrlKey()), this.mode = this.mode === "manage-routes" ? "manage-routes" : "idle", this.dirty = !1, this.persistDraft());
     }
     return this.syncLauncher(), this.render(), i.length && this.launcher && !this.launcher.optionsRoot.hidden ? this.launcher.showGuideOptions(
@@ -4802,7 +4828,7 @@ class yn {
     if (!e && r.resetBeforePlay === "reload")
       return ve(this.options.storageKey, {
         guideId: i.id,
-        urlKey: J(i.url || this.getUrlKey()),
+        urlKey: Y(i.url || this.getUrlKey()),
         guide: i,
         stepIndex: 0
       }), globalThis.location.reload(), this;
@@ -4830,7 +4856,7 @@ class yn {
   resumePendingPlay({ soft: t = !1 } = {}) {
     const e = an(this.options.storageKey);
     if (!(e != null && e.guideId) && !(e != null && e.guide)) return;
-    const s = !!e.resumeAnyUrl, i = J(e.urlKey || "/"), r = J(this.getUrlKey());
+    const s = !!e.resumeAnyUrl, i = Y(e.urlKey || "/"), r = Y(this.getUrlKey());
     if (e.urlKey && !s && i !== r) {
       t && (ve(this.options.storageKey, e), window.setTimeout(() => this.resumePendingPlay({ soft: !0 }), 300));
       return;
@@ -4873,7 +4899,7 @@ class yn {
   }
   /** Effective navigation settings: per-guide first, then global defaults. */
   getGuidePlaybackSettings(t = this.guide) {
-    const e = Mt(this.settings), s = t != null && t.settings && typeof t.settings == "object" ? t.settings : {};
+    const e = Nt(this.settings), s = t != null && t.settings && typeof t.settings == "object" ? t.settings : {};
     return {
       reloadOnNavigate: s.reloadOnNavigate != null ? !!s.reloadOnNavigate : e.reloadOnNavigate,
       resetBeforePlay: s.resetBeforePlay === "reload" || s.resetBeforePlay === "none" ? s.resetBeforePlay : e.resetBeforePlay,
@@ -4893,7 +4919,7 @@ class yn {
     var r, o, a, c, l, d, h, p;
     if (this.readOnly && (t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin" || t === "showAccountId" || t === "reloadOnNavigate" || t === "resetBeforePlay" || t === "resetBeforePlayDelay" || t === "theme" || String(t || "").startsWith("launcher.") || String(t || "").startsWith("ui.")))
       return this;
-    const s = Mt({ ...this.settings });
+    const s = Nt({ ...this.settings });
     if (t === "reloadOnNavigate" && (s.reloadOnNavigate = !!e), t === "resetBeforePlay" && (s.resetBeforePlay = e ? "reload" : "none"), t === "resetBeforePlayDelay" && (s.resetBeforePlayDelay = Math.max(0, Number(e) || 0)), t === "theme" && (s.theme = String(e || "dark").toLowerCase() === "light" ? "light" : "dark"), t === "editorAccountIds" && (s.editorAccountIds = e), t === "hiddenUrls" && (s.hiddenUrls = e), t === "bypassPin" && (s.bypassPin = e), t === "showAccountId" && (s.showAccountId = !!e), String(t || "").startsWith("launcher.")) {
       const u = String(t).slice(9), g = { ...s.launcher };
       u === "size" && (g.size = Number(e)), u === "position" && (g.position = String(e || "bottom-right")), u === "animations" && (g.animations = !!e), s.launcher = g;
@@ -4910,11 +4936,11 @@ class yn {
       } else u === "transitionMs" ? g.transitionMs = Math.max(0, Math.round(Number(e) || 0)) : u === "fontFamily" ? g.fontFamily = String(e || "system") : ["tipBg", "tipText", "skipBg", "skipText", "spotlightColor"].includes(u) && (g[u] = String(e || ""));
       s.ui = g;
     }
-    return this.settings = Mt(s), this.options.resetBeforePlay = this.settings.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay, oe(this.settings), (o = (r = this.overlay) == null ? void 0 : r.applyUiSettings) == null || o.call(r, this.settings.ui), (c = (a = this.player) == null ? void 0 : a.setUiOptions) == null || c.call(a, this.settings.ui), (d = (l = this.launcher) == null ? void 0 : l.setLauncherSettings) == null || d.call(l, this.settings.launcher), this.scheduleSettingsSave(), (t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin") && this.applyAccessPolicy(), t === "showAccountId" && ((p = (h = this.launcher) == null ? void 0 : h.setShowAccountId) == null || p.call(h, this.settings.showAccountId)), t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin" || t === "showAccountId" || String(t || "").startsWith("launcher.") || String(t || "").startsWith("ui.") && (t.includes("Bg") || t.includes("Text") || t.includes("Color") || t === "ui.overlayOpacity" || t === "ui.transitionMs" || t === "ui.fontFamily") || this.render(), this;
+    return this.settings = Nt(s), this.options.resetBeforePlay = this.settings.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay, oe(this.settings), (o = (r = this.overlay) == null ? void 0 : r.applyUiSettings) == null || o.call(r, this.settings.ui), (c = (a = this.player) == null ? void 0 : a.setUiOptions) == null || c.call(a, this.settings.ui), (d = (l = this.launcher) == null ? void 0 : l.setLauncherSettings) == null || d.call(l, this.settings.launcher), this.scheduleSettingsSave(), (t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin") && this.applyAccessPolicy(), t === "showAccountId" && ((p = (h = this.launcher) == null ? void 0 : h.setShowAccountId) == null || p.call(h, this.settings.showAccountId)), t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin" || t === "showAccountId" || String(t || "").startsWith("launcher.") || String(t || "").startsWith("ui.") && (t.includes("Bg") || t.includes("Text") || t.includes("Color") || t === "ui.overlayOpacity" || t === "ui.transitionMs" || t === "ui.fontFamily") || this.render(), this;
   }
   resetUiSettings() {
     var t, e, s, i;
-    return this.settings = Mt({
+    return this.settings = Nt({
       ...this.settings,
       ui: Ue()
     }), oe(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (i = (s = this.player) == null ? void 0 : s.setUiOptions) == null || i.call(s, this.settings.ui), this.scheduleSettingsSave(), this.render(), this;
@@ -4928,8 +4954,8 @@ class yn {
   async flushSettingsSave() {
     var s, i;
     if (!this.fileStorage) return;
-    const t = Mt(this.settings), e = await fn(this.fileStorage, t);
-    e != null && e.settings && typeof e.settings == "object" && (this.settings = Mt({
+    const t = Nt(this.settings), e = await fn(this.fileStorage, t);
+    e != null && e.settings && typeof e.settings == "object" && (this.settings = Nt({
       ...this.settings,
       ...e.settings
     }), (i = (s = this.launcher) == null ? void 0 : s.setBypassPin) == null || i.call(s, this.settings.bypassPin), this.applyAccessPolicy());
@@ -4953,12 +4979,12 @@ class yn {
   async flushGuideSave() {
     if (this.guide) {
       if (this.fileStorage) {
-        const t = J(this.guide.url || this.getUrlKey());
+        const t = Y(this.guide.url || this.getUrlKey());
         Array.isArray(this.fileGuides) && (this.fileGuides = this.fileGuides.map((e) => e.id === this.guide.id ? { ...this.guide } : e)), await we(this.fileStorage, this.guide, t);
         return;
       }
       if (this.options.guidesByUrl) {
-        be(this.options.storageKey, J(this.guide.url || this.getUrlKey()), this.guide);
+        be(this.options.storageKey, Y(this.guide.url || this.getUrlKey()), this.guide);
         return;
       }
       this.persistDraft();
@@ -4970,10 +4996,10 @@ class yn {
     let r = ((a = this.guide) == null ? void 0 : a.id) === i ? this.guide : this.getAllGuides().find((l) => l.id === i);
     if (!r) return this;
     if (r = { ...r, settings: { ...r.settings || {} } }, e === "autoScroll" && (s ? delete r.settings.autoScroll : r.settings.autoScroll = !1), e === "reloadOnNavigate" && (s ? r.settings.reloadOnNavigate = !0 : delete r.settings.reloadOnNavigate), e === "resetBeforePlay" && (s ? r.settings.resetBeforePlay = "reload" : delete r.settings.resetBeforePlay), Object.keys(r.settings).length === 0 && delete r.settings, ((c = this.guide) == null ? void 0 : c.id) === r.id && (this.guide = r, this.dirty = !0, this.persistDraft()), Array.isArray(this.fileGuides) && (this.fileGuides = this.fileGuides.map((l) => l.id === r.id ? { ...l, ...r } : l)), this.fileStorage) {
-      const l = J(r.url || this.getUrlKey());
+      const l = Y(r.url || this.getUrlKey());
       we(this.fileStorage, r, l).then(() => this.reloadFileGuides()).catch(() => {
       });
-    } else this.options.guidesByUrl && be(this.options.storageKey, J(r.url || "/"), r);
+    } else this.options.guidesByUrl && be(this.options.storageKey, Y(r.url || "/"), r);
     return this.render(), this;
   }
   togglePanel() {
@@ -4992,9 +5018,9 @@ class yn {
     this.mode !== "recording" && (this.panelVisible = !1, this.panel.setVisible(!1), this.syncLauncher());
   }
   syncLauncher() {
-    var e, s, i, r, o, a, c, l, d, h, p, u, g, f, y, m, v, _;
+    var e, s, i, r, o, a, c, l, d, h, p, u, g, f, b, m, v, w;
     const t = this.getAllGuides().length;
-    (e = this.launcher) == null || e.setApiReady(this.apiReady), (s = this.launcher) == null || s.setReadOnly(this.readOnly), (o = (i = this.launcher) == null ? void 0 : i.setBypassPin) == null || o.call(i, (r = this.settings) == null ? void 0 : r.bypassPin), (l = (a = this.launcher) == null ? void 0 : a.setShowAccountId) == null || l.call(a, !!((c = this.settings) != null && c.showAccountId)), (p = (d = this.launcher) == null ? void 0 : d.setLauncherSettings) == null || p.call(d, (h = this.settings) == null ? void 0 : h.launcher), (g = (u = this.launcher) == null ? void 0 : u.setAccountId) == null || g.call(u, this.accountId), (f = this.launcher) == null || f.setVisible(this.launcherVisible), (y = this.launcher) == null || y.setSearchData(this.getAllGuides(), this.getUrlKey()), (m = this.launcher) == null || m.setPlayState(t), (v = this.launcher) == null || v.setPanelOpen(this.panelVisible), (_ = this.launcher) == null || _.setPlaying(this.mode === "playback");
+    (e = this.launcher) == null || e.setApiReady(this.apiReady), (s = this.launcher) == null || s.setReadOnly(this.readOnly), (o = (i = this.launcher) == null ? void 0 : i.setBypassPin) == null || o.call(i, (r = this.settings) == null ? void 0 : r.bypassPin), (l = (a = this.launcher) == null ? void 0 : a.setShowAccountId) == null || l.call(a, !!((c = this.settings) != null && c.showAccountId)), (p = (d = this.launcher) == null ? void 0 : d.setLauncherSettings) == null || p.call(d, (h = this.settings) == null ? void 0 : h.launcher), (g = (u = this.launcher) == null ? void 0 : u.setAccountId) == null || g.call(u, this.accountId), (f = this.launcher) == null || f.setVisible(this.launcherVisible), (b = this.launcher) == null || b.setSearchData(this.getAllGuides(), this.getUrlKey()), (m = this.launcher) == null || m.setPlayState(t), (v = this.launcher) == null || v.setPanelOpen(this.panelVisible), (w = this.launcher) == null || w.setPlaying(this.mode === "playback");
   }
   onUrlChange() {
     if (this.applyAccessPolicy(), this.mode === "recording") return;
@@ -5228,7 +5254,7 @@ class yn {
   }
   /** Persist one guide to local map + backend (file storage) without changing the active editor. */
   async persistImportedGuide(t) {
-    const e = vt(t), s = J(e.url || "/");
+    const e = vt(t), s = Y(e.url || "/");
     if (e.url = s, this.options.guidesByUrl && be(this.options.storageKey, s, e), Array.isArray(this.fileGuides)) {
       const i = this.fileGuides.findIndex((r) => r.id === e.id);
       i >= 0 ? this.fileGuides[i] = { ...e } : this.fileGuides = [...this.fileGuides, { ...e }];

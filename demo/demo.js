@@ -40,6 +40,8 @@ const guider = SystemGuider.init({
   settings: {
     editorAccountIds: ['demo-editor'],
     showAccountId: true,
+    // Demo lives at `/` (and GitHub Pages); don't hide the orb on the home path.
+    hiddenUrls: [],
   },
   guides: {
     [DEMO_URL]: [
