@@ -298,7 +298,8 @@ export class Guider {
       || canAccountManageGuides(this.accountId, this.settings?.editorAccountIds)
     this.setReadOnly(!canManage)
     const pathHidden = isUrlHiddenForGuider(this.getUrlKey(), this.settings?.hiddenUrls)
-    const show = this.options.showLauncher !== false && !pathHidden
+    const orbEnabled = this.settings?.showOrb !== false
+    const show = this.options.showLauncher !== false && orbEnabled && !pathHidden
     this.setLauncherVisible(show)
     this.launcher?.setBypassPin?.(this.settings?.bypassPin)
     this.launcher?.setShowAccountId?.(Boolean(this.settings?.showAccountId))
@@ -777,7 +778,7 @@ export class Guider {
 
   updateSetting(key, value) {
     if (this.readOnly && (key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin'
-      || key === 'showAccountId'
+      || key === 'showAccountId' || key === 'showOrb'
       || key === 'reloadOnNavigate' || key === 'resetBeforePlay' || key === 'resetBeforePlayDelay'
       || key === 'theme'
       || String(key || '').startsWith('launcher.')
@@ -793,6 +794,7 @@ export class Guider {
     if (key === 'hiddenUrls') next.hiddenUrls = value
     if (key === 'bypassPin') next.bypassPin = value
     if (key === 'showAccountId') next.showAccountId = Boolean(value)
+    if (key === 'showOrb') next.showOrb = Boolean(value)
 
     if (String(key || '').startsWith('launcher.')) {
       const launcherKey = String(key).slice(9)
@@ -833,14 +835,15 @@ export class Guider {
     this.player?.setUiOptions?.(this.settings.ui)
     this.launcher?.setLauncherSettings?.(this.settings.launcher)
     this.scheduleSettingsSave()
-    if (key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin') {
+    if (key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin' || key === 'showOrb') {
       this.applyAccessPolicy()
     }
     if (key === 'showAccountId') {
       this.launcher?.setShowAccountId?.(this.settings.showAccountId)
     }
 
-    const skipRender = key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin' || key === 'showAccountId'
+    const skipRender = key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin'
+      || key === 'showAccountId' || key === 'showOrb'
       || String(key || '').startsWith('launcher.') || (String(key || '').startsWith('ui.') && (
       key.includes('Bg') || key.includes('Text') || key.includes('Color')
       || key === 'ui.overlayOpacity' || key === 'ui.transitionMs' || key === 'ui.fontFamily'

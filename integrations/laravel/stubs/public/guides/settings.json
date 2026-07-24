@@ -6,6 +6,7 @@
   "editorAccountIds": [],
   "bypassPin": "123456",
   "showAccountId": false,
+  "showOrb": true,
   "hiddenUrls": ["/login"],
   "launcher": {
     "size": 80,

@@ -435,6 +435,7 @@ export class Panel {
 
     const header = document.createElement('header')
     header.className = 'sg-panel__header'
+    if (collapsed) header.classList.add('sg-panel__header--collapsed')
     const brand = document.createElement('div')
     brand.className = 'sg-panel__brand'
     const brandIcon = document.createElement('span')
@@ -778,7 +779,7 @@ export class Panel {
       const editor = document.createElement('section')
       editor.className = 'sg-guide-editor'
 
-      const guideField = document.createElement('label')
+      const guideField = document.createElement('div')
       guideField.className = 'sg-guide-field sg-guide-field--rename'
       const nameLabel = document.createElement('span')
       nameLabel.className = 'sg-guide-field__label-row'
@@ -1490,6 +1491,15 @@ export class Panel {
     bypassWrap.append(bypassInput, bypassToggle)
     bypassField.append(bypassWrap)
     access.append(bypassField)
+
+    const showOrbRow = document.createElement('label')
+    showOrbRow.className = 'sg-check sg-settings__row'
+    const showOrbToggle = document.createElement('input')
+    showOrbToggle.type = 'checkbox'
+    showOrbToggle.dataset.setting = 'showOrb'
+    showOrbToggle.checked = settings.showOrb !== false
+    showOrbRow.append(showOrbToggle, document.createTextNode(' Show floating orb (off = hide System Guider)'))
+    access.append(showOrbRow)
 
     const showAccountRow = document.createElement('label')
     showAccountRow.className = 'sg-check sg-settings__row'

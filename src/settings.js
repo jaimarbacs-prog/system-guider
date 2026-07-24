@@ -52,6 +52,11 @@ export const defaultGuiderSettings = () => ({
   /** Show “Account ID: …” under the launcher search bar. Off by default. */
   showAccountId: false,
   /**
+   * Show the floating orb / launcher. Default true.
+   * Set false in settings.json to turn off System Guider UI on the host app.
+   */
+  showOrb: true,
+  /**
    * Pathname prefixes/paths where the floating toolbar is hidden.
    * Default: login only. Add `/` if your app serves login (or no-guider pages) at the root.
    * Examples: /login, /time-log
@@ -213,6 +218,11 @@ export function normalizeGuiderSettings(value = {}) {
     showAccountId: Object.prototype.hasOwnProperty.call(value, 'showAccountId')
       ? Boolean(value.showAccountId)
       : Boolean(base.showAccountId),
+    showOrb: Object.prototype.hasOwnProperty.call(value, 'showOrb')
+      ? Boolean(value.showOrb)
+      : Object.prototype.hasOwnProperty.call(value, 'showLauncher')
+        ? Boolean(value.showLauncher)
+        : Boolean(base.showOrb),
     hiddenUrls: normalizeHiddenUrlList(
       value.hiddenUrls ?? value.hiddenRoutes ?? base.hiddenUrls,
     ),

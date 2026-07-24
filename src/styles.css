@@ -292,6 +292,7 @@ html[data-sg-theme="light"],
   left: 16px;
   display: flex;
   width: min(380px, calc(100vw - 32px));
+  height: auto;
   max-height: calc(100vh - 32px);
   overflow: hidden;
   flex-direction: column;
@@ -309,7 +310,7 @@ html[data-sg-theme="light"],
 
 .sg-panel--moved {
   bottom: auto;
-  height: min(calc(100vh - 32px), 920px);
+  height: auto;
   max-height: calc(100vh - 16px);
   animation: none;
   transition: left 220ms ease, top 220ms ease;
@@ -318,6 +319,7 @@ html[data-sg-theme="light"],
 .sg-panel--moved.sg-panel--collapsed {
   height: auto;
   max-height: none;
+  min-height: 0;
 }
 
 .sg-panel--dragging {
@@ -338,6 +340,9 @@ html[data-sg-theme="light"],
   right: auto;
   bottom: auto;
   width: 230px;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
 }
 
 .sg-page-key {
@@ -1682,6 +1687,12 @@ html[data-sg-theme="light"],
   touch-action: none;
 }
 
+.sg-panel--collapsed .sg-panel__header,
+.sg-panel__header--collapsed {
+  min-height: 0;
+  border-bottom: 0;
+}
+
 .sg-panel--dragging .sg-panel__header {
   cursor: grabbing;
 }
@@ -2025,14 +2036,29 @@ html[data-sg-animations="off"] .sg-brand-mark__spark {
   min-height: 28px;
   padding: 4px 10px;
   color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   border-color: transparent !important;
   background: #2563eb !important;
   background-image: none !important;
 }
 
+.sg-guide-field__save span,
+.sg-guide-field__save svg {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
 .sg-guide-field__save:hover:not(:disabled) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   background: #1d4ed8 !important;
   filter: none;
+}
+
+.sg-guide-field__save:hover:not(:disabled) span,
+.sg-guide-field__save:hover:not(:disabled) svg {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
 .sg-guide-field__save:disabled {
@@ -2333,10 +2359,18 @@ html[data-sg-animations="off"] .sg-brand-mark__spark {
 }
 
 .sg-panel button.sg-button--primary {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   border-color: transparent;
   border-radius: 10px;
   background-image: none;
   background-color: #2563eb;
+}
+
+.sg-panel button.sg-button--primary span,
+.sg-panel button.sg-button--primary svg {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
 .sg-panel button.sg-button--tiny.sg-button--primary {
@@ -3797,6 +3831,7 @@ html[data-sg-animations="off"] .sg-spotlight--fade-in {
     bottom: 10px;
     left: 10px;
     width: min(230px, calc(100vw - 20px));
+    height: auto !important;
   }
 
   .sg-panel__footer-actions {
@@ -3827,7 +3862,7 @@ html[data-sg-animations="off"] .sg-spotlight--fade-in {
     bottom: 8px;
     left: 8px;
     width: min(220px, calc(100vw - 16px));
-    height: auto;
+    height: auto !important;
   }
 }
 

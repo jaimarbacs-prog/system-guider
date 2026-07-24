@@ -88,6 +88,11 @@ export interface GuiderSettings {
   bypassPin?: string
   /** Show Account ID under the launcher menu. Default false. */
   showAccountId?: boolean
+  /**
+   * Show the floating orb. Default true.
+   * Set false in settings.json to turn off System Guider UI.
+   */
+  showOrb?: boolean
   /** Pathnames where the floating toolbar is hidden. */
   hiddenUrls?: string[]
   launcher?: GuiderLauncherSettings
