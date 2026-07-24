@@ -1,6 +1,6 @@
 {
   "name": "system-guider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Record and replay interactive UI guides with a modern left panel",
   "type": "module",
   "main": "./dist/system-guider.umd.js",
