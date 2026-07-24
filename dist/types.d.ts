@@ -49,6 +49,7 @@ export interface GuideSettings {
 }
 
 export interface GuiderUiSettings {
+  fontFamily?: 'system' | 'inter' | 'arial' | 'roboto' | 'serif'
   animations?: boolean
   highlightMotion?: 'none' | 'pulse' | 'wobble' | 'fade'
   spotlightFade?: boolean
@@ -60,6 +61,13 @@ export interface GuiderUiSettings {
   spotlightColor?: string
   overlayOpacity?: number
   transitionMs?: number
+}
+
+export interface GuiderLauncherSettings {
+  /** Orb diameter in pixels. Clamped to 48–96. */
+  size?: number
+  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
+  animations?: boolean
 }
 
 export interface GuiderSettings {
@@ -78,10 +86,11 @@ export interface GuiderSettings {
    * Digits only; empty disables.
    */
   bypassPin?: string
-  /** Show Account ID under the launcher menu. Default true. */
+  /** Show Account ID under the launcher menu. Default false. */
   showAccountId?: boolean
   /** Pathnames where the floating toolbar is hidden. */
   hiddenUrls?: string[]
+  launcher?: GuiderLauncherSettings
   ui?: GuiderUiSettings
 }
 

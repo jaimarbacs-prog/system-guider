@@ -1,6 +1,17 @@
 const HIGHLIGHT_MOTIONS = new Set(['none', 'pulse', 'wobble', 'fade'])
+const FONT_FAMILIES = new Set(['system', 'inter', 'arial', 'roboto', 'serif'])
+const LAUNCHER_POSITIONS = new Set(['bottom-right', 'bottom-left', 'top-right', 'top-left'])
+
+const FONT_STACKS = {
+  system: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  inter: 'Inter, ui-sans-serif, system-ui, sans-serif',
+  arial: 'Arial, Helvetica, sans-serif',
+  roboto: 'Roboto, Arial, sans-serif',
+  serif: 'Georgia, "Times New Roman", serif',
+}
 
 export const defaultUiSettings = () => ({
+  fontFamily: 'system',
   animations: true,
   highlightMotion: 'pulse',
   spotlightFade: true,
@@ -12,6 +23,12 @@ export const defaultUiSettings = () => ({
   spotlightColor: '#3b82f6',
   overlayOpacity: 0.58,
   transitionMs: 220,
+})
+
+export const defaultLauncherSettings = () => ({
+  size: 80,
+  position: 'bottom-right',
+  animations: true,
 })
 
 export const defaultGuiderSettings = () => ({
@@ -32,13 +49,15 @@ export const defaultGuiderSettings = () => ({
    * even when the account is not in editorAccountIds. Empty = disabled.
    */
   bypassPin: '123456',
-  /** Show “Account ID: …” under the launcher search bar. */
-  showAccountId: true,
+  /** Show “Account ID: …” under the launcher search bar. Off by default. */
+  showAccountId: false,
   /**
    * Pathname prefixes/paths where the floating toolbar is hidden.
-   * Examples: /login, /time-log
+   * Includes `/` for apps that serve login at the root (route name login).
+   * Examples: /login, /, /time-log
    */
-  hiddenUrls: ['/login'],
+  hiddenUrls: ['/login', '/'],
+  launcher: defaultLauncherSettings(),
   ui: defaultUiSettings(),
 })
 
@@ -130,7 +149,9 @@ export function normalizeUiSettings(value = {}) {
   const base = defaultUiSettings()
   if (!value || typeof value !== 'object' || Array.isArray(value)) return base
   const motion = String(value.highlightMotion || base.highlightMotion)
+  const fontFamily = String(value.fontFamily || base.fontFamily).toLowerCase()
   return {
+    fontFamily: FONT_FAMILIES.has(fontFamily) ? fontFamily : base.fontFamily,
     animations: value.animations !== false,
     highlightMotion: HIGHLIGHT_MOTIONS.has(motion) ? motion : base.highlightMotion,
     spotlightFade: value.spotlightFade !== false,
@@ -148,6 +169,18 @@ export function normalizeUiSettings(value = {}) {
       const n = Math.round(Number(value.transitionMs))
       return Number.isFinite(n) ? Math.min(1000, Math.max(0, n)) : base.transitionMs
     })(),
+  }
+}
+
+export function normalizeLauncherSettings(value = {}) {
+  const base = defaultLauncherSettings()
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return base
+  const position = String(value.position || base.position).toLowerCase()
+  const size = Math.round(Number(value.size))
+  return {
+    size: Number.isFinite(size) ? Math.min(96, Math.max(48, size)) : base.size,
+    position: LAUNCHER_POSITIONS.has(position) ? position : base.position,
+    animations: value.animations !== false,
   }
 }
 
@@ -178,11 +211,12 @@ export function normalizeGuiderSettings(value = {}) {
       base.bypassPin,
     ),
     showAccountId: Object.prototype.hasOwnProperty.call(value, 'showAccountId')
-      ? value.showAccountId !== false
-      : base.showAccountId !== false,
+      ? Boolean(value.showAccountId)
+      : Boolean(base.showAccountId),
     hiddenUrls: normalizeHiddenUrlList(
       value.hiddenUrls ?? value.hiddenRoutes ?? base.hiddenUrls,
     ),
+    launcher: normalizeLauncherSettings(value.launcher),
     ui: normalizeUiSettings(uiSource),
   }
 }
@@ -202,6 +236,7 @@ export function applyUiTheme(settings = {}) {
   root.style.setProperty('--sg-spotlight', ui.spotlightColor)
   root.style.setProperty('--sg-overlay-opacity', String(ui.overlayOpacity))
   root.style.setProperty('--sg-spotlight-ms', `${ui.transitionMs}ms`)
+  root.style.setProperty('--sg-font-family', FONT_STACKS[ui.fontFamily] || FONT_STACKS.system)
   root.dataset.sgAnimations = ui.animations ? 'on' : 'off'
   root.dataset.sgHighlightMotion = ui.highlightMotion
   root.dataset.sgSpotlightFade = ui.spotlightFade ? 'on' : 'off'

@@ -1,0 +1,31 @@
+{
+  "id": "quick-contact-capture",
+  "title": "Quick contact capture",
+  "version": 1,
+  "steps": [
+    {
+      "id": "name-only",
+      "selector": "[data-guider=\"full-name\"]",
+      "action": "input",
+      "title": "Enter name",
+      "description": "Start with the person's name.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "email-only",
+      "selector": "[data-guider=\"email\"]",
+      "action": "input",
+      "title": "Enter email",
+      "description": "Add an email so the profile can be contacted later.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "save-quick",
+      "selector": "[data-guider=\"submit-profile\"]",
+      "action": "click",
+      "title": "Save",
+      "description": "Save the quick contact entry.",
+      "waitFor": null
+    }
+  ]
+}

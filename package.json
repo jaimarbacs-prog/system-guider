@@ -23,7 +23,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/copy-types.js",
+    "build:demo": "vite build --config vite.demo.config.js",
     "preview": "vite preview",
+    "preview:demo": "vite preview --config vite.demo.config.js",
     "docs:docx": "node scripts/generate-guide-docx.mjs",
     "system-guider:install": "node integrations/laravel/install.js"
   },
@@ -34,8 +36,13 @@
     "walkthrough",
     "system-guider"
   ],
-  "author": "",
+  "author": "jaimarbacs-prog",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaimarbacs-prog/system-guider.git"
+  },
+  "homepage": "https://jaimarbacs-prog.github.io/system-guider/",
   "devDependencies": {
     "vite": "^6.0.0"
   }

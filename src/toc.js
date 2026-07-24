@@ -1,7 +1,7 @@
 /**
  * Group guides into a table-of-contents hierarchy by URL path.
  * Example:
- *   /attendance/timesheet → section "attendance" → subsection "timesheet"
+ *   /settings/profile → section "settings" → subsection "profile"
  */
 
 export function normalizeGuideUrl(url) {
@@ -85,7 +85,7 @@ export function flattenToc(nodes, depth = 0, out = []) {
     flattenToc(node.children, depth + 1, childRows)
     const guides = node.guides || []
     // Only show a section heading when this path has guides.
-    // Empty parents (e.g. Home `/` with only /attendance children) stay hidden.
+    // Empty parents (e.g. Home `/` with only nested children) stay hidden.
     if (guides.length) {
       out.push({ type: 'section', depth, path: node.path, label: node.label })
       for (const guide of guides) {

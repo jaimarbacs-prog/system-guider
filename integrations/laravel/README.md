@@ -8,6 +8,12 @@ Publishes a PHP save API and guide storage into a Laravel host app. Playback use
 
 ```bash
 cd /path/to/your-laravel-app
+npm install system-guider
+```
+
+Git alternative:
+
+```bash
 npm install github:jaimarbacs-prog/system-guider#main
 ```
 
@@ -39,7 +45,57 @@ import './system-guider-init.js'
 
 The publisher writes `resources/js/system-guider-init.js`. Adjust the import path if needed.
 
-Expose the logged-in account id to the guider (required for Record / Panel):
+#### Laravel + Inertia (Vue 3)
+
+**Do not replace** your existing `createInertiaApp` / `resolve` / `createApp` block.
+
+Only **add** these pieces to `resources/js/app.js`:
+
+```js
+// ← ADD (top of file)
+import './system-guider-init.js'
+
+// ← ADD router to your existing @inertiajs/vue3 import
+import { createInertiaApp, router } from '@inertiajs/vue3'
+
+// ← ADD (before createInertiaApp)
+function syncGuiderAccountId(pageProps) {
+  // Map to YOUR shared Inertia props (pick the path your app uses):
+  //   pageProps?.auth?.user?.id
+  //   pageProps?.auth?.account?.id
+  //   pageProps?.user?.id
+  const accountId = pageProps?.auth?.user?.id ?? null
+  window.systemGuider?.setAccountId?.(
+    accountId == null || accountId === '' ? null : String(accountId),
+  )
+}
+
+router.on('navigate', (event) => {
+  syncGuiderAccountId(event.detail.page.props)
+})
+```
+
+Inside your **existing** `setup()`, after `.mount(el)`:
+
+```js
+setup({ el, App, props, plugin }) {
+  // …keep your existing createApp / plugins / mount …
+
+  // ← ADD
+  syncGuiderAccountId(props.initialPage?.props ?? props)
+}
+```
+
+| When | Path |
+|---|---|
+| First boot (`setup`) | `props.initialPage?.props` |
+| Soft visit (`navigate`) | `event.detail.page.props` |
+
+Full notes: root [`README.md` → Laravel + Inertia](../../README.md#laravel--inertia-vue-3).
+
+#### Blade / plain JS
+
+Expose the user id from Blade, then set it after init:
 
 ```js
 import SystemGuider from 'system-guider'
@@ -54,12 +110,16 @@ const guider = SystemGuider.init({
     downloadFallback: false,
   },
   storageKey: 'app:guider-draft',
-  accountId: window.__USER_ID__ ?? null, // from your auth / blade / SPA store
+  accountId: window.__USER_ID__ ?? null,
 })
 
 // Or after login / auth changes:
 // guider.setAccountId(currentUserId)
+
+window.systemGuider = guider
 ```
+
+More framework samples (React, plain Vite): see the root [`README.md`](../../README.md#framework-setup).
 
 ### 5. Allow editor accounts
 
@@ -120,9 +180,11 @@ Patches `routes/web.php`:
 require __DIR__.'/system-guider.php';
 ```
 
-## Host auth adapter
+## Host auth
 
-The published controller resolves the current user via `App\Library\Helper` (`isAuthenticated` / `authId`). Point that at your app’s auth helper, or replace `currentAccountId()` with your own session/user lookup. The same id must be what you pass to `setAccountId` / `accountId` on the frontend.
+The published controller uses Laravel’s `Auth::id()` for the current account. That value must match what you pass to `setAccountId` / `accountId` on the frontend, and an entry in `editorAccountIds`.
+
+If your app does not use the default guard (custom session helper, Sanctum token user, multi-guard, etc.), replace `currentAccountId()` in `SystemGuiderController` with your lookup.
 
 Save/delete on `/__sg/guides` is also gated by `editorAccountIds` on the server.
 

@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Demo build output (GitHub Pages artifact)
+demo-dist/
+
 # Logs & env
 *.log
 npm-debug.log*

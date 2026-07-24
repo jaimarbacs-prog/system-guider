@@ -161,39 +161,248 @@ function cleanLabelText(value) {
     .slice(0, 80)
 }
 
+/** Reject chart dumps, selectors, tag names, and other non-human labels. */
+function isNoiseLabel(value) {
+  const t = String(value || '').trim()
+  if (!t) return true
+  if (t.length < 2) return true
+  if (/^(div|span|button|a|input|select|svg|path|g|rect|li|ul|td|th|tr|table|canvas)$/i.test(t)) return true
+  if (/^(click|submit|button|link|here|null|undefined)$/i.test(t)) return true
+  // Pure numeric / year dumps: "202020212022..." or "2020 2021 2022..."
+  const digits = t.replace(/\D/g, '')
+  if (digits.length >= 8 && digits.length >= t.replace(/\s/g, '').length * 0.7) return true
+  // Concatenated tokens with no spaces
+  if (!/\s/.test(t) && t.length > 28) return true
+  if (/^[.#\[]/.test(t) || /[{};>]/.test(t)) return true
+  if ((t.match(/\b20\d{2}\b/g) || []).length >= 3) return true
+  return false
+}
+
+function usableLabel(value) {
+  const cleaned = cleanLabelText(value)
+  return isNoiseLabel(cleaned) ? '' : cleaned
+}
+
+function nearestSectionHeading(element) {
+  if (!(element instanceof Element)) return ''
+  const headerSelector = [
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'legend',
+    'figcaption',
+    '.card-title',
+    '.card-header',
+    '.panel-title',
+    '.modal-title',
+    '[class*="card-title"]',
+    '[class*="chart-title"]',
+    '[class*="section-title"]',
+    '[data-guider-label]',
+  ].join(', ')
+
+  let current = element
+  for (let depth = 0; depth < 10 && current; depth += 1) {
+    const labelledBy = current.getAttribute?.('aria-labelledby')
+    if (labelledBy) {
+      const ref = document.getElementById(labelledBy.split(/\s+/)[0])
+      const text = usableLabel(ref?.textContent)
+      if (text) return text
+    }
+    const own = current.getAttribute?.('data-guider-label')
+    if (own) {
+      const text = usableLabel(own)
+      if (text) return text
+    }
+
+    let sibling = current.previousElementSibling
+    while (sibling) {
+      if (sibling.matches?.(headerSelector)) {
+        const text = usableLabel(sibling.textContent)
+        if (text) return text
+      }
+      const nested = sibling.querySelector?.(headerSelector)
+      if (nested) {
+        const text = usableLabel(nested.textContent)
+        if (text) return text
+      }
+      sibling = sibling.previousElementSibling
+    }
+
+    const parentHeading = current.parentElement?.querySelector?.(
+      ':scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > .card-title, :scope > .card-header',
+    )
+    if (parentHeading && !parentHeading.contains(element)) {
+      const text = usableLabel(parentHeading.textContent)
+      if (text) return text
+    }
+
+    current = current.parentElement
+  }
+  return ''
+}
+
+function looksLikeChartTarget(element) {
+  if (!(element instanceof Element)) return false
+  return Boolean(element.closest([
+    'canvas',
+    'svg',
+    '.chart',
+    '.chartjs',
+    '[class*="chart"]',
+    '[class*="Chart"]',
+    '.apexcharts-canvas',
+    '.highcharts-container',
+    '.recharts-wrapper',
+    '[class*="legend"]',
+  ].join(', ')))
+}
+
+function choiceOptionText(element) {
+  if (!(element instanceof Element) || !isChoiceElement(element)) return ''
+  return usableLabel(visibleControlText(element) || element.textContent)
+}
+
 function labelFor(element) {
   const prime = asPrimeHost(element)
-  // Float / form-group label ("Employee") beats aria-label — PrimeVue puts selected value in aria-label.
-  const floatText = floatLabelText(element)
-  if (floatText) return cleanLabelText(floatText)
+  const floatText = usableLabel(floatLabelText(element))
+  if (floatText) return floatText
 
   const isFormControl = element.matches('input, textarea, select')
-  const buttonText = !isFormControl && !prime ? visibleControlText(element) : ''
-  const text = buttonText
-    || (!prime ? element.getAttribute('aria-label') : '')
-    || element.getAttribute('title')
-    || associatedLabelText(element)
-    || (isFormControl ? element.getAttribute('placeholder') : '')
-    || element.getAttribute('placeholder')
-    || element.getAttribute('name')
-    || (prime?.matches?.('.p-autocomplete') ? 'Search' : '')
-    || (prime ? 'Dropdown' : element.tagName.toLowerCase())
-  return cleanLabelText(text)
+  const buttonText = !isFormControl && !prime ? usableLabel(visibleControlText(element)) : ''
+  if (buttonText) return buttonText
+
+  const candidates = [
+    !prime ? element.getAttribute('aria-label') : '',
+    element.getAttribute('title'),
+    associatedLabelText(element),
+    isFormControl ? element.getAttribute('placeholder') : '',
+    element.getAttribute('placeholder'),
+    element.getAttribute('name'),
+    element.getAttribute('data-guider-label'),
+    nearestSectionHeading(element),
+    prime?.matches?.('.p-autocomplete') ? 'Search' : '',
+    prime ? 'Dropdown' : '',
+  ]
+
+  for (const candidate of candidates) {
+    const text = usableLabel(candidate)
+    if (text) return text
+  }
+
+  if (looksLikeChartTarget(element)) {
+    return nearestSectionHeading(element) || 'chart'
+  }
+
+  return ''
+}
+
+function sentenceCaseLabel(label) {
+  const text = cleanLabelText(label)
+  if (!text) return ''
+  if (/^[A-Z0-9\s\-_/]+$/.test(text) && text.length <= 24) return text
+  return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
 /** User-facing step title shown in the highlight tip. */
-function friendlyStepTitle({ label, choiceField, isNativeField, action }) {
-  const name = cleanLabelText(label)
+function friendlyStepTitle({
+  label,
+  choiceField,
+  isNativeField,
+  action,
+  element,
+  optionText = '',
+}) {
+  const name = sentenceCaseLabel(label)
+  const option = sentenceCaseLabel(optionText)
+
+  if (isCalendarChoice(element) || (element && isDateLikeInput(element))) {
+    return name && !/^date|calendar$/i.test(name) ? `Pick a date for ${name}` : 'Pick a date'
+  }
+
   if (choiceField) {
+    if (option && name) return `Select ${name}: ${option}`
+    if (option) return `Choose “${option}”`
     return name ? `Select ${name}` : 'Choose a value'
   }
+
   if (isNativeField) {
+    const type = (element?.getAttribute?.('type') || '').toLowerCase()
+    if (type === 'checkbox' || type === 'radio') {
+      return name ? `Toggle ${name}` : 'Toggle this option'
+    }
+    if (element?.matches?.('textarea')) {
+      return name ? `Fill in ${name}` : 'Enter details'
+    }
     return name ? `Enter ${name}` : 'Enter a value'
   }
-  if (action === 'click') {
+
+  if (action === 'click' || action === 'input') {
+    if (looksLikeChartTarget(element)) {
+      return name && name.toLowerCase() !== 'chart'
+        ? `Interact with ${name}`
+        : 'Interact with the chart'
+    }
+    if (element?.matches?.('a, [role="link"]') || element?.closest?.('a[href]')) {
+      return name ? `Go to ${name}` : 'Follow this link'
+    }
+    if (element?.matches?.('button, [role="button"], input[type="submit"], input[type="button"]')) {
+      if (/^(save|submit|continue|next|confirm|apply|search|login|sign in)$/i.test(name)) {
+        return name
+      }
+      return name ? `Click ${name}` : 'Click this button'
+    }
     return name ? `Click ${name}` : 'Click here'
   }
+
   return name || 'Continue'
+}
+
+function friendlyStepDescription({
+  title,
+  label,
+  choiceField,
+  isNativeField,
+  element,
+  optionText = '',
+}) {
+  const name = sentenceCaseLabel(label)
+  const option = sentenceCaseLabel(optionText)
+  const heading = nearestSectionHeading(element)
+
+  if (isCalendarChoice(element) || (element && isDateLikeInput(element))) {
+    return 'Choose a day on the calendar to continue.'
+  }
+  if (choiceField && option) {
+    return name
+      ? `Pick “${option}” from ${name}.`
+      : `Pick “${option}” from the list.`
+  }
+  if (choiceField) {
+    return name
+      ? `Open ${name} and choose a value.`
+      : 'Open the dropdown and choose a value.'
+  }
+  if (isNativeField) {
+    const type = (element?.getAttribute?.('type') || '').toLowerCase()
+    if (type === 'checkbox' || type === 'radio') {
+      return name ? `Check or uncheck ${name}.` : 'Toggle this option.'
+    }
+    return name ? `Type the value for ${name}.` : 'Type a value in this field.'
+  }
+  if (looksLikeChartTarget(element)) {
+    const chartName = name && name.toLowerCase() !== 'chart' ? name : (heading || 'the chart')
+    return `Use ${chartName} to continue to the next step.`
+  }
+  if (element?.matches?.('a, [role="link"]') || element?.closest?.('a[href]')) {
+    return name ? `Open ${name} to move forward.` : 'Follow this link to continue.'
+  }
+
+  // Avoid repeating the title when it already says enough.
+  const titleCore = String(title || '').replace(/^(click|select|enter|choose|go to|interact with|toggle|pick|fill in)\s+/i, '').trim()
+  if (name && titleCore && name.toLowerCase() === titleCore.toLowerCase()) return ''
+  if (heading && name && heading.toLowerCase() !== name.toLowerCase()) {
+    return `In ${heading}, continue with ${name}.`
+  }
+  return ''
 }
 
 export function isChoiceElement(element) {
@@ -550,11 +759,22 @@ export class Recorder {
     this.lastAt = now
 
     const label = labelFor(target)
+    const optionText = choiceClick ? choiceOptionText(element) : ''
     const title = friendlyStepTitle({
       label,
       choiceField,
       isNativeField,
       action: normalizedAction,
+      element: target,
+      optionText,
+    })
+    const description = friendlyStepDescription({
+      title,
+      label,
+      choiceField,
+      isNativeField,
+      element: target,
+      optionText,
     })
     const match = captureMatchHints(target)
     this.onStep({
@@ -563,9 +783,7 @@ export class Recorder {
       ...(match ? { match } : {}),
       action: normalizedAction,
       title,
-      // Keep description empty by default — tip shows the friendly title only.
-      // Authors can add longer help text later in step settings.
-      description: '',
+      description,
       waitFor: isNativeField || choiceClick || choiceField
         ? {
           type: 'input',

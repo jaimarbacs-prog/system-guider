@@ -1,6 +1,10 @@
 import { isElementPresent, isElementReady, resolveHighlightTarget, scrollElementIntoView } from './selectors.js'
 import { normalizeUiSettings } from './settings.js'
 
+const SG_ICON_CLOSE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>'
+const SG_ICON_CHEVRON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>'
+const SG_ICON_BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>'
+
 export const CALENDAR_CELL_SELECTOR = [
   'td.day',
   '.day',
@@ -202,6 +206,7 @@ export class SpotlightOverlay {
     overlayOpacity = 0.58,
     zIndex = 2147483000,
     onSkip = null,
+    onEnd = null,
     skipLabel = 'Skip Step',
     onHighlightBox = null,
     onTargetLost = null,
@@ -210,6 +215,7 @@ export class SpotlightOverlay {
     this.opacity = overlayOpacity
     this.zIndex = zIndex
     this.onSkip = onSkip
+    this.onEnd = onEnd
     this.skipLabel = skipLabel
     this.onHighlightBox = onHighlightBox
     this.onTargetLost = onTargetLost
@@ -252,6 +258,11 @@ export class SpotlightOverlay {
       event.preventDefault()
       event.stopPropagation()
       this.onSkip?.()
+    }
+    this.onEndClick = (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      ;(this.onEnd || this.onSkip)?.()
     }
     this.onGoClick = (event) => {
       event.preventDefault()
@@ -544,6 +555,13 @@ export class SpotlightOverlay {
     this.stepTip.replaceChildren()
     if (this.skipChip) this.skipChip.hidden = true
 
+    const arrow = document.createElement('span')
+    arrow.className = 'sg-step-tip__arrow'
+    arrow.setAttribute('aria-hidden', 'true')
+
+    const header = document.createElement('div')
+    header.className = 'sg-step-tip__header'
+
     const badge = document.createElement('div')
     badge.className = 'sg-step-tip__badge'
     badge.textContent = String(number || 1)
@@ -552,11 +570,26 @@ export class SpotlightOverlay {
       total ? `Step ${number || 1} of ${total}` : `Step ${number || 1}`,
     )
 
+    const counter = document.createElement('span')
+    counter.className = 'sg-step-tip__counter'
+    counter.textContent = total
+      ? `Step ${number || 1} of ${total}`
+      : `Step ${number || 1}`
+
+    const closeButton = document.createElement('button')
+    closeButton.type = 'button'
+    closeButton.className = 'sg-step-tip__close'
+    closeButton.setAttribute('aria-label', 'End tutorial')
+    closeButton.innerHTML = SG_ICON_CLOSE
+    closeButton.addEventListener('click', this.onEndClick)
+
+    header.append(badge, counter, closeButton)
+
     const titleEl = document.createElement('div')
     titleEl.className = 'sg-step-tip__title'
     titleEl.textContent = tipTitle
 
-    this.stepTip.append(badge, titleEl)
+    this.stepTip.append(arrow, header, titleEl)
 
     if (tipDescription) {
       const descriptionEl = document.createElement('div')
@@ -565,20 +598,113 @@ export class SpotlightOverlay {
       this.stepTip.append(descriptionEl)
     }
 
-    const skipButton = document.createElement('button')
-    skipButton.type = 'button'
-    skipButton.className = 'sg-step-tip__skip'
-    skipButton.textContent = this.skipLabel
-    skipButton.addEventListener('click', this.onSkipClick)
-    this.stepTip.append(skipButton)
+    const divider = document.createElement('div')
+    divider.className = 'sg-step-tip__divider'
+
+    const actions = document.createElement('div')
+    actions.className = 'sg-step-tip__actions'
+
+    const endButton = document.createElement('button')
+    endButton.type = 'button'
+    endButton.className = 'sg-step-tip__end'
+    endButton.innerHTML = `${SG_ICON_BOOK}<span>End Tutorial</span>`
+    endButton.addEventListener('click', this.onEndClick)
+
+    const nextButton = document.createElement('button')
+    nextButton.type = 'button'
+    nextButton.className = 'sg-step-tip__next'
+    const isLast = total ? Number(number) >= Number(total) : false
+    const skipText = isLast ? 'Finish' : (this.skipLabel || 'Skip Step')
+    nextButton.innerHTML = `<span>${skipText}</span>${SG_ICON_CHEVRON}`
+    nextButton.addEventListener('click', this.onSkipClick)
+
+    actions.append(endButton, nextButton)
+    this.stepTip.append(divider, actions)
 
     this.stepTip.hidden = false
   }
 
   hideStepTip() {
-    if (this.stepTip) this.stepTip.hidden = true
+    if (this.stepTip) {
+      this.stepTip.hidden = true
+      this.stepTip.removeAttribute('data-arrow')
+      this.stepTip.style.removeProperty('--sg-arrow-offset')
+      this.stepTip.style.removeProperty('--sg-arrow-fill')
+    }
     this.stepTipContent = null
     if (this.skipChip) this.skipChip.hidden = !this.controlsEnabled
+  }
+
+  resolveStepTipFill() {
+    const tip = this.stepTip
+    if (!tip) return '#0f1b33'
+    const fromTip = getComputedStyle(tip).getPropertyValue('--sg-tip-bg').trim()
+    if (fromTip) return fromTip
+    const fromRoot = getComputedStyle(document.documentElement).getPropertyValue('--sg-tip-bg').trim()
+    if (fromRoot) return fromRoot
+    const bg = getComputedStyle(tip).backgroundColor
+    if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return bg
+    return '#0f1b33'
+  }
+
+  /**
+   * Point the tip caret toward the highlight box based on tip placement.
+   */
+  updateStepTipArrow(x, y, w, h) {
+    if (!this.stepTip || this.stepTip.hidden) return
+    const tip = this.stepTip
+    const tipRect = tip.getBoundingClientRect()
+    const tipLeft = tipRect.left
+    const tipTop = tipRect.top
+    const tipW = tipRect.width || tip.offsetWidth || 220
+    const tipH = tipRect.height || tip.offsetHeight || 48
+    const tipCx = tipLeft + tipW / 2
+    const tipCy = tipTop + tipH / 2
+    const hlCx = x + w / 2
+    const hlCy = y + h / 2
+
+    const tipRight = tipLeft + tipW
+    const tipBottom = tipTop + tipH
+    const hlRight = x + w
+    const hlBottom = y + h
+
+    const gaps = {
+      left: tipLeft - hlRight,
+      right: x - tipRight,
+      top: tipTop - hlBottom,
+      bottom: y - tipBottom,
+    }
+
+    // Prefer the side that faces the highlight (positive gap = tip is past that edge).
+    let side = 'left'
+    let best = -Infinity
+    for (const [key, gap] of Object.entries(gaps)) {
+      if (gap > best) {
+        best = gap
+        side = key
+      }
+    }
+
+    // If overlapping / tied, fall back to dominant axis from centers.
+    if (best < 4) {
+      const dx = hlCx - tipCx
+      const dy = hlCy - tipCy
+      side = Math.abs(dx) >= Math.abs(dy)
+        ? (dx < 0 ? 'left' : 'right')
+        : (dy < 0 ? 'top' : 'bottom')
+    }
+
+    const pad = 18
+    let offset = 0
+    if (side === 'left' || side === 'right') {
+      offset = Math.min(Math.max(hlCy - tipTop, pad), tipH - pad)
+    } else {
+      offset = Math.min(Math.max(hlCx - tipLeft, pad), tipW - pad)
+    }
+
+    tip.dataset.arrow = side
+    tip.style.setProperty('--sg-arrow-offset', `${Math.round(offset)}px`)
+    tip.style.setProperty('--sg-arrow-fill', this.resolveStepTipFill())
   }
 
   positionSkipChip(x, y, w, h) {
@@ -632,6 +758,7 @@ export class SpotlightOverlay {
     if (tipVisible) {
       this.stepTip.style.left = `${left}px`
       this.stepTip.style.top = `${top}px`
+      this.updateStepTipArrow(x, y, w, h)
       top += tipH + actionsGap
     }
     if (this.skipChip && !this.skipChip.hidden) {
@@ -664,6 +791,13 @@ export class SpotlightOverlay {
     if (tipVisible) {
       this.stepTip.style.left = `${left}px`
       this.stepTip.style.top = `${top}px`
+      const host = this.highlightHost || this.target
+      if (host instanceof Element && host.isConnected) {
+        const rect = host.getBoundingClientRect()
+        if (rect.width > 0 && rect.height > 0) {
+          this.updateStepTipArrow(rect.left, rect.top, rect.width, rect.height)
+        }
+      }
       top += tipH + actionsGap
     }
     if (this.skipChip && !this.skipChip.hidden) {

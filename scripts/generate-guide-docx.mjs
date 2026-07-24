@@ -288,10 +288,10 @@ const doc = new Document({
         table(
           ['Source', 'When to use', 'Command (run in HOST project)'],
           [
-            ['GitHub', 'Library is on GitHub', 'npm install github:jaimarbacs-prog/system-guider#main'],
-            ['GitHub tag', 'Pin a release', 'npm install github:jaimarbacs-prog/system-guider#v1.0.0'],
+            ['npm registry', 'Recommended — package published to npm', 'npm install system-guider'],
+            ['GitHub tag', 'Pin a release without npm', 'npm install github:jaimarbacs-prog/system-guider#v1.0.0'],
+            ['GitHub main', 'Track latest commit', 'npm install github:jaimarbacs-prog/system-guider#main'],
             ['Local file', 'Developing the library next to the app', 'npm install "file:../system-guider"'],
-            ['npm registry', 'Package published to npm', 'npm install system-guider'],
           ],
           [1800, 2800, 4760],
         ),
@@ -300,12 +300,12 @@ const doc = new Document({
           'After install, the package appears under node_modules/system-guider and is listed in the host package.json dependencies.',
         ),
 
-        h2('2.3 Full example — install from GitHub'),
+        h2('2.3 Full example — install from npm'),
         numbered('Open a terminal.'),
         numbered('Go to your host app folder (the project that uses Vite/Laravel):'),
         ...codeBlock(`cd C:\\path\\to\\your-host-app`),
-        numbered('Install System Guider from GitHub:'),
-        ...codeBlock(`npm install github:jaimarbacs-prog/system-guider#main`),
+        numbered('Install System Guider from the npm registry:'),
+        ...codeBlock(`npm install system-guider`),
         numbered('Confirm it was added:'),
         ...codeBlock(`npm ls system-guider
 # or open package.json → dependencies → "system-guider"`),
@@ -362,8 +362,11 @@ npm run system-guider:install -- --force`),
         numbered('Run npm run dev again and open the app — the launcher orb should appear.'),
 
         h2('2.7 Update or remove later'),
-        ...codeBlock(`# Update from GitHub main
-npm install github:jaimarbacs-prog/system-guider#main
+        ...codeBlock(`# Update from npm
+npm install system-guider@latest
+
+# Or pin a GitHub tag
+npm install github:jaimarbacs-prog/system-guider#v1.0.0
 
 # Uninstall from the host project
 npm uninstall system-guider`),
@@ -452,15 +455,29 @@ guider.destroy()`),
         spacer(),
         h2('6.2 Host identity adapter'),
         p(
-          'Wire whatever identity your stack already exposes (session, JWT claim, Inertia shared props, etc.). Keep the adapter thin and re-run it on client-side navigations.',
+          'Wire whatever identity your stack already exposes. Auth shapes differ per app — keep the adapter thin and re-run it on client-side navigations.',
         ),
-        ...codeBlock(`function syncGuiderIdentity(guider, accountId) {
-  guider.setAccountId(accountId ?? null)
-  guider.applyAccessPolicy()
+        ...codeBlock(`function syncGuiderAccountId(pageProps) {
+  // Map to YOUR shared props (examples):
+  //   pageProps?.auth?.user?.id
+  //   pageProps?.auth?.account?.id
+  //   pageProps?.user?.id
+  const accountId = pageProps?.auth?.user?.id ?? null
+  window.systemGuider?.setAccountId?.(
+    accountId == null || accountId === '' ? null : String(accountId),
+  )
 }
 
-// Example — call after login and after SPA route changes
-syncGuiderIdentity(window.systemGuider, currentUser?.id)`),
+// First load (Inertia setup)
+syncGuiderAccountId(props.initialPage?.props ?? props)
+
+// Soft visits
+router.on('navigate', (event) => {
+  syncGuiderAccountId(event.detail.page.props)
+})`),
+        note(
+          'setup uses props.initialPage.props; navigate uses event.detail.page.props — same auth payload, different Inertia object shapes. Do not replace your existing createInertiaApp body; only add these sync lines.',
+        ),
 
         h2('6.3 Persisted settings (settings.json)'),
         table(
@@ -551,8 +568,8 @@ return next()`),
         ),
         p('Optional — prefer stable hooks on critical controls:'),
         ...codeBlock(`<!-- Prefer stable hooks (optional) -->
-<button data-guider="save-timesheet">Save</button>
-<input data-guider="timesheet-date" type="date" />`),
+<button data-guider="save-profile">Save</button>
+<input data-guider="start-date" type="date" />`),
         p('Resolution order: CSS selector → scored candidates from match hints (data-guider ranks highest when present).'),
 
         h1('9. File layout'),
@@ -572,11 +589,33 @@ npm uninstall system-guider`),
         numbered('Optionally delete public/guides/ if guides are no longer needed.'),
         numbered('Rebuild host assets (npm run build).'),
 
-        h1('11. Publish / push this library to GitHub (author tutorial)'),
+        h1('11. Publish this library (author tutorial)'),
         p(
-          'These steps are for the library folder (system-guider), when YOU are uploading the package to GitHub so other projects can npm install it.',
+          'These steps are for the library folder (system-guider), when YOU are publishing so other projects can install it.',
         ),
-        h2('11.1 Create an empty repo on GitHub'),
+
+        h2('11.1 Recommended — publish to the npm registry'),
+        numbered('Create an account at https://www.npmjs.com/signup (verify email).'),
+        numbered('Enable Two-Factor Authentication under Account → Two-Factor Authentication (required to publish).'),
+        numbered('In a terminal, go to the library folder and log in:'),
+        ...codeBlock(`cd C:\\path\\to\\system-guider
+npm login`),
+        numbered('Build the library:'),
+        ...codeBlock(`npm run build`),
+        numbered('Optional dry-run to confirm the tarball contents:'),
+        ...codeBlock(`npm publish --dry-run`),
+        numbered('Publish (public package):'),
+        ...codeBlock(`npm publish --access public`),
+        numbered('Confirm it is live:'),
+        ...codeBlock(`npm view system-guider`),
+        note(
+          'E403 about two-factor authentication means enable 2FA on npm, then npm logout && npm login, and publish again. Or create a granular access token with publish permission and 2FA bypass for automation.',
+        ),
+        note(
+          'Hosts then install with: npm install system-guider',
+        ),
+
+        h2('11.2 Optional — push source to GitHub'),
         numbered('Open https://github.com/new'),
         numbered('Repository name: system-guider'),
         numbered('Description (optional): Record and replay interactive UI guides.'),
@@ -584,7 +623,7 @@ npm uninstall system-guider`),
         numbered('Leave README / .gitignore / license OFF if the project already has those files locally.'),
         numbered('Click Create repository.'),
 
-        h2('11.2 First-time push from your PC'),
+        h2('11.3 First-time push from your PC'),
         numbered('Open Command Prompt or PowerShell.'),
         numbered('Go to the library folder:'),
         ...codeBlock(`cd C:\\path\\to\\system-guider`),
@@ -610,14 +649,19 @@ git commit -m "Initial commit: System Guider library"`),
           'Error "src refspec main does not match any" means there is no commit yet. Run git add . and git commit first, then push again. Error "system-guider/ does not have a commit checked out" means a nested empty clone folder exists — delete it, then git add again.',
         ),
 
-        h2('11.3 Later updates (you push changes)'),
+        h2('11.4 Later updates'),
         ...codeBlock(`cd C:\\path\\to\\system-guider
 npm run build
 git add .
 git commit -m "Describe your change"
-git push`),
+git push
 
-        h2('11.4 Optional version tag'),
+# Bump and publish a new npm version
+npm version patch
+npm publish --access public
+git push --follow-tags`),
+
+        h2('11.5 Optional version tag (GitHub pin without npm)'),
         ...codeBlock(`git tag v1.0.0
 git push origin v1.0.0
 
@@ -632,22 +676,22 @@ git push origin v1.0.0
 
         h1('13. Guide schema (excerpt)'),
         ...codeBlock(`{
-  "id": "save-timesheet",
-  "title": "Save timesheet",
+  "id": "example-flow",
+  "title": "Example flow",
   "version": 1,
-  "url": "/attendance",
+  "url": "/settings",
   "steps": [
     {
       "id": "pick-date",
-      "selector": "[data-guider=\\"timesheet-date\\"]",
+      "selector": "[data-guider=\\"start-date\\"]",
       "match": {
-        "dataGuider": "timesheet-date",
+        "dataGuider": "start-date",
         "tag": "input",
         "type": "date"
       },
       "action": "input",
-      "title": "Choose the date",
-      "description": "Select the timesheet date.",
+      "title": "Choose a date",
+      "description": "Select the date for this record.",
       "waitFor": { "type": "input", "required": true }
     }
   ]

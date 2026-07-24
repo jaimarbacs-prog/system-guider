@@ -3,72 +3,300 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>System Guider — Smart Attendance Demo</title>
+    <title>System Guider — Demo</title>
     <style>
-      :root { font-family: Inter, system-ui, sans-serif; color: #10213b; background: #f4f7fb; }
+      :root {
+        font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+        color: #1f2937;
+        background: #eef1f6;
+      }
       * { box-sizing: border-box; }
       body { margin: 0; min-height: 100vh; }
-      .app { margin-left: 0; padding: 32px; }
-      .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
-      .brand { font-size: 21px; font-weight: 800; }
-      .brand span { color: #2563eb; }
-      .help { padding: 10px 16px; border: 0; border-radius: 10px; color: white; background: #2563eb; cursor: pointer; }
-      .grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; max-width: 980px; margin: auto; }
-      .card { padding: 24px; border: 1px solid #e3e9f2; border-radius: 18px; background: white; box-shadow: 0 12px 30px rgba(15, 23, 42, .06); }
-      h1 { margin: 0 0 8px; font-size: 28px; }
-      .muted { color: #64748b; }
-      .form { display: grid; gap: 16px; margin-top: 24px; }
-      label { display: grid; gap: 7px; font-size: 13px; font-weight: 700; }
-      input, select { width: 100%; padding: 11px 12px; border: 1px solid #cbd5e1; border-radius: 10px; font: inherit; }
-      .primary { padding: 12px 16px; border: 0; border-radius: 10px; color: white; background: #0f766e; font-weight: 750; cursor: pointer; }
-      .metric { font-size: 34px; font-weight: 850; }
-      .toast { position: fixed; right: 24px; bottom: 24px; display: none; padding: 12px 16px; border-radius: 10px; color: white; background: #0f766e; }
-      @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .app { padding: 18px; } }
+      .app { max-width: 1080px; margin: 0 auto; padding: 28px 20px 48px; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .brand { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
+      .brand span { color: #4f46e5; }
+      .topbar-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 14px;
+        border: 1px solid #cfd6e3;
+        border-radius: 10px;
+        background: #fff;
+        color: #334155;
+        font: 650 13px/1 inherit;
+        cursor: pointer;
+      }
+      .btn-primary {
+        border-color: transparent;
+        color: #fff;
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.4fr 0.9fr;
+        gap: 16px;
+      }
+      .card {
+        padding: 22px;
+        border: 1px solid #dbe1ea;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+      }
+      h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: -0.03em; }
+      h2 { margin: 0 0 12px; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; }
+      .muted { margin: 0; color: #64748b; font-size: 14px; line-height: 1.5; }
+      .form { display: grid; gap: 14px; margin-top: 20px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      label.field { display: grid; gap: 6px; font-size: 12px; font-weight: 700; color: #475569; }
+      input, select, textarea {
+        width: 100%;
+        padding: 10px 11px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        background: #fff;
+        font: 500 13px/1.4 inherit;
+        color: #0f172a;
+      }
+      textarea { min-height: 84px; resize: vertical; }
+      .inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 16px;
+        align-items: center;
+        padding: 10px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #f8fafc;
+      }
+      .inline label {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #334155;
+        cursor: pointer;
+      }
+      .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+      .primary {
+        padding: 11px 16px;
+        border: 0;
+        border-radius: 10px;
+        color: #fff;
+        background: #0f766e;
+        font-weight: 750;
+        cursor: pointer;
+      }
+      .ghost {
+        padding: 11px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        background: #fff;
+        color: #334155;
+        font-weight: 650;
+        cursor: pointer;
+      }
+      .recordings { display: grid; gap: 10px; margin-top: 14px; }
+      .recording {
+        display: grid;
+        gap: 4px;
+        padding: 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #f8fafc;
+      }
+      .recording strong { font-size: 13px; color: #0f172a; }
+      .recording span { font-size: 12px; color: #64748b; }
+      .badge {
+        display: inline-flex;
+        width: fit-content;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(139, 92, 246, 0.14);
+        color: #6d28d9;
+        font-size: 11px;
+        font-weight: 750;
+      }
+      .toast {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        display: none;
+        padding: 12px 16px;
+        border-radius: 10px;
+        color: #fff;
+        background: #0f766e;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2);
+      }
+      @media (max-width: 860px) {
+        .grid, .row { grid-template-columns: 1fr; }
+        .app { padding: 18px 14px 40px; }
+      }
     </style>
   </head>
   <body>
     <main class="app">
       <header class="topbar">
-        <div class="brand"><span>Smart</span> Attendance</div>
-        <button id="help-guide" class="help">Open System Guider</button>
+        <div class="brand"><span>System</span> Guider Demo</div>
+        <div class="topbar-actions">
+          <button type="button" id="open-panel" class="btn" data-guider="open-panel">Open panel</button>
+          <button type="button" id="play-sample" class="btn btn-primary" data-guider="play-sample">Play sample guide</button>
+        </div>
       </header>
+
       <section class="grid">
         <article class="card">
-          <h1>Mark attendance</h1>
-          <p class="muted">Record today's employee attendance.</p>
-          <form id="attendance-form" class="form">
-            <label>
-              Attendance date
-              <input data-guider="attendance-date" type="date" required />
+          <h1>Create workspace profile</h1>
+          <p class="muted">
+            Generic demo form with mixed HTML inputs. Use System Guider to record steps or play the bundled sample guides.
+          </p>
+
+          <form id="demo-form" class="form">
+            <div class="row">
+              <label class="field">
+                Full name
+                <input data-guider="full-name" type="text" name="fullName" placeholder="Jane Doe" required />
+              </label>
+              <label class="field">
+                Email
+                <input data-guider="email" type="email" name="email" placeholder="jane@example.com" required />
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="field">
+                Password
+                <input data-guider="password" type="password" name="password" placeholder="••••••••" required />
+              </label>
+              <label class="field">
+                Phone
+                <input data-guider="phone" type="tel" name="phone" placeholder="+63 900 000 0000" />
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="field">
+                Website
+                <input data-guider="website" type="url" name="website" placeholder="https://example.com" />
+              </label>
+              <label class="field">
+                Search tags
+                <input data-guider="search" type="search" name="search" placeholder="design, ops, support" />
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="field">
+                Start date
+                <input data-guider="start-date" type="date" name="startDate" required />
+              </label>
+              <label class="field">
+                Reminder time
+                <input data-guider="reminder-time" type="time" name="reminderTime" />
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="field">
+                Team size
+                <input data-guider="team-size" type="number" name="teamSize" min="1" max="500" value="5" />
+              </label>
+              <label class="field">
+                Priority
+                <input data-guider="priority" type="range" name="priority" min="1" max="10" value="5" />
+              </label>
+            </div>
+
+            <div class="row">
+              <label class="field">
+                Department
+                <select data-guider="department" name="department" required>
+                  <option value="">Select department</option>
+                  <option value="product">Product</option>
+                  <option value="engineering">Engineering</option>
+                  <option value="support">Support</option>
+                  <option value="ops">Operations</option>
+                </select>
+              </label>
+              <label class="field">
+                Brand color
+                <input data-guider="brand-color" type="color" name="brandColor" value="#4f46e5" />
+              </label>
+            </div>
+
+            <label class="field">
+              Role
+              <div class="inline" data-guider="role-group">
+                <label><input data-guider="role-admin" type="radio" name="role" value="admin" /> Admin</label>
+                <label><input data-guider="role-editor" type="radio" name="role" value="editor" checked /> Editor</label>
+                <label><input data-guider="role-viewer" type="radio" name="role" value="viewer" /> Viewer</label>
+              </div>
             </label>
-            <label>
-              Employee
-              <select data-guider="employee-select" required>
-                <option value="">Select an employee</option>
-                <option value="ana">Ana Santos</option>
-                <option value="marco">Marco Reyes</option>
-              </select>
+
+            <label class="field">
+              Preferences
+              <div class="inline" data-guider="prefs-group">
+                <label><input data-guider="pref-email" type="checkbox" name="prefs" value="email" checked /> Email alerts</label>
+                <label><input data-guider="pref-sms" type="checkbox" name="prefs" value="sms" /> SMS</label>
+                <label><input data-guider="pref-digest" type="checkbox" name="prefs" value="digest" /> Weekly digest</label>
+              </div>
             </label>
-            <label>
-              Status
-              <select data-guider="attendance-status" required>
-                <option value="present">Present</option>
-                <option value="late">Late</option>
-                <option value="absent">Absent</option>
-              </select>
+
+            <label class="field">
+              Notes
+              <textarea data-guider="notes" name="notes" placeholder="Anything the onboarding guide should mention…"></textarea>
             </label>
-            <button data-guider="submit-attendance" class="primary" type="submit">Save attendance</button>
+
+            <label class="field">
+              Attach file
+              <input data-guider="attachment" type="file" name="attachment" />
+            </label>
+
+            <div class="actions">
+              <button data-guider="submit-profile" class="primary" type="submit">Save profile</button>
+              <button data-guider="reset-form" class="ghost" type="reset">Reset</button>
+            </div>
           </form>
         </article>
+
         <aside class="card">
-          <p class="muted">Present today</p>
-          <div class="metric">87%</div>
-          <p class="muted">Use the System Guider panel to record this form or play the included sample guide.</p>
-          <button data-guider="mark-attendance-btn" id="play-sample" class="help">Play sample guide</button>
+          <h2>Sample recordings</h2>
+          <p class="muted">These guides are preloaded for this page. Open the orb picker or use Play sample guide.</p>
+          <div class="recordings">
+            <div class="recording">
+              <strong>Create profile flow</strong>
+              <span class="badge">8 steps</span>
+              <span>Full form walkthrough with mixed inputs</span>
+            </div>
+            <div class="recording">
+              <strong>Quick contact capture</strong>
+              <span class="badge">3 steps</span>
+              <span>Name, email, and save only</span>
+            </div>
+            <div class="recording">
+              <strong>Preferences combo</strong>
+              <span class="badge">4 steps</span>
+              <span>Department, role, checkboxes, notes</span>
+            </div>
+          </div>
+          <p class="muted" style="margin-top: 16px;">
+            Tip: open the panel, press Record, then interact with any fields above to capture your own multi-step guide.
+          </p>
         </aside>
       </section>
     </main>
-    <div id="toast" class="toast" role="status">Attendance saved</div>
+
+    <div id="toast" class="toast" role="status">Profile saved</div>
     <script type="module" src="./demo.js"></script>
   </body>
 </html>

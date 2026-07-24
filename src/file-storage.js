@@ -6,8 +6,8 @@
  *     {route}/
  *       {guide-name}.json
  * Example:
- *   public/guides/attendance/create-timesheet.json
- *   public/guides/hr/timesheet/mark-attendance.json
+ *   public/guides/dashboard/create-profile.json
+ *   public/guides/settings/preferences.json
  */
 
 export function slugifySegment(value) {
@@ -19,7 +19,7 @@ export function slugifySegment(value) {
   return slug || 'untitled'
 }
 
-/** `/attendance/timesheet` → `attendance/timesheet`; `/` → `root` */
+/** `/settings/profile` → `settings/profile`; `/` → `root` */
 export function routeToDir(urlKey) {
   const parts = String(urlKey || '/')
     .split(/[\\/]+/)
@@ -34,7 +34,7 @@ export function guideFileName(guide) {
   return `${base}.json`
 }
 
-/** Relative path inside public/guides/, e.g. `attendance/create-timesheet.json` */
+/** Relative path inside public/guides/, e.g. `settings/create-profile.json` */
 export function guideRelativePath(guide, urlKey = guide?.url) {
   return `${routeToDir(urlKey)}/${guideFileName(guide)}`
 }

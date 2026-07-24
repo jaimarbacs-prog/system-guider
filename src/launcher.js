@@ -172,7 +172,12 @@ export class Launcher {
     this.bypassPin = '123456'
     this.bypassBuffer = ''
     this.orbHovering = false
-    this.showAccountId = true
+    this.showAccountId = false
+    this.launcherSettings = {
+      size: 80,
+      position: 'bottom-right',
+      animations: true,
+    }
 
     this.root = document.createElement('div')
     this.root.className = 'sg-launcher'
@@ -211,6 +216,7 @@ export class Launcher {
     this.root.addEventListener('click', (event) => this.handleClick(event))
     document.addEventListener('keydown', this.onKeyDown)
     document.body.append(this.root)
+    this.setLauncherSettings(this.launcherSettings)
   }
 
   createMenu() {
@@ -478,6 +484,14 @@ export class Launcher {
       item.dataset.action = 'search-select'
       item.dataset.guideId = guide.id
       const steps = Array.isArray(guide.steps) ? guide.steps.length : 0
+      const rawTitle = String(guide.title || 'Untitled guide').trim()
+      const titleParts = rawTitle.split(' · ')
+      const headTitle = (titleParts[0] || 'Untitled guide').trim()
+      const dateMeta = titleParts.slice(1).join(' · ').trim()
+      const isRedundantStepsTitle = /^\d+\s+steps?$/i.test(headTitle)
+      const displayTitle = isRedundantStepsTitle
+        ? (dateMeta || 'Untitled guide')
+        : rawTitle
       item.innerHTML = `
         <span class="sg-launcher__result-spark">${sparkIcon}</span>
         <span class="sg-launcher__result-copy">
@@ -486,7 +500,7 @@ export class Launcher {
         </span>
         <span class="sg-launcher__result-arrow">→</span>
       `
-      item.querySelector('.sg-launcher__result-title').textContent = guide.title || 'Untitled guide'
+      item.querySelector('.sg-launcher__result-title').textContent = displayTitle
       item.querySelector('.sg-launcher__result-meta').textContent =
         `${guide.url || '/'} · ${steps} step${steps === 1 ? '' : 's'}`
       this.searchResults.append(item)
@@ -732,8 +746,21 @@ export class Launcher {
   }
 
   setShowAccountId(show) {
-    this.showAccountId = show !== false
+    this.showAccountId = Boolean(show)
     this.syncAccountLabel()
+  }
+
+  setLauncherSettings(settings = {}) {
+    const size = Math.min(96, Math.max(48, Math.round(Number(settings.size) || 80)))
+    const positions = ['bottom-right', 'bottom-left', 'top-right', 'top-left']
+    const position = positions.includes(settings.position) ? settings.position : 'bottom-right'
+    const animations = settings.animations !== false
+    this.launcherSettings = { size, position, animations }
+    this.root.style.setProperty('--sg-orb-size', `${size}px`)
+    positions.forEach((value) => {
+      this.root.classList.toggle(`is-position-${value}`, position === value)
+    })
+    this.root.classList.toggle('is-orb-static', !animations)
   }
 
   syncAccountLabel() {
@@ -931,7 +958,14 @@ export class Launcher {
     const copy = document.createElement('span')
     copy.className = 'sg-guide-picker__copy'
     const name = document.createElement('strong')
-    name.textContent = guide.title || 'Untitled guide'
+    const rawTitle = String(guide.title || 'Untitled guide').trim()
+    const titleParts = rawTitle.split(' · ')
+    const headTitle = (titleParts[0] || 'Untitled guide').trim()
+    const dateMeta = titleParts.slice(1).join(' · ').trim()
+    const isRedundantStepsTitle = /^\d+\s+steps?$/i.test(headTitle)
+    name.textContent = isRedundantStepsTitle
+      ? (dateMeta || 'Untitled guide')
+      : rawTitle
     const meta = document.createElement('small')
     const steps = Array.isArray(guide.steps) ? guide.steps.length : Number(guide.steps) || 0
     const pathSpan = document.createElement('span')

@@ -1,0 +1,39 @@
+{
+  "id": "preferences-combo",
+  "title": "Preferences combo",
+  "version": 1,
+  "steps": [
+    {
+      "id": "department-step",
+      "selector": "[data-guider=\"department\"]",
+      "action": "input",
+      "title": "Choose department",
+      "description": "Select the department this profile belongs to.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "role-step",
+      "selector": "[data-guider=\"role-admin\"]",
+      "action": "click",
+      "title": "Set role to Admin",
+      "description": "Use the radio group to pick Admin.",
+      "waitFor": null
+    },
+    {
+      "id": "prefs-step",
+      "selector": "[data-guider=\"pref-digest\"]",
+      "action": "click",
+      "title": "Enable weekly digest",
+      "description": "Toggle a checkbox preference.",
+      "waitFor": null
+    },
+    {
+      "id": "notes-step",
+      "selector": "[data-guider=\"notes\"]",
+      "action": "input",
+      "title": "Write a short note",
+      "description": "Capture free-form notes in the textarea.",
+      "waitFor": { "type": "input", "required": false }
+    }
+  ]
+}

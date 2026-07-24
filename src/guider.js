@@ -117,6 +117,7 @@ export class Guider {
       ...this.options,
       skipLabel: this.options.labels?.skip || 'Skip Step',
       onSkip: () => this.skip(),
+      onEnd: () => this.endPlayback(),
       onHighlightBox: (box) => this.panel?.avoidHighlight(box),
       onTargetLost: () => this.player?.onSpotlightTargetLost?.(),
       ui: this.settings.ui,
@@ -165,6 +166,7 @@ export class Guider {
     this.launcher?.setApiReady(this.apiReady)
     this.launcher?.setReadOnly(this.readOnly)
     this.launcher?.setBypassPin?.(this.settings?.bypassPin)
+    this.launcher?.setLauncherSettings?.(this.settings?.launcher)
     this.launcher?.setAccountId?.(this.accountId)
     this.onKeyDown = this.onKeyDown.bind(this)
     this.onUrlChange = this.onUrlChange.bind(this)
@@ -243,6 +245,7 @@ export class Guider {
       applyUiTheme(this.settings)
       this.overlay?.applyUiSettings?.(this.settings.ui)
       this.player?.setUiOptions?.(this.settings.ui)
+      this.launcher?.setLauncherSettings?.(this.settings.launcher)
       this.applyAccessPolicy()
     } catch {
       // Keep in-memory defaults when settings.json is missing.
@@ -298,7 +301,8 @@ export class Guider {
     const show = this.options.showLauncher !== false && !pathHidden
     this.setLauncherVisible(show)
     this.launcher?.setBypassPin?.(this.settings?.bypassPin)
-    this.launcher?.setShowAccountId?.(this.settings?.showAccountId !== false)
+    this.launcher?.setShowAccountId?.(Boolean(this.settings?.showAccountId))
+    this.launcher?.setLauncherSettings?.(this.settings?.launcher)
     return this
   }
 
@@ -776,6 +780,7 @@ export class Guider {
       || key === 'showAccountId'
       || key === 'reloadOnNavigate' || key === 'resetBeforePlay' || key === 'resetBeforePlayDelay'
       || key === 'theme'
+      || String(key || '').startsWith('launcher.')
       || String(key || '').startsWith('ui.'))) {
       return this
     }
@@ -788,6 +793,15 @@ export class Guider {
     if (key === 'hiddenUrls') next.hiddenUrls = value
     if (key === 'bypassPin') next.bypassPin = value
     if (key === 'showAccountId') next.showAccountId = Boolean(value)
+
+    if (String(key || '').startsWith('launcher.')) {
+      const launcherKey = String(key).slice(9)
+      const launcher = { ...next.launcher }
+      if (launcherKey === 'size') launcher.size = Number(value)
+      if (launcherKey === 'position') launcher.position = String(value || 'bottom-right')
+      if (launcherKey === 'animations') launcher.animations = Boolean(value)
+      next.launcher = launcher
+    }
 
     if (String(key || '').startsWith('ui.')) {
       const uiKey = String(key).slice(3)
@@ -803,6 +817,8 @@ export class Guider {
           : ui.overlayOpacity
       } else if (uiKey === 'transitionMs') {
         ui.transitionMs = Math.max(0, Math.round(Number(value) || 0))
+      } else if (uiKey === 'fontFamily') {
+        ui.fontFamily = String(value || 'system')
       } else if (['tipBg', 'tipText', 'skipBg', 'skipText', 'spotlightColor'].includes(uiKey)) {
         ui[uiKey] = String(value || '')
       }
@@ -815,6 +831,7 @@ export class Guider {
     applyUiTheme(this.settings)
     this.overlay?.applyUiSettings?.(this.settings.ui)
     this.player?.setUiOptions?.(this.settings.ui)
+    this.launcher?.setLauncherSettings?.(this.settings.launcher)
     this.scheduleSettingsSave()
     if (key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin') {
       this.applyAccessPolicy()
@@ -823,9 +840,10 @@ export class Guider {
       this.launcher?.setShowAccountId?.(this.settings.showAccountId)
     }
 
-    const skipRender = key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin' || key === 'showAccountId' || (String(key || '').startsWith('ui.') && (
+    const skipRender = key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin' || key === 'showAccountId'
+      || String(key || '').startsWith('launcher.') || (String(key || '').startsWith('ui.') && (
       key.includes('Bg') || key.includes('Text') || key.includes('Color')
-      || key === 'ui.overlayOpacity' || key === 'ui.transitionMs'
+      || key === 'ui.overlayOpacity' || key === 'ui.transitionMs' || key === 'ui.fontFamily'
     ))
     if (!skipRender) this.render()
     return this
@@ -989,7 +1007,8 @@ export class Guider {
     this.launcher?.setApiReady(this.apiReady)
     this.launcher?.setReadOnly(this.readOnly)
     this.launcher?.setBypassPin?.(this.settings?.bypassPin)
-    this.launcher?.setShowAccountId?.(this.settings?.showAccountId !== false)
+    this.launcher?.setShowAccountId?.(Boolean(this.settings?.showAccountId))
+    this.launcher?.setLauncherSettings?.(this.settings?.launcher)
     this.launcher?.setAccountId?.(this.accountId)
     this.launcher?.setVisible(this.launcherVisible)
     this.launcher?.setSearchData(this.getAllGuides(), this.getUrlKey())
@@ -1346,6 +1365,20 @@ export class Guider {
     if (this.options.showLauncher) this.closePanel()
     else this.openPanel()
     this.options.onComplete?.()
+  }
+
+  endPlayback() {
+    if (this.mode !== 'playback' && !this.player?.active) return this
+    clearPendingPlay(this.options.storageKey)
+    clearTimeout(this.playbackResumeTimer)
+    this.player.stop()
+    this.overlay.setControlsEnabled(false)
+    this.overlay.hide()
+    this.mode = this.options.showLauncher ? 'idle' : 'manage'
+    this.render()
+    if (this.options.showLauncher) this.closePanel()
+    else this.openPanel()
+    return this
   }
 
   next() {

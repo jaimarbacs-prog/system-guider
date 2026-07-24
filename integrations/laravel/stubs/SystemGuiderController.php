@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Library\Helper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class SystemGuiderController extends Controller
@@ -28,14 +28,14 @@ class SystemGuiderController extends Controller
 
     private function readIndex(): array
     {
-        $indexPath = $this->guidesRoot().'/index.json';
-        if(!File::exists($indexPath))
+        $index_path = $this->guidesRoot().'/index.json';
+        if(!File::exists($index_path))
         {
             File::ensureDirectoryExists($this->guidesRoot());
-            File::put($indexPath, json_encode(['version' => 1, 'guides' => []], JSON_PRETTY_PRINT)."\n");
+            File::put($index_path, json_encode(['version' => 1, 'guides' => []], JSON_PRETTY_PRINT)."\n");
         }
 
-        $data = json_decode(File::get($indexPath), true);
+        $data = json_decode(File::get($index_path), true);
 
         return is_array($data)
             ? ['version' => (int) ($data['version'] ?? 1), 'guides' => is_array($data['guides'] ?? null) ? $data['guides'] : []]
@@ -128,8 +128,8 @@ class SystemGuiderController extends Controller
     private function buildSettingsPayload(array $settings, ?array $existing = null): array
     {
         $base = is_array($existing) ? $existing : [];
-        $pinRaw = $settings['bypassPin'] ?? $base['bypassPin'] ?? '123456';
-        $pin = preg_replace('/\D+/', '', (string) $pinRaw) ?? '';
+        $pin_raw = $settings['bypassPin'] ?? $base['bypassPin'] ?? '123456';
+        $pin = preg_replace('/\D+/', '', (string) $pin_raw) ?? '';
         $pin = substr($pin, 0, 12);
         $theme = strtolower((string) ($settings['theme'] ?? $base['theme'] ?? 'dark')) === 'light' ? 'light' : 'dark';
 
@@ -141,13 +141,18 @@ class SystemGuiderController extends Controller
             'resetBeforePlayDelay' => max(0, (int) ($settings['resetBeforePlayDelay'] ?? $base['resetBeforePlayDelay'] ?? 450)),
             'theme' => $theme,
             'bypassPin' => $pin,
-            'showAccountId' => (bool) ($settings['showAccountId'] ?? $base['showAccountId'] ?? true),
+            'showAccountId' => (bool) ($settings['showAccountId'] ?? $base['showAccountId'] ?? false),
             'editorAccountIds' => $this->normalizeIdList(
                 $settings['editorAccountIds'] ?? $settings['guiderAccounts'] ?? $base['editorAccountIds'] ?? []
             ),
             'hiddenUrls' => $this->normalizeHiddenUrlList(
-                $settings['hiddenUrls'] ?? $settings['hiddenRoutes'] ?? $base['hiddenUrls'] ?? ['/login']
+                $settings['hiddenUrls'] ?? $settings['hiddenRoutes'] ?? $base['hiddenUrls'] ?? ['/login', '/']
             ),
+            'launcher' => is_array($settings['launcher'] ?? null)
+                ? $settings['launcher']
+                : (is_array($base['launcher'] ?? null)
+                    ? $base['launcher']
+                    : ['size' => 80, 'position' => 'bottom-right', 'animations' => true]),
         ];
 
         if(isset($settings['ui']) && is_array($settings['ui']))
@@ -164,14 +169,15 @@ class SystemGuiderController extends Controller
 
     private function currentAccountId(): ?string
     {
-        if(!Helper::isAuthenticated())
-        {
-            return null;
-        }
-
         try
         {
-            return (string) Helper::authId();
+            $id = Auth::id();
+            if($id === null || $id === '')
+            {
+                return null;
+            }
+
+            return (string) $id;
         }
         catch(\Throwable $e)
         {
@@ -189,13 +195,13 @@ class SystemGuiderController extends Controller
             return false;
         }
 
-        $accountId = $this->currentAccountId();
-        if($accountId === null || $accountId === '')
+        $account_id = $this->currentAccountId();
+        if($account_id === null || $account_id === '')
         {
             return false;
         }
 
-        return in_array($accountId, $allowed, true);
+        return in_array($account_id, $allowed, true);
     }
 
     private function assertCanManageGuides(): ?JsonResponse
@@ -217,9 +223,9 @@ class SystemGuiderController extends Controller
         return $slug !== '' ? $slug : 'untitled';
     }
 
-    private function routeToDir(string $urlKey): string
+    private function routeToDir(string $url_key): string
     {
-        $parts = array_filter(array_map('trim', preg_split('/[\\\\\\/]+/', $urlKey) ?: []));
+        $parts = array_filter(array_map('trim', preg_split('/[\\\\\\/]+/', $url_key) ?: []));
         if($parts === [])
         {
             return 'root';
@@ -231,11 +237,11 @@ class SystemGuiderController extends Controller
         }, $parts));
     }
 
-    private function defaultPath(array $guide, string $urlKey): string
+    private function defaultPath(array $guide, string $url_key): string
     {
         $title = $this->slugify($guide['title'] ?? $guide['id'] ?? 'guide');
 
-        return $this->routeToDir($urlKey).'/'.$title.'.json';
+        return $this->routeToDir($url_key).'/'.$title.'.json';
     }
 
     public function index(): JsonResponse
@@ -261,8 +267,8 @@ class SystemGuiderController extends Controller
             return response()->json(['error' => 'guide with steps is required'], 422);
         }
 
-        $urlKey = (string) ($request->input('urlKey') ?? $guide['url'] ?? '/');
-        $path = $this->safeRelativePath((string) ($request->input('path') ?? $this->defaultPath($guide, $urlKey)));
+        $url_key = (string) ($request->input('urlKey') ?? $guide['url'] ?? '/');
+        $path = $this->safeRelativePath((string) ($request->input('path') ?? $this->defaultPath($guide, $url_key)));
         $absolute = $this->guidesRoot().'/'.$path;
 
         File::ensureDirectoryExists(dirname($absolute));
@@ -273,7 +279,7 @@ class SystemGuiderController extends Controller
         $entry = [
             'id' => (string) ($guide['id'] ?? uniqid('guide-', true)),
             'title' => (string) ($guide['title'] ?? 'Untitled guide'),
-            'url' => $urlKey,
+            'url' => $url_key,
             'path' => $path,
             'updatedAt' => now()->toIso8601String(),
         ];
@@ -329,12 +335,12 @@ class SystemGuiderController extends Controller
         }
 
         $index = $this->readIndex();
-        $guideId = $request->input('guideId');
+        $guide_id = $request->input('guideId');
         $path = $request->input('path');
 
-        $entry = collect($index['guides'])->first(function($item) use ($guideId, $path)
+        $entry = collect($index['guides'])->first(function($item) use ($guide_id, $path)
         {
-            if($guideId && ($item['id'] ?? null) === $guideId)
+            if($guide_id && ($item['id'] ?? null) === $guide_id)
             {
                 return true;
             }
@@ -346,19 +352,19 @@ class SystemGuiderController extends Controller
             return false;
         });
 
-        $resolvedPath = $path ?: ($entry['path'] ?? null);
-        if($resolvedPath)
+        $resolved_path = $path ?: ($entry['path'] ?? null);
+        if($resolved_path)
         {
-            $absolute = $this->guidesRoot().'/'.$this->safeRelativePath($resolvedPath);
+            $absolute = $this->guidesRoot().'/'.$this->safeRelativePath($resolved_path);
             if(File::exists($absolute))
             {
                 File::delete($absolute);
             }
         }
 
-        $index['guides'] = array_values(array_filter($index['guides'], function($item) use ($guideId, $path, $entry)
+        $index['guides'] = array_values(array_filter($index['guides'], function($item) use ($guide_id, $path, $entry)
         {
-            if($guideId && ($item['id'] ?? null) === $guideId)
+            if($guide_id && ($item['id'] ?? null) === $guide_id)
             {
                 return false;
             }

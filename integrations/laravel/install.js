@@ -71,19 +71,21 @@ function patchWebRoutes(laravelRoot) {
     return
   }
 
-  const homePattern = /(Route::get\('\/', \[HomeController::class, 'index'\]\)->name\('home'\);)/
-
-  if (homePattern.test(content)) {
-    content = content.replace(homePattern, `$1\n${requireLine}`)
+  // Prefer appending before the final closing brace of a Route::middleware group,
+  // otherwise append at end of file.
+  const groupClose = content.lastIndexOf('});')
+  if (groupClose !== -1 && /Route::middleware\s*\(/.test(content)) {
+    content =
+      content.slice(0, groupClose) +
+      `\n${requireLine}\n` +
+      content.slice(groupClose)
     writeFileSync(webPath, content)
-    console.log('  patched: routes/web.php (added require after home route)')
+    console.log('  patched: routes/web.php (added require inside route group)')
     return
   }
 
-  console.warn('  Could not auto-patch routes/web.php.')
-  console.log('  Add this inside your authenticated middleware group:')
-  console.log(`    ${marker}`)
-  console.log("    require __DIR__.'/system-guider.php';")
+  writeFileSync(webPath, content.trimEnd() + `\n\n${requireLine}\n`)
+  console.log('  patched: routes/web.php (appended require)')
 }
 
 const laravelRoot = findLaravelRoot(process.cwd())

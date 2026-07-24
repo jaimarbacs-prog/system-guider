@@ -181,7 +181,7 @@ export function resolveHighlightTarget(element) {
   if (isElementPresent(element)) {
     // Avoid expanding tiny labels into huge page cards/panels.
     const oversized = element.closest?.(
-      '.p-overlaypanel, .modal-content, .card, .offcanvas, [class*="overlay-custom"], .attendance-tracking, .filter-panel',
+      '.p-overlaypanel, .modal-content, .card, .offcanvas, [class*="overlay-custom"], .filter-panel',
     )
     if (oversized && oversized !== element && !element.matches('input, textarea, select, button, a, [role="combobox"]')) {
       return element

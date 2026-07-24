@@ -5,5 +5,14 @@
   "resetBeforePlayDelay": 450,
   "editorAccountIds": [],
   "bypassPin": "123456",
-  "hiddenUrls": ["/login"]
+  "showAccountId": false,
+  "hiddenUrls": ["/login", "/"],
+  "launcher": {
+    "size": 80,
+    "position": "bottom-right",
+    "animations": true
+  },
+  "ui": {
+    "fontFamily": "system"
+  }
 }

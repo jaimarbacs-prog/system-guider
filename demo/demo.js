@@ -1,69 +1,69 @@
 import SystemGuider from '../src/index.js'
-import sampleGuide from './guides/mark-attendance.json'
+import createProfileGuide from './guides/create-profile.json'
+import quickContactGuide from './guides/quick-contact.json'
+import preferencesComboGuide from './guides/preferences-combo.json'
 
-const pagePath = window.location.pathname
+/** Stable page key so guides match on localhost and GitHub Pages (/system-guider/). */
+const DEMO_URL = '/'
 
-const quickOverviewGuide = {
-  id: 'attendance-overview',
-  title: 'Attendance page overview',
+/** Short overview recording shown beside the longer flows. */
+const panelOverviewGuide = {
+  id: 'panel-overview',
+  title: 'Open System Guider panel',
   version: 1,
   steps: [
     {
-      id: 'overview-start',
-      selector: '[data-guider="mark-attendance-btn"]',
+      id: 'open-panel-step',
+      selector: '[data-guider="open-panel"]',
       action: 'click',
-      title: 'Attendance help',
-      description: 'This area starts the attendance workflow.',
+      title: 'Open the panel',
+      description: 'Use Open panel to manage recordings, settings, and playback.',
       waitFor: null,
     },
-  ],
-}
-
-const employeeGuide = {
-  id: 'employee-attendance',
-  title: 'Select an employee',
-  version: 1,
-  steps: [
     {
-      id: 'employee-select',
-      selector: '[data-guider="employee-select"]',
-      action: 'input',
-      title: 'Choose an employee',
-      description: 'Select any employee from the list.',
-      waitFor: { type: 'input', required: true, mode: 'interaction' },
-    },
-    {
-      id: 'employee-save',
-      selector: '[data-guider="submit-attendance"]',
+      id: 'play-sample-step',
+      selector: '[data-guider="play-sample"]',
       action: 'click',
-      title: 'Save attendance',
-      description: 'Save the completed attendance record.',
+      title: 'Play a sample guide',
+      description: 'This starts one of the preloaded recordings for the page.',
       waitFor: null,
     },
   ],
 }
 
 const guider = SystemGuider.init({
-  storageKey: 'smart-attendance:guider',
+  storageKey: 'system-guider:demo',
+  accountId: 'demo-editor',
   showLauncher: true,
   guidesByUrl: true,
-  guides: {
-    [pagePath]: [sampleGuide, quickOverviewGuide, employeeGuide],
+  getUrlKey: () => DEMO_URL,
+  settings: {
+    editorAccountIds: ['demo-editor'],
+    showAccountId: true,
   },
-  onComplete: () => console.log('Attendance guide completed'),
+  guides: {
+    [DEMO_URL]: [
+      createProfileGuide,
+      quickContactGuide,
+      preferencesComboGuide,
+      panelOverviewGuide,
+    ],
+  },
+  onComplete: () => console.log('Demo guide completed'),
 })
 
-document.querySelector('#help-guide')?.addEventListener('click', () => {
-  guider.playPageGuide()
+document.querySelector('#open-panel')?.addEventListener('click', () => {
+  guider.openPanel()
 })
 
 document.querySelector('#play-sample')?.addEventListener('click', () => {
   guider.playPageGuide()
 })
 
-document.querySelector('#attendance-form')?.addEventListener('submit', (event) => {
+document.querySelector('#demo-form')?.addEventListener('submit', (event) => {
   event.preventDefault()
   const toast = document.querySelector('#toast')
+  if (!toast) return
   toast.style.display = 'block'
   setTimeout(() => { toast.style.display = 'none' }, 1800)
 })

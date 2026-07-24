@@ -1,0 +1,71 @@
+{
+  "id": "create-profile-flow",
+  "title": "Create profile flow",
+  "version": 1,
+  "steps": [
+    {
+      "id": "start-play",
+      "selector": "[data-guider=\"play-sample\"]",
+      "action": "click",
+      "title": "Start from the demo action",
+      "description": "Use this button when you want to replay the sample walkthrough.",
+      "waitFor": null
+    },
+    {
+      "id": "enter-name",
+      "selector": "[data-guider=\"full-name\"]",
+      "action": "input",
+      "title": "Enter full name",
+      "description": "Type the person's display name.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "enter-email",
+      "selector": "[data-guider=\"email\"]",
+      "action": "input",
+      "title": "Enter email",
+      "description": "Provide a valid email address.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "choose-date",
+      "selector": "[data-guider=\"start-date\"]",
+      "action": "input",
+      "title": "Pick a start date",
+      "description": "Choose when this profile becomes active.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "choose-department",
+      "selector": "[data-guider=\"department\"]",
+      "action": "input",
+      "title": "Select department",
+      "description": "Pick one department from the list.",
+      "waitFor": { "type": "input", "required": true }
+    },
+    {
+      "id": "choose-role",
+      "selector": "[data-guider=\"role-editor\"]",
+      "action": "click",
+      "title": "Choose a role",
+      "description": "Select Editor (or another radio option).",
+      "waitFor": null
+    },
+    {
+      "id": "add-notes",
+      "selector": "[data-guider=\"notes\"]",
+      "action": "input",
+      "title": "Add notes",
+      "description": "Optional notes for the onboarding team.",
+      "waitFor": { "type": "input", "required": false }
+    },
+    {
+      "id": "save-profile",
+      "selector": "[data-guider=\"submit-profile\"]",
+      "action": "click",
+      "title": "Save profile",
+      "description": "Submit the completed form.",
+      "waitFor": null
+    }
+  ]
+}
