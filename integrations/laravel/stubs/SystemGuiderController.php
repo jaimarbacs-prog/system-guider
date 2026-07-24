@@ -142,6 +142,9 @@ class SystemGuiderController extends Controller
             'theme' => $theme,
             'bypassPin' => $pin,
             'showAccountId' => (bool) ($settings['showAccountId'] ?? $base['showAccountId'] ?? false),
+            'showOrb' => array_key_exists('showOrb', $settings)
+                ? (bool) $settings['showOrb']
+                : (array_key_exists('showOrb', $base) ? (bool) $base['showOrb'] : true),
             'editorAccountIds' => $this->normalizeIdList(
                 $settings['editorAccountIds'] ?? $settings['guiderAccounts'] ?? $base['editorAccountIds'] ?? []
             ),

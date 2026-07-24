@@ -524,7 +524,8 @@ router.on('navigate', (event) => {
           [
             ['editorAccountIds', 'Allow-list for Record/Panel. Empty ⇒ all users are viewers.'],
             ['bypassPin', 'Digits only. Hover orb and type to open settings when locked. Empty disables.'],
-            ['showAccountId', 'Show Account ID label on the launcher (default true).'],
+            ['showOrb', 'Show floating orb. Default true. false turns off System Guider UI.'],
+            ['showAccountId', 'Show Account ID label on the launcher (default false).'],
             ['hiddenUrls', 'Path prefixes where the launcher is hidden.'],
             ['theme', 'Panel chrome: dark | light.'],
             ['ui.*', 'Playback appearance tokens (colors, opacity, motion).'],

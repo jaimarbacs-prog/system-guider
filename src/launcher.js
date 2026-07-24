@@ -164,7 +164,7 @@ export class Launcher {
     this.guideCount = 0
     this.apiReady = true
     this.readOnly = false
-    this.visible = true
+    this.visible = false
     this.menuOpen = false
     this.searchGuides = []
     this.searchCurrentUrl = '/'
@@ -180,9 +180,11 @@ export class Launcher {
     }
 
     this.root = document.createElement('div')
-    this.root.className = 'sg-launcher'
+    this.root.className = 'sg-launcher is-hidden'
+    this.root.hidden = true
     this.root.style.zIndex = String(zIndex + 5)
     this.root.setAttribute('aria-label', 'System Guider actions')
+    this.root.setAttribute('aria-hidden', 'true')
 
     this.optionsRoot = document.createElement('section')
     this.optionsRoot.className = 'sg-guide-picker'
@@ -775,6 +777,7 @@ export class Launcher {
     this.visible = Boolean(visible)
     this.root.hidden = !this.visible
     this.root.classList.toggle('is-hidden', !this.visible)
+    this.root.setAttribute('aria-hidden', String(!this.visible))
     if (!this.visible) this.setMenuOpen(false)
   }
 

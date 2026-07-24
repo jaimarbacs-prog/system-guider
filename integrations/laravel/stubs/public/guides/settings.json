@@ -7,7 +7,7 @@
   "bypassPin": "123456",
   "showAccountId": false,
   "showOrb": true,
-  "hiddenUrls": ["/login"],
+  "hiddenUrls": ["/login", "/"],
   "launcher": {
     "size": 80,
     "position": "bottom-right",

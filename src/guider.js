@@ -111,7 +111,9 @@ export class Guider {
     this.panelVisible = !this.options.showLauncher
     this.readOnly = false
     this.bypassUnlocked = false
-    this.launcherVisible = this.options.showLauncher !== false
+    // Start hidden; applyAccessPolicy / bootstrap decide when to show (avoids orb flash).
+    this.launcherVisible = false
+    this.settingsReady = !this.fileStorage
     this.accountId = options.accountId ?? null
     this.overlay = new SpotlightOverlay({
       ...this.options,
@@ -168,6 +170,7 @@ export class Guider {
     this.launcher?.setBypassPin?.(this.settings?.bypassPin)
     this.launcher?.setLauncherSettings?.(this.settings?.launcher)
     this.launcher?.setAccountId?.(this.accountId)
+    this.launcher?.setVisible(false)
     this.onKeyDown = this.onKeyDown.bind(this)
     this.onUrlChange = this.onUrlChange.bind(this)
     document.addEventListener('keydown', this.onKeyDown)
@@ -231,24 +234,30 @@ export class Guider {
   }
 
   async reloadFileSettings() {
-    if (!this.fileStorage) return
+    if (!this.fileStorage) {
+      this.settingsReady = true
+      return
+    }
     try {
       const remote = await loadSettingsFromFileStorage(this.fileStorage)
-      if (!remote) return
-      this.settings = normalizeGuiderSettings({
-        ...this.settings,
-        ...remote,
-        ...(this.options.settings || {}),
-      })
-      this.options.resetBeforePlay = this.settings.resetBeforePlay
-      this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay
-      applyUiTheme(this.settings)
-      this.overlay?.applyUiSettings?.(this.settings.ui)
-      this.player?.setUiOptions?.(this.settings.ui)
-      this.launcher?.setLauncherSettings?.(this.settings.launcher)
-      this.applyAccessPolicy()
+      if (remote) {
+        this.settings = normalizeGuiderSettings({
+          ...this.settings,
+          ...remote,
+          ...(this.options.settings || {}),
+        })
+        this.options.resetBeforePlay = this.settings.resetBeforePlay
+        this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay
+        applyUiTheme(this.settings)
+        this.overlay?.applyUiSettings?.(this.settings.ui)
+        this.player?.setUiOptions?.(this.settings.ui)
+        this.launcher?.setLauncherSettings?.(this.settings.launcher)
+      }
     } catch {
       // Keep in-memory defaults when settings.json is missing.
+    } finally {
+      this.settingsReady = true
+      this.applyAccessPolicy()
     }
   }
 
@@ -297,6 +306,12 @@ export class Guider {
     const canManage = this.bypassUnlocked
       || canAccountManageGuides(this.accountId, this.settings?.editorAccountIds)
     this.setReadOnly(!canManage)
+    // Wait for settings.json before showing the orb when file storage is on
+    // (prevents flash on hiddenUrls / showOrb:false pages).
+    if (this.fileStorage && !this.settingsReady) {
+      this.setLauncherVisible(false)
+      return this
+    }
     const pathHidden = isUrlHiddenForGuider(this.getUrlKey(), this.settings?.hiddenUrls)
     const orbEnabled = this.settings?.showOrb !== false
     const show = this.options.showLauncher !== false && orbEnabled && !pathHidden
@@ -320,6 +335,8 @@ export class Guider {
 
   async bootstrap() {
     await Promise.all([this.reloadFileGuides(), this.reloadFileSettings()])
+    this.settingsReady = true
+    this.applyAccessPolicy()
     try {
       const pageGuide = this.getGuideForCurrentPage()
       if (pageGuide) this.load(pageGuide, { dirty: false, mode: 'idle' })

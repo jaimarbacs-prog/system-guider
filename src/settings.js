@@ -58,10 +58,10 @@ export const defaultGuiderSettings = () => ({
   showOrb: true,
   /**
    * Pathname prefixes/paths where the floating toolbar is hidden.
-   * Default: login only. Add `/` if your app serves login (or no-guider pages) at the root.
-   * Examples: /login, /time-log
+   * Includes `/` for apps that serve login (or no-guider pages) at the root.
+   * Examples: /login, /, /time-log
    */
-  hiddenUrls: ['/login'],
+  hiddenUrls: ['/login', '/'],
   launcher: defaultLauncherSettings(),
   ui: defaultUiSettings(),
 })
