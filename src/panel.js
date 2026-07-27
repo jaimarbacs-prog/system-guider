@@ -1940,9 +1940,8 @@ export class Panel {
       return null
     } else if (mode === 'playback') {
       footer.append(
-        button(this.labels.back, 'prev', 'secondary'),
-        button(this.labels.skip, 'skip', 'secondary'),
-        button(this.labels.next, 'next', 'primary'),
+        button(this.labels.back || 'Back', 'prev', 'secondary'),
+        button(this.labels.next || this.labels.skip || 'Next Step', 'next', 'primary'),
         button(this.labels.close, 'close', 'ghost'),
       )
       footer.querySelector('[data-action="prev"]').disabled = this.state.currentIndex <= 0

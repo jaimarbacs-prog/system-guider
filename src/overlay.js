@@ -207,7 +207,7 @@ export class SpotlightOverlay {
     zIndex = 2147483000,
     onSkip = null,
     onEnd = null,
-    skipLabel = 'Skip Step',
+    skipLabel = 'Next Step',
     onHighlightBox = null,
     onTargetLost = null,
     ui = null,
@@ -614,8 +614,8 @@ export class SpotlightOverlay {
     nextButton.type = 'button'
     nextButton.className = 'sg-step-tip__next'
     const isLast = total ? Number(number) >= Number(total) : false
-    const skipText = isLast ? 'Finish' : (this.skipLabel || 'Skip Step')
-    nextButton.innerHTML = `<span>${skipText}</span>${SG_ICON_CHEVRON}`
+    const nextText = isLast ? 'Finish' : (this.skipLabel || 'Next Step')
+    nextButton.innerHTML = `<span>${nextText}</span>${SG_ICON_CHEVRON}`
     nextButton.addEventListener('click', this.onSkipClick)
 
     actions.append(endButton, nextButton)

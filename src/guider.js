@@ -48,7 +48,7 @@ const defaultLabels = {
   next: 'Next Step',
   back: 'Back',
   close: 'Close Guide',
-  skip: 'Skip Step',
+  skip: 'Next Step',
   startRecording: 'Start Recording',
   stopRecording: 'Stop Recording',
 }
@@ -117,7 +117,7 @@ export class Guider {
     this.accountId = options.accountId ?? null
     this.overlay = new SpotlightOverlay({
       ...this.options,
-      skipLabel: this.options.labels?.skip || 'Skip Step',
+      skipLabel: this.options.labels?.skip || this.options.labels?.next || 'Next Step',
       onSkip: () => this.skip(),
       onEnd: () => this.endPlayback(),
       onHighlightBox: (box) => this.panel?.avoidHighlight(box),
