@@ -1446,6 +1446,36 @@ export class Panel {
     resetDelayField.append(resetDelayWrap)
     form.append(resetDelayField)
 
+    const settleCheck = document.createElement('label')
+    settleCheck.className = 'sg-check sg-settings__row sg-defaults-panel__check'
+    const settleToggle = document.createElement('input')
+    settleToggle.type = 'checkbox'
+    settleToggle.dataset.setting = 'pageSettleAfterClick'
+    settleToggle.checked = settings.pageSettleAfterClick !== false
+    settleCheck.append(settleToggle, document.createTextNode(' Wait for page loaders after click'))
+    form.append(settleCheck)
+
+    const postReadyField = document.createElement('label')
+    postReadyField.className = 'sg-step-settings__field sg-settings__row sg-defaults-panel__field'
+    postReadyField.append(document.createTextNode('Post-ready delay (ms)'))
+    const postReadyWrap = document.createElement('div')
+    postReadyWrap.className = 'sg-field-shell'
+    const postReadyIcon = document.createElement('span')
+    postReadyIcon.className = 'sg-field-shell__icon'
+    postReadyIcon.setAttribute('aria-hidden', 'true')
+    postReadyIcon.innerHTML = ICON_CLOCK
+    const postReadyInput = document.createElement('input')
+    postReadyInput.type = 'number'
+    postReadyInput.min = '0'
+    postReadyInput.max = '10000'
+    postReadyInput.step = '50'
+    postReadyInput.className = 'sg-field sg-field--shell'
+    postReadyInput.dataset.setting = 'postReadyDelay'
+    postReadyInput.value = String(settings.postReadyDelay ?? 1500)
+    postReadyWrap.append(postReadyIcon, postReadyInput)
+    postReadyField.append(postReadyWrap)
+    form.append(postReadyField)
+
     const themeField = document.createElement('label')
     themeField.className = 'sg-step-settings__field sg-settings__row sg-defaults-panel__field'
     themeField.append(document.createTextNode('Theme mode'))
@@ -1898,7 +1928,7 @@ export class Panel {
           ? 'Target not found. Skipping to the next step…'
           : 'Target not found. Follow this guide\'s requirements first, then continue — or skip this step.'),
       ))
-    } else if (this.state.waiting && (this.state.waitKind === 'target' || this.state.waitKind === 'navigate')) {
+    } else if (this.state.waiting && (this.state.waitKind === 'target' || this.state.waitKind === 'navigate' || this.state.waitKind === 'settle')) {
       container.append(text(
         'p',
         'sg-status sg-status--waiting',

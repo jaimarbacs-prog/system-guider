@@ -1,4 +1,13 @@
-import { isElementPresent, isElementReady, resolveElement, resolveHighlightTarget, resolveStepTarget, waitForStableElement } from './selectors.js'
+import {
+  isElementPresent,
+  isElementReady,
+  isPageLoading,
+  resolveElement,
+  resolveHighlightTarget,
+  resolveStepTarget,
+  waitForStableElement,
+  waitUntilPageSettled,
+} from './selectors.js'
 import { normalizeUiSettings } from './settings.js'
 import {
   findOpenChoiceField,
@@ -18,10 +27,25 @@ function looksLikeNavigationClick(clicked, element) {
   if (link.hasAttribute('download')) return false
   const target = (link.getAttribute?.('target') || '').toLowerCase()
   if (target && target !== '_self') return false
+
   const href = (link.getAttribute?.('href') || '').trim()
-  if (href && href !== '#' && !href.toLowerCase().startsWith('javascript:')) return true
-  // Vue/Inertia nav items often use preventDefault + router.visit.
-  return link.matches?.('a, .nav-link, .custom-nav-class, [data-inertia], [role="link"]') || false
+  const hrefLower = href.toLowerCase()
+  const isDummyHref = !href
+    || href === '#'
+    || hrefLower.startsWith('javascript:')
+
+  // Real URL (sidebar leaf: /account, /report, …) — navigation.
+  if (!isDummyHref) return true
+
+  // Explicit SPA / nav markers even with javascript:void / #.
+  if (link.matches?.('.nav-link, .custom-nav-class, [data-inertia]')) return true
+
+  // Dummy href + button styling (Add new account, Search, …) opens modals — not navigation.
+  if (link.matches?.('.btn, .btn-added, .btn-searchset, button, [role="button"]')) return false
+  if ([...link.classList || []].some((c) => /^btn([_-]|$)/i.test(c))) return false
+
+  // Other javascript:void / # anchors (submenu expanders, etc.) — no 1.5s nav wait.
+  return false
 }
 
 /** Hide old auto-generated descriptions that only repeat the step title. */
@@ -53,6 +77,12 @@ export class Player {
     targetReadyHits = 2,
     stepDelay = 0,
     autoScroll = true,
+    /** After a click step: wait for page loaders/skeletons before the next step. */
+    pageSettleAfterClick = true,
+    pageSettleTimeout = 20000,
+    pageSettleAppearGraceMs = 300,
+    /** Extra settle ms after loaders clear (and after non-loading clicks). */
+    postReadyDelay = 1500,
     ui = null,
     onChange,
     onFail,
@@ -71,6 +101,10 @@ export class Player {
     this.targetReadyHits = Math.max(1, Number(targetReadyHits) || 2)
     this.stepDelay = stepDelay
     this.autoScroll = autoScroll !== false
+    this.pageSettleAfterClick = pageSettleAfterClick !== false
+    this.pageSettleTimeout = Math.max(0, Number(pageSettleTimeout) || 20000)
+    this.pageSettleAppearGraceMs = Math.max(0, Number(pageSettleAppearGraceMs) || 0)
+    this.postReadyDelay = Math.max(0, Number(postReadyDelay) || 0)
     this.ui = normalizeUiSettings(ui || {})
     this.onChange = onChange
     this.onFail = onFail
@@ -88,6 +122,9 @@ export class Player {
     this.targetLostTimer = null
     this.rebindDebounceTimer = null
     this.waitingForNavigation = false
+    /** Set after a click advance so showCurrent waits for page loaders first. */
+    this.settleBeforeShow = false
+    this.pageSettleAbort = null
     this.lastChoiceField = null
     this.lastCompletedField = null
   }
@@ -105,6 +142,44 @@ export class Player {
     if (partial.targetWaitTimeout != null) this.targetWaitTimeout = Math.max(1000, Number(partial.targetWaitTimeout) || this.targetWaitTimeout)
     if (partial.targetRetryInterval != null) this.targetRetryInterval = Math.max(50, Number(partial.targetRetryInterval) || this.targetRetryInterval)
     if (partial.targetReadyHits != null) this.targetReadyHits = Math.max(1, Number(partial.targetReadyHits) || this.targetReadyHits)
+    if (partial.pageSettleAfterClick != null) this.pageSettleAfterClick = Boolean(partial.pageSettleAfterClick)
+    if (partial.pageSettleTimeout != null) this.pageSettleTimeout = Math.max(0, Number(partial.pageSettleTimeout) || 0)
+    if (partial.pageSettleAppearGraceMs != null) {
+      this.pageSettleAppearGraceMs = Math.max(0, Number(partial.pageSettleAppearGraceMs) || 0)
+    }
+    if (partial.postReadyDelay != null) this.postReadyDelay = Math.max(0, Number(partial.postReadyDelay) || 0)
+  }
+
+  abortPageSettle() {
+    if (this.pageSettleAbort) {
+      try { this.pageSettleAbort.abort() } catch { /* ignore */ }
+      this.pageSettleAbort = null
+    }
+  }
+
+  /**
+   * After a click that may refresh content: wait for skeletons / aria-busy to clear.
+   * Fully silent — no Waiting banner / status. If no loader appears during grace,
+   * returns immediately (no postReadyDelay).
+   */
+  async waitForPageSettle(requestToken) {
+    if (!this.pageSettleAfterClick) return true
+    this.abortPageSettle()
+    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null
+    this.pageSettleAbort = controller
+
+    const ok = await waitUntilPageSettled({
+      timeout: Math.max(this.timeout, this.pageSettleTimeout, this.targetWaitTimeout),
+      appearGraceMs: this.pageSettleAppearGraceMs,
+      postReadyDelay: this.postReadyDelay,
+      signal: controller?.signal,
+      isLoading: isPageLoading,
+      onTick: null,
+    })
+
+    if (this.pageSettleAbort === controller) this.pageSettleAbort = null
+    if (!this.active || requestToken !== this.token) return false
+    return ok
   }
 
   resolveStepField(step) {
@@ -276,6 +351,13 @@ export class Player {
     if (delay > 0) {
       await new Promise((resolve) => setTimeout(resolve, delay))
       if (!this.active || requestToken !== this.token) return
+    }
+
+    // After a click step: wait for page loaders/skeletons before resolving the next target.
+    if (this.settleBeforeShow) {
+      this.settleBeforeShow = false
+      const settled = await this.waitForPageSettle(requestToken)
+      if (!settled || !this.active || requestToken !== this.token) return
     }
 
     if (step.action === 'manual' || (!step.selector && !step.match)) {
@@ -453,6 +535,8 @@ export class Player {
       }
 
       this.index = nextIndex
+      // Always settle after a click — filter buttons (Jul) refresh content without URL change.
+      this.settleBeforeShow = true
       if (mayNavigate) {
         // Don't show the next step yet — wait for SPA URL/content settle via
         // continueAfterNavigation (single show). Fallback if pushState never fires.
@@ -486,6 +570,7 @@ export class Player {
     if (!this.active) return false
     if (this.readyWaitInterval != null || this.readyWaitResolve) return false
     if (this.waitingForNavigation) return false
+    if (this.settleBeforeShow || this.pageSettleAbort) return false
     const step = this.steps[this.index]
     if (!step) return false
     const host = this.overlay?.target || this.overlay?.highlightHost
@@ -1188,6 +1273,7 @@ export class Player {
   clearWait() {
     clearTimeout(this.autoSkipTimer)
     this.autoSkipTimer = null
+    this.abortPageSettle()
     this.clearReadyWait(null)
     this.waitCleanup?.()
     this.waitCleanup = null
@@ -1197,6 +1283,7 @@ export class Player {
     this.active = false
     this.token += 1
     this.waitingForNavigation = false
+    this.settleBeforeShow = false
     clearTimeout(this.navWaitTimer)
     this.navWaitTimer = null
     clearTimeout(this.targetLostTimer)

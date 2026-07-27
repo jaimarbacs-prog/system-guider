@@ -95,6 +95,9 @@ export class Guider {
     // Apply persisted playback settings onto runtime options.
     this.options.resetBeforePlay = this.settings.resetBeforePlay || this.options.resetBeforePlay
     this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay ?? this.options.resetBeforePlayDelay
+    this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick
+    this.options.pageSettleTimeout = this.settings.pageSettleTimeout
+    this.options.postReadyDelay = this.settings.postReadyDelay
     applyUiTheme(this.settings)
     this.fileStorage = defaultFileStorageOptions(this.options.fileStorage)
     this.fileGuides = []
@@ -137,6 +140,9 @@ export class Guider {
       stableWaitTimeout: this.options.stableWaitTimeout,
       targetWaitTimeout: this.options.targetWaitTimeout,
       targetRetryInterval: this.options.targetRetryInterval,
+      pageSettleAfterClick: this.settings.pageSettleAfterClick !== false,
+      pageSettleTimeout: this.settings.pageSettleTimeout ?? 20000,
+      postReadyDelay: this.settings.postReadyDelay ?? 1500,
       stepDelay: 0,
       autoScroll: true,
       ui: this.settings.ui,
@@ -250,9 +256,17 @@ export class Guider {
         })
         this.options.resetBeforePlay = this.settings.resetBeforePlay
         this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay
+        this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick
+        this.options.pageSettleTimeout = this.settings.pageSettleTimeout
+        this.options.postReadyDelay = this.settings.postReadyDelay
         applyUiTheme(this.settings)
         this.overlay?.applyUiSettings?.(this.settings.ui)
         this.player?.setUiOptions?.(this.settings.ui)
+        this.player?.setOptions?.({
+          pageSettleAfterClick: this.settings.pageSettleAfterClick,
+          pageSettleTimeout: this.settings.pageSettleTimeout,
+          postReadyDelay: this.settings.postReadyDelay,
+        })
         this.launcher?.setLauncherSettings?.(this.settings.launcher)
       }
     } catch {
@@ -804,6 +818,7 @@ export class Guider {
     if (this.readOnly && (key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin'
       || key === 'showAccountId' || key === 'showOrb'
       || key === 'reloadOnNavigate' || key === 'resetBeforePlay' || key === 'resetBeforePlayDelay'
+      || key === 'pageSettleAfterClick' || key === 'pageSettleTimeout' || key === 'postReadyDelay'
       || key === 'theme'
       || String(key || '').startsWith('launcher.')
       || String(key || '').startsWith('ui.'))) {
@@ -813,6 +828,9 @@ export class Guider {
     if (key === 'reloadOnNavigate') next.reloadOnNavigate = Boolean(value)
     if (key === 'resetBeforePlay') next.resetBeforePlay = value ? 'reload' : 'none'
     if (key === 'resetBeforePlayDelay') next.resetBeforePlayDelay = Math.max(0, Number(value) || 0)
+    if (key === 'pageSettleAfterClick') next.pageSettleAfterClick = Boolean(value)
+    if (key === 'pageSettleTimeout') next.pageSettleTimeout = Math.max(0, Number(value) || 0)
+    if (key === 'postReadyDelay') next.postReadyDelay = Math.max(0, Number(value) || 0)
     if (key === 'theme') next.theme = String(value || 'dark').toLowerCase() === 'light' ? 'light' : 'dark'
     if (key === 'editorAccountIds') next.editorAccountIds = value
     if (key === 'hiddenUrls') next.hiddenUrls = value
@@ -854,9 +872,17 @@ export class Guider {
     this.settings = normalizeGuiderSettings(next)
     this.options.resetBeforePlay = this.settings.resetBeforePlay
     this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay
+    this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick
+    this.options.pageSettleTimeout = this.settings.pageSettleTimeout
+    this.options.postReadyDelay = this.settings.postReadyDelay
     applyUiTheme(this.settings)
     this.overlay?.applyUiSettings?.(this.settings.ui)
     this.player?.setUiOptions?.(this.settings.ui)
+    this.player?.setOptions?.({
+      pageSettleAfterClick: this.settings.pageSettleAfterClick,
+      pageSettleTimeout: this.settings.pageSettleTimeout,
+      postReadyDelay: this.settings.postReadyDelay,
+    })
     this.launcher?.setLauncherSettings?.(this.settings.launcher)
     this.scheduleSettingsSave()
     if (key === 'editorAccountIds' || key === 'hiddenUrls' || key === 'bypassPin' || key === 'showOrb') {

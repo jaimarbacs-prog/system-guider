@@ -403,11 +403,25 @@ See [Framework setup](#framework-setup) for plain JS and React samples.
   "resetBeforePlay": "none",
   "reloadOnNavigate": false,
   "resetBeforePlayDelay": 450,
+  "pageSettleAfterClick": true,
+  "postReadyDelay": 1500,
   "editorAccountIds": ["1", "12"]
 }
 ```
 
 An empty `editorAccountIds` list means Play-only for everyone. The current user’s id (step 4) must match an entry in this list.
+
+**Custom page loaders:** after a click step, playback waits for `.skeleton`, `.shimmer`, or `[aria-busy="true"]` to clear before the next step. `postReadyDelay` (default 1500ms) runs only when a loader was actually seen. If your app uses a custom spinner/overlay, set `aria-busy="true"` on the loading region while fetching and remove it when ready:
+
+```html
+<div class="report-panel" aria-busy="true">…</div>
+```
+
+```js
+panel.setAttribute('aria-busy', isLoading ? 'true' : 'false')
+```
+
+See also [`integrations/laravel/README.md`](integrations/laravel/README.md#custom-page-loaders).
 
 **6. Rebuild frontend assets:**
 

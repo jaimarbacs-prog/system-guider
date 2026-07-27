@@ -299,8 +299,90 @@ export function resolveElement(selector) {
   }
 }
 
+/**
+ * Loading placeholders — not ready for highlight / interaction yet.
+ * Host apps with custom loaders should set aria-busy="true" on the loading
+ * region (and remove it when done) so playback can wait for content.
+ */
+export const LOADING_UI_SELECTOR = '.skeleton, .shimmer, [aria-busy="true"]'
+
+/** True when the element or an ancestor is still in a skeleton/loading state. */
+export function isElementLoading(element) {
+  if (!(element instanceof Element)) return false
+  try {
+    return Boolean(element.closest(LOADING_UI_SELECTOR))
+  } catch {
+    return false
+  }
+}
+
+/** True when any page region is still showing a loading / skeleton UI. */
+export function isPageLoading(root = document) {
+  try {
+    const scope = root instanceof Element || root === document ? root : document
+    return Boolean(scope.querySelector?.(LOADING_UI_SELECTOR))
+  } catch {
+    return false
+  }
+}
+
+/**
+ * After a click that refreshes content: brief grace for loaders to mount,
+ * then wait until loading markers are gone.
+ * - No loader during grace → return immediately (no postReadyDelay).
+ * - Loader seen → wait until clear, then postReadyDelay.
+ */
+export async function waitUntilPageSettled({
+  timeout = 20000,
+  appearGraceMs = 300,
+  postReadyDelay = 1500,
+  pollInterval = 100,
+  signal = null,
+  isLoading = isPageLoading,
+  onTick = null,
+} = {}) {
+  const deadline = Date.now() + Math.max(0, Number(timeout) || 0)
+  const grace = Math.max(0, Number(appearGraceMs) || 0)
+  const after = Math.max(0, Number(postReadyDelay) || 0)
+  const interval = Math.max(40, Number(pollInterval) || 100)
+
+  const aborted = () => Boolean(signal?.aborted)
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+  // Already loading when we start — skip grace, wait it out.
+  let sawLoading = isLoading()
+  if (!sawLoading && grace > 0) {
+    const graceDeadline = Date.now() + grace
+    while (!sawLoading && Date.now() < graceDeadline) {
+      if (aborted()) return false
+      onTick?.({ phase: 'grace', remainingMs: Math.max(0, deadline - Date.now()), sawLoading: false })
+      await sleep(interval)
+      sawLoading = isLoading()
+    }
+  }
+  if (aborted()) return false
+
+  // No loader appeared → next step immediately (no postReadyDelay).
+  if (!sawLoading) return true
+
+  while (isLoading() && Date.now() <= deadline) {
+    if (aborted()) return false
+    const remainingMs = Math.max(0, deadline - Date.now())
+    onTick?.({ phase: 'loading', remainingMs, sawLoading: true })
+    await sleep(interval)
+  }
+  if (aborted()) return false
+
+  if (after > 0) {
+    onTick?.({ phase: 'settle', remainingMs: after, sawLoading: true })
+    await sleep(after)
+  }
+  return !aborted()
+}
+
 export function isElementPresent(element) {
   if (!(element instanceof Element) || !element.isConnected) return false
+  if (isElementLoading(element)) return false
   const style = getComputedStyle(element)
   if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) {
     return false

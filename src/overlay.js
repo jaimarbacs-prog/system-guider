@@ -368,16 +368,40 @@ export class SpotlightOverlay {
     if (this.controlsEnabled) {
       this.mountSkipChip()
       this.mountStepTip()
-      if (this.skipChip) this.skipChip.hidden = false
       if (this.root?.classList.contains('sg-overlay--visible') && this.target) {
         this.scheduleLayout()
-      } else {
-        this.positionSkipChipFallback()
       }
+      this.syncSkipChipVisibility()
     } else if (this.skipChip) {
       this.skipChip.hidden = true
       this.hideStepTip()
     }
+  }
+
+  /**
+   * Show floating Next Step only with a live spotlight, or while waiting/missing
+   * (so the user can still Skip). Hide during bare step transitions to avoid flicker.
+   */
+  syncSkipChipVisibility() {
+    if (!this.controlsEnabled) {
+      if (this.skipChip) this.skipChip.hidden = true
+      return
+    }
+    this.mountSkipChip()
+    const tipVisible = Boolean(this.stepTip && !this.stepTip.hidden)
+    // Tip already includes Next / Finish — keep the floating chip off.
+    if (tipVisible) {
+      this.skipChip.hidden = true
+      return
+    }
+    const overlayVisible = Boolean(
+      this.root?.classList.contains('sg-overlay--visible') && this.target,
+    )
+    const waiting = Boolean(this.waitingBanner && !this.waitingBanner.hidden)
+    const warning = Boolean(this.warningBanner && !this.warningBanner.hidden)
+    const show = overlayVisible || waiting || warning
+    this.skipChip.hidden = !show
+    if (show && !overlayVisible) this.positionSkipChipFallback()
   }
 
   showWarning(message) {
@@ -392,11 +416,12 @@ export class SpotlightOverlay {
     this.warningBanner.style.zIndex = String(this.zIndex + 40)
     this.warningBanner.textContent = String(message || 'Target not found.')
     this.warningBanner.hidden = false
-    this.positionSkipChipFallback()
+    this.syncSkipChipVisibility()
   }
 
   hideWarning() {
     if (this.warningBanner) this.warningBanner.hidden = true
+    this.syncSkipChipVisibility()
   }
 
   showWaiting(message, { seconds = null } = {}) {
@@ -433,7 +458,7 @@ export class SpotlightOverlay {
       this.waitingBanner.textContent = String(message || 'Waiting…')
     }
 
-    this.positionSkipChipFallback()
+    this.syncSkipChipVisibility()
   }
 
   hideWaiting() {
@@ -441,6 +466,7 @@ export class SpotlightOverlay {
       this.waitingBanner.hidden = true
       delete this.waitingBanner.dataset.seconds
     }
+    this.syncSkipChipVisibility()
   }
 
   mount() {
@@ -632,7 +658,7 @@ export class SpotlightOverlay {
       this.stepTip.style.removeProperty('--sg-arrow-fill')
     }
     this.stepTipContent = null
-    if (this.skipChip) this.skipChip.hidden = !this.controlsEnabled
+    this.syncSkipChipVisibility()
   }
 
   resolveStepTipFill() {
@@ -901,6 +927,7 @@ export class SpotlightOverlay {
     this.scheduleLayout()
     this.elevateOpenMenus()
     this.lastHighlightCenter = this.getHighlightCenter()
+    this.syncSkipChipVisibility()
     ;[80, 180, 320, 520, 800].forEach((delay) => {
       this.relayoutTimers.push(setTimeout(() => {
         if (!this.target) return
@@ -908,6 +935,7 @@ export class SpotlightOverlay {
         this.scheduleLayout()
         this.elevateOpenMenus()
         this.lastHighlightCenter = this.getHighlightCenter()
+        this.syncSkipChipVisibility()
       }, delay))
     })
   }
@@ -1208,11 +1236,13 @@ export class SpotlightOverlay {
       this.frame.style.removeProperty('--sg-w')
       this.frame.style.removeProperty('--sg-h')
     }
-    if (this.controlsEnabled) this.positionSkipChipFallback()
+    // Hide floating Next Step during transitions — syncSkipChipVisibility shows it
+    // again only for live spotlight, waiting (missing target), or warning.
     this.hideWaiting()
     this.hideGoChip()
     this.hideStepTip()
     this.hideGuideCursor()
+    this.syncSkipChipVisibility()
   }
 
   destroy() {

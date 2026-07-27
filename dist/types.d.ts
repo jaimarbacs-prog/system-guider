@@ -88,6 +88,15 @@ export interface GuiderSettings {
   resetBeforePlay?: 'reload' | 'none'
   reloadOnNavigate?: boolean
   resetBeforePlayDelay?: number
+  /**
+   * After a click step, wait for page loaders (`.skeleton`, `.shimmer`,
+   * `[aria-busy="true"]`) to clear before the next step. Default true.
+   */
+  pageSettleAfterClick?: boolean
+  /** Max ms to wait for page loaders after a click. Default 20000. */
+  pageSettleTimeout?: number
+  /** Extra ms after loaders clear before highlighting. Only when a loader was detected. Default 1500. */
+  postReadyDelay?: number
   /** Panel chrome theme. */
   theme?: 'dark' | 'light'
   /**

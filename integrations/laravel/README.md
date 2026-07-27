@@ -1,4 +1,4 @@
-# Laravel integration
+# Add new accountLaravel integration
 
 Publishes a PHP save API and guide storage into a Laravel host app. Playback uses static JSON; no Artisan command is required.
 
@@ -86,12 +86,14 @@ setup({ el, App, props, plugin }) {
 }
 ```
 
-| When | Path |
-|---|---|
-| First boot (`setup`) | `props.initialPage?.props` |
-| Soft visit (`navigate`) | `event.detail.page.props` |
 
-Full notes: root [`README.md` → Laravel + Inertia](../../README.md#laravel--inertia-vue-3).
+| When                    | Path                       |
+| ----------------------- | -------------------------- |
+| First boot (`setup`)    | `props.initialPage?.props` |
+| Soft visit (`navigate`) | `event.detail.page.props`  |
+
+
+Full notes: root `[README.md` → Laravel + Inertia](../../README.md#laravel--inertia-vue-3).
 
 #### Blade / plain JS
 
@@ -119,7 +121,7 @@ const guider = SystemGuider.init({
 window.systemGuider = guider
 ```
 
-More framework samples (React, plain Vite): see the root [`README.md`](../../README.md#framework-setup).
+More framework samples (React, plain Vite): see the root `[README.md](../../README.md#framework-setup)`.
 
 ### 5. Allow editor accounts
 
@@ -131,14 +133,46 @@ Install always creates `public/guides/settings.json`. Edit it and list the accou
   "resetBeforePlay": "none",
   "reloadOnNavigate": false,
   "resetBeforePlayDelay": 450,
+  "pageSettleAfterClick": true,
+  "pageSettleTimeout": 20000,
+  "postReadyDelay": 1500,
   "editorAccountIds": ["1", "12"]
 }
 ```
 
-| Setting | Meaning |
-|---|---|
-| `editorAccountIds` | Allow-list for Record / Panel. Empty ⇒ Play only for everyone. |
-| Current `accountId` (step 4) | Must match an entry above, or the user stays view-only. |
+
+| Setting                      | Meaning                                                                                                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `editorAccountIds`           | Allow-list for Record / Panel. Empty ⇒ Play only for everyone.                                                                                                                             |
+| Current `accountId` (step 4) | Must match an entry above, or the user stays view-only.                                                                                                                                    |
+| `pageSettleAfterClick`       | After a click step, wait for page loaders to clear before the next step (default `true`).                                                                                                  |
+| `postReadyDelay`             | Extra ms after loaders clear before highlighting (default `1500`). Applied **only** when a loader/skeleton was detected during the grace window; skipped (no Waiting UI) if none appeared. |
+
+
+#### Custom page loaders
+
+Playback waits for these markers to disappear:
+
+- `.skeleton`
+- `.shimmer`
+- `[aria-busy="true"]`
+
+If your app uses a **custom** loader (spinner overlay, proprietary skeleton class, etc.), set `aria-busy="true"` on the loading region while data is fetching, and remove it (or set `false`) when content is ready:
+
+```html
+<!-- While loading -->
+<div class="report-panel" aria-busy="true">…spinner…</div>
+
+<!-- When ready -->
+<div class="report-panel" aria-busy="false">…real content…</div>
+```
+
+```js
+// Vue / React example
+el.setAttribute('aria-busy', loading ? 'true' : 'false')
+```
+
+No other host API is required — System Guider only observes the DOM.
 
 You can also set this later in the panel under **Global Settings** (save writes the same file). If locked out on first run, hover the launcher orb and type the bypass PIN (default `123456`).
 
@@ -165,13 +199,15 @@ npm run system-guider:install
 
 From `node_modules/system-guider/integrations/laravel/stubs/`:
 
-| File | Purpose |
-|---|---|
-| `app/Http/Controllers/SystemGuiderController.php` | Save/delete guides under `public/guides/` |
-| `routes/system-guider.php` | `GET` / `POST` / `DELETE` `/__sg/guides` |
-| `public/guides/index.json` | Guide index for playback |
-| `public/guides/settings.json` | Global settings (incl. `editorAccountIds`) |
-| `resources/js/system-guider-init.js` | Frontend init with `fileStorage` |
+
+| File                                              | Purpose                                    |
+| ------------------------------------------------- | ------------------------------------------ |
+| `app/Http/Controllers/SystemGuiderController.php` | Save/delete guides under `public/guides/`  |
+| `routes/system-guider.php`                        | `GET` / `POST` / `DELETE` `/__sg/guides`   |
+| `public/guides/index.json`                        | Guide index for playback                   |
+| `public/guides/settings.json`                     | Global settings (incl. `editorAccountIds`) |
+| `resources/js/system-guider-init.js`              | Frontend init with `fileStorage`           |
+
 
 Patches `routes/web.php`:
 

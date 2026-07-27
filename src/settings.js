@@ -37,6 +37,17 @@ export const defaultGuiderSettings = () => ({
   /** When opening a guide on another route, hard-reload instead of soft navigate. */
   reloadOnNavigate: false,
   resetBeforePlayDelay: 450,
+  /**
+   * After a click step, wait for page loaders (skeleton / shimmer / aria-busy)
+   * to clear before highlighting the next step. Default true.
+   */
+  pageSettleAfterClick: true,
+  /** Max ms to wait for page loaders after a click. */
+  pageSettleTimeout: 20000,
+  /** Ms to allow loaders to appear after a click before treating the page as idle. */
+  pageSettleAppearGraceMs: 300,
+  /** Extra ms after loaders clear before highlighting. Only used when a loader was seen. Default 1500. */
+  postReadyDelay: 1500,
   /** Panel chrome theme: dark | light */
   theme: 'dark',
   /**
@@ -205,6 +216,15 @@ export function normalizeGuiderSettings(value = {}) {
     resetBeforePlay: value.resetBeforePlay === 'reload' ? 'reload' : 'none',
     reloadOnNavigate: Boolean(value.reloadOnNavigate),
     resetBeforePlayDelay: Math.max(0, Number(value.resetBeforePlayDelay) || base.resetBeforePlayDelay),
+    pageSettleAfterClick: Object.prototype.hasOwnProperty.call(value, 'pageSettleAfterClick')
+      ? Boolean(value.pageSettleAfterClick)
+      : Boolean(base.pageSettleAfterClick),
+    pageSettleTimeout: Math.max(0, Number(value.pageSettleTimeout) || base.pageSettleTimeout),
+    postReadyDelay: Math.max(0, Number(
+      Object.prototype.hasOwnProperty.call(value, 'postReadyDelay')
+        ? value.postReadyDelay
+        : base.postReadyDelay,
+    ) || 0),
     theme: String(value.theme || base.theme).toLowerCase() === 'light' ? 'light' : 'dark',
     editorAccountIds: normalizeAccountIdList(
       value.editorAccountIds ?? value.guiderAccounts ?? base.editorAccountIds,

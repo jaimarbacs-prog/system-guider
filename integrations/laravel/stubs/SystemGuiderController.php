@@ -139,6 +139,11 @@ class SystemGuiderController extends Controller
             'resetBeforePlay' => ($settings['resetBeforePlay'] ?? $base['resetBeforePlay'] ?? 'none') === 'reload' ? 'reload' : 'none',
             'reloadOnNavigate' => (bool) ($settings['reloadOnNavigate'] ?? $base['reloadOnNavigate'] ?? false),
             'resetBeforePlayDelay' => max(0, (int) ($settings['resetBeforePlayDelay'] ?? $base['resetBeforePlayDelay'] ?? 450)),
+            'pageSettleAfterClick' => array_key_exists('pageSettleAfterClick', $settings)
+                ? (bool) $settings['pageSettleAfterClick']
+                : (array_key_exists('pageSettleAfterClick', $base) ? (bool) $base['pageSettleAfterClick'] : true),
+            'pageSettleTimeout' => max(0, (int) ($settings['pageSettleTimeout'] ?? $base['pageSettleTimeout'] ?? 20000)),
+            'postReadyDelay' => max(0, (int) ($settings['postReadyDelay'] ?? $base['postReadyDelay'] ?? 1500)),
             'theme' => $theme,
             'bypassPin' => $pin,
             'showAccountId' => (bool) ($settings['showAccountId'] ?? $base['showAccountId'] ?? false),
