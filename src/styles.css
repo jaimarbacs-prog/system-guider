@@ -2882,6 +2882,21 @@ html[data-sg-animations="off"] .sg-brand-mark__spark {
   white-space: nowrap;
 }
 
+.sg-step__selector-select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 6px 28px 6px 8px;
+  color: var(--sg-muted);
+  font: 9px/1.3 ui-monospace, SFMono-Regular, Consolas, monospace;
+  cursor: pointer;
+  appearance: auto;
+}
+
+.sg-step__selector-wrap:has(.sg-step__selector-copy) .sg-step__selector-select {
+  padding-right: 34px;
+}
+
 .sg-check {
   display: flex;
   align-items: flex-start;
@@ -3709,6 +3724,176 @@ html[data-sg-animations="off"] .sg-spotlight--fade-in {
 
 .sg-target-active {
   position: relative;
+}
+
+/* Record-time ancestor / target picker — embedded in System Guider panel */
+.sg-target-picker {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--sg-ink, #e8edf5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--sg-font, "Segoe UI", system-ui, sans-serif);
+  animation: sg-step-in 160ms ease-out;
+}
+
+.sg-target-picker--panel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-height: min(320px, 50vh);
+  margin: 0 0 12px;
+}
+
+.sg-panel[data-sg-theme="light"] .sg-target-picker {
+  border-color: rgba(15, 23, 42, 0.12);
+  background: rgba(15, 23, 42, 0.04);
+}
+
+.sg-target-picker__header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sg-panel[data-sg-theme="light"] .sg-target-picker__header {
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+.sg-target-picker__header strong {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--sg-ink, #f8fafc);
+}
+
+.sg-target-picker__header span {
+  font-size: 11px;
+  color: var(--sg-muted, #94a3b8);
+}
+
+.sg-target-picker__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  overflow: auto;
+}
+
+.sg-target-picker__option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 8px 10px;
+  text-align: left;
+  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+}
+
+.sg-panel[data-sg-theme="light"] .sg-target-picker__option {
+  border-color: rgba(15, 23, 42, 0.08);
+  background: #fff;
+}
+
+.sg-target-picker__option:hover,
+.sg-target-picker__option:focus-visible {
+  outline: none;
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.sg-target-picker__option--suggested {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.sg-target-picker__option--fragile .sg-target-picker__selector {
+  color: #fbbf24;
+}
+
+.sg-target-picker__option-top {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sg-target-picker__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sg-ink, #f1f5f9);
+  word-break: break-all;
+}
+
+.sg-target-picker__badge {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.sg-target-picker__detail {
+  font-size: 11px;
+  color: var(--sg-muted, #94a3b8);
+}
+
+.sg-target-picker__selector {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  color: #7dd3fc;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sg-target-picker__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 10px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sg-panel[data-sg-theme="light"] .sg-target-picker__footer {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+.sg-target-picker__cancel {
+  margin: 0;
+  padding: 6px 12px;
+  color: var(--sg-muted, #cbd5e1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sg-target-picker__cancel:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sg-target-picker-highlight {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25) !important;
 }
 
 @keyframes sg-slide-in {

@@ -952,8 +952,42 @@ export class Panel {
 
       const selectorWrap = document.createElement('div')
       selectorWrap.className = 'sg-step__selector-wrap'
-      const selector = text('code', 'sg-step__selector', step.selector || 'No target')
-      selectorWrap.append(selector)
+      const alternatives = Array.isArray(step.selectorAlternatives)
+        ? step.selectorAlternatives.filter((item) => item?.selector)
+        : []
+      if (alternatives.length > 1) {
+        const select = document.createElement('select')
+        select.className = 'sg-field sg-step__selector-select'
+        select.dataset.field = 'selector'
+        select.setAttribute('aria-label', `Step ${index + 1} target selector`)
+        const current = String(step.selector || '')
+        const seen = new Set()
+        const addOption = (alt, { selected = false, suggested = false } = {}) => {
+          const value = String(alt.selector || '')
+          if (!value || seen.has(value)) return
+          seen.add(value)
+          const option = document.createElement('option')
+          option.value = value
+          const title = String(alt.title || '').trim()
+          const detail = String(alt.detail || '').trim()
+          const short = value.length > 52 ? `${value.slice(0, 50)}…` : value
+          let label = title || detail || short
+          if (title && detail && detail !== title) label = `${title} — ${detail}`
+          else if (title && short !== title) label = `${title} (${short})`
+          if (suggested || alt.suggested) label = `★ ${label}`
+          option.textContent = label
+          option.title = value
+          if (selected || value === current) option.selected = true
+          select.append(option)
+        }
+        alternatives.forEach((alt) => addOption(alt))
+        if (current && !seen.has(current)) {
+          addOption({ selector: current, title: 'Current' }, { selected: true })
+        }
+        selectorWrap.append(select)
+      } else {
+        selectorWrap.append(text('code', 'sg-step__selector', step.selector || 'No target'))
+      }
       if (mode === 'manage' && step.selector) {
         const copyBtn = tinyButton('Copy', 'ghost', { icon: ICON_COPY, ariaLabel: 'Copy selector' })
         copyBtn.classList.add('sg-step__selector-copy')

@@ -1,8 +1,61 @@
-import { resolveByScore } from './scoring.js'
+import { resolveByScore, isFragileSelector, enrichMatchHints, resolveByFieldName, scoreElement } from './scoring.js'
 
 const escapeCss = (value) => {
   if (globalThis.CSS?.escape) return globalThis.CSS.escape(value)
   return String(value).replace(/[^a-zA-Z0-9_-]/g, '\\$&')
+}
+
+/**
+ * Clickable page tiles/cards (not form controls). Prefer these roots over
+ * inner icon/text nodes, and keep CSS fallback when match scoring can't see them.
+ */
+export const CLICKABLE_TILE_SELECTOR = [
+  '.branch-card',
+  '.day-column',
+  '.day-name',
+  '[data-guider-tile]',
+  '[class*="branch-card"]',
+  '.schedule-card',
+  '.stat-card',
+  '.kpi-card',
+].join(', ')
+
+const NESTED_CONTROL_SELECTOR = [
+  'button',
+  'a[href]',
+  '[role="button"]',
+  '.p-button',
+  'input',
+  'select',
+  'textarea',
+  '[role="combobox"]',
+  '.p-dropdown',
+  '.p-multiselect',
+  '.p-autocomplete',
+  '.p-cascadeselect',
+].join(', ')
+
+export function isClickableTile(element) {
+  if (!(element instanceof Element)) return false
+  return element.matches(CLICKABLE_TILE_SELECTOR)
+}
+
+/**
+ * Nearest clickable tile root, unless the click landed on a nested real control
+ * (e.g. kebab menu on a branch card).
+ */
+export function resolveClickableTile(element) {
+  if (!(element instanceof Element)) return null
+  const tile = element.closest?.(CLICKABLE_TILE_SELECTOR)
+  if (!tile) return null
+  const nested = element.closest?.(NESTED_CONTROL_SELECTOR)
+  if (nested && tile.contains(nested) && nested !== tile) return null
+  // Prefer the card/column root over an inner .day-name label node.
+  if (tile.matches?.('.day-name')) {
+    const column = tile.closest?.('.day-column')
+    if (column) return column
+  }
+  return tile
 }
 
 export function isSensitiveElement(element) {
@@ -21,6 +74,103 @@ export function isUnstableElementId(id) {
 
 const PRIME_ROOT_SELECTOR = '.p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect'
 
+const UNSTABLE_NAME_RE = /^(pv_|apv_|pr_|p_)/i
+
+/** True when a name= value is worth persisting as a selector hook. */
+export function isUsableFieldName(name) {
+  const value = String(name || '').trim()
+  if (!value || value.length > 80) return false
+  if (UNSTABLE_NAME_RE.test(value)) return false
+  return true
+}
+
+/**
+ * Walk ancestors for the nearest usable name= (e.g. div.mb-0[name="company_department"]).
+ * Do not stop at .p-float-label — that wrapper usually has no name.
+ */
+export function getFieldWrapName(element) {
+  if (!(element instanceof Element)) return ''
+  let current = element
+  for (let depth = 0; depth < 14 && current && current !== document.body; depth += 1) {
+    const own = current.getAttribute?.('name') || ''
+    if (isUsableFieldName(own)) return own
+    current = current.parentElement
+  }
+  return ''
+}
+
+/** Nearest ancestor (or self) that owns a usable name=. */
+export function getNamedFieldWrap(element) {
+  if (!(element instanceof Element)) return null
+  let current = element
+  for (let depth = 0; depth < 14 && current && current !== document.body; depth += 1) {
+    if (isUsableFieldName(current.getAttribute?.('name'))) return current
+    current = current.parentElement
+  }
+  return null
+}
+
+/**
+ * Prefer name-scoped selectors over :nth-of-type — sibling cards (no .field)
+ * still shift nth-of-type indexes because they are still `div`s.
+ */
+function selectorFromFieldName(element, fieldName) {
+  if (!(element instanceof Element) || !fieldName) return null
+  const name = escapeCss(fieldName)
+  const tag = element.tagName.toLowerCase()
+  const candidates = []
+
+  if (element.matches?.(PRIME_ROOT_SELECTOR)) {
+    const primeClass = [...element.classList].find((cls) => (
+      /^p-(dropdown|multiselect|autocomplete|cascadeselect)$/.test(cls)
+    ))
+    if (primeClass) {
+      candidates.push(`[name="${name}"] .${escapeCss(primeClass)}`)
+      candidates.push(`.field[name="${name}"] .${escapeCss(primeClass)}`)
+      candidates.push(`.mb-0[name="${name}"] .${escapeCss(primeClass)}`)
+      candidates.push(`[name="${name}"] ${tag}.${escapeCss(primeClass)}`)
+    }
+  }
+
+  if (tag === 'textarea' || tag === 'select' || tag === 'input') {
+    candidates.push(`[name="${name}"] ${tag}`)
+    candidates.push(`.field[name="${name}"] ${tag}`)
+    candidates.push(`.form-group[name="${name}"] ${tag}`)
+    candidates.push(`.mb-0[name="${name}"] ${tag}`)
+  }
+
+  // Named wrap itself (unique on page)
+  candidates.push(`[name="${name}"]`)
+  candidates.push(`.field[name="${name}"]`)
+  candidates.push(`.mb-0[name="${name}"]`)
+
+  for (const selector of candidates) {
+    try {
+      const matches = [...document.querySelectorAll(selector)]
+      if (matches.length === 1) return selector
+      if (matches.length > 1 && matches.includes(element)) {
+        const narrowed = matches.filter((node) => node === element || node.contains(element))
+        if (narrowed.length === 1 && narrowed[0] === element) return selector
+      }
+      // Scope to interactive child when the wrap matched but element is inside it
+      if (matches.length === 1 && matches[0].contains?.(element) && element !== matches[0]) {
+        if (element.matches?.(PRIME_ROOT_SELECTOR)) {
+          const primeClass = [...element.classList].find((cls) => (
+            /^p-(dropdown|multiselect|autocomplete|cascadeselect)$/.test(cls)
+          ))
+          if (primeClass) {
+            const scoped = `[name="${name}"] .${escapeCss(primeClass)}`
+            if (document.querySelectorAll(scoped).length === 1) return scoped
+          }
+        }
+      }
+    } catch {
+      // ignore invalid selector
+    }
+  }
+  return null
+}
+
 export function getElementSelector(element) {
   if (!(element instanceof Element)) return null
 
@@ -35,6 +185,10 @@ export function getElementSelector(element) {
     const selector = `#${escapeCss(element.id)}`
     if (document.querySelectorAll(selector).length === 1) return selector
   }
+
+  const fieldName = getFieldWrapName(element)
+  const byName = selectorFromFieldName(element, fieldName)
+  if (byName) return byName
 
   // Stable nested inputId (e.g. company_branch_ids) — avoid fragile positional paths.
   if (element.matches?.(PRIME_ROOT_SELECTOR)) {
@@ -54,6 +208,29 @@ export function getElementSelector(element) {
     }
   }
 
+  // Prefer recording the clickable tile root (shorter, more stable path).
+  if (isClickableTile(element) || resolveClickableTile(element)) {
+    const tile = isClickableTile(element) ? element : resolveClickableTile(element)
+    if (tile) element = tile
+  }
+
+  // Scope schedule cells under grid content (avoids bare :nth-child colliding site-wide).
+  if (element.matches?.('.day-column')) {
+    const grid = element.closest?.('.schedule-grid-content')
+    const parent = element.parentElement
+    if (grid && parent === grid) {
+      const childIndex = [...parent.children].indexOf(element) + 1
+      if (childIndex > 0) {
+        const scoped = `.schedule-grid-content > .day-column:nth-child(${childIndex})`
+        try {
+          if (document.querySelectorAll(scoped).length === 1) return scoped
+        } catch {
+          // fall through
+        }
+      }
+    }
+  }
+
   const segments = []
   let current = element
   while (current && current !== document.body && segments.length < 5) {
@@ -65,14 +242,33 @@ export function getElementSelector(element) {
 
     const parent = current.parentElement
     if (parent) {
-      const matches = [...parent.children].filter(
-        (child) => child.tagName === current.tagName,
-      )
-      if (matches.length > 1) segment += `:nth-of-type(${matches.indexOf(current) + 1})`
+      // Prefer index among same-class peers for tiles (more stable than all tag siblings).
+      if (stableClass && isClickableTile(current)) {
+        const peers = [...parent.children].filter(
+          (child) => child instanceof Element && child.classList?.contains(stableClass),
+        )
+        if (peers.length > 1) {
+          const idx = [...parent.children].indexOf(current) + 1
+          segment += `:nth-child(${idx})`
+        }
+      } else {
+        const matches = [...parent.children].filter(
+          (child) => child.tagName === current.tagName,
+        )
+        if (matches.length > 1) segment += `:nth-of-type(${matches.indexOf(current) + 1})`
+      }
     }
     segments.unshift(segment)
     const selector = segments.join(' > ')
     if (document.querySelectorAll(selector).length === 1) return selector
+    // Tile roots are usually unique enough as a single segment among peers.
+    if (segments.length === 1 && isClickableTile(current) && parent) {
+      try {
+        if (parent.querySelectorAll(`:scope > ${segment}`).length === 1) return selector
+      } catch {
+        // ignore
+      }
+    }
     current = parent
   }
 
@@ -237,6 +433,65 @@ export async function waitForElement(selector, timeout = 3000, options = {}) {
 }
 
 /**
+ * Resolve a guide step target using match scoring (preferred) with CSS fallback.
+ * Skips fragile positional selectors when title/match hints can locate a form field.
+ * Clickable tiles/cards still allow a soft CSS fallback (scoring often misses them).
+ */
+export function resolveStepTarget(step, { requirePresent = true } = {}) {
+  if (!step?.selector && !step?.match && !step?.title) return null
+
+  const match = enrichMatchHints(step)
+  const scored = resolveByScore(match, { selector: step?.selector || '' })
+  if (scored && (!requirePresent || isElementPresent(scored))) {
+    return promoteToTileRoot(scored)
+  }
+
+  // Explicit name-row recovery for older :nth-of-type recordings.
+  const nameHint = match?.name || String(match?.text || '').replace(/\s+/g, '_')
+  if (nameHint) {
+    const byName = resolveByFieldName(nameHint, { tag: match?.tag })
+    if (byName && (!requirePresent || isElementPresent(byName))) return byName
+  }
+
+  const sel = step?.selector || ''
+  const fallback = resolveElement(sel)
+  if (!fallback || (requirePresent && !isElementPresent(fallback))) return null
+
+  const tile = promoteToTileRoot(fallback)
+  if (!(isFragileSelector(sel) && match)) return tile
+
+  // Fragile + match: keep form-field protection, but accept tiles / soft text agreement.
+  const soft = match ? scoreElement(tile, match) : 0
+  if (soft >= 18) return tile
+  if (isClickableTile(tile) || tile.closest?.(CLICKABLE_TILE_SELECTOR)) {
+    if (soft >= 8 || !match?.name) return tile
+    // Invented/irrelevant name= must not block a real grid/card CSS hit.
+    if (!resolveByFieldName(match.name, { tag: match.tag })) return tile
+  }
+  // Named form recovery exists — refuse a misleading positional hit.
+  if (match?.name && resolveByFieldName(match.name, { tag: match.tag })) return null
+  if (match?.dataGuider || match?.id) return null
+  // Display clicks (cards/columns) — positional CSS is better than TARGET MISSING.
+  if (!match?.name && !match?.href) return tile
+  return null
+}
+
+function promoteToTileRoot(element) {
+  if (!(element instanceof Element)) return element
+  const tile = resolveClickableTile(element)
+  return tile || element
+}
+
+/**
+ * Whether a non-manual step can be located on the current page.
+ */
+export function isStepTargetValid(step) {
+  if (!step || step.action === 'manual') return true
+  if (!step.selector && !step.match && !step.title) return false
+  return Boolean(resolveStepTarget(step))
+}
+
+/**
  * Wait for a step target using match scoring (preferred) with CSS selector fallback.
  * Pass AbortSignal to cancel MutationObserver / poll interval early.
  */
@@ -244,13 +499,7 @@ export async function waitForStepTarget(step, timeout = 3000, options = {}) {
   const signal = options?.signal
   const deadline = Date.now() + timeout
 
-  const find = () => {
-    const scored = resolveByScore(step?.match, { selector: step?.selector || '' })
-    if (scored && isElementPresent(scored)) return scored
-    const fallback = resolveElement(step?.selector)
-    if (fallback && isElementPresent(fallback)) return fallback
-    return scored || fallback || null
-  }
+  const find = () => resolveStepTarget(step, { requirePresent: true })
 
   if (signal?.aborted) return null
 

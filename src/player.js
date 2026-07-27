@@ -1,5 +1,4 @@
-import { isElementPresent, isElementReady, resolveElement, resolveHighlightTarget, waitForStableElement } from './selectors.js'
-import { resolveByScore } from './scoring.js'
+import { isElementPresent, isElementReady, resolveElement, resolveHighlightTarget, resolveStepTarget, waitForStableElement } from './selectors.js'
 import { normalizeUiSettings } from './settings.js'
 import {
   findOpenChoiceField,
@@ -109,20 +108,14 @@ export class Player {
   }
 
   resolveStepField(step) {
-    if (!step?.selector && !step?.match) return null
-    const found = resolveByScore(step.match, { selector: step.selector || '' })
-      || resolveElement(step.selector)
-    if (!found) return null
-    return resolveInteractiveField(found) || found
+    if (!step?.selector && !step?.match && !step?.title) return null
+    const found = resolveStepTarget(step, { requirePresent: false })
+    if (found) return resolveInteractiveField(found) || found
+    return null
   }
 
   findStepTarget(step) {
-    if (!step?.selector && !step?.match) return null
-    const scored = resolveByScore(step.match, { selector: step.selector || '' })
-    if (scored && isElementPresent(scored)) return scored
-    const fallback = resolveElement(step.selector)
-    if (fallback && isElementPresent(fallback)) return fallback
-    return null
+    return resolveStepTarget(step, { requirePresent: true })
   }
 
   clearReadyWait(resolveWith = null) {

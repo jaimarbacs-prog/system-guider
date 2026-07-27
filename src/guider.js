@@ -33,7 +33,7 @@ import {
   saveGuideToFileStorage,
   saveSettingsToFileStorage,
 } from './file-storage.js'
-import { resolveElement } from './selectors.js'
+import { isStepTargetValid, resolveStepTarget } from './selectors.js'
 import { normalizeGuideUrl } from './toc.js'
 import {
   defaultGuiderSettings,
@@ -124,7 +124,9 @@ export class Guider {
       onTargetLost: () => this.player?.onSpotlightTargetLost?.(),
       ui: this.settings.ui,
     })
-    this.recorder = new Recorder({ onStep: (step) => this.recordStep(step) })
+    this.recorder = new Recorder({
+      onStep: (step) => this.recordStep(step),
+    })
     this.player = new Player({
       overlay: this.overlay,
       timeout: this.options.selectorTimeout,
@@ -773,6 +775,10 @@ export class Guider {
   openManageRoutes() {
     if (this.readOnly) return this
     if (this.fileStorage && !this.apiReady) return this
+    // Never leave the click-capturing recorder running under Manage / Panel.
+    if (this.mode === 'recording') {
+      this.recorder.stop()
+    }
     // Set mode + render while still hidden so we never flash the idle "Create a guided flow" view.
     this.mode = 'manage-routes'
     this.render()
@@ -783,6 +789,7 @@ export class Guider {
   openGuideForEdit(guideId) {
     this.assertUsable()
     if (this.readOnly) return this
+    if (this.mode === 'recording') this.recorder.stop()
     const guide = this.getAllGuides().find((item) => item.id === guideId)
     if (!guide) {
       globalThis.alert?.('Guide not found.')
@@ -1061,7 +1068,7 @@ export class Guider {
   render(extra = {}) {
     const steps = this.guide.steps.map((step) => ({
       ...step,
-      invalid: step.action !== 'manual' && !resolveElement(step.selector),
+      invalid: !isStepTargetValid(step),
     }))
     const focusGuideTitle = Boolean(this.focusGuideTitle)
     this.focusGuideTitle = false
@@ -1165,6 +1172,7 @@ export class Guider {
     this.focusGuideTitle = !appending
     this.persistDraft()
     if (this.guide.steps.length) this.saveGuideForCurrentPage()
+    this.openPanel()
     this.render({
       flashMessage: appending && added > 0
         ? `${added} step${added === 1 ? '' : 's'} added. Rename below if needed.`
@@ -1178,6 +1186,8 @@ export class Guider {
     this.dirty = true
     this.persistDraft()
     this.options.onRecordStep?.(structuredClone(step))
+    // Keep the System Guider panel visible while capturing so steps stay on screen.
+    this.openPanel()
     this.render()
   }
 
@@ -1269,12 +1279,27 @@ export class Guider {
     if (!step) return
     if (field === 'waitRequired') {
       step.waitFor = value ? { type: 'input', required: true } : null
+    } else if (field === 'selector') {
+      const next = String(value || '').trim()
+      if (!next) return
+      step.selector = next
+      const alts = Array.isArray(step.selectorAlternatives) ? step.selectorAlternatives : []
+      const chosen = alts.find((item) => item?.selector === next)
+      if (chosen?.match && typeof chosen.match === 'object') {
+        step.match = { ...chosen.match }
+      }
+      if (alts.length) {
+        step.selectorAlternatives = alts.map((item) => ({
+          ...item,
+          suggested: item?.selector === next,
+        }))
+      }
     } else if (['title', 'description'].includes(field)) {
       step[field] = String(value)
     }
     this.dirty = true
     this.persistDraft()
-    if (['title', 'description'].includes(field)) this.scheduleGuideSave()
+    if (['title', 'description', 'selector'].includes(field)) this.scheduleGuideSave()
     if (field === 'waitRequired') this.render()
   }
 
@@ -1315,7 +1340,7 @@ export class Guider {
 
   preview(stepId) {
     const step = this.guide.steps.find((item) => item.id === stepId)
-    const element = step && resolveElement(step.selector)
+    const element = step && resolveStepTarget(step)
     if (element) this.overlay.highlight(element, false)
   }
 

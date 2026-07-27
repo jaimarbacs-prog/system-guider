@@ -1,5 +1,11 @@
-import { getElementSelector, isSensitiveElement, resolveElement } from './selectors.js'
+import {
+  getElementSelector,
+  isSensitiveElement,
+  resolveClickableTile,
+  resolveElement,
+} from './selectors.js'
 import { captureMatchHints } from './scoring.js'
+import { collectTargetCandidates } from './target-picker.js'
 
 const INPUT_SELECTOR = 'input:not([type="password"]), textarea, select'
 
@@ -261,10 +267,34 @@ function choiceOptionText(element) {
   return usableLabel(visibleControlText(element) || element.textContent)
 }
 
+/** Underlying checkbox/radio input, if this click landed on a PrimeVue toggle. */
+function resolveToggleInput(element) {
+  if (!(element instanceof Element)) return null
+  if (element.matches?.('input[type="checkbox"], input[type="radio"]')) return element
+  return element.closest?.('.p-checkbox, .p-radiobutton')?.querySelector?.('input[type="checkbox"], input[type="radio"]')
+    || element.querySelector?.('input[type="checkbox"], input[type="radio"]')
+    || null
+}
+
 function labelFor(element) {
   const prime = asPrimeHost(element)
   const floatText = usableLabel(floatLabelText(element))
   if (floatText) return floatText
+
+  // Schedule / branch tiles: use cell content, never the page "BRANCH …" heading.
+  const tile = resolveClickableTile(element)
+  if (tile) {
+    const dayDate = usableLabel(tile.querySelector?.('.day-date')?.textContent)
+    if (dayDate && dayDate !== '—') return dayDate
+    const heading = usableLabel(
+      tile.querySelector?.('h1, h2, h3, h4, h5, .card-title')?.textContent,
+    )
+    if (heading) return heading
+    const dayName = usableLabel(tile.querySelector?.('.day-name')?.textContent)
+    if (dayName && dayName !== '—') return dayName
+    const own = usableLabel(visibleControlText(tile))
+    if (own && own !== '—') return own
+  }
 
   const isFormControl = element.matches('input, textarea, select')
   const buttonText = !isFormControl && !prime ? usableLabel(visibleControlText(element)) : ''
@@ -278,7 +308,8 @@ function labelFor(element) {
     element.getAttribute('placeholder'),
     element.getAttribute('name'),
     element.getAttribute('data-guider-label'),
-    nearestSectionHeading(element),
+    // Skip section headings for tiles — they steal labels ("BRANCH").
+    tile ? '' : nearestSectionHeading(element),
     prime?.matches?.('.p-autocomplete') ? 'Search' : '',
     prime ? 'Dropdown' : '',
   ]
@@ -652,7 +683,28 @@ export function resolveInteractiveField(element) {
     if (input) return input
   }
 
-  return element.closest(`button, a, [role="button"], input, select, textarea, [role="combobox"], ${PRIME_HOST_SELECTOR}, [data-guider]`) || element
+  const control = element.closest(
+    `button, a, [role="button"], input, select, textarea, [role="combobox"], ${PRIME_HOST_SELECTOR}, [data-guider]`,
+  )
+  if (control) return control
+
+  // Branch / schedule cards: record the tile root, not an inner icon or kebab sibling.
+  const tile = resolveClickableTile(element)
+  if (tile) return tile
+
+  // Only dig into form-like wrappers — never querySelector(button) on a card container
+  // (that steals the manage/kebab control inside the tile).
+  const formWrap = element.closest?.(
+    '.field, .form-group, .p-field, .p-float-label, .mb-0, .input-group, .p-calendar',
+  )
+  if (formWrap) {
+    const nested = formWrap.querySelector?.(
+      `${PRIME_HOST_SELECTOR}, input:not([type="hidden"]), textarea, select, button, a`,
+    )
+    if (nested) return asPrimeHost(nested) || nested
+  }
+
+  return element
 }
 
 export function findVisibleChoiceFields(scope = document) {
@@ -703,11 +755,12 @@ export function findOpenChoiceField() {
 }
 
 export class Recorder {
-  constructor({ onStep }) {
+  constructor({ onStep } = {}) {
     this.onStep = onStep
     this.active = false
     this.lastKey = ''
     this.lastAt = 0
+    this.lastToggleEl = null
     this.onClick = this.onClick.bind(this)
     this.onFocus = this.onFocus.bind(this)
   }
@@ -718,6 +771,7 @@ export class Recorder {
     this.active = true
     this.lastKey = ''
     this.lastAt = 0
+    this.lastToggleEl = null
     document.addEventListener('click', this.onClick, true)
     document.addEventListener('focusin', this.onFocus, true)
   }
@@ -732,34 +786,94 @@ export class Recorder {
     return !this.active
       || !(element instanceof Element)
       || isSensitiveElement(element)
-      || Boolean(element.closest('.sg-panel, .sg-overlay, .sg-launcher, .sg-recording-indicator'))
+      || Boolean(element.closest('.sg-panel, .sg-overlay, .sg-launcher, .sg-recording-indicator, .sg-target-picker'))
   }
 
-  capture(element, action) {
-    if (this.shouldIgnore(element)) return
+  buildSelectorAlternatives(rawElement, preferred) {
+    const interactive = resolveInteractiveField(preferred) || preferred
+    const candidates = collectTargetCandidates(rawElement, { interactive })
+    const list = []
+    const seen = new Set()
 
-    const choiceClick = action === 'click' && isChoiceElement(element)
-    const target = resolveInteractiveField(element)
+    const push = (element, meta = {}) => {
+      if (!(element instanceof Element)) return null
+      const selector = meta.selector || getElementSelector(element)
+      if (!selector || seen.has(selector)) return null
+      seen.add(selector)
+      const match = captureMatchHints(element)
+      const item = {
+        selector,
+        label: meta.title || meta.detail || selector,
+        title: meta.title || '',
+        detail: meta.detail || '',
+        suggested: Boolean(meta.suggested),
+        element,
+        ...(match ? { match } : {}),
+      }
+      list.push(item)
+      return item
+    }
+
+    if (candidates.length) {
+      candidates.forEach((item, index) => {
+        push(item.element, {
+          ...item,
+          suggested: item.suggested || index === 0,
+        })
+      })
+    } else {
+      push(preferred, { suggested: true })
+    }
+
+    if (list.length && !list.some((item) => item.suggested)) list[0].suggested = true
+    return list
+  }
+
+  commitCapture(element, action, rawElement = element) {
+    if (!(element instanceof Element) || !element.isConnected) return
+    if (isSensitiveElement(element)) return
+
+    const choiceClick = action === 'click' && isChoiceElement(rawElement)
+    let target = resolveInteractiveField(element) || element
     if (!target || isSensitiveElement(target)) return
 
-    const selector = getElementSelector(target)
+    // Named wrap → interactive child when possible.
+    if (!resolveInteractiveField(element) && element.querySelector) {
+      const nested = element.querySelector(
+        `${PRIME_HOST_SELECTOR}, input:not([type="hidden"]), textarea, select`,
+      )
+      if (nested) target = asPrimeHost(nested) || nested
+    }
+
+    const alternatives = this.buildSelectorAlternatives(rawElement, target)
+    const preferredAlt = alternatives.find((item) => item.suggested) || alternatives[0]
+    if (preferredAlt?.element instanceof Element) target = preferredAlt.element
+
+    const selector = preferredAlt?.selector || getElementSelector(target)
     if (!selector) return
 
     const isNativeField = target.matches(INPUT_SELECTOR)
+    const toggleEl = resolveToggleInput(rawElement) || resolveToggleInput(target)
     const choiceField = isChoiceField(target) || choiceClick
-    // PrimeVue / custom selects must be "input" steps (wait for pick), not plain clicks.
     const normalizedAction = isNativeField || choiceClick || choiceField ? 'input' : action
     const now = Date.now()
     const key = `${normalizedAction}:${selector}`
-    // Same choice field open+pick → one step. Reset on recorder.start() for each Add steps session.
     const isConsecutiveInputDuplicate = normalizedAction === 'input' && key === this.lastKey
     const isRapidDuplicate = key === this.lastKey && now - this.lastAt < 300
-    if (isConsecutiveInputDuplicate || isRapidDuplicate) return
+    // Same checkbox/radio: click + focusin must not create two steps.
+    const isToggleDuplicate = Boolean(
+      toggleEl
+      && this.lastToggleEl
+      && (this.lastToggleEl === toggleEl || this.lastToggleEl.contains?.(toggleEl) || toggleEl.contains?.(this.lastToggleEl))
+      && now - this.lastAt < 600,
+    )
+    if (isConsecutiveInputDuplicate || isRapidDuplicate || isToggleDuplicate) return
     this.lastKey = key
     this.lastAt = now
+    this.lastToggleEl = toggleEl || null
 
     const label = labelFor(target)
-    const optionText = choiceClick ? choiceOptionText(element) : ''
+    const optionText = choiceClick ? choiceOptionText(rawElement) : ''
     const title = friendlyStepTitle({
       label,
       choiceField,
@@ -776,11 +890,20 @@ export class Recorder {
       element: target,
       optionText,
     })
-    const match = captureMatchHints(target)
+    const match = preferredAlt?.match || captureMatchHints(target)
+    const selectorAlternatives = alternatives.map(({ selector: sel, label: altLabel, title: altTitle, detail, suggested, match: altMatch }) => ({
+      selector: sel,
+      label: altLabel,
+      title: altTitle,
+      detail,
+      suggested,
+      ...(altMatch ? { match: altMatch } : {}),
+    }))
     this.onStep({
       id: globalThis.crypto?.randomUUID?.() || `step-${now}-${Math.random().toString(36).slice(2, 7)}`,
       selector,
       ...(match ? { match } : {}),
+      ...(selectorAlternatives.length > 1 ? { selectorAlternatives } : {}),
       action: normalizedAction,
       title,
       description,
@@ -794,21 +917,41 @@ export class Recorder {
     })
   }
 
+  capture(element, action) {
+    if (this.shouldIgnore(element)) return
+    this.commitCapture(element, action, element)
+  }
+
   onClick(event) {
     const target = event.target instanceof Element ? event.target : null
     if (!target) return
+    if (this.shouldIgnore(target)) return
+    if (typeof event.button === 'number' && event.button !== 0) return
     // Native <select> records on change/option, not on the open click.
     if (target instanceof HTMLSelectElement && !isChoiceElement(target)) return
     // Ignore calendar month navigation / title chrome (not a value pick).
     if (isCalendarChrome(target)) return
-    // Date field open + day pick both resolve to the same input and are deduped.
-    // (Previously day clicks were skipped because the overlay matched isDateLikeInput.)
-    this.capture(event.target, 'click')
+
+    // Option / calendar day picks — record immediately.
+    if (isChoiceElement(target)) {
+      this.capture(target, 'click')
+      return
+    }
+
+    const interactive = resolveInteractiveField(target)
+    if (!interactive || isSensitiveElement(interactive)) return
+
+    // Never block page clicks — Filter / dropdowns must open normally.
+    // Auto-fill the suggested selector on the new step; user can change it in the step card.
+    this.commitCapture(interactive, 'click', target)
   }
 
   onFocus(event) {
     const target = event.target
-    if (!target.matches?.(INPUT_SELECTOR)) return
+    if (!target?.matches?.(INPUT_SELECTOR)) return
+    if (this.shouldIgnore(target)) return
+    // Checkbox/radio: recorded on click only (focusin would duplicate the step).
+    if (target.matches('input[type="checkbox"], input[type="radio"]')) return
     // Native selects record on option pick. Date fields record on click/day pick.
     if (target instanceof HTMLSelectElement) return
     if (isDateLikeInput(target)) {

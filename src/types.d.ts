@@ -20,11 +20,25 @@ export interface StepMatchHints {
   id?: string
 }
 
+export interface SelectorAlternative {
+  selector: string
+  label?: string
+  title?: string
+  detail?: string
+  suggested?: boolean
+  match?: StepMatchHints
+}
+
 export interface GuideStep {
   id: string
   selector?: string
   /** Scoring hints for resilient targeting across layout/account differences. */
   match?: StepMatchHints
+  /**
+   * Alternate selectors captured at record time.
+   * Auto-picked suggestion is `selector`; user can switch via the step dropdown.
+   */
+  selectorAlternatives?: SelectorAlternative[]
   action: GuideAction
   title: string
   description: string
