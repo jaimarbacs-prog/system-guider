@@ -113,6 +113,13 @@ export interface GuiderSettings {
    * Default: `.skeleton`, `.shimmer`, `[aria-busy="true"]`, `.p-skeleton`.
    */
   loadingSelectors?: string[]
+  /**
+   * Query param for auto-play (`?demo=0` = first guide on this route).
+   * Default `"demo"`. Set `false` to disable.
+   */
+  autoPlayQueryParam?: string | false
+  /** Strip the auto-play query param after playback starts. Default true. */
+  autoPlayStripQuery?: boolean
   /** Panel chrome theme. */
   theme?: 'dark' | 'light'
   /**

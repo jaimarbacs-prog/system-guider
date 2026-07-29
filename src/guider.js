@@ -383,6 +383,7 @@ export class Guider {
     this.overlay?.applyUiSettings?.(this.settings.ui)
     this.player?.setUiOptions?.(this.settings.ui)
     this.resumePendingPlay()
+    this.tryAutoPlayFromQuery()
   }
 
   setApiReady(ready) {
@@ -492,6 +493,77 @@ export class Guider {
   getGuidesForCurrentPage() {
     const urlKey = normalizeGuideUrl(this.getUrlKey())
     return this.getAllGuides().filter((guide) => normalizeGuideUrl(guide.url || '/') === urlKey)
+  }
+
+  /**
+   * Guides for this route, newest first (for ?demo=0/1 indexing).
+   * Uses guide id timestamp when present, else date parsed from title meta.
+   */
+  getGuidesForDemoPlay() {
+    const guideSortTime = (guide) => {
+      const fromId = Number(String(guide?.id || '').replace(/^guide-/i, ''))
+      if (Number.isFinite(fromId) && fromId > 1e11) return fromId
+      const meta = String(guide?.title || '').split('·')[1]?.trim()
+      if (meta) {
+        const parsed = Date.parse(meta)
+        if (Number.isFinite(parsed)) return parsed
+      }
+      return 0
+    }
+    return [...this.getGuidesForCurrentPage()].sort((a, b) => {
+      const delta = guideSortTime(b) - guideSortTime(a)
+      if (delta) return delta
+      return String(a.title || '').localeCompare(String(b.title || ''))
+    })
+  }
+
+  /**
+   * Auto-play from ?demo=N (or settings.autoPlayQueryParam).
+   * demo=0 → first guide on this route, demo=1 → second, etc.
+   */
+  tryAutoPlayFromQuery() {
+    if (this.destroyed) return this
+    if (this.player?.active || this.mode === 'playback') return this
+    if (this.fileStorage && !this.apiReady) return this
+
+    const param = this.settings?.autoPlayQueryParam
+    if (param === false || param == null || param === '') return this
+    const key = String(param).trim()
+    if (!key) return this
+
+    let search = ''
+    try {
+      search = String(globalThis.location?.search || '')
+    } catch {
+      return this
+    }
+    const params = new URLSearchParams(search)
+    if (!params.has(key)) return this
+    const raw = String(params.get(key) ?? '').trim()
+    if (!/^\d+$/.test(raw)) return this
+    const index = Number(raw)
+    const guides = this.getGuidesForDemoPlay()
+    const guide = guides[index]
+    if (!guide) return this
+
+    if (this.settings?.autoPlayStripQuery !== false) {
+      this.stripUrlQueryParam(key)
+    }
+    this.playGuide(guide)
+    return this
+  }
+
+  /** Remove a query param without reloading (keeps pathname + other params). */
+  stripUrlQueryParam(key) {
+    try {
+      const url = new URL(globalThis.location.href)
+      if (!url.searchParams.has(key)) return
+      url.searchParams.delete(key)
+      const next = `${url.pathname}${url.search}${url.hash}`
+      globalThis.history?.replaceState?.(globalThis.history.state, '', next)
+    } catch {
+      // ignore
+    }
   }
 
   getAllGuides() {

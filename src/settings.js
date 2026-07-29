@@ -81,6 +81,13 @@ export const defaultGuiderSettings = () => ({
    * Playback waits until none match (and targets containing them are not ready).
    */
   loadingSelectors: [...DEFAULT_LOADING_SELECTORS],
+  /**
+   * URL query param for auto-play: ?demo=0 plays the 1st guide on this route,
+   * ?demo=1 the 2nd, etc. Set false/empty to disable. Default "demo".
+   */
+  autoPlayQueryParam: 'demo',
+  /** Remove the auto-play query param from the URL after starting playback. Default true. */
+  autoPlayStripQuery: true,
   /** Panel chrome theme: dark | light */
   theme: 'dark',
   /**
@@ -268,6 +275,17 @@ export function normalizeGuiderSettings(value = {}) {
         ? value.loadingSelectors
         : base.loadingSelectors,
     ),
+    autoPlayQueryParam: (() => {
+      if (!Object.prototype.hasOwnProperty.call(value, 'autoPlayQueryParam')) {
+        return base.autoPlayQueryParam
+      }
+      if (value.autoPlayQueryParam === false || value.autoPlayQueryParam == null) return false
+      const key = String(value.autoPlayQueryParam).trim()
+      return key || false
+    })(),
+    autoPlayStripQuery: Object.prototype.hasOwnProperty.call(value, 'autoPlayStripQuery')
+      ? Boolean(value.autoPlayStripQuery)
+      : Boolean(base.autoPlayStripQuery),
     theme: String(value.theme || base.theme).toLowerCase() === 'light' ? 'light' : 'dark',
     editorAccountIds: normalizeAccountIdList(
       value.editorAccountIds ?? value.guiderAccounts ?? base.editorAccountIds,
