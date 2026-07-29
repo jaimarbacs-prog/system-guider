@@ -1174,7 +1174,7 @@ export class Panel {
           skipToggle.type = 'checkbox'
           skipToggle.dataset.stepSetting = 'autoSkipMissing'
           skipToggle.checked = step.settings?.autoSkipMissing !== false
-          skipField.append(skipToggle, document.createTextNode(' Auto-skip if missing'))
+          skipField.append(skipToggle, document.createTextNode(' Auto-skip if still missing after wait'))
           settingsBody.append(descField, scrollField, delayField, hideField, skipField)
           details.append(settingsBody)
 
@@ -1454,6 +1454,19 @@ export class Panel {
     settleToggle.checked = settings.pageSettleAfterClick !== false
     settleCheck.append(settleToggle, document.createTextNode(' Wait for page loaders after click'))
     form.append(settleCheck)
+
+    const loadingSelectorsField = this.createEditableStringList({
+      label: 'Loading selectors (skeleton / busy)',
+      settingKey: 'loadingSelectors',
+      items: Array.isArray(settings.loadingSelectors)
+        ? settings.loadingSelectors
+        : ['.skeleton', '.shimmer', '[aria-busy="true"]', '.p-skeleton'],
+      placeholder: 'e.g. .p-skeleton',
+      emptyText: 'Using built-in defaults',
+      addLabel: 'Add',
+    })
+    loadingSelectorsField.classList.add('sg-defaults-panel__field')
+    form.append(loadingSelectorsField)
 
     const postReadyField = document.createElement('label')
     postReadyField.className = 'sg-step-settings__field sg-settings__row sg-defaults-panel__field'
@@ -1925,10 +1938,10 @@ export class Panel {
         'p',
         'sg-status sg-status--error',
         custom || (autoSkipping
-          ? 'Target not found. Skipping to the next step…'
+          ? 'Target not found after wait. Skipping to the next step…'
           : 'Target not found. Follow this guide\'s requirements first, then continue — or skip this step.'),
       ))
-    } else if (this.state.waiting && (this.state.waitKind === 'target' || this.state.waitKind === 'navigate' || this.state.waitKind === 'settle')) {
+    } else if (this.state.waiting && (this.state.waitKind === 'target' || this.state.waitKind === 'navigate' || this.state.waitKind === 'settle' || this.state.waitKind === 'loading')) {
       container.append(text(
         'p',
         'sg-status sg-status--waiting',
@@ -1969,13 +1982,16 @@ export class Panel {
     } else if (mode === 'manage-routes') {
       return null
     } else if (mode === 'playback') {
+      const canPrev = Boolean(this.state.canPrev)
+      if (canPrev) {
+        footer.append(button(this.labels.back || 'Back', 'prev', 'secondary'))
+      }
       footer.append(
-        button(this.labels.back || 'Back', 'prev', 'secondary'),
         button(this.labels.next || this.labels.skip || 'Next Step', 'next', 'primary'),
         button(this.labels.close, 'close', 'ghost'),
       )
-      footer.querySelector('[data-action="prev"]').disabled = this.state.currentIndex <= 0
-      footer.querySelector('[data-action="next"]').disabled = Boolean(this.state.waiting || this.state.failed)
+      const nextBtn = footer.querySelector('[data-action="next"]')
+      if (nextBtn) nextBtn.disabled = Boolean(this.state.waiting || this.state.failed)
     }
     return footer
   }

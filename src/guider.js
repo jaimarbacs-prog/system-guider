@@ -33,7 +33,7 @@ import {
   saveGuideToFileStorage,
   saveSettingsToFileStorage,
 } from './file-storage.js'
-import { isStepTargetValid, resolveStepTarget } from './selectors.js'
+import { isStepTargetValid, resolveStepTarget, setLoadingUiSelector } from './selectors.js'
 import { normalizeGuideUrl } from './toc.js'
 import {
   defaultGuiderSettings,
@@ -42,6 +42,7 @@ import {
   defaultUiSettings,
   canAccountManageGuides,
   isUrlHiddenForGuider,
+  loadingSelectorsToCss,
 } from './settings.js'
 
 const defaultLabels = {
@@ -72,6 +73,7 @@ export class Guider {
       autoAdvanceDelay: 600,
       autoSkipMissing: true,
       autoSkipMissingDelay: 400,
+      autoSkipIdleMissTimeout: 2000,
       stableWaitTimeout: 1500,
       targetWaitTimeout: 20000,
       targetRetryInterval: 250,
@@ -98,6 +100,7 @@ export class Guider {
     this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick
     this.options.pageSettleTimeout = this.settings.pageSettleTimeout
     this.options.postReadyDelay = this.settings.postReadyDelay
+    this.applyLoadingUiFromSettings()
     applyUiTheme(this.settings)
     this.fileStorage = defaultFileStorageOptions(this.options.fileStorage)
     this.fileGuides = []
@@ -121,7 +124,9 @@ export class Guider {
     this.overlay = new SpotlightOverlay({
       ...this.options,
       skipLabel: this.options.labels?.skip || this.options.labels?.next || 'Next Step',
+      prevLabel: this.options.labels?.back || this.options.labels?.prev || 'Prev',
       onSkip: () => this.skip(),
+      onPrev: () => this.prev(),
       onEnd: () => this.endPlayback(),
       onHighlightBox: (box) => this.panel?.avoidHighlight(box),
       onTargetLost: () => this.player?.onSpotlightTargetLost?.(),
@@ -137,6 +142,7 @@ export class Guider {
       autoAdvanceDelay: this.options.autoAdvanceDelay,
       autoSkipMissing: this.options.autoSkipMissing,
       autoSkipMissingDelay: this.options.autoSkipMissingDelay,
+      autoSkipIdleMissTimeout: this.options.autoSkipIdleMissTimeout ?? 2000,
       stableWaitTimeout: this.options.stableWaitTimeout,
       targetWaitTimeout: this.options.targetWaitTimeout,
       targetRetryInterval: this.options.targetRetryInterval,
@@ -259,6 +265,7 @@ export class Guider {
         this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick
         this.options.pageSettleTimeout = this.settings.pageSettleTimeout
         this.options.postReadyDelay = this.settings.postReadyDelay
+        this.applyLoadingUiFromSettings()
         applyUiTheme(this.settings)
         this.overlay?.applyUiSettings?.(this.settings.ui)
         this.player?.setUiOptions?.(this.settings.ui)
@@ -275,6 +282,11 @@ export class Guider {
       this.settingsReady = true
       this.applyAccessPolicy()
     }
+  }
+
+  /** Sync settings.loadingSelectors into selector settle / present checks. */
+  applyLoadingUiFromSettings() {
+    setLoadingUiSelector(loadingSelectorsToCss(this.settings?.loadingSelectors))
   }
 
   /** Host app sets the logged-in account id used for editor allow-list checks. */
@@ -819,6 +831,7 @@ export class Guider {
       || key === 'showAccountId' || key === 'showOrb'
       || key === 'reloadOnNavigate' || key === 'resetBeforePlay' || key === 'resetBeforePlayDelay'
       || key === 'pageSettleAfterClick' || key === 'pageSettleTimeout' || key === 'postReadyDelay'
+      || key === 'loadingSelectors'
       || key === 'theme'
       || String(key || '').startsWith('launcher.')
       || String(key || '').startsWith('ui.'))) {
@@ -831,6 +844,7 @@ export class Guider {
     if (key === 'pageSettleAfterClick') next.pageSettleAfterClick = Boolean(value)
     if (key === 'pageSettleTimeout') next.pageSettleTimeout = Math.max(0, Number(value) || 0)
     if (key === 'postReadyDelay') next.postReadyDelay = Math.max(0, Number(value) || 0)
+    if (key === 'loadingSelectors') next.loadingSelectors = value
     if (key === 'theme') next.theme = String(value || 'dark').toLowerCase() === 'light' ? 'light' : 'dark'
     if (key === 'editorAccountIds') next.editorAccountIds = value
     if (key === 'hiddenUrls') next.hiddenUrls = value
@@ -875,6 +889,7 @@ export class Guider {
     this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick
     this.options.pageSettleTimeout = this.settings.pageSettleTimeout
     this.options.postReadyDelay = this.settings.postReadyDelay
+    this.applyLoadingUiFromSettings()
     applyUiTheme(this.settings)
     this.overlay?.applyUiSettings?.(this.settings.ui)
     this.player?.setUiOptions?.(this.settings.ui)
@@ -1408,6 +1423,7 @@ export class Guider {
       currentStep: step,
       currentIndex: index,
       total: this.guide.steps.length,
+      canPrev: this.player?.canGoPrev?.() ?? false,
       ...status,
     })
   }
@@ -1421,6 +1437,7 @@ export class Guider {
       waiting: false,
       failed: true,
       autoSkipping: false,
+      canPrev: this.player?.canGoPrev?.() ?? false,
       message: this.player?.missingTargetMessage?.(step) || '',
     })
   }

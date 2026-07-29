@@ -1,109 +1,109 @@
-const wt = (i, t, e = "") => {
+const St = (i, t, e = "") => {
   const s = document.createElement("button");
   return s.type = "button", s.className = `sg-button ${e ? `sg-button--${e}` : ""}`.trim(), s.dataset.action = t, s.textContent = i, s;
-}, $ = (i, t, e) => {
+}, O = (i, t, e) => {
   const s = document.createElement(i);
   return s.className = t, s.textContent = e, s;
-}, et = (i, t = "ghost", { icon: e = "", ariaLabel: s = "", withLabel: n = !1 } = {}) => {
+}, Q = (i, t = "ghost", { icon: e = "", ariaLabel: s = "", withLabel: n = !1 } = {}) => {
   const r = document.createElement("button");
   return r.type = "button", r.className = `sg-button sg-button--tiny ${t ? `sg-button--${t}` : ""}`.trim(), e ? (r.classList.add(n ? "sg-button--with-icon" : "sg-button--icon"), n ? r.innerHTML = `${e}<span>${i}</span>` : r.innerHTML = e, r.setAttribute("aria-label", s || i), r.title = s || i) : r.textContent = i, r;
-}, as = `
+}, gs = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M8 3.25v9.5M3.25 8h9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
   </svg>
-`, _i = `
+`, xi = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M11.6 2.7a1.5 1.5 0 0 1 2.1 2.1L5.8 12.7 2.5 13.5l.8-3.3L11.6 2.7Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
   </svg>
-`, Xe = `
+`, Je = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M3.5 4.5h9M6.2 4.5V3.4h3.6v1.1M5.2 4.5l.6 8.1h4.4l.6-8.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-`, Gi = `
+`, Ui = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M3.5 8.2 6.6 11.3 12.5 4.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-`, ls = `
+`, fs = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M4.2 4.2 11.8 11.8M11.8 4.2 4.2 11.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
   </svg>
-`, cs = `
+`, ms = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M3.5 8h9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
   </svg>
-`, ds = `
+`, ys = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <rect x="5.2" y="5.8" width="6.6" height="6.6" rx="1.1" fill="none" stroke="currentColor" stroke-width="1.4"/>
     <path d="M6.4 5.1h4.4c.9 0 1.6.7 1.6 1.6v4.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
   </svg>
-`, us = `
+`, bs = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M4.4 4.4 11.6 11.6M11.6 4.4 4.4 11.6" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"/>
   </svg>
-`, Je = `
+`, Ye = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M5 3.2 12.2 8 5 12.8V3.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
   </svg>
-`, hs = `
+`, Ss = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M8 2.8v7.2M5.2 7.2 8 10l2.8-2.8M3.2 12.8h9.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-`, ps = `
+`, vs = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M6.2 3.2h3.6v1.5H6.2V3.2Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
     <path d="M5.2 4h-.8A1.4 1.4 0 0 0 3 5.4v7.2A1.4 1.4 0 0 0 4.4 14h7.2A1.4 1.4 0 0 0 13 12.6V5.4A1.4 1.4 0 0 0 11.6 4h-.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
   </svg>
-`, gs = `
+`, ws = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M8 9.8V2.8M5.2 5.2 8 2.4l2.8 2.8M3.2 12.8h9.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-`, fs = `
+`, ks = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M2.6 4.4h3.2l1.2 1.3h6.4v6.5H2.6V4.4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
   </svg>
-`, ms = `
+`, _s = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M3.2 3.2h3.4A2.2 2.2 0 0 1 8 4.4v8.4a1.8 1.8 0 0 0-1.4-.6H3.2V3.2Zm9.6 0H9.4A2.2 2.2 0 0 0 8 4.4v8.4c.4-.4.9-.6 1.4-.6h3.4V3.2Z" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
   </svg>
-`, Ye = `
+`, Qe = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <rect x="5.2" y="5.2" width="7.2" height="7.2" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
     <path d="M3.6 10.2V3.8A1.2 1.2 0 0 1 4.8 2.6h6.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
   </svg>
-`, ki = `
+`, Ei = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <circle cx="8" cy="8" r="2.2" fill="none" stroke="currentColor" stroke-width="1.35"/>
     <path d="M8 1.8v1.4M8 12.8v1.4M1.8 8h1.4M12.8 8h1.4M3.4 3.4l1 1M11.6 11.6l1 1M12.6 3.4l-1 1M4.4 11.6l-1 1" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
   </svg>
-`, ys = `
+`, Cs = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M3.2 4.2h9.6v8.2H3.2V4.2Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
     <path d="M5.2 2.8h5.6v1.8H5.2V2.8Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
     <path d="M5.5 7.2h5M5.5 9.6h3.6" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
   </svg>
-`, bs = `
+`, xs = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <circle cx="8" cy="5.4" r="2.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
     <path d="M3.4 13.2c.7-2.4 2.2-3.6 4.6-3.6s3.9 1.2 4.6 3.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
   </svg>
-`, vs = `
+`, Es = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M8 2.4 12.6 4.2v3.4c0 2.7-1.8 4.8-4.6 5.8-2.8-1-4.6-3.1-4.6-5.8V4.2L8 2.4Z" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
     <path d="M6.1 8.1 7.4 9.4 10 6.8" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-`, Ci = `
+`, Ti = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <circle cx="8" cy="8" r="5.4" fill="none" stroke="currentColor" stroke-width="1.4"/>
     <path d="M8 5v3.2l2.2 1.4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-`, ws = `
+`, Ts = `
   <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
     <path d="M11.8 9.8A4.8 4.8 0 0 1 6.2 4.2 5.4 5.4 0 1 0 11.8 9.8Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
   </svg>
 `, Vt = (i) => {
   const t = i == null ? void 0 : i.target;
   return t instanceof Element ? t : (t == null ? void 0 : t.parentElement) instanceof Element ? t.parentElement : null;
-}, xi = ({ value: i, placeholder: t, onChange: e, onSave: s, onCancel: n }) => {
+}, Ai = ({ value: i, placeholder: t, onChange: e, onSave: s, onCancel: n }) => {
   const r = document.createElement("li");
   r.className = "sg-string-list__item sg-string-list__item--draft";
   const o = document.createElement("input");
@@ -112,16 +112,16 @@ const wt = (i, t, e = "") => {
   });
   const a = document.createElement("div");
   a.className = "sg-string-list__actions";
-  const l = et("Save", "primary", { icon: Gi, ariaLabel: "Save" });
+  const l = Q("Save", "primary", { icon: Ui, ariaLabel: "Save" });
   l.addEventListener("click", (d) => {
     d.preventDefault(), d.stopPropagation(), s();
   });
-  const c = et("Cancel", "ghost", { icon: ls, ariaLabel: "Cancel" });
+  const c = Q("Cancel", "ghost", { icon: fs, ariaLabel: "Cancel" });
   return c.addEventListener("click", (d) => {
     d.preventDefault(), d.stopPropagation(), n();
   }), a.append(l, c), r.append(o, a), r;
 };
-class Ss {
+class As {
   constructor({ labels: t, zIndex: e, handlers: s, visible: n = !0 }) {
     var r, o;
     this.labels = t, this.handlers = s, this.state = { mode: "idle", steps: [], collapsed: !1, pageUrl: "", hasPageGuide: !1, pageGuides: [], focusGuideTitle: !1 }, this.position = null, this.dragging = null, this.settingsSection = "guides", this.root = document.createElement("aside"), this.root.className = "sg-panel", this.root.style.zIndex = String(e + 2), this.root.setAttribute("aria-label", "System Guider"), this.root.addEventListener("click", (a) => this.handleClick(a)), this.root.addEventListener("pointerdown", (a) => this.startDrag(a)), this.root.addEventListener("input", (a) => this.handleInput(a)), this.root.addEventListener("change", (a) => this.handleInput(a)), this.root.addEventListener("mouseover", (a) => this.handlePreview(a)), this.root.addEventListener("mouseout", (a) => this.handlePreviewEnd(a)), this.root.addEventListener("dragstart", (a) => this.handleDragStart(a)), this.root.addEventListener("dragover", (a) => a.preventDefault()), this.root.addEventListener("drop", (a) => this.handleDrop(a)), this.onPointerMove = this.onPointerMove.bind(this), this.onPointerUp = this.onPointerUp.bind(this), this.recordingIndicator = this.createRecordingIndicator(e), document.body.append(this.root), document.body.append(this.recordingIndicator), this.root.addEventListener("animationend", (a) => {
@@ -149,7 +149,7 @@ class Ss {
         <rect class="sg-recording-indicator__bar" x="19" y="6.5" width="2.5" height="5" rx="1.25"/>
       </svg>
     `;
-    const r = $("span", "sg-recording-indicator__status", "Recording..."), o = document.createElement("span");
+    const r = O("span", "sg-recording-indicator__status", "Recording..."), o = document.createElement("span");
     o.className = "sg-recording-indicator__divider", o.setAttribute("aria-hidden", "true");
     const a = document.createElement("button");
     a.type = "button", a.className = "sg-recording-indicator__stop", a.title = "Stop recording", a.setAttribute("aria-label", "Stop recording");
@@ -159,7 +159,7 @@ class Ss {
         <rect x="1.5" y="1.5" width="9" height="9" rx="2"/>
       </svg>
     `;
-    const c = $("span", "sg-recording-indicator__stop-label", "Stop");
+    const c = O("span", "sg-recording-indicator__stop-label", "Stop");
     return a.append(l, c), a.addEventListener("click", (d) => {
       var u, h;
       d.preventDefault(), d.stopPropagation(), (h = (u = this.handlers)["stop-recording"]) == null || h.call(u);
@@ -184,8 +184,8 @@ class Ss {
   }
   /** Move the panel if it covers the highlighted step target. */
   avoidHighlight(t) {
-    var b;
-    if (!t || this.root.classList.contains("sg-panel--hidden") || this.visible === !1 || ((b = this.state) == null ? void 0 : b.mode) === "playback" || this.dragging) return;
+    var y;
+    if (!t || this.root.classList.contains("sg-panel--hidden") || this.visible === !1 || ((y = this.state) == null ? void 0 : y.mode) === "playback" || this.dragging) return;
     const e = this.root.getBoundingClientRect();
     if (e.width < 2 || e.height < 2) return;
     const s = 14;
@@ -239,27 +239,27 @@ class Ss {
     `;
     const l = document.createElement("div");
     l.className = "sg-panel__brand-copy", t === "recording" ? l.append(
-      $("span", "sg-eyebrow", "● LIVE RECORDING"),
-      $("h2", "sg-panel__title", this.titleForMode(t))
+      O("span", "sg-eyebrow", "● LIVE RECORDING"),
+      O("h2", "sg-panel__title", this.titleForMode(t))
     ) : l.append(
-      $("h2", "sg-panel__title", "System Guider"),
-      $("div", "sg-panel__subtitle", this.titleForMode(t))
+      O("h2", "sg-panel__title", "System Guider"),
+      O("div", "sg-panel__subtitle", this.titleForMode(t))
     ), o.append(a, l);
     const c = document.createElement("div");
     if (c.className = "sg-panel__header-actions", t === "manage-routes") {
-      const p = et(e ? "Open" : "Minimize", "ghost", {
-        icon: e ? ds : cs,
+      const p = Q(e ? "Open" : "Minimize", "ghost", {
+        icon: e ? ys : ms,
         ariaLabel: e ? "Open settings" : "Minimize"
       });
       if (p.dataset.action = "toggle-collapse", p.classList.add("sg-panel__chrome-btn", "sg-panel__header-minimize"), p.setAttribute("aria-expanded", String(!e)), c.append(p), !e) {
-        const g = et("Close", "ghost", {
-          icon: us,
+        const g = Q("Close", "ghost", {
+          icon: bs,
           ariaLabel: "Close settings"
         });
         g.dataset.action = "close", g.classList.add("sg-panel__chrome-btn", "sg-panel__header-close"), c.append(g);
       }
     } else {
-      const p = wt(e ? "Open" : "Minimize", "toggle-collapse", "ghost");
+      const p = St(e ? "Open" : "Minimize", "toggle-collapse", "ghost");
       p.setAttribute("aria-expanded", String(!e)), c.append(p);
     }
     if (r.append(o, c), this.root.append(r), e) {
@@ -309,14 +309,14 @@ class Ss {
     }, h = () => {
       a.replaceChildren();
       const p = document.createElement("div");
-      p.className = "sg-string-list__head", p.append($("span", "sg-string-list__label", t));
-      const g = et(o, "secondary", { icon: as, ariaLabel: o || "Add" });
+      p.className = "sg-string-list__head", p.append(O("span", "sg-string-list__label", t));
+      const g = Q(o, "secondary", { icon: gs, ariaLabel: o || "Add" });
       g.classList.add("sg-string-list__add"), g.disabled = c !== null, g.addEventListener("click", (m) => {
-        var b;
-        m.preventDefault(), m.stopPropagation(), c = "add", d = "", h(), (b = a.querySelector(".sg-string-list__draft-input")) == null || b.focus();
+        var y;
+        m.preventDefault(), m.stopPropagation(), c = "add", d = "", h(), (y = a.querySelector(".sg-string-list__draft-input")) == null || y.focus();
       }), p.append(g), a.append(p);
       const f = document.createElement("ul");
-      if (f.className = "sg-string-list__items", c === "add" && f.append(xi({
+      if (f.className = "sg-string-list__items", c === "add" && f.append(Ai({
         value: d,
         placeholder: n,
         onChange: (m) => {
@@ -341,22 +341,22 @@ class Ss {
         const m = document.createElement("li");
         m.className = "sg-string-list__empty", m.textContent = r, f.append(m);
       }
-      l.forEach((m, b) => {
-        if (c === b) {
-          f.append(xi({
+      l.forEach((m, y) => {
+        if (c === y) {
+          f.append(Ai({
             value: d,
             placeholder: n,
-            onChange: (x) => {
-              d = x;
+            onChange: (k) => {
+              d = k;
             },
             onSave: () => {
-              const x = String(d || "").trim();
-              if (!x) {
+              const k = String(d || "").trim();
+              if (!k) {
                 c = null, d = "", h();
                 return;
               }
-              const _ = [...l];
-              _[b] = x, u([...new Set(_)]);
+              const C = [...l];
+              C[y] = k, u([...new Set(C)]);
             },
             onCancel: () => {
               c = null, d = "", h();
@@ -364,33 +364,33 @@ class Ss {
           }));
           return;
         }
-        const w = document.createElement("li");
-        w.className = "sg-string-list__item";
-        const S = document.createElement("code");
-        S.className = "sg-string-list__value", S.textContent = m, S.title = m;
-        const k = document.createElement("div");
-        k.className = "sg-string-list__actions";
-        const C = et("Edit", "ghost", { icon: _i, ariaLabel: "Edit" });
-        C.disabled = c !== null, C.addEventListener("click", (x) => {
-          var _, A;
-          x.preventDefault(), x.stopPropagation(), c = b, d = m, h(), (_ = a.querySelector(".sg-string-list__draft-input")) == null || _.focus(), (A = a.querySelector(".sg-string-list__draft-input")) == null || A.select();
+        const S = document.createElement("li");
+        S.className = "sg-string-list__item";
+        const w = document.createElement("code");
+        w.className = "sg-string-list__value", w.textContent = m, w.title = m;
+        const _ = document.createElement("div");
+        _.className = "sg-string-list__actions";
+        const x = Q("Edit", "ghost", { icon: xi, ariaLabel: "Edit" });
+        x.disabled = c !== null, x.addEventListener("click", (k) => {
+          var C, T;
+          k.preventDefault(), k.stopPropagation(), c = y, d = m, h(), (C = a.querySelector(".sg-string-list__draft-input")) == null || C.focus(), (T = a.querySelector(".sg-string-list__draft-input")) == null || T.select();
         });
-        const y = et("Delete", "danger", { icon: Xe, ariaLabel: "Delete" });
-        y.disabled = c !== null, y.addEventListener("click", (x) => {
-          x.preventDefault(), x.stopPropagation(), u(l.filter((_, A) => A !== b));
-        }), k.append(C, y), w.append(S, k), f.append(w);
+        const b = Q("Delete", "danger", { icon: Je, ariaLabel: "Delete" });
+        b.disabled = c !== null, b.addEventListener("click", (k) => {
+          k.preventDefault(), k.stopPropagation(), u(l.filter((C, T) => T !== y));
+        }), _.append(x, b), S.append(w, _), f.append(S);
       }), a.append(f);
     };
     return h(), a;
   }
   renderIdle(t) {
     t.append(
-      $("p", "sg-lead", "Record actions, refine the steps, then replay a polished walkthrough.")
-    ), this.state.pageUrl && t.append($("p", "sg-page-key", `Page: ${this.state.pageUrl}`)), this.renderPageGuidesList(t);
+      O("p", "sg-lead", "Record actions, refine the steps, then replay a polished walkthrough.")
+    ), this.state.pageUrl && t.append(O("p", "sg-page-key", `Page: ${this.state.pageUrl}`)), this.renderPageGuidesList(t);
     const e = document.createElement("div");
     e.className = "sg-empty", e.append(
-      $("strong", "", this.state.hasPageGuide ? "Guide ready for this page" : "Ready when you are"),
-      $(
+      O("strong", "", this.state.hasPageGuide ? "Guide ready for this page" : "Ready when you are"),
+      O(
         "span",
         "",
         this.state.hasPageGuide ? "Use Play guides, or tap Record on the floating launcher to capture a new flow." : "Tap Record on the floating launcher to capture a new flow."
@@ -401,7 +401,7 @@ class Ss {
     const e = Array.isArray(this.state.pageGuides) ? this.state.pageGuides : [];
     if (!e.length) return;
     const s = document.createElement("div");
-    s.className = "sg-page-guides sg-settings-content__section", s.append($("div", "sg-page-guides__label", "Saved guides on this page"));
+    s.className = "sg-page-guides sg-settings-content__section", s.append(O("div", "sg-page-guides__label", "Saved guides on this page"));
     const n = document.createElement("ul");
     n.className = "sg-page-guides__list", e.forEach((r, o) => {
       const a = document.createElement("li");
@@ -414,7 +414,7 @@ class Ss {
   }
   renderSteps(t, e) {
     var n, r;
-    if (this.state.flashMessage && t.append($("p", "sg-status", this.state.flashMessage)), e === "recording") {
+    if (this.state.flashMessage && t.append(O("p", "sg-status", this.state.flashMessage)), e === "recording") {
       const o = !!this.state.recordingAppend, a = Number(this.state.newStepsCount) || 0, l = document.createElement("p");
       l.className = "sg-lead", o ? l.textContent = a > 0 ? `Keep going — ${a} new step${a === 1 ? "" : "s"} added. Interact again for more, then Stop Recording.` : "Interact with the page as many times as you need. Each action becomes a new step. Click Stop Recording when done." : l.textContent = a > 0 ? `Capturing… ${a} step${a === 1 ? "" : "s"} so far. Keep interacting, then Stop Recording.` : "Perform the flow on screen. Add as many steps as you need, then Stop Recording.", t.append(l);
     }
@@ -428,15 +428,15 @@ class Ss {
       const d = document.createElement("span");
       d.className = "sg-guide-field__label-left";
       const u = document.createElement("span");
-      u.className = "sg-guide-field__label-icon", u.setAttribute("aria-hidden", "true"), u.innerHTML = ys, d.append(u, document.createTextNode("Guide name")), this.state.dirty && d.append($("em", "sg-guide-editor__badge", "Unsaved"));
-      const h = et("Save", "primary", { icon: Gi, withLabel: !0, ariaLabel: "Save guide" });
+      u.className = "sg-guide-field__label-icon", u.setAttribute("aria-hidden", "true"), u.innerHTML = Cs, d.append(u, document.createTextNode("Guide name")), this.state.dirty && d.append(O("em", "sg-guide-editor__badge", "Unsaved"));
+      const h = Q("Save", "primary", { icon: Ui, withLabel: !0, ariaLabel: "Save guide" });
       h.dataset.action = "save-page", h.classList.add("sg-guide-field__save"), h.disabled = this.state.steps.length === 0, c.append(d, h), l.append(c);
       const p = document.createElement("input");
-      p.className = "sg-field sg-field--guide-title", p.value = this.state.guideTitle || "", p.dataset.guideField = "title", p.placeholder = "Example: Create employee schedule", p.setAttribute("aria-label", "Guide name"), p.addEventListener("keydown", (A) => {
-        A.key === "Enter" && (A.preventDefault(), p.blur());
+      p.className = "sg-field sg-field--guide-title", p.value = this.state.guideTitle || "", p.dataset.guideField = "title", p.placeholder = "Example: Create employee schedule", p.setAttribute("aria-label", "Guide name"), p.addEventListener("keydown", (T) => {
+        T.key === "Enter" && (T.preventDefault(), p.blur());
       }), p.addEventListener("blur", () => {
-        var A, M;
-        (M = (A = this.handlers).commitGuideTitle) == null || M.call(A);
+        var T, L;
+        (L = (T = this.handlers).commitGuideTitle) == null || L.call(T);
       }), l.append(p);
       const g = document.createElement("details");
       g.className = "sg-step-settings sg-guide-settings";
@@ -444,37 +444,37 @@ class Ss {
       f.className = "sg-step-settings__summary sg-step-settings__summary--split", f.innerHTML = '<span>Guide options</span><span class="sg-step-settings__chevron" aria-hidden="true">▾</span>', g.append(f);
       const m = document.createElement("div");
       m.className = "sg-step-settings__body";
-      const b = document.createElement("label");
-      b.className = "sg-check";
-      const w = document.createElement("input");
-      w.type = "checkbox", w.dataset.guideSetting = "reloadOnNavigate", w.checked = !!((n = this.state.guideSettings) != null && n.reloadOnNavigate), b.append(w, document.createTextNode(" Reload on other route"));
-      const S = document.createElement("label");
-      S.className = "sg-check";
-      const k = document.createElement("input");
-      k.type = "checkbox", k.dataset.guideSetting = "resetBeforePlay", k.checked = ((r = this.state.guideSettings) == null ? void 0 : r.resetBeforePlay) === "reload", S.append(k, document.createTextNode(" Reload before play")), m.append(b, S), g.append(m), l.append(g), a.append(l);
-      const C = document.createElement("div");
-      C.className = "sg-guide-editor__steps";
-      const y = document.createElement("div");
-      y.className = "sg-guide-editor__steps-head";
+      const y = document.createElement("label");
+      y.className = "sg-check";
+      const S = document.createElement("input");
+      S.type = "checkbox", S.dataset.guideSetting = "reloadOnNavigate", S.checked = !!((n = this.state.guideSettings) != null && n.reloadOnNavigate), y.append(S, document.createTextNode(" Reload on other route"));
+      const w = document.createElement("label");
+      w.className = "sg-check";
+      const _ = document.createElement("input");
+      _.type = "checkbox", _.dataset.guideSetting = "resetBeforePlay", _.checked = ((r = this.state.guideSettings) == null ? void 0 : r.resetBeforePlay) === "reload", w.append(_, document.createTextNode(" Reload before play")), m.append(y, w), g.append(m), l.append(g), a.append(l);
       const x = document.createElement("div");
-      x.className = "sg-guide-editor__steps-meta", x.append(
-        $("span", "sg-guide-editor__steps-label", "Steps"),
-        $("span", "sg-guide-editor__steps-count", String(o))
+      x.className = "sg-guide-editor__steps";
+      const b = document.createElement("div");
+      b.className = "sg-guide-editor__steps-head";
+      const k = document.createElement("div");
+      k.className = "sg-guide-editor__steps-meta", k.append(
+        O("span", "sg-guide-editor__steps-label", "Steps"),
+        O("span", "sg-guide-editor__steps-count", String(o))
       );
-      const _ = wt("Add steps", "add-steps", "secondary");
-      _.classList.add("sg-button--compact", "sg-guide-editor__add-steps"), y.append(x, _), C.append(y), a.append(C), t.append(a), this._stepsBlock = C, this.state.focusGuideTitle && queueMicrotask(() => {
+      const C = St("Add steps", "add-steps", "secondary");
+      C.classList.add("sg-button--compact", "sg-guide-editor__add-steps"), b.append(k, C), x.append(b), a.append(x), t.append(a), this._stepsBlock = x, this.state.focusGuideTitle && queueMicrotask(() => {
         p.focus(), p.select();
       });
     } else
       this._stepsBlock = null;
     if (!this.state.steps.length) {
-      const o = $("div", "sg-empty", e === "manage" ? "No steps in this guide yet." : "No steps yet — start interacting with the page.");
+      const o = O("div", "sg-empty", e === "manage" ? "No steps in this guide yet." : "No steps yet — start interacting with the page.");
       e === "manage" && this._stepsBlock ? this._stepsBlock.append(o) : t.append(o);
       return;
     }
     const s = document.createElement("ol");
     s.className = "sg-step-list", this.state.steps.forEach((o, a) => {
-      var b, w, S, k, C;
+      var y, S, w, _, x;
       const l = document.createElement("li");
       l.className = "sg-step", l.dataset.stepId = o.id, l.draggable = !1, o.invalid && l.classList.add("sg-step--invalid");
       const c = Number(this.state.recordingStepsBaseline) || 0, d = e === "recording" && a >= c;
@@ -483,312 +483,321 @@ class Ss {
       u.className = "sg-step__top";
       const h = document.createElement("div");
       if (h.className = "sg-step__top-left", e === "manage") {
-        const y = document.createElement("span");
-        y.className = "sg-step__drag", y.draggable = !0, y.title = "Drag to reorder", y.setAttribute("aria-label", `Drag step ${a + 1}`), y.textContent = "⋮⋮", y.addEventListener("dragstart", (x) => {
-          x.dataTransfer.setData("text/plain", o.id), x.dataTransfer.effectAllowed = "move", l.classList.add("sg-step--dragging");
-        }), y.addEventListener("dragend", () => {
+        const b = document.createElement("span");
+        b.className = "sg-step__drag", b.draggable = !0, b.title = "Drag to reorder", b.setAttribute("aria-label", `Drag step ${a + 1}`), b.textContent = "⋮⋮", b.addEventListener("dragstart", (k) => {
+          k.dataTransfer.setData("text/plain", o.id), k.dataTransfer.effectAllowed = "move", l.classList.add("sg-step--dragging");
+        }), b.addEventListener("dragend", () => {
           l.classList.remove("sg-step--dragging");
-        }), h.append(y);
+        }), h.append(b);
       }
       if (h.append(
-        $("span", "sg-step__number", String(a + 1)),
-        $("span", "sg-step__action", o.action)
-      ), d && h.append($("span", "sg-step__new", "New")), o.invalid && h.append($("span", "sg-step__warning", "Target missing")), u.append(h), e === "manage") {
-        const y = document.createElement("div");
-        y.className = "sg-step__top-right";
-        const x = et("Play", "ghost", { icon: Je, withLabel: !0, ariaLabel: "Play from here" });
-        x.classList.add("sg-step__play"), x.addEventListener("click", (A) => {
-          var M, I;
-          A.preventDefault(), A.stopPropagation(), (I = (M = this.handlers)["play-here"]) == null || I.call(M, o.id);
+        O("span", "sg-step__number", String(a + 1)),
+        O("span", "sg-step__action", o.action)
+      ), d && h.append(O("span", "sg-step__new", "New")), o.invalid && h.append(O("span", "sg-step__warning", "Target missing")), u.append(h), e === "manage") {
+        const b = document.createElement("div");
+        b.className = "sg-step__top-right";
+        const k = Q("Play", "ghost", { icon: Ye, withLabel: !0, ariaLabel: "Play from here" });
+        k.classList.add("sg-step__play"), k.addEventListener("click", (T) => {
+          var L, B;
+          T.preventDefault(), T.stopPropagation(), (B = (L = this.handlers)["play-here"]) == null || B.call(L, o.id);
         });
-        const _ = et("Remove", "danger", { icon: Xe, ariaLabel: "Remove step" });
-        _.classList.add("sg-step__remove-icon"), _.addEventListener("click", (A) => {
-          var M, I;
-          A.preventDefault(), A.stopPropagation(), (I = (M = this.handlers).remove) == null || I.call(M, o.id);
-        }), y.append(x, _), u.append(y);
+        const C = Q("Remove", "danger", { icon: Je, ariaLabel: "Remove step" });
+        C.classList.add("sg-step__remove-icon"), C.addEventListener("click", (T) => {
+          var L, B;
+          T.preventDefault(), T.stopPropagation(), (B = (L = this.handlers).remove) == null || B.call(L, o.id);
+        }), b.append(k, C), u.append(b);
       }
       const p = document.createElement("input");
       p.className = "sg-field sg-step__title", p.value = o.title, p.dataset.field = "title", p.disabled = e === "recording", p.placeholder = "Step title", p.setAttribute("aria-label", `Step ${a + 1} title`);
       const g = document.createElement("div");
       g.className = "sg-step__selector-wrap";
-      const f = Array.isArray(o.selectorAlternatives) ? o.selectorAlternatives.filter((y) => y == null ? void 0 : y.selector) : [];
+      const f = Array.isArray(o.selectorAlternatives) ? o.selectorAlternatives.filter((b) => b == null ? void 0 : b.selector) : [];
       if (f.length > 1) {
-        const y = document.createElement("select");
-        y.className = "sg-field sg-step__selector-select", y.dataset.field = "selector", y.setAttribute("aria-label", `Step ${a + 1} target selector`);
-        const x = String(o.selector || ""), _ = /* @__PURE__ */ new Set(), A = (M, { selected: I = !1, suggested: z = !1 } = {}) => {
-          const L = String(M.selector || "");
-          if (!L || _.has(L)) return;
-          _.add(L);
-          const T = document.createElement("option");
-          T.value = L;
-          const B = String(M.title || "").trim(), R = String(M.detail || "").trim(), q = L.length > 52 ? `${L.slice(0, 50)}…` : L;
-          let G = B || R || q;
-          B && R && R !== B ? G = `${B} — ${R}` : B && q !== B && (G = `${B} (${q})`), (z || M.suggested) && (G = `★ ${G}`), T.textContent = G, T.title = L, (I || L === x) && (T.selected = !0), y.append(T);
+        const b = document.createElement("select");
+        b.className = "sg-field sg-step__selector-select", b.dataset.field = "selector", b.setAttribute("aria-label", `Step ${a + 1} target selector`);
+        const k = String(o.selector || ""), C = /* @__PURE__ */ new Set(), T = (L, { selected: B = !1, suggested: j = !1 } = {}) => {
+          const M = String(L.selector || "");
+          if (!M || C.has(M)) return;
+          C.add(M);
+          const A = document.createElement("option");
+          A.value = M;
+          const P = String(L.title || "").trim(), $ = String(L.detail || "").trim(), q = M.length > 52 ? `${M.slice(0, 50)}…` : M;
+          let D = P || $ || q;
+          P && $ && $ !== P ? D = `${P} — ${$}` : P && q !== P && (D = `${P} (${q})`), (j || L.suggested) && (D = `★ ${D}`), A.textContent = D, A.title = M, (B || M === k) && (A.selected = !0), b.append(A);
         };
-        f.forEach((M) => A(M)), x && !_.has(x) && A({ selector: x, title: "Current" }, { selected: !0 }), g.append(y);
+        f.forEach((L) => T(L)), k && !C.has(k) && T({ selector: k, title: "Current" }, { selected: !0 }), g.append(b);
       } else
-        g.append($("code", "sg-step__selector", o.selector || "No target"));
+        g.append(O("code", "sg-step__selector", o.selector || "No target"));
       if (e === "manage" && o.selector) {
-        const y = et("Copy", "ghost", { icon: Ye, ariaLabel: "Copy selector" });
-        y.classList.add("sg-step__selector-copy"), y.addEventListener("click", async (x) => {
-          var _, A;
-          x.preventDefault(), x.stopPropagation();
+        const b = Q("Copy", "ghost", { icon: Qe, ariaLabel: "Copy selector" });
+        b.classList.add("sg-step__selector-copy"), b.addEventListener("click", async (k) => {
+          var C, T;
+          k.preventDefault(), k.stopPropagation();
           try {
-            await ((A = (_ = navigator.clipboard) == null ? void 0 : _.writeText) == null ? void 0 : A.call(_, String(o.selector))), y.title = "Copied", setTimeout(() => {
-              y.title = "Copy selector";
+            await ((T = (C = navigator.clipboard) == null ? void 0 : C.writeText) == null ? void 0 : T.call(C, String(o.selector))), b.title = "Copied", setTimeout(() => {
+              b.title = "Copy selector";
             }, 1e3);
           } catch {
           }
-        }), g.append(y);
+        }), g.append(b);
       }
       const m = document.createElement("div");
       if (m.className = "sg-step__body", m.append(p, g), l.append(u, m), e === "manage" || e === "recording") {
-        const y = document.createElement("div");
-        y.className = "sg-step__controls";
-        const x = (M, I, z = "") => {
-          const L = wt(M, I, z);
-          return L.classList.add("sg-button--compact"), L.addEventListener("click", (T) => {
-            var B, R;
-            T.preventDefault(), T.stopPropagation(), (R = (B = this.handlers)[I]) == null || R.call(B, o.id);
-          }), L;
-        }, _ = document.createElement("div");
-        _.className = "sg-step__controls-left";
-        const A = document.createElement("div");
-        if (A.className = "sg-step__controls-right", e === "manage") {
+        const b = document.createElement("div");
+        b.className = "sg-step__controls";
+        const k = (L, B, j = "") => {
+          const M = St(L, B, j);
+          return M.classList.add("sg-button--compact"), M.addEventListener("click", (A) => {
+            var P, $;
+            A.preventDefault(), A.stopPropagation(), ($ = (P = this.handlers)[B]) == null || $.call(P, o.id);
+          }), M;
+        }, C = document.createElement("div");
+        C.className = "sg-step__controls-left";
+        const T = document.createElement("div");
+        if (T.className = "sg-step__controls-right", e === "manage") {
           if (o.action === "input") {
-            const L = document.createElement("label");
-            L.className = "sg-check sg-check--compact";
-            const T = document.createElement("input");
-            T.type = "checkbox", T.dataset.field = "waitRequired", T.checked = !!((b = o.waitFor) != null && b.required), L.append(T, document.createTextNode(" Require value")), _.append(L);
+            const M = document.createElement("label");
+            M.className = "sg-check sg-check--compact";
+            const A = document.createElement("input");
+            A.type = "checkbox", A.dataset.field = "waitRequired", A.checked = !!((y = o.waitFor) != null && y.required), M.append(A, document.createTextNode(" Require value")), C.append(M);
           }
-          const M = this.state.steps.length, I = a + 1, z = (L) => {
-            const T = document.createElement("div");
-            T.className = "sg-step__move-picker";
-            const B = L === "up", R = wt(B ? "↑" : "↓", "", "ghost");
-            R.classList.add("sg-button--compact", "sg-step__move-btn"), R.setAttribute("aria-haspopup", "listbox"), R.setAttribute("aria-expanded", "false"), R.title = B ? "Move to an earlier step" : "Move to a later step", R.setAttribute("aria-label", B ? `Move step ${I} to an earlier position` : `Move step ${I} to a later position`);
-            const q = B ? Array.from({ length: a }, (H, U) => I - 1 - U) : Array.from({ length: M - I }, (H, U) => I + 1 + U);
-            q.length || (R.disabled = !0);
-            const G = document.createElement("div");
-            return G.className = "sg-step__move-menu", G.hidden = !0, G.setAttribute("role", "listbox"), G.setAttribute("aria-label", B ? "Earlier step numbers" : "Later step numbers"), q.forEach((H) => {
+          const L = this.state.steps.length, B = a + 1, j = (M) => {
+            const A = document.createElement("div");
+            A.className = "sg-step__move-picker";
+            const P = M === "up", $ = St(P ? "↑" : "↓", "", "ghost");
+            $.classList.add("sg-button--compact", "sg-step__move-btn"), $.setAttribute("aria-haspopup", "listbox"), $.setAttribute("aria-expanded", "false"), $.title = P ? "Move to an earlier step" : "Move to a later step", $.setAttribute("aria-label", P ? `Move step ${B} to an earlier position` : `Move step ${B} to a later position`);
+            const q = P ? Array.from({ length: a }, (F, U) => B - 1 - U) : Array.from({ length: L - B }, (F, U) => B + 1 + U);
+            q.length || ($.disabled = !0);
+            const D = document.createElement("div");
+            return D.className = "sg-step__move-menu", D.hidden = !0, D.setAttribute("role", "listbox"), D.setAttribute("aria-label", P ? "Earlier step numbers" : "Later step numbers"), q.forEach((F) => {
               const U = document.createElement("button");
-              U.type = "button", U.className = "sg-step__move-option", U.textContent = String(H), U.setAttribute("role", "option"), U.title = `Move to step ${H}`, U.addEventListener("click", (st) => {
-                var nt, ft;
-                st.preventDefault(), st.stopPropagation(), this.closeMoveMenus(), (ft = (nt = this.handlers)["move-to"]) == null || ft.call(nt, o.id, H);
-              }), G.append(U);
-            }), R.addEventListener("click", (H) => {
-              if (H.preventDefault(), H.stopPropagation(), R.disabled) return;
-              const U = G.hidden;
-              this.closeMoveMenus(), U && (G.hidden = !1, R.setAttribute("aria-expanded", "true"));
-            }), T.append(R, G), T;
+              U.type = "button", U.className = "sg-step__move-option", U.textContent = String(F), U.setAttribute("role", "option"), U.title = `Move to step ${F}`, U.addEventListener("click", (et) => {
+                var rt, ut;
+                et.preventDefault(), et.stopPropagation(), this.closeMoveMenus(), (ut = (rt = this.handlers)["move-to"]) == null || ut.call(rt, o.id, F);
+              }), D.append(U);
+            }), $.addEventListener("click", (F) => {
+              if (F.preventDefault(), F.stopPropagation(), $.disabled) return;
+              const U = D.hidden;
+              this.closeMoveMenus(), U && (D.hidden = !1, $.setAttribute("aria-expanded", "true"));
+            }), A.append($, D), A;
           };
-          _.append(z("up"), z("down"));
+          C.append(j("up"), j("down"));
         } else
-          A.append(
-            x("Play", "play-here", "ghost"),
-            x("Remove", "remove", "danger")
+          T.append(
+            k("Play", "play-here", "ghost"),
+            k("Remove", "remove", "danger")
           );
-        if (y.append(_), A.childNodes.length && y.append(A), e === "manage") {
-          const M = document.createElement("details");
-          M.className = "sg-step-settings";
-          const I = document.createElement("summary");
-          I.className = "sg-step-settings__summary sg-step-settings__summary--split", I.innerHTML = `
+        if (b.append(C), T.childNodes.length && b.append(T), e === "manage") {
+          const L = document.createElement("details");
+          L.className = "sg-step-settings";
+          const B = document.createElement("summary");
+          B.className = "sg-step-settings__summary sg-step-settings__summary--split", B.innerHTML = `
             <span class="sg-step-settings__summary-left">
-              <span class="sg-step-settings__gear" aria-hidden="true">${ki}</span>
+              <span class="sg-step-settings__gear" aria-hidden="true">${Ei}</span>
               Settings
             </span>
             <span class="sg-step-settings__chevron" aria-hidden="true">▾</span>
-          `, M.append(I);
-          const z = document.createElement("div");
-          z.className = "sg-step-settings__body";
-          const L = document.createElement("label");
-          L.className = "sg-step-settings__field", L.append(document.createTextNode("Step description"));
-          const T = document.createElement("textarea");
-          T.className = "sg-field sg-step__description", T.rows = 2, T.value = o.description || "", T.dataset.field = "description", T.placeholder = "Shown next to the highlight while playing", T.setAttribute("aria-label", `Step ${a + 1} description`), L.append(T);
-          const B = document.createElement("label");
-          B.className = "sg-check";
-          const R = document.createElement("input");
-          R.type = "checkbox", R.dataset.stepSetting = "autoScroll", R.checked = ((w = o.settings) == null ? void 0 : w.autoScroll) !== !1, B.append(R, document.createTextNode(" Auto-scroll"));
+          `, L.append(B);
+          const j = document.createElement("div");
+          j.className = "sg-step-settings__body";
+          const M = document.createElement("label");
+          M.className = "sg-step-settings__field", M.append(document.createTextNode("Step description"));
+          const A = document.createElement("textarea");
+          A.className = "sg-field sg-step__description", A.rows = 2, A.value = o.description || "", A.dataset.field = "description", A.placeholder = "Shown next to the highlight while playing", A.setAttribute("aria-label", `Step ${a + 1} description`), M.append(A);
+          const P = document.createElement("label");
+          P.className = "sg-check";
+          const $ = document.createElement("input");
+          $.type = "checkbox", $.dataset.stepSetting = "autoScroll", $.checked = ((S = o.settings) == null ? void 0 : S.autoScroll) !== !1, P.append($, document.createTextNode(" Auto-scroll"));
           const q = document.createElement("label");
           q.className = "sg-step-settings__field", q.append(document.createTextNode("Show delay (ms)"));
-          const G = document.createElement("input");
-          G.type = "number", G.min = "0", G.step = "50", G.className = "sg-field", G.value = String(((S = o.settings) == null ? void 0 : S.delay) ?? 0), G.dataset.stepSetting = "delay", q.append(G);
-          const H = document.createElement("label");
-          H.className = "sg-step-settings__field", H.append(document.createTextNode("Hide delay (ms)"));
+          const D = document.createElement("input");
+          D.type = "number", D.min = "0", D.step = "50", D.className = "sg-field", D.value = String(((w = o.settings) == null ? void 0 : w.delay) ?? 0), D.dataset.stepSetting = "delay", q.append(D);
+          const F = document.createElement("label");
+          F.className = "sg-step-settings__field", F.append(document.createTextNode("Hide delay (ms)"));
           const U = document.createElement("input");
-          U.type = "number", U.min = "0", U.step = "50", U.className = "sg-field", U.value = String(((k = o.settings) == null ? void 0 : k.hideDelay) ?? 0), U.dataset.stepSetting = "hideDelay", H.append(U);
-          const st = document.createElement("label");
-          st.className = "sg-check";
-          const nt = document.createElement("input");
-          nt.type = "checkbox", nt.dataset.stepSetting = "autoSkipMissing", nt.checked = ((C = o.settings) == null ? void 0 : C.autoSkipMissing) !== !1, st.append(nt, document.createTextNode(" Auto-skip if missing")), z.append(L, B, q, H, st), M.append(z), l.append(y, M);
+          U.type = "number", U.min = "0", U.step = "50", U.className = "sg-field", U.value = String(((_ = o.settings) == null ? void 0 : _.hideDelay) ?? 0), U.dataset.stepSetting = "hideDelay", F.append(U);
+          const et = document.createElement("label");
+          et.className = "sg-check";
+          const rt = document.createElement("input");
+          rt.type = "checkbox", rt.dataset.stepSetting = "autoSkipMissing", rt.checked = ((x = o.settings) == null ? void 0 : x.autoSkipMissing) !== !1, et.append(rt, document.createTextNode(" Auto-skip if still missing after wait")), j.append(M, P, q, F, et), L.append(j), l.append(b, L);
         } else
-          l.append(y);
+          l.append(b);
       }
       s.append(l);
     }), e === "manage" && this._stepsBlock ? this._stepsBlock.append(s) : t.append(s);
   }
   renderManageRoutes(t) {
-    this.state.flashMessage && t.append($("p", "sg-status", this.state.flashMessage));
+    this.state.flashMessage && t.append(O("p", "sg-status", this.state.flashMessage));
     const e = this.state.settings || {}, s = Array.isArray(this.state.allGuides) ? this.state.allGuides : [], n = document.createElement("div");
     n.className = "sg-page-guides";
     const r = document.createElement("div");
     r.className = "sg-page-guides__label-row";
     const o = document.createElement("span");
-    if (o.className = "sg-page-guides__label-icon", o.setAttribute("aria-hidden", "true"), o.innerHTML = ms, r.append(o, $("div", "sg-page-guides__label", `All guides (${s.length})`)), n.append(r), !s.length)
-      n.append($("p", "sg-lead", "No guides saved yet."));
+    if (o.className = "sg-page-guides__label-icon", o.setAttribute("aria-hidden", "true"), o.innerHTML = _s, r.append(o, O("div", "sg-page-guides__label", `All guides (${s.length})`)), n.append(r), !s.length)
+      n.append(O("p", "sg-lead", "No guides saved yet."));
     else {
-      const P = /* @__PURE__ */ new Map();
-      s.forEach((O) => {
-        const N = O.url || "/";
-        P.has(N) || P.set(N, []), P.get(N).push(O);
-      }), [...P.entries()].sort((O, N) => O[0].localeCompare(N[0])).forEach(([O, N]) => {
+      const I = /* @__PURE__ */ new Map();
+      s.forEach((G) => {
+        const N = G.url || "/";
+        I.has(N) || I.set(N, []), I.get(N).push(G);
+      }), [...I.entries()].sort((G, N) => G[0].localeCompare(N[0])).forEach(([G, N]) => {
         const V = document.createElement("div");
         V.className = "sg-manage-section";
-        const lt = document.createElement("div");
-        lt.className = "sg-manage-section__path";
+        const nt = document.createElement("div");
+        nt.className = "sg-manage-section__path";
         const kt = document.createElement("span");
-        kt.className = "sg-manage-section__path-icon", kt.setAttribute("aria-hidden", "true"), kt.innerHTML = fs, lt.append(kt, document.createTextNode(O)), V.append(lt);
+        kt.className = "sg-manage-section__path-icon", kt.setAttribute("aria-hidden", "true"), kt.innerHTML = ks, nt.append(kt, document.createTextNode(G)), V.append(nt);
         const ne = document.createElement("ul");
         ne.className = "sg-page-guides__list", N.forEach((Tt) => {
-          const Ct = document.createElement("li");
-          Ct.className = "sg-page-guides__item sg-page-guides__item--actions", Ct.dataset.guideId = Tt.id;
-          const je = document.createElement("div");
-          je.className = "sg-page-guides__copy";
+          const _t = document.createElement("li");
+          _t.className = "sg-page-guides__item sg-page-guides__item--actions", _t.dataset.guideId = Tt.id;
           const Ve = document.createElement("div");
-          Ve.className = "sg-page-guides__head";
+          Ve.className = "sg-page-guides__copy";
+          const Ke = document.createElement("div");
+          Ke.className = "sg-page-guides__head";
           const ze = document.createElement("div");
           ze.className = "sg-page-guides__title-row";
-          const vi = String(Tt.title || "Untitled").split(" · "), wi = (vi[0] || "Untitled").trim(), Si = vi.slice(1).join(" · ").trim(), os = `${Tt.steps} step${Tt.steps === 1 ? "" : "s"}`, Ke = /^(\d+)\s+steps?$/i.test(wi), oe = document.createElement("div");
-          if (oe.className = "sg-page-guides__title-line", !Ke) {
-            const pt = document.createElement("strong");
-            pt.textContent = wi, oe.append(pt);
+          const ki = String(Tt.title || "Untitled").split(" · "), _i = (ki[0] || "Untitled").trim(), Ci = ki.slice(1).join(" · ").trim(), ps = `${Tt.steps} step${Tt.steps === 1 ? "" : "s"}`, Ze = /^(\d+)\s+steps?$/i.test(_i), ae = document.createElement("div");
+          if (ae.className = "sg-page-guides__title-line", !Ze) {
+            const gt = document.createElement("strong");
+            gt.textContent = _i, ae.append(gt);
           }
-          if (Si) {
-            const pt = document.createElement("span");
-            pt.className = `sg-page-guides__meta${Ke ? " sg-page-guides__meta--solo" : ""}`, pt.textContent = Si, oe.append(pt);
-          } else if (Ke) {
-            const pt = document.createElement("span");
-            pt.className = "sg-page-guides__meta sg-page-guides__meta--solo", pt.textContent = "Untitled guide", oe.append(pt);
+          if (Ci) {
+            const gt = document.createElement("span");
+            gt.className = `sg-page-guides__meta${Ze ? " sg-page-guides__meta--solo" : ""}`, gt.textContent = Ci, ae.append(gt);
+          } else if (Ze) {
+            const gt = document.createElement("span");
+            gt.className = "sg-page-guides__meta sg-page-guides__meta--solo", gt.textContent = "Untitled guide", ae.append(gt);
           }
-          const Ze = document.createElement("span");
-          Ze.className = "sg-page-guides__badge", Ze.textContent = os, ze.append(oe, Ze), Ve.append(ze), je.append(Ve);
-          const Ce = document.createElement("div");
-          Ce.className = "sg-page-guides__actions";
-          const ae = et("Play", "secondary", { icon: Je, ariaLabel: "Play guide" });
-          if (ae.classList.add("sg-page-guides__action", "sg-page-guides__action--play"), ae.dataset.action = "play-guide", ae.dataset.guideId = Tt.id, this.state.readOnly)
-            Ce.append(ae);
+          const Xe = document.createElement("span");
+          Xe.className = "sg-page-guides__badge", Xe.textContent = ps, ze.append(ae, Xe), Ke.append(ze), Ve.append(Ke);
+          const Ee = document.createElement("div");
+          Ee.className = "sg-page-guides__actions";
+          const le = Q("Play", "secondary", { icon: Ye, ariaLabel: "Play guide" });
+          if (le.classList.add("sg-page-guides__action", "sg-page-guides__action--play"), le.dataset.action = "play-guide", le.dataset.guideId = Tt.id, this.state.readOnly)
+            Ee.append(le);
           else {
-            const pt = et("Edit", "secondary", { icon: _i, ariaLabel: "Edit steps" });
-            pt.classList.add("sg-page-guides__action", "sg-page-guides__action--edit"), pt.dataset.action = "edit-guide", pt.dataset.guideId = Tt.id;
-            const xe = et("Delete", "danger", { icon: Xe, ariaLabel: "Delete guide" });
-            xe.classList.add("sg-page-guides__action", "sg-page-guides__action--delete"), xe.dataset.action = "delete-guide", xe.dataset.guideId = Tt.id, Ce.append(pt, ae, xe);
+            const gt = Q("Edit", "secondary", { icon: xi, ariaLabel: "Edit steps" });
+            gt.classList.add("sg-page-guides__action", "sg-page-guides__action--edit"), gt.dataset.action = "edit-guide", gt.dataset.guideId = Tt.id;
+            const Te = Q("Delete", "danger", { icon: Je, ariaLabel: "Delete guide" });
+            Te.classList.add("sg-page-guides__action", "sg-page-guides__action--delete"), Te.dataset.action = "delete-guide", Te.dataset.guideId = Tt.id, Ee.append(gt, le, Te);
           }
-          Ct.append(je, Ce), ne.append(Ct);
+          _t.append(Ve, Ee), ne.append(_t);
         }), V.append(ne), n.append(V);
       });
     }
     const a = document.createElement("div");
     a.className = "sg-guides-tools";
-    const l = et("Load", "secondary", { icon: hs, withLabel: !0 });
+    const l = Q("Load", "secondary", { icon: Ss, withLabel: !0 });
     l.dataset.action = "load";
-    const c = et("Paste", "secondary", { icon: ps, withLabel: !0 });
+    const c = Q("Paste", "secondary", { icon: vs, withLabel: !0 });
     c.dataset.action = "paste";
-    const d = et("Export", "primary", { icon: gs, withLabel: !0 });
+    const d = Q("Export", "primary", { icon: ws, withLabel: !0 });
     d.dataset.action = "download-all", a.append(l, c, d), n.append(a), t.append(n);
     const u = document.createElement("div");
     u.className = "sg-settings sg-settings--nested sg-settings-card sg-account-panel";
     const h = document.createElement("div");
     h.className = "sg-account-panel__head";
     const p = document.createElement("span");
-    p.className = "sg-account-panel__head-icon", p.setAttribute("aria-hidden", "true"), p.innerHTML = bs, h.append(p, $("div", "sg-page-guides__label", "Current account")), u.append(h);
+    p.className = "sg-account-panel__head-icon", p.setAttribute("aria-hidden", "true"), p.innerHTML = xs, h.append(p, O("div", "sg-page-guides__label", "Current account")), u.append(h);
     const g = this.state.accountId, f = !(g == null || g === ""), m = document.createElement("div");
     m.className = `sg-account-card${f ? "" : " sg-account-card--empty"}`;
-    const b = document.createElement("div");
-    b.className = "sg-account-card__left";
-    const w = document.createElement("span");
-    w.className = "sg-account-card__badge", w.textContent = "ID";
-    const S = document.createElement("div");
-    S.className = "sg-account-card__meta", S.append($("span", "sg-account-card__caption", "Your account ID"));
-    const k = document.createElement("strong");
-    if (k.className = "sg-account-card__value", k.textContent = f ? String(g) : "Not signed in", k.title = f ? "Logged-in account ID from the host app" : "Host app has not passed an account ID yet", S.append(k), b.append(w, S), m.append(b), f) {
-      const P = et("Copy", "secondary", {
-        icon: Ye,
+    const y = document.createElement("div");
+    y.className = "sg-account-card__left";
+    const S = document.createElement("span");
+    S.className = "sg-account-card__badge", S.textContent = "ID";
+    const w = document.createElement("div");
+    w.className = "sg-account-card__meta", w.append(O("span", "sg-account-card__caption", "Your account ID"));
+    const _ = document.createElement("strong");
+    if (_.className = "sg-account-card__value", _.textContent = f ? String(g) : "Not signed in", _.title = f ? "Logged-in account ID from the host app" : "Host app has not passed an account ID yet", w.append(_), y.append(S, w), m.append(y), f) {
+      const I = Q("Copy", "secondary", {
+        icon: Qe,
         withLabel: !0,
         ariaLabel: "Copy account ID"
       });
-      P.classList.add("sg-account-card__copy"), P.addEventListener("click", async (O) => {
-        var lt, kt;
-        O.preventDefault(), O.stopPropagation();
-        const N = String(g), V = P.querySelector("span");
+      I.classList.add("sg-account-card__copy"), I.addEventListener("click", async (G) => {
+        var nt, kt;
+        G.preventDefault(), G.stopPropagation();
+        const N = String(g), V = I.querySelector("span");
         try {
-          await ((kt = (lt = navigator.clipboard) == null ? void 0 : lt.writeText) == null ? void 0 : kt.call(lt, N)), V ? V.textContent = "Copied" : P.textContent = "Copied", setTimeout(() => {
-            V ? V.textContent = "Copy" : P.innerHTML = `${Ye}<span>Copy</span>`;
+          await ((kt = (nt = navigator.clipboard) == null ? void 0 : nt.writeText) == null ? void 0 : kt.call(nt, N)), V ? V.textContent = "Copied" : I.textContent = "Copied", setTimeout(() => {
+            V ? V.textContent = "Copy" : I.innerHTML = `${Qe}<span>Copy</span>`;
           }, 1200);
         } catch {
-          V ? V.textContent = N : P.textContent = N;
+          V ? V.textContent = N : I.textContent = N;
         }
-      }), m.append(P);
+      }), m.append(I);
     }
     u.append(m);
-    const C = document.createElement("p");
-    C.className = "sg-account-panel__hint";
-    const y = document.createElement("span");
-    y.className = "sg-account-panel__hint-icon", y.setAttribute("aria-hidden", "true"), y.innerHTML = vs;
-    const x = document.createElement("span");
-    f ? x.innerHTML = "Add this ID under <strong>Access</strong> to allow editing." : x.textContent = "Sign in or pass an account ID from the host app.", C.append(y, x), u.append(C);
-    const _ = document.createElement("div");
-    _.className = "sg-settings sg-settings--nested sg-settings-card sg-defaults-panel";
-    const A = document.createElement("div");
-    A.className = "sg-defaults-panel__head";
-    const M = document.createElement("span");
-    M.className = "sg-defaults-panel__head-icon", M.setAttribute("aria-hidden", "true"), M.innerHTML = ki, A.append(M, $("div", "sg-page-guides__label", "Default settings")), _.append(A);
-    const I = document.createElement("div");
-    I.className = "sg-defaults-panel__checks";
-    const z = document.createElement("label");
-    z.className = "sg-check sg-settings__row sg-defaults-panel__check";
-    const L = document.createElement("input");
-    L.type = "checkbox", L.dataset.setting = "reloadOnNavigate", L.checked = !!e.reloadOnNavigate, z.append(L, document.createTextNode(" Reload when opening another route")), I.append(z);
-    const T = document.createElement("label");
-    T.className = "sg-check sg-settings__row sg-defaults-panel__check";
-    const B = document.createElement("input");
-    B.type = "checkbox", B.dataset.setting = "resetBeforePlay", B.checked = e.resetBeforePlay === "reload", T.append(B, document.createTextNode(" Reload page before playing")), I.append(T), _.append(I);
-    const R = document.createElement("label");
-    R.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", R.append(document.createTextNode("Reload resume delay (ms)"));
+    const x = document.createElement("p");
+    x.className = "sg-account-panel__hint";
+    const b = document.createElement("span");
+    b.className = "sg-account-panel__hint-icon", b.setAttribute("aria-hidden", "true"), b.innerHTML = Es;
+    const k = document.createElement("span");
+    f ? k.innerHTML = "Add this ID under <strong>Access</strong> to allow editing." : k.textContent = "Sign in or pass an account ID from the host app.", x.append(b, k), u.append(x);
+    const C = document.createElement("div");
+    C.className = "sg-settings sg-settings--nested sg-settings-card sg-defaults-panel";
+    const T = document.createElement("div");
+    T.className = "sg-defaults-panel__head";
+    const L = document.createElement("span");
+    L.className = "sg-defaults-panel__head-icon", L.setAttribute("aria-hidden", "true"), L.innerHTML = Ei, T.append(L, O("div", "sg-page-guides__label", "Default settings")), C.append(T);
+    const B = document.createElement("div");
+    B.className = "sg-defaults-panel__checks";
+    const j = document.createElement("label");
+    j.className = "sg-check sg-settings__row sg-defaults-panel__check";
+    const M = document.createElement("input");
+    M.type = "checkbox", M.dataset.setting = "reloadOnNavigate", M.checked = !!e.reloadOnNavigate, j.append(M, document.createTextNode(" Reload when opening another route")), B.append(j);
+    const A = document.createElement("label");
+    A.className = "sg-check sg-settings__row sg-defaults-panel__check";
+    const P = document.createElement("input");
+    P.type = "checkbox", P.dataset.setting = "resetBeforePlay", P.checked = e.resetBeforePlay === "reload", A.append(P, document.createTextNode(" Reload page before playing")), B.append(A), C.append(B);
+    const $ = document.createElement("label");
+    $.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", $.append(document.createTextNode("Reload resume delay (ms)"));
     const q = document.createElement("div");
     q.className = "sg-field-shell";
-    const G = document.createElement("span");
-    G.className = "sg-field-shell__icon", G.setAttribute("aria-hidden", "true"), G.innerHTML = Ci;
-    const H = document.createElement("input");
-    H.type = "number", H.min = "0", H.max = "10000", H.step = "50", H.className = "sg-field sg-field--shell", H.dataset.setting = "resetBeforePlayDelay", H.value = String(e.resetBeforePlayDelay ?? 450), q.append(G, H), R.append(q), _.append(R);
+    const D = document.createElement("span");
+    D.className = "sg-field-shell__icon", D.setAttribute("aria-hidden", "true"), D.innerHTML = Ti;
+    const F = document.createElement("input");
+    F.type = "number", F.min = "0", F.max = "10000", F.step = "50", F.className = "sg-field sg-field--shell", F.dataset.setting = "resetBeforePlayDelay", F.value = String(e.resetBeforePlayDelay ?? 450), q.append(D, F), $.append(q), C.append($);
     const U = document.createElement("label");
     U.className = "sg-check sg-settings__row sg-defaults-panel__check";
-    const st = document.createElement("input");
-    st.type = "checkbox", st.dataset.setting = "pageSettleAfterClick", st.checked = e.pageSettleAfterClick !== !1, U.append(st, document.createTextNode(" Wait for page loaders after click")), _.append(U);
-    const nt = document.createElement("label");
-    nt.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", nt.append(document.createTextNode("Post-ready delay (ms)"));
-    const ft = document.createElement("div");
-    ft.className = "sg-field-shell";
-    const F = document.createElement("span");
-    F.className = "sg-field-shell__icon", F.setAttribute("aria-hidden", "true"), F.innerHTML = Ci;
-    const j = document.createElement("input");
-    j.type = "number", j.min = "0", j.max = "10000", j.step = "50", j.className = "sg-field sg-field--shell", j.dataset.setting = "postReadyDelay", j.value = String(e.postReadyDelay ?? 1500), ft.append(F, j), nt.append(ft), _.append(nt);
-    const D = document.createElement("label");
-    D.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", D.append(document.createTextNode("Theme mode"));
-    const K = document.createElement("div");
-    K.className = "sg-field-shell sg-field-shell--select";
-    const Z = document.createElement("span");
-    Z.className = "sg-field-shell__icon", Z.setAttribute("aria-hidden", "true"), Z.innerHTML = ws;
-    const ct = document.createElement("select");
-    ct.className = "sg-field sg-field--shell", ct.dataset.setting = "theme", [
+    const et = document.createElement("input");
+    et.type = "checkbox", et.dataset.setting = "pageSettleAfterClick", et.checked = e.pageSettleAfterClick !== !1, U.append(et, document.createTextNode(" Wait for page loaders after click")), C.append(U);
+    const rt = this.createEditableStringList({
+      label: "Loading selectors (skeleton / busy)",
+      settingKey: "loadingSelectors",
+      items: Array.isArray(e.loadingSelectors) ? e.loadingSelectors : [".skeleton", ".shimmer", '[aria-busy="true"]', ".p-skeleton"],
+      placeholder: "e.g. .p-skeleton",
+      emptyText: "Using built-in defaults",
+      addLabel: "Add"
+    });
+    rt.classList.add("sg-defaults-panel__field"), C.append(rt);
+    const ut = document.createElement("label");
+    ut.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", ut.append(document.createTextNode("Post-ready delay (ms)"));
+    const H = document.createElement("div");
+    H.className = "sg-field-shell";
+    const z = document.createElement("span");
+    z.className = "sg-field-shell__icon", z.setAttribute("aria-hidden", "true"), z.innerHTML = Ti;
+    const R = document.createElement("input");
+    R.type = "number", R.min = "0", R.max = "10000", R.step = "50", R.className = "sg-field sg-field--shell", R.dataset.setting = "postReadyDelay", R.value = String(e.postReadyDelay ?? 1500), H.append(z, R), ut.append(H), C.append(ut);
+    const K = document.createElement("label");
+    K.className = "sg-step-settings__field sg-settings__row sg-defaults-panel__field", K.append(document.createTextNode("Theme mode"));
+    const Z = document.createElement("div");
+    Z.className = "sg-field-shell sg-field-shell--select";
+    const lt = document.createElement("span");
+    lt.className = "sg-field-shell__icon", lt.setAttribute("aria-hidden", "true"), lt.innerHTML = Ts;
+    const Bt = document.createElement("select");
+    Bt.className = "sg-field sg-field--shell", Bt.dataset.setting = "theme", [
       ["dark", "Dark"],
       ["light", "Light"]
-    ].forEach(([P, O]) => {
+    ].forEach(([I, G]) => {
       const N = document.createElement("option");
-      N.value = P, N.textContent = O, (e.theme || "dark") === P && (N.selected = !0), ct.append(N);
+      N.value = I, N.textContent = G, (e.theme || "dark") === I && (N.selected = !0), Bt.append(N);
     });
-    const Mt = document.createElement("span");
-    Mt.className = "sg-field-shell__chevron", Mt.setAttribute("aria-hidden", "true"), Mt.textContent = "▾", K.append(Z, ct, Mt), D.append(K), _.append(D);
-    const ut = document.createElement("div");
-    ut.className = "sg-settings sg-settings--nested sg-settings-card", ut.append($("div", "sg-page-guides__label", "Access & toolbar"));
+    const Lt = document.createElement("span");
+    Lt.className = "sg-field-shell__chevron", Lt.setAttribute("aria-hidden", "true"), Lt.textContent = "▾", Z.append(lt, Bt, Lt), K.append(Z), C.append(K);
+    const wt = document.createElement("div");
+    wt.className = "sg-settings sg-settings--nested sg-settings-card", wt.append(O("div", "sg-page-guides__label", "Access & toolbar"));
     const ve = this.createEditableStringList({
       label: "Editor account IDs (not listed = Play only)",
       settingKey: "editorAccountIds",
@@ -797,14 +806,14 @@ class Ss {
       emptyText: "No editor accounts — Play only for everyone",
       addLabel: "Add"
     });
-    ut.append(ve);
+    wt.append(ve);
     const Ht = document.createElement("label");
     Ht.className = "sg-step-settings__field sg-settings__row", Ht.append(document.createTextNode("Bypass PIN (hover orb + type to open panel)"));
     const Xt = document.createElement("div");
     Xt.className = "sg-password-field";
     const mt = document.createElement("input");
     mt.type = "password", mt.className = "sg-field", mt.inputMode = "numeric", mt.autocomplete = "new-password", mt.placeholder = "••••••", mt.maxLength = 12, mt.dataset.setting = "bypassPin", mt.value = String(e.bypassPin ?? "123456");
-    const Rt = et("Show", "ghost", {
+    const Rt = Q("Show", "ghost", {
       icon: `
         <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
           <path d="M1.8 8s2.6-4.2 6.2-4.2S14.2 8 14.2 8s-2.6 4.2-6.2 4.2S1.8 8 1.8 8Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
@@ -813,19 +822,19 @@ class Ss {
       `,
       ariaLabel: "Show PIN"
     });
-    Rt.classList.add("sg-password-field__toggle"), Rt.addEventListener("click", (P) => {
-      P.preventDefault(), P.stopPropagation();
-      const O = mt.type === "password";
-      mt.type = O ? "text" : "password", Rt.title = O ? "Hide PIN" : "Show PIN", Rt.setAttribute("aria-label", O ? "Hide PIN" : "Show PIN");
-    }), Xt.append(mt, Rt), Ht.append(Xt), ut.append(Ht);
+    Rt.classList.add("sg-password-field__toggle"), Rt.addEventListener("click", (I) => {
+      I.preventDefault(), I.stopPropagation();
+      const G = mt.type === "password";
+      mt.type = G ? "text" : "password", Rt.title = G ? "Hide PIN" : "Show PIN", Rt.setAttribute("aria-label", G ? "Hide PIN" : "Show PIN");
+    }), Xt.append(mt, Rt), Ht.append(Xt), wt.append(Ht);
     const Jt = document.createElement("label");
     Jt.className = "sg-check sg-settings__row";
-    const Ft = document.createElement("input");
-    Ft.type = "checkbox", Ft.dataset.setting = "showOrb", Ft.checked = e.showOrb !== !1, Jt.append(Ft, document.createTextNode(" Show floating orb (off = hide System Guider)")), ut.append(Jt);
+    const Ut = document.createElement("input");
+    Ut.type = "checkbox", Ut.dataset.setting = "showOrb", Ut.checked = e.showOrb !== !1, Jt.append(Ut, document.createTextNode(" Show floating orb (off = hide System Guider)")), wt.append(Jt);
     const Yt = document.createElement("label");
     Yt.className = "sg-check sg-settings__row";
-    const Ut = document.createElement("input");
-    Ut.type = "checkbox", Ut.dataset.setting = "showAccountId", Ut.checked = !!e.showAccountId, Yt.append(Ut, document.createTextNode(" Show account ID on launcher")), ut.append(Yt);
+    const Wt = document.createElement("input");
+    Wt.type = "checkbox", Wt.dataset.setting = "showAccountId", Wt.checked = !!e.showAccountId, Yt.append(Wt, document.createTextNode(" Show account ID on launcher")), wt.append(Yt);
     const we = this.createEditableStringList({
       label: "Hide toolbar on URLs",
       settingKey: "hiddenUrls",
@@ -834,127 +843,127 @@ class Ss {
       emptyText: "No hidden URLs — toolbar shows everywhere",
       addLabel: "Add"
     });
-    ut.append(we), ut.append($(
+    wt.append(we), wt.append(O(
       "p",
       "sg-lead",
       "Only listed IDs can record or manage. The bypass PIN provides recovery access."
     ));
-    const ht = e.ui || {}, vt = document.createElement("div");
-    vt.className = "sg-settings sg-settings--nested sg-settings-card", vt.append($("div", "sg-page-guides__label", "Playback appearance"));
-    const v = document.createElement("label");
-    v.className = "sg-step-settings__field sg-settings__row", v.append(document.createTextNode("Font family"));
-    const E = document.createElement("select");
-    E.className = "sg-field", E.dataset.setting = "ui.fontFamily", [
+    const ht = e.ui || {}, v = document.createElement("div");
+    v.className = "sg-settings sg-settings--nested sg-settings-card", v.append(O("div", "sg-page-guides__label", "Playback appearance"));
+    const E = document.createElement("label");
+    E.className = "sg-step-settings__field sg-settings__row", E.append(document.createTextNode("Font family"));
+    const W = document.createElement("select");
+    W.className = "sg-field", W.dataset.setting = "ui.fontFamily", [
       ["system", "System"],
       ["inter", "Inter"],
       ["arial", "Arial"],
       ["roboto", "Roboto"],
       ["serif", "Serif"]
-    ].forEach(([P, O]) => {
+    ].forEach(([I, G]) => {
       const N = document.createElement("option");
-      N.value = P, N.textContent = O, (ht.fontFamily || "system") === P && (N.selected = !0), E.append(N);
-    }), v.append(E), vt.append(v);
-    const W = (P, O, N) => {
+      N.value = I, N.textContent = G, (ht.fontFamily || "system") === I && (N.selected = !0), W.append(N);
+    }), E.append(W), v.append(E);
+    const ot = (I, G, N) => {
       const V = document.createElement("label");
       V.className = "sg-check sg-settings__row";
-      const lt = document.createElement("input");
-      lt.type = "checkbox", lt.dataset.setting = P, lt.checked = !!N, V.append(lt, document.createTextNode(` ${O}`)), vt.append(V);
+      const nt = document.createElement("input");
+      nt.type = "checkbox", nt.dataset.setting = I, nt.checked = !!N, V.append(nt, document.createTextNode(` ${G}`)), v.append(V);
     };
-    W("ui.animations", "Enable animations", ht.animations !== !1), W("ui.spotlightFade", "Spotlight fade in/out", ht.spotlightFade !== !1), W("ui.animatedCursor", "Animated cursor between steps", ht.animatedCursor);
-    const ot = document.createElement("label");
-    ot.className = "sg-step-settings__field sg-settings__row", ot.append(document.createTextNode("Highlight motion"));
-    const X = document.createElement("select");
-    X.className = "sg-field", X.dataset.setting = "ui.highlightMotion", [
+    ot("ui.animations", "Enable animations", ht.animations !== !1), ot("ui.spotlightFade", "Spotlight fade in/out", ht.spotlightFade !== !1), ot("ui.animatedCursor", "Animated cursor between steps", ht.animatedCursor);
+    const X = document.createElement("label");
+    X.className = "sg-step-settings__field sg-settings__row", X.append(document.createTextNode("Highlight motion"));
+    const st = document.createElement("select");
+    st.className = "sg-field", st.dataset.setting = "ui.highlightMotion", [
       ["none", "None"],
       ["pulse", "Pulse"],
       ["wobble", "Wobble"],
       ["fade", "Fade"]
-    ].forEach(([P, O]) => {
+    ].forEach(([I, G]) => {
       const N = document.createElement("option");
-      N.value = P, N.textContent = O, (ht.highlightMotion || "pulse") === P && (N.selected = !0), X.append(N);
-    }), ot.append(X), vt.append(ot);
-    const at = document.createElement("label");
-    at.className = "sg-step-settings__field sg-settings__row", at.append(document.createTextNode("Transition speed (ms)"));
-    const Q = document.createElement("input");
-    Q.type = "number", Q.min = "0", Q.max = "1000", Q.step = "20", Q.className = "sg-field", Q.dataset.setting = "ui.transitionMs", Q.value = String(ht.transitionMs ?? 220), at.append(Q), vt.append(at);
-    const _t = document.createElement("div");
-    _t.className = "sg-appearance-dim sg-settings__row";
-    const dt = document.createElement("div");
-    dt.className = "sg-appearance-dim__head", dt.append($("span", "sg-appearance-dim__label", "Overlay dim"));
-    const yt = document.createElement("span");
-    yt.className = "sg-appearance-dim__value";
-    const tt = document.createElement("input");
-    tt.type = "range", tt.min = "0", tt.max = "90", tt.step = "5", tt.className = "sg-field sg-field--range", tt.dataset.setting = "ui.overlayOpacity", tt.value = String(Math.round((Number(ht.overlayOpacity) || 0.58) * 100)), yt.textContent = `${tt.value}%`, tt.addEventListener("input", () => {
-      yt.textContent = `${tt.value}%`, _t.style.setProperty("--sg-dim-pct", `${tt.value}%`);
-    }), _t.style.setProperty("--sg-dim-pct", `${tt.value}%`), dt.append(yt), _t.append(dt, tt), vt.append(_t);
+      N.value = I, N.textContent = G, (ht.highlightMotion || "pulse") === I && (N.selected = !0), st.append(N);
+    }), X.append(st), v.append(X);
+    const ct = document.createElement("label");
+    ct.className = "sg-step-settings__field sg-settings__row", ct.append(document.createTextNode("Transition speed (ms)"));
+    const pt = document.createElement("input");
+    pt.type = "number", pt.min = "0", pt.max = "1000", pt.step = "20", pt.className = "sg-field", pt.dataset.setting = "ui.transitionMs", pt.value = String(ht.transitionMs ?? 220), ct.append(pt), v.append(ct);
+    const at = document.createElement("div");
+    at.className = "sg-appearance-dim sg-settings__row";
+    const yt = document.createElement("div");
+    yt.className = "sg-appearance-dim__head", yt.append(O("span", "sg-appearance-dim__label", "Overlay dim"));
+    const Et = document.createElement("span");
+    Et.className = "sg-appearance-dim__value";
+    const dt = document.createElement("input");
+    dt.type = "range", dt.min = "0", dt.max = "90", dt.step = "5", dt.className = "sg-field sg-field--range", dt.dataset.setting = "ui.overlayOpacity", dt.value = String(Math.round((Number(ht.overlayOpacity) || 0.58) * 100)), Et.textContent = `${dt.value}%`, dt.addEventListener("input", () => {
+      Et.textContent = `${dt.value}%`, at.style.setProperty("--sg-dim-pct", `${dt.value}%`);
+    }), at.style.setProperty("--sg-dim-pct", `${dt.value}%`), yt.append(Et), at.append(yt, dt), v.append(at);
     const Qt = document.createElement("div");
     Qt.className = "sg-settings__colors";
-    const $t = (P, O, N) => {
+    const Ot = (I, G, N) => {
       const V = document.createElement("label");
       V.className = "sg-settings__color-row";
-      const lt = document.createElement("span");
-      lt.className = "sg-settings__color-meta", lt.append($("span", "sg-settings__color-label", O));
+      const nt = document.createElement("span");
+      nt.className = "sg-settings__color-meta", nt.append(O("span", "sg-settings__color-label", G));
       const kt = document.createElement("span");
       kt.className = "sg-settings__color-hex";
       const ne = String(N || "#000000").toLowerCase();
-      kt.textContent = ne, lt.append(kt);
+      kt.textContent = ne, nt.append(kt);
       const Tt = document.createElement("span");
       Tt.className = "sg-settings__color-swatch";
-      const Ct = document.createElement("input");
-      Ct.type = "color", Ct.dataset.setting = P, Ct.value = ne, Ct.setAttribute("aria-label", O), Ct.addEventListener("input", () => {
-        kt.textContent = String(Ct.value || "").toLowerCase();
-      }), Tt.append(Ct), V.append(lt, Tt), Qt.append(V);
+      const _t = document.createElement("input");
+      _t.type = "color", _t.dataset.setting = I, _t.value = ne, _t.setAttribute("aria-label", G), _t.addEventListener("input", () => {
+        kt.textContent = String(_t.value || "").toLowerCase();
+      }), Tt.append(_t), V.append(nt, Tt), Qt.append(V);
     };
-    $t("ui.tipBg", "Tip background", ht.tipBg || "#0f1b33"), $t("ui.tipText", "Tip text", ht.tipText || "#f8fafc"), $t("ui.skipBg", "Skip background", ht.skipBg || "#2563eb"), $t("ui.skipText", "Skip text", ht.skipText || "#ffffff"), $t("ui.spotlightColor", "Spotlight", ht.spotlightColor || "#3b82f6"), vt.append(Qt);
-    const re = wt("Reset appearance", "reset-ui-settings", "secondary");
-    re.classList.add("sg-button--compact", "sg-appearance-reset"), vt.append(re);
-    const te = e.launcher || {}, Wt = document.createElement("div");
-    Wt.className = "sg-settings sg-settings--nested sg-settings-card", Wt.append($("div", "sg-page-guides__label", "Orb"));
-    const qt = document.createElement("label");
-    qt.className = "sg-step-settings__field sg-settings__row", qt.append(document.createTextNode("Size"));
-    const Ot = document.createElement("select");
-    Ot.className = "sg-field", Ot.dataset.setting = "launcher.size", [
+    Ot("ui.tipBg", "Tip background", ht.tipBg || "#0f1b33"), Ot("ui.tipText", "Tip text", ht.tipText || "#f8fafc"), Ot("ui.skipBg", "Skip background", ht.skipBg || "#2563eb"), Ot("ui.skipText", "Skip text", ht.skipText || "#ffffff"), Ot("ui.spotlightColor", "Spotlight", ht.spotlightColor || "#3b82f6"), v.append(Qt);
+    const oe = St("Reset appearance", "reset-ui-settings", "secondary");
+    oe.classList.add("sg-button--compact", "sg-appearance-reset"), v.append(oe);
+    const te = e.launcher || {}, jt = document.createElement("div");
+    jt.className = "sg-settings sg-settings--nested sg-settings-card", jt.append(O("div", "sg-page-guides__label", "Orb"));
+    const Gt = document.createElement("label");
+    Gt.className = "sg-step-settings__field sg-settings__row", Gt.append(document.createTextNode("Size"));
+    const qt = document.createElement("select");
+    qt.className = "sg-field", qt.dataset.setting = "launcher.size", [
       ["56", "Small"],
       ["68", "Medium"],
       ["80", "Large"]
-    ].forEach(([P, O]) => {
+    ].forEach(([I, G]) => {
       const N = document.createElement("option");
-      N.value = P, N.textContent = O, Number(te.size ?? 80) === Number(P) && (N.selected = !0), Ot.append(N);
-    }), qt.append(Ot);
-    const jt = document.createElement("label");
-    jt.className = "sg-step-settings__field sg-settings__row", jt.append(document.createTextNode("Position"));
-    const ee = document.createElement("select");
-    ee.className = "sg-field", ee.dataset.setting = "launcher.position", [
+      N.value = I, N.textContent = G, Number(te.size ?? 80) === Number(I) && (N.selected = !0), qt.append(N);
+    }), Gt.append(qt);
+    const ee = document.createElement("label");
+    ee.className = "sg-step-settings__field sg-settings__row", ee.append(document.createTextNode("Position"));
+    const ke = document.createElement("select");
+    ke.className = "sg-field", ke.dataset.setting = "launcher.position", [
       ["bottom-right", "Bottom right"],
       ["bottom-left", "Bottom left"],
       ["top-right", "Top right"],
       ["top-left", "Top left"]
-    ].forEach(([P, O]) => {
+    ].forEach(([I, G]) => {
       const N = document.createElement("option");
-      N.value = P, N.textContent = O, (te.position || "bottom-right") === P && (N.selected = !0), ee.append(N);
-    }), jt.append(ee);
-    const We = document.createElement("label");
-    We.className = "sg-check sg-settings__row";
-    const Se = document.createElement("input");
-    Se.type = "checkbox", Se.dataset.setting = "launcher.animations", Se.checked = te.animations !== !1, We.append(Se, document.createTextNode(" Animate orb")), Wt.append(qt, jt, We);
+      N.value = I, N.textContent = G, (te.position || "bottom-right") === I && (N.selected = !0), ke.append(N);
+    }), ee.append(ke);
+    const je = document.createElement("label");
+    je.className = "sg-check sg-settings__row";
+    const _e = document.createElement("input");
+    _e.type = "checkbox", _e.dataset.setting = "launcher.animations", _e.checked = te.animations !== !1, je.append(_e, document.createTextNode(" Animate orb")), jt.append(Gt, ee, je);
     const qe = document.createElement("div");
     qe.className = "sg-settings-layout";
     const ie = document.createElement("nav");
-    ie.className = "sg-settings-sidebar", ie.setAttribute("aria-label", "Panel sections"), ie.append($("div", "sg-settings-sidebar__title", "System Guider"));
-    const _e = document.createElement("div");
-    _e.className = "sg-settings-content";
-    const ke = {
+    ie.className = "sg-settings-sidebar", ie.setAttribute("aria-label", "Panel sections"), ie.append(O("div", "sg-settings-sidebar__title", "System Guider"));
+    const Ce = document.createElement("div");
+    Ce.className = "sg-settings-content";
+    const xe = {
       guides: n,
       account: u,
-      general: _,
-      access: ut,
-      appearance: vt,
-      orb: Wt
+      general: C,
+      access: wt,
+      appearance: v,
+      orb: jt
     };
-    Object.entries(ke).forEach(([P, O]) => {
-      O.classList.add("sg-settings-content__section"), O.dataset.settingsSection = P;
-    }), _e.append(...Object.values(ke));
-    const yi = {
+    Object.entries(xe).forEach(([I, G]) => {
+      G.classList.add("sg-settings-content__section"), G.dataset.settingsSection = I;
+    }), Ce.append(...Object.values(xe));
+    const vi = {
       guides: `
         <svg viewBox="0 0 18 18" aria-hidden="true">
           <path d="M4 2.75h7l3 3v9.5H4v-12.5Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
@@ -997,20 +1006,20 @@ class Ss {
           <path d="M9 1.75v1.5M9 14.75v1.5M1.75 9h1.5M14.75 9h1.5" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/>
         </svg>
       `
-    }, bi = (P) => {
-      this.settingsSection = ke[P] ? P : "guides", Object.entries(ke).forEach(([O, N]) => {
-        N.hidden = O !== this.settingsSection;
-      }), ie.querySelectorAll(".sg-settings-sidebar__item").forEach((O) => {
-        const N = O.dataset.section === this.settingsSection;
-        O.classList.toggle("is-active", N), O.setAttribute("aria-current", N ? "page" : "false");
-      }), _e.scrollTop = 0;
-    }, se = (P, O, N) => {
+    }, wi = (I) => {
+      this.settingsSection = xe[I] ? I : "guides", Object.entries(xe).forEach(([G, N]) => {
+        N.hidden = G !== this.settingsSection;
+      }), ie.querySelectorAll(".sg-settings-sidebar__item").forEach((G) => {
+        const N = G.dataset.section === this.settingsSection;
+        G.classList.toggle("is-active", N), G.setAttribute("aria-current", N ? "page" : "false");
+      }), Ce.scrollTop = 0;
+    }, se = (I, G, N) => {
       const V = document.createElement("button");
-      return V.type = "button", V.className = "sg-settings-sidebar__item", V.innerHTML = yi[O] || yi.general, V.dataset.tooltip = P, V.dataset.section = N, V.setAttribute("aria-label", P), V.title = P, V.addEventListener("click", () => {
-        bi(N);
+      return V.type = "button", V.className = "sg-settings-sidebar__item", V.innerHTML = vi[G] || vi.general, V.dataset.tooltip = I, V.dataset.section = N, V.setAttribute("aria-label", I), V.title = I, V.addEventListener("click", () => {
+        wi(N);
       }), ie.append(V), V;
     };
-    se("Guides", "guides", "guides"), se("Account", "account", "account"), se("Defaults", "general", "general"), se("Access", "access", "access"), se("Appearance", "appearance", "appearance"), se("Orb", "orb", "orb"), qe.append(ie, _e), t.append(qe), bi(this.settingsSection);
+    se("Guides", "guides", "guides"), se("Account", "account", "account"), se("Defaults", "general", "general"), se("Access", "access", "access"), se("Appearance", "appearance", "appearance"), se("Orb", "orb", "orb"), qe.append(ie, Ce), t.append(qe), wi(this.settingsSection);
   }
   renderPlayback(t) {
     const {
@@ -1021,23 +1030,23 @@ class Ss {
       autoSkipping: o
     } = this.state, a = document.createElement("div");
     a.className = "sg-progress", a.append(
-      $("span", "", `Step ${Math.min(s + 1, n)} of ${n}`),
-      $("span", "", `${n ? Math.round((s + 1) / n * 100) : 0}%`)
+      O("span", "", `Step ${Math.min(s + 1, n)} of ${n}`),
+      O("span", "", `${n ? Math.round((s + 1) / n * 100) : 0}%`)
     );
     const l = document.createElement("div");
     l.className = "sg-progress__bar";
     const c = document.createElement("span");
     if (c.style.width = `${n ? (s + 1) / n * 100 : 0}%`, l.append(c), t.append(a, l), e && t.append(
-      $("h3", "sg-playback__title", e.title),
-      $("p", "sg-playback__description", e.description)
+      O("h3", "sg-playback__title", e.title),
+      O("p", "sg-playback__description", e.description)
     ), r) {
       const d = String(this.state.message || "").trim();
-      t.append($(
+      t.append(O(
         "p",
         "sg-status sg-status--error",
-        d || (o ? "Target not found. Skipping to the next step…" : "Target not found. Follow this guide's requirements first, then continue — or skip this step.")
+        d || (o ? "Target not found after wait. Skipping to the next step…" : "Target not found. Follow this guide's requirements first, then continue — or skip this step.")
       ));
-    } else this.state.waiting && (this.state.waitKind === "target" || this.state.waitKind === "navigate" || this.state.waitKind === "settle") && t.append($(
+    } else this.state.waiting && (this.state.waitKind === "target" || this.state.waitKind === "navigate" || this.state.waitKind === "settle" || this.state.waitKind === "loading") && t.append(O(
       "p",
       "sg-status sg-status--waiting",
       String(this.state.message || "Waiting…").trim() || "Waiting…"
@@ -1049,28 +1058,31 @@ class Ss {
       return null;
     if (t === "manage") {
       e.classList.add("sg-panel__footer--manage");
-      const s = et("Play guide", "secondary", {
-        icon: Je,
+      const s = Q("Play guide", "secondary", {
+        icon: Ye,
         withLabel: !0,
         ariaLabel: "Play guide"
       });
       s.dataset.action = "play", s.classList.add("sg-panel__btn-play"), s.disabled = this.state.steps.length === 0;
       const n = document.createElement("div");
       n.className = "sg-panel__footer-more", n.append(
-        wt("All guides", "open-manage", "ghost"),
-        wt("Download", "download", "ghost"),
-        wt("Download all", "download-all", "ghost"),
-        wt("Copy JSON", "copy", "ghost"),
-        wt("Close", "close", "ghost")
+        St("All guides", "open-manage", "ghost"),
+        St("Download", "download", "ghost"),
+        St("Download all", "download-all", "ghost"),
+        St("Copy JSON", "copy", "ghost"),
+        St("Close", "close", "ghost")
       ), e.append(s, n);
     } else {
       if (t === "manage-routes")
         return null;
-      t === "playback" && (e.append(
-        wt(this.labels.back || "Back", "prev", "secondary"),
-        wt(this.labels.next || this.labels.skip || "Next Step", "next", "primary"),
-        wt(this.labels.close, "close", "ghost")
-      ), e.querySelector('[data-action="prev"]').disabled = this.state.currentIndex <= 0, e.querySelector('[data-action="next"]').disabled = !!(this.state.waiting || this.state.failed));
+      if (t === "playback") {
+        !!this.state.canPrev && e.append(St(this.labels.back || "Back", "prev", "secondary")), e.append(
+          St(this.labels.next || this.labels.skip || "Next Step", "next", "primary"),
+          St(this.labels.close, "close", "ghost")
+        );
+        const n = e.querySelector('[data-action="next"]');
+        n && (n.disabled = !!(this.state.waiting || this.state.failed));
+      }
     }
     return e;
   }
@@ -1101,34 +1113,34 @@ class Ss {
     });
   }
   handleInput(t) {
-    var c, d, u, h, p, g, f, m, b, w, S, k;
+    var c, d, u, h, p, g, f, m, y, S, w, _;
     const e = Vt(t);
     if (!e) return;
     const s = e.dataset.setting;
     if (s) {
-      const C = e.type === "checkbox" ? e.checked : e.value;
-      (d = (c = this.handlers)["update-setting"]) == null || d.call(c, s, C);
+      const x = e.type === "checkbox" ? e.checked : e.value;
+      (d = (c = this.handlers)["update-setting"]) == null || d.call(c, s, x);
       return;
     }
     const n = e.dataset.guideSetting;
     if (n) {
-      const C = e.dataset.guideId || this.state.currentGuideId, y = e.type === "checkbox" ? e.checked : e.value;
-      (h = (u = this.handlers)["edit-guide-setting"]) == null || h.call(u, C, n, y);
+      const x = e.dataset.guideId || this.state.currentGuideId, b = e.type === "checkbox" ? e.checked : e.value;
+      (h = (u = this.handlers)["edit-guide-setting"]) == null || h.call(u, x, n, b);
       return;
     }
     const r = e.dataset.stepSetting;
     if (r) {
-      const C = (p = e.closest("[data-step-id]")) == null ? void 0 : p.dataset.stepId, y = e.type === "checkbox" ? e.checked : e.value;
-      (f = (g = this.handlers)["edit-step-setting"]) == null || f.call(g, C, r, y);
+      const x = (p = e.closest("[data-step-id]")) == null ? void 0 : p.dataset.stepId, b = e.type === "checkbox" ? e.checked : e.value;
+      (f = (g = this.handlers)["edit-step-setting"]) == null || f.call(g, x, r, b);
       return;
     }
     const o = e.dataset.guideField;
     if (o) {
-      (b = (m = this.handlers).editGuide) == null || b.call(m, o, e.value);
+      (y = (m = this.handlers).editGuide) == null || y.call(m, o, e.value);
       return;
     }
-    const a = e.dataset.field, l = (w = e.closest("[data-step-id]")) == null ? void 0 : w.dataset.stepId;
-    !a || !l || (k = (S = this.handlers).edit) == null || k.call(S, l, a, a === "waitRequired" ? e.checked : e.value);
+    const a = e.dataset.field, l = (S = e.closest("[data-step-id]")) == null ? void 0 : S.dataset.stepId;
+    !a || !l || (_ = (w = this.handlers).edit) == null || _.call(w, l, a, a === "waitRequired" ? e.checked : e.value);
   }
   handlePreview(t) {
     var n, r, o;
@@ -1212,7 +1224,7 @@ class Ss {
 const At = (i) => {
   var t;
   return (t = globalThis.CSS) != null && t.escape ? globalThis.CSS.escape(i) : String(i).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
-}, J = (i) => String(i || "").replace(/\s+/g, " ").trim().toLowerCase(), Kt = [
+}, J = (i) => String(i || "").replace(/\s+/g, " ").trim().toLowerCase(), zt = [
   ".branch-card",
   ".day-column",
   ".day-name",
@@ -1221,15 +1233,15 @@ const At = (i) => {
   ".schedule-card",
   ".stat-card",
   ".kpi-card"
-].join(", "), li = (i) => {
-  var l, c, d, u, h, p, g, f, m, b, w, S;
+].join(", "), di = (i) => {
+  var l, c, d, u, h, p, g, f, m, y, S, w;
   if (!(i instanceof Element)) return "";
   if (i.id)
     try {
-      const k = document.querySelector(`label[for="${At(i.id)}"]`);
-      if (k) {
-        const C = J(k.textContent);
-        if (C) return C;
+      const _ = document.querySelector(`label[for="${At(i.id)}"]`);
+      if (_) {
+        const x = J(_.textContent);
+        if (x) return x;
       }
     } catch {
     }
@@ -1245,51 +1257,51 @@ const At = (i) => {
     '[class*="FormItem"]'
   ].join(", "));
   if (t) {
-    const k = t.querySelector(":scope > label, :scope label");
-    if (k) {
-      const y = J(k.textContent);
-      if (y) return y;
+    const _ = t.querySelector(":scope > label, :scope label");
+    if (_) {
+      const b = J(_.textContent);
+      if (b) return b;
     }
-    const C = (c = t.getAttribute) == null ? void 0 : c.call(t, "name");
-    if (C) {
-      const y = J(C.replace(/_/g, " "));
-      if (y) return y;
+    const x = (c = t.getAttribute) == null ? void 0 : c.call(t, "name");
+    if (x) {
+      const b = J(x.replace(/_/g, " "));
+      if (b) return b;
     }
   }
   const e = ((d = i.closest) == null ? void 0 : d.call(i, ".p-float-label")) || i.parentElement, s = (u = e == null ? void 0 : e.querySelector) == null ? void 0 : u.call(e, ":scope > label, label");
   if (s) {
-    const k = J(s.textContent);
-    if (k) return k;
+    const _ = J(s.textContent);
+    if (_) return _;
   }
-  const n = (h = i.matches) != null && h.call(i, Kt) ? i : (p = i.closest) == null ? void 0 : p.call(i, Kt);
+  const n = (h = i.matches) != null && h.call(i, zt) ? i : (p = i.closest) == null ? void 0 : p.call(i, zt);
   if (n) {
     if ((g = n.matches) != null && g.call(n, ".day-column, .day-name")) {
-      const x = (f = n.querySelector) == null ? void 0 : f.call(n, ".day-date"), _ = J((x == null ? void 0 : x.textContent) || "");
-      if (_ && _ !== "—" && _.length <= 80) return _;
+      const k = (f = n.querySelector) == null ? void 0 : f.call(n, ".day-date"), C = J((k == null ? void 0 : k.textContent) || "");
+      if (C && C !== "—" && C.length <= 80) return C;
     }
-    const k = (m = n.querySelector) == null ? void 0 : m.call(
+    const _ = (m = n.querySelector) == null ? void 0 : m.call(
       n,
       'h1, h2, h3, h4, h5, .card-title, [class*="card-title"], [class*="tile-title"]'
     );
-    if (k) {
-      const x = J(k.textContent);
-      if (x && x.length <= 80) return x;
+    if (_) {
+      const k = J(_.textContent);
+      if (k && k.length <= 80) return k;
     }
-    const C = (b = n.querySelector) == null ? void 0 : b.call(n, ".day-name"), y = J((C == null ? void 0 : C.textContent) || "");
-    if (y && y !== "—" && y.length <= 40) return y;
+    const x = (y = n.querySelector) == null ? void 0 : y.call(n, ".day-name"), b = J((x == null ? void 0 : x.textContent) || "");
+    if (b && b !== "—" && b.length <= 40) return b;
   }
-  const r = (w = i.querySelector) == null ? void 0 : w.call(i, '.nav-link-title, .menu-title, .sidebar-title, [class*="title"]');
+  const r = (S = i.querySelector) == null ? void 0 : S.call(i, '.nav-link-title, .menu-title, .sidebar-title, [class*="title"]');
   if (r) {
-    const k = J(r.textContent);
-    if (k) return k;
+    const _ = J(r.textContent);
+    if (_) return _;
   }
   const o = i.cloneNode(!0);
-  (S = o.querySelectorAll) == null || S.call(o, "script, style, svg, i, .nav-icon, .sidebar-pending-dot, .badge, .p-dropdown-label, .p-multiselect-label").forEach((k) => k.remove());
+  (w = o.querySelectorAll) == null || w.call(o, "script, style, svg, i, .nav-icon, .sidebar-pending-dot, .badge, .p-dropdown-label, .p-multiselect-label").forEach((_) => _.remove());
   const a = J(o.textContent);
   return a || J(
     i.getAttribute("aria-label") || i.getAttribute("title") || i.getAttribute("placeholder") || i.getAttribute("name") || ""
   );
-}, Di = (i) => {
+}, Wi = (i) => {
   var e;
   if (!(i instanceof Element)) return "";
   const t = i.getAttribute("href") || i.getAttribute("data-href") || "";
@@ -1301,7 +1313,7 @@ const At = (i) => {
     return t.split("#")[0].replace(/\/+$/, "") || t;
   }
 };
-function Hi(i) {
+function ji(i) {
   var s, n, r, o;
   if (!(i instanceof Element)) return "";
   const t = [
@@ -1343,23 +1355,23 @@ function Hi(i) {
   }
   return "";
 }
-function Ei(i) {
-  var f, m, b, w;
+function Mi(i) {
+  var f, m, y, S;
   if (!(i instanceof Element)) return null;
-  const t = ((f = i.closest) == null ? void 0 : f.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")) || ((m = i.matches) != null && m.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? i : null), e = t || i, s = li(e), n = Di(e), r = Hi(e), o = e.getAttribute("data-guider") || "", a = J(t ? "" : e.getAttribute("aria-label") || "");
+  const t = ((f = i.closest) == null ? void 0 : f.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")) || ((m = i.matches) != null && m.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? i : null), e = t || i, s = di(e), n = Wi(e), r = ji(e), o = e.getAttribute("data-guider") || "", a = J(t ? "" : e.getAttribute("aria-label") || "");
   let l = e.getAttribute("name") || "";
   if (!l || /^(pv_|apv_|pr_|p_)/i.test(l)) {
-    let S = e.parentElement;
-    for (let k = 0; k < 14 && S && S !== document.body; k += 1) {
-      const C = ((b = S.getAttribute) == null ? void 0 : b.call(S, "name")) || "";
-      if (C && !/^(pv_|apv_|pr_|p_)/i.test(C) && C.length <= 80) {
-        l = C;
+    let w = e.parentElement;
+    for (let _ = 0; _ < 14 && w && w !== document.body; _ += 1) {
+      const x = ((y = w.getAttribute) == null ? void 0 : y.call(w, "name")) || "";
+      if (x && !/^(pv_|apv_|pr_|p_)/i.test(x) && x.length <= 80) {
+        l = x;
         break;
       }
-      S = S.parentElement;
+      w = w.parentElement;
     }
   }
-  const c = J(e.getAttribute("placeholder") || ""), d = e.getAttribute("role") || (t ? "combobox" : ""), u = e.tagName.toLowerCase(), h = e.getAttribute("type") || "", p = t && ((w = [...t.querySelectorAll("[id]")].find((S) => S.id && !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(S.id))) == null ? void 0 : w.id) || "", g = !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(e.id || "") && e.id || p || "";
+  const c = J(e.getAttribute("placeholder") || ""), d = e.getAttribute("role") || (t ? "combobox" : ""), u = e.tagName.toLowerCase(), h = e.getAttribute("type") || "", p = t && ((S = [...t.querySelectorAll("[id]")].find((w) => w.id && !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(w.id))) == null ? void 0 : S.id) || "", g = !/^(pv_|apv_|pr_|p_)id_?\d+$/i.test(e.id || "") && e.id || p || "";
   return !s && !n && !o && !l && !a && !g ? null : {
     ...s ? { text: s } : {},
     ...n ? { href: n } : {},
@@ -1374,7 +1386,7 @@ function Ei(i) {
     ...g ? { id: g } : {}
   };
 }
-function Ee(i, t) {
+function Ae(i, t) {
   const e = J(i), s = J(t);
   if (!e || !s) return 0;
   if (e === s) return 50;
@@ -1387,29 +1399,29 @@ function Ee(i, t) {
   }
   return s.includes(e) && e.length >= 3 ? 8 : 0;
 }
-function _s(i, t) {
+function Ms(i, t) {
   const e = J(i).replace(/\/+$/, ""), s = J(t).replace(/\/+$/, "");
   return !e || !s ? 0 : e === s ? 45 : e.endsWith(s) || s.endsWith(e) ? 28 : e.includes(s) || s.includes(e) ? 12 : -25;
 }
-function ks(i, t) {
+function Ls(i, t) {
   const e = J(i), s = J(t);
   return !e || !s ? 0 : e === s ? 30 : e.includes(s) || s.includes(e) ? 12 : -20;
 }
-function Le(i, t) {
+function Be(i, t) {
   var n, r, o;
   if (!(i instanceof Element) || !t || typeof t != "object") return 0;
   let e = 0;
   const s = i.getAttribute("data-guider") || "";
-  if (t.dataGuider && (s === t.dataGuider ? e += 100 : s && (e -= 40)), t.id && i.id && i.id === t.id && (e += 80), t.href && (e += _s(Di(i), t.href)), t.text ? (e += Ee(li(i), t.text), t.ariaLabel && (e += Math.round(Ee(i.getAttribute("aria-label") || "", t.ariaLabel) * 0.5))) : t.ariaLabel && (e += Ee(i.getAttribute("aria-label") || "", t.ariaLabel)), t.section && (e += ks(Hi(i), t.section)), t.name) {
+  if (t.dataGuider && (s === t.dataGuider ? e += 100 : s && (e -= 40)), t.id && i.id && i.id === t.id && (e += 80), t.href && (e += Ms(Wi(i), t.href)), t.text ? (e += Ae(di(i), t.text), t.ariaLabel && (e += Math.round(Ae(i.getAttribute("aria-label") || "", t.ariaLabel) * 0.5))) : t.ariaLabel && (e += Ae(i.getAttribute("aria-label") || "", t.ariaLabel)), t.section && (e += Ls(ji(i), t.section)), t.name) {
     const a = i.getAttribute("name") || "", l = ((o = (r = (n = i.closest) == null ? void 0 : n.call(
       i,
       '.field, .form-group, .p-field, .n-form-item, .el-form-item, [class*="form-item"]'
     )) == null ? void 0 : r.getAttribute) == null ? void 0 : o.call(r, "name")) || "";
     (a === t.name || l === t.name) && (e += 45);
   }
-  return t.placeholder && (e += Math.round(Ee(i.getAttribute("placeholder") || "", t.placeholder) * 0.6)), t.tag && i.tagName.toLowerCase() === t.tag && (e += 4), t.role && i.getAttribute("role") === t.role && (e += 6), t.type && i.getAttribute("type") === t.type && (e += 6), e;
+  return t.placeholder && (e += Math.round(Ae(i.getAttribute("placeholder") || "", t.placeholder) * 0.6)), t.tag && i.tagName.toLowerCase() === t.tag && (e += 4), t.role && i.getAttribute("role") === t.role && (e += 6), t.type && i.getAttribute("type") === t.type && (e += 6), e;
 }
-function Cs(i) {
+function Ns(i) {
   const t = [];
   if (i != null && i.dataGuider && t.push(`[data-guider="${At(i.dataGuider)}"]`), i != null && i.id && t.push(`#${At(i.id)}`), i != null && i.href) {
     const e = String(i.href);
@@ -1417,16 +1429,16 @@ function Cs(i) {
     const s = e.replace(/^\//, "");
     s && s !== e && t.push(`a[href="/${At(s)}"]`);
   }
-  return i != null && i.name && (t.push(`[name="${At(i.name)}"]`), t.push(`.field[name="${At(i.name)}"]`), t.push(`.field[name="${At(i.name)}"] textarea`), t.push(`.field[name="${At(i.name)}"] input`)), t.push('a.nav-link, a[href], button, [role="button"], [data-guider], input:not([type="hidden"]):not([type="password"]), select, textarea, [role="combobox"], label'), t.push(Kt), t.join(", ");
+  return i != null && i.name && (t.push(`[name="${At(i.name)}"]`), t.push(`.field[name="${At(i.name)}"]`), t.push(`.field[name="${At(i.name)}"] textarea`), t.push(`.field[name="${At(i.name)}"] input`)), t.push('a.nav-link, a[href], button, [role="button"], [data-guider], input:not([type="hidden"]):not([type="password"]), select, textarea, [role="combobox"], label'), t.push(zt), t.join(", ");
 }
-function xs(i, t = document) {
+function Bs(i, t = document) {
   var o, a;
   const e = t instanceof Element || t === document ? t : document;
   let s = [];
   try {
-    s = [...e.querySelectorAll(Cs(i))];
+    s = [...e.querySelectorAll(Ns(i))];
   } catch {
-    s = [...e.querySelectorAll(`a, button, [role="button"], input, select, textarea, [data-guider], ${Kt}`)];
+    s = [...e.querySelectorAll(`a, button, [role="button"], input, select, textarea, [data-guider], ${zt}`)];
   }
   const n = [];
   for (const l of s)
@@ -1434,26 +1446,26 @@ function xs(i, t = document) {
   const r = J((i == null ? void 0 : i.text) || "");
   if (r.length >= 2)
     try {
-      for (const l of e.querySelectorAll(Kt)) {
+      for (const l of e.querySelectorAll(zt)) {
         if (!(l instanceof Element) || (a = l.closest) != null && a.call(l, ".sg-panel, .sg-overlay, .sg-launcher")) continue;
-        const c = li(l);
+        const c = di(l);
         c && (c === r || c.includes(r) || r.includes(c)) && n.push(l);
       }
     } catch {
     }
   return [...new Set(n)];
 }
-const Es = 40;
-function Ge(i) {
+const Ps = 40;
+function De(i) {
   const t = String(i || "").trim();
   return t ? /:nth-(?:of-type|child)\s*\(/i.test(t) ? !0 : t.includes("#") || t.includes("[data-guider") ? !1 : (t.match(/>/g) || []).length >= 2 : !1;
 }
-function Ts(i) {
+function Is(i) {
   const t = String(i || "").trim();
   return t ? t.replace(/^(fill\s+in|enter|type|pick\s+a|pick|select|choose|click)\s+/i, "").trim().toLowerCase() : "";
 }
-function As(i) {
-  const t = i != null && i.match && typeof i.match == "object" && !Array.isArray(i.match) ? { ...i.match } : {}, e = Ts(i == null ? void 0 : i.title);
+function $s(i) {
+  const t = i != null && i.match && typeof i.match == "object" && !Array.isArray(i.match) ? { ...i.match } : {}, e = Is(i == null ? void 0 : i.title);
   if (e.length >= 3) {
     t.text ? t.text !== e && t.text.length <= e.length + 2 && !t.dataGuider && !t.id && !t.text.includes(e) && !e.includes(t.text) && (t.text = e) : t.text = e;
     const s = /^(input|textarea|select)$/i.test(String(t.tag || "")) || !!t.placeholder || !!t.type || t.role === "combobox";
@@ -1461,7 +1473,7 @@ function As(i) {
   }
   return t.text || t.dataGuider || t.id || t.name || t.ariaLabel || Object.keys(t).length ? t : null;
 }
-function Me(i, {
+function Pe(i, {
   root: t = document,
   tag: e = ""
 } = {}) {
@@ -1508,17 +1520,17 @@ function Me(i, {
     }
   return null;
 }
-function Ns(i, {
+function Rs(i, {
   selector: t = "",
   root: e = document,
-  threshold: s = Es
+  threshold: s = Ps
 } = {}) {
-  const n = [], r = i && typeof i == "object" && !Array.isArray(i), o = Ge(t), a = Ls(t);
+  const n = [], r = i && typeof i == "object" && !Array.isArray(i), o = De(t), a = Os(t);
   if (t)
     try {
       const u = document.querySelector(t);
       if (u instanceof Element) {
-        const h = r ? Le(u, i) : 35, p = Ti(u) || a;
+        const h = r ? Be(u, i) : 35, p = Li(u) || a;
         (p || !o || !r || h >= s) && n.push({
           element: u,
           score: p ? Math.max(h, 48) : h,
@@ -1529,28 +1541,28 @@ function Ns(i, {
     } catch {
     }
   if (r && i.name && !a) {
-    const u = Me(i.name, { root: e, tag: i.tag });
+    const u = Pe(i.name, { root: e, tag: i.tag });
     if (u) {
-      const h = Le(u, i);
+      const h = Be(u, i);
       n.push({ element: u, score: Math.max(h, 55), via: "name" });
     }
   }
   if (r)
-    for (const u of xs(i, e)) {
-      const h = Le(u, i);
-      h > 0 && n.push({ element: u, score: h, via: "score", tile: Ti(u) });
+    for (const u of Bs(i, e)) {
+      const h = Be(u, i);
+      h > 0 && n.push({ element: u, score: h, via: "score", tile: Li(u) });
     }
   const l = n.find((u) => u.via === "selector" && u.tile);
   let c = n;
   if (l && (c = n.filter((u) => {
     var h, p;
-    return u.via === "selector" || u.via === "name" || u.tile || Ms(u.element) && (i != null && i.name) ? !0 : (p = (h = u.element) == null ? void 0 : h.matches) != null && p.call(h, 'button, a, [role="button"], .p-button, .nav-link') ? u.score >= 50 : u.score >= l.score + 15;
+    return u.via === "selector" || u.via === "name" || u.tile || Gs(u.element) && (i != null && i.name) ? !0 : (p = (h = u.element) == null ? void 0 : h.matches) != null && p.call(h, 'button, a, [role="button"], .p-button, .nav-link') ? u.score >= 50 : u.score >= l.score + 15;
   })), !c.length) return null;
   c.sort((u, h) => {
     if (h.score !== u.score) return h.score - u.score;
     if (l) {
-      const m = { selector: 0, name: 1, score: 2 }, b = m[u.via] ?? 3, w = m[h.via] ?? 3;
-      return b !== w ? b - w : 0;
+      const m = { selector: 0, name: 1, score: 2 }, y = m[u.via] ?? 3, S = m[h.via] ?? 3;
+      return y !== S ? y - S : 0;
     }
     const p = { name: 0, score: 1, selector: 2 }, g = p[u.via] ?? 3, f = p[h.via] ?? 3;
     return o && g !== f ? g - f : u.via === "selector" ? -1 : 1;
@@ -1558,26 +1570,26 @@ function Ns(i, {
   const d = c[0];
   return !d || d.score < s ? (d == null ? void 0 : d.via) === "selector" && t && (t.startsWith("[data-guider=") || t.startsWith("#")) || (d == null ? void 0 : d.via) === "selector" && d.tile || (d == null ? void 0 : d.via) === "name" && d.score >= 40 ? d.element : null : d.element;
 }
-function Ti(i) {
+function Li(i) {
   var t, e;
-  return i instanceof Element ? ((t = i.matches) == null ? void 0 : t.call(i, Kt)) || !!((e = i.closest) != null && e.call(i, Kt)) : !1;
+  return i instanceof Element ? ((t = i.matches) == null ? void 0 : t.call(i, zt)) || !!((e = i.closest) != null && e.call(i, zt)) : !1;
 }
-function Ls(i) {
+function Os(i) {
   return /\.(day-column|branch-card|schedule-card|stat-card|kpi-card)|data-guider-tile|branch-card/i.test(
     String(i || "")
   );
 }
-function Ms(i) {
+function Gs(i) {
   var t, e;
   return i instanceof Element ? !!((t = i.matches) != null && t.call(
     i,
     'input, textarea, select, [role="combobox"], .p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect, .p-calendar, .field, .form-group'
   ) || (e = i.closest) != null && e.call(i, ".field, .form-group, .p-field, .p-float-label")) : !1;
 }
-const Nt = (i) => {
+const Mt = (i) => {
   var t;
   return (t = globalThis.CSS) != null && t.escape ? globalThis.CSS.escape(i) : String(i).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
-}, De = [
+}, Fe = [
   ".branch-card",
   ".day-column",
   ".day-name",
@@ -1586,7 +1598,7 @@ const Nt = (i) => {
   ".schedule-card",
   ".stat-card",
   ".kpi-card"
-].join(", "), Bs = [
+].join(", "), Ds = [
   "button",
   "a[href]",
   '[role="button"]',
@@ -1600,15 +1612,15 @@ const Nt = (i) => {
   ".p-autocomplete",
   ".p-cascadeselect"
 ].join(", ");
-function It(i) {
-  return i instanceof Element ? i.matches(De) : !1;
+function $t(i) {
+  return i instanceof Element ? i.matches(Fe) : !1;
 }
 function Zt(i) {
   var s, n, r, o;
   if (!(i instanceof Element)) return null;
-  const t = (s = i.closest) == null ? void 0 : s.call(i, De);
+  const t = (s = i.closest) == null ? void 0 : s.call(i, Fe);
   if (!t) return null;
-  const e = (n = i.closest) == null ? void 0 : n.call(i, Bs);
+  const e = (n = i.closest) == null ? void 0 : n.call(i, Ds);
   if (e && t.contains(e) && e !== t) return null;
   if ((r = t.matches) != null && r.call(t, ".day-name")) {
     const a = (o = t.closest) == null ? void 0 : o.call(t, ".day-column");
@@ -1616,47 +1628,47 @@ function Zt(i) {
   }
   return t;
 }
-function rt(i) {
+function it(i) {
   return i instanceof Element ? i.matches(
     'input[type="password"], [data-guider-ignore], [contenteditable][data-sensitive]'
   ) : !0;
 }
-function me(i) {
+function ye(i) {
   return !i || typeof i != "string" ? !0 : /^(pv_|apv_|pr_|p_)id_?\d+$/i.test(i) || /^[a-z]{1,5}_id_\d+$/i.test(i);
 }
-const Be = ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect", Ps = /^(pv_|apv_|pr_|p_)/i;
-function Fi(i) {
+const Ie = ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect", Fs = /^(pv_|apv_|pr_|p_)/i;
+function qi(i) {
   const t = String(i || "").trim();
-  return !(!t || t.length > 80 || Ps.test(t));
+  return !(!t || t.length > 80 || Fs.test(t));
 }
-function Ui(i) {
+function Vi(i) {
   var e;
   if (!(i instanceof Element)) return "";
   let t = i;
   for (let s = 0; s < 14 && t && t !== document.body; s += 1) {
     const n = ((e = t.getAttribute) == null ? void 0 : e.call(t, "name")) || "";
-    if (Fi(n)) return n;
+    if (qi(n)) return n;
     t = t.parentElement;
   }
   return "";
 }
-function Ai(i) {
+function Ni(i) {
   var e;
   if (!(i instanceof Element)) return null;
   let t = i;
   for (let s = 0; s < 14 && t && t !== document.body; s += 1) {
-    if (Fi((e = t.getAttribute) == null ? void 0 : e.call(t, "name"))) return t;
+    if (qi((e = t.getAttribute) == null ? void 0 : e.call(t, "name"))) return t;
     t = t.parentElement;
   }
   return null;
 }
-function Is(i, t) {
+function Hs(i, t) {
   var r, o, a, l;
   if (!(i instanceof Element) || !t) return null;
-  const e = Nt(t), s = i.tagName.toLowerCase(), n = [];
-  if ((r = i.matches) != null && r.call(i, Be)) {
+  const e = Mt(t), s = i.tagName.toLowerCase(), n = [];
+  if ((r = i.matches) != null && r.call(i, Ie)) {
     const c = [...i.classList].find((d) => /^p-(dropdown|multiselect|autocomplete|cascadeselect)$/.test(d));
-    c && (n.push(`[name="${e}"] .${Nt(c)}`), n.push(`.field[name="${e}"] .${Nt(c)}`), n.push(`.mb-0[name="${e}"] .${Nt(c)}`), n.push(`[name="${e}"] ${s}.${Nt(c)}`));
+    c && (n.push(`[name="${e}"] .${Mt(c)}`), n.push(`.field[name="${e}"] .${Mt(c)}`), n.push(`.mb-0[name="${e}"] .${Mt(c)}`), n.push(`[name="${e}"] ${s}.${Mt(c)}`));
   }
   (s === "textarea" || s === "select" || s === "input") && (n.push(`[name="${e}"] ${s}`), n.push(`.field[name="${e}"] ${s}`), n.push(`.form-group[name="${e}"] ${s}`), n.push(`.mb-0[name="${e}"] ${s}`)), n.push(`[name="${e}"]`), n.push(`.field[name="${e}"]`), n.push(`.mb-0[name="${e}"]`);
   for (const c of n)
@@ -1667,10 +1679,10 @@ function Is(i, t) {
         const u = d.filter((h) => h === i || h.contains(i));
         if (u.length === 1 && u[0] === i) return c;
       }
-      if (d.length === 1 && ((a = (o = d[0]).contains) != null && a.call(o, i)) && i !== d[0] && (l = i.matches) != null && l.call(i, Be)) {
+      if (d.length === 1 && ((a = (o = d[0]).contains) != null && a.call(o, i)) && i !== d[0] && (l = i.matches) != null && l.call(i, Ie)) {
         const u = [...i.classList].find((h) => /^p-(dropdown|multiselect|autocomplete|cascadeselect)$/.test(h));
         if (u) {
-          const h = `[name="${e}"] .${Nt(u)}`;
+          const h = `[name="${e}"] .${Mt(u)}`;
           if (document.querySelectorAll(h).length === 1) return h;
         }
       }
@@ -1678,33 +1690,33 @@ function Is(i, t) {
     }
   return null;
 }
-function ti(i) {
+function ei(i) {
   var a, l, c, d;
   if (!(i instanceof Element)) return null;
-  const t = (a = i.closest) == null ? void 0 : a.call(i, Be);
+  const t = (a = i.closest) == null ? void 0 : a.call(i, Ie);
   t && (i = t);
   const e = i.getAttribute("data-guider");
-  if (e) return `[data-guider="${Nt(e)}"]`;
-  if (i.id && !me(i.id)) {
-    const u = `#${Nt(i.id)}`;
+  if (e) return `[data-guider="${Mt(e)}"]`;
+  if (i.id && !ye(i.id)) {
+    const u = `#${Mt(i.id)}`;
     if (document.querySelectorAll(u).length === 1) return u;
   }
-  const s = Ui(i), n = Is(i, s);
+  const s = Vi(i), n = Hs(i, s);
   if (n) return n;
-  if ((l = i.matches) != null && l.call(i, Be)) {
+  if ((l = i.matches) != null && l.call(i, Ie)) {
     const u = [...i.querySelectorAll("[id]")].find(
-      (p) => p.id && !me(p.id)
+      (p) => p.id && !ye(p.id)
     ), h = [...i.classList].find((p) => /^p-(dropdown|multiselect|autocomplete|cascadeselect)$/.test(p));
     if (u && h) {
-      const p = `${i.tagName.toLowerCase()}.${Nt(h)}:has(#${Nt(u.id)})`;
+      const p = `${i.tagName.toLowerCase()}.${Mt(h)}:has(#${Mt(u.id)})`;
       try {
         if (document.querySelectorAll(p).length === 1) return p;
       } catch {
       }
     }
   }
-  if (It(i) || Zt(i)) {
-    const u = It(i) ? i : Zt(i);
+  if ($t(i) || Zt(i)) {
+    const u = $t(i) ? i : Zt(i);
     u && (i = u);
   }
   if ((c = i.matches) != null && c.call(i, ".day-column")) {
@@ -1727,14 +1739,14 @@ function ti(i) {
     const h = [...o.classList].find(
       (f) => !/^(active|selected|open|focus|hover|ng-|css-|jsx-|p-placeholder|p-focus|p-inputtext|p-disabled|p-highlight|p-inputwrapper|p-inputwrapper-filled|p-inputwrapper-focus|p-overlay-open)$/i.test(f)
     );
-    h && (u += `.${Nt(h)}`);
+    h && (u += `.${Mt(h)}`);
     const p = o.parentElement;
     if (p)
-      if (h && It(o)) {
+      if (h && $t(o)) {
         if ([...p.children].filter(
           (m) => {
-            var b;
-            return m instanceof Element && ((b = m.classList) == null ? void 0 : b.contains(h));
+            var y;
+            return m instanceof Element && ((y = m.classList) == null ? void 0 : y.contains(h));
           }
         ).length > 1) {
           const m = [...p.children].indexOf(o) + 1;
@@ -1749,7 +1761,7 @@ function ti(i) {
     r.unshift(u);
     const g = r.join(" > ");
     if (document.querySelectorAll(g).length === 1) return g;
-    if (r.length === 1 && It(o) && p)
+    if (r.length === 1 && $t(o) && p)
       try {
         if (p.querySelectorAll(`:scope > ${u}`).length === 1) return g;
       } catch {
@@ -1758,7 +1770,7 @@ function ti(i) {
   }
   return r.join(" > ") || null;
 }
-function ci(i) {
+function ui(i) {
   var t;
   if (!i || typeof i != "string") return null;
   try {
@@ -1776,31 +1788,40 @@ function ci(i) {
     return null;
   }
 }
-const Wi = '.skeleton, .shimmer, [aria-busy="true"]';
-function Rs(i) {
+const hi = '.skeleton, .shimmer, [aria-busy="true"], .p-skeleton';
+let Ki = hi;
+function Us(i) {
+  Ki = String(i || "").trim() || hi;
+}
+function zi() {
+  return Ki || hi;
+}
+function Zi(i) {
+  var t;
   if (!(i instanceof Element)) return !1;
   try {
-    return !!i.closest(Wi);
+    const e = zi();
+    return i.closest(e) ? !0 : !!((t = i.querySelector) != null && t.call(i, e));
   } catch {
     return !1;
   }
 }
-function qi(i = document) {
+function ii(i = document) {
   var t;
   try {
     const e = i instanceof Element || i === document ? i : document;
-    return !!((t = e.querySelector) != null && t.call(e, Wi));
+    return !!((t = e.querySelector) != null && t.call(e, zi()));
   } catch {
     return !1;
   }
 }
-async function $s({
+async function Ws({
   timeout: i = 2e4,
   appearGraceMs: t = 300,
   postReadyDelay: e = 1500,
   pollInterval: s = 100,
   signal: n = null,
-  isLoading: r = qi,
+  isLoading: r = ii,
   onTick: o = null
 } = {}) {
   const a = Date.now() + Math.max(0, Number(i) || 0), l = Math.max(0, Number(t) || 0), c = Math.max(0, Number(e) || 0), d = Math.max(40, Number(s) || 100), u = () => !!(n != null && n.aborted), h = (g) => new Promise((f) => setTimeout(f, g));
@@ -1821,23 +1842,23 @@ async function $s({
   }
   return u() ? !1 : (c > 0 && (o == null || o({ phase: "settle", remainingMs: c, sawLoading: !0 }), await h(c)), !u());
 }
-function Et(i) {
-  if (!(i instanceof Element) || !i.isConnected || Rs(i)) return !1;
+function xt(i) {
+  if (!(i instanceof Element) || !i.isConnected || Zi(i)) return !1;
   const t = getComputedStyle(i);
   if (t.display === "none" || t.visibility === "hidden" || Number(t.opacity) === 0)
     return !1;
   const e = i.getBoundingClientRect();
   return e.width >= 2 && e.height >= 2;
 }
-function Os(i) {
+function js(i) {
   if (!(i instanceof Element)) return !1;
   const t = i.getBoundingClientRect();
   return !(t.bottom < 0 || t.right < 0 || t.top > window.innerHeight || t.left > window.innerWidth);
 }
 function He(i) {
-  return Et(i) && Os(i);
+  return xt(i) && js(i);
 }
-function Gs(i, { behavior: t = "smooth", block: e = "center" } = {}) {
+function qs(i, { behavior: t = "smooth", block: e = "center" } = {}) {
   if (!(i instanceof Element) || !i.isConnected) return;
   const s = [];
   let n = i.parentElement;
@@ -1862,12 +1883,12 @@ function Gs(i, { behavior: t = "smooth", block: e = "center" } = {}) {
     i.scrollIntoView();
   }
 }
-function pe(i) {
+function ge(i) {
   var n, r, o, a;
   if (!(i instanceof Element)) return null;
   const t = (n = i.closest) == null ? void 0 : n.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
-  if (t && Et(t)) return t;
-  if (Et(i)) {
+  if (t && xt(t)) return t;
+  if (xt(i)) {
     const l = (r = i.closest) == null ? void 0 : r.call(
       i,
       '.p-overlaypanel, .modal-content, .card, .offcanvas, [class*="overlay-custom"], .filter-panel'
@@ -1901,40 +1922,40 @@ function pe(i) {
     '[class*="FormItem"]',
     "label"
   ].join(", "));
-  if (s && Et(s)) {
+  if (s && xt(s)) {
     const l = s.getBoundingClientRect();
     if (l.width <= 420 && l.height <= 280) return s;
   }
-  return Et(i) ? i : null;
+  return xt(i) ? i : null;
 }
-function Ds(i) {
+function Vs(i) {
   return [i.top, i.left, i.width, i.height].map((t) => Math.round(t * 2) / 2).join(":");
 }
-function Pe(i, { requirePresent: t = !0 } = {}) {
+function Kt(i, { requirePresent: t = !0 } = {}) {
   var c;
   if (!(i != null && i.selector) && !(i != null && i.match) && !(i != null && i.title)) return null;
-  const e = As(i), s = Ns(e, { selector: (i == null ? void 0 : i.selector) || "" });
-  if (s && (!t || Et(s)))
-    return Ni(s);
+  const e = $s(i), s = Rs(e, { selector: (i == null ? void 0 : i.selector) || "" });
+  if (s && (!t || xt(s)))
+    return Bi(s);
   const n = (e == null ? void 0 : e.name) || String((e == null ? void 0 : e.text) || "").replace(/\s+/g, "_");
   if (n) {
-    const d = Me(n, { tag: e == null ? void 0 : e.tag });
-    if (d && (!t || Et(d))) return d;
+    const d = Pe(n, { tag: e == null ? void 0 : e.tag });
+    if (d && (!t || xt(d))) return d;
   }
-  const r = (i == null ? void 0 : i.selector) || "", o = ci(r);
-  if (!o || t && !Et(o)) return null;
-  const a = Ni(o);
-  if (!(Ge(r) && e)) return a;
-  const l = e ? Le(a, e) : 0;
-  return l >= 18 || (It(a) || (c = a.closest) != null && c.call(a, De)) && (l >= 8 || !(e != null && e.name) || !Me(e.name, { tag: e.tag })) ? a : e != null && e.name && Me(e.name, { tag: e.tag }) || e != null && e.dataGuider || e != null && e.id ? null : !(e != null && e.name) && !(e != null && e.href) ? a : null;
+  const r = (i == null ? void 0 : i.selector) || "", o = ui(r);
+  if (!o || t && !xt(o)) return null;
+  const a = Bi(o);
+  if (!(De(r) && e)) return a;
+  const l = e ? Be(a, e) : 0;
+  return l >= 18 || ($t(a) || (c = a.closest) != null && c.call(a, Fe)) && (l >= 8 || !(e != null && e.name) || !Pe(e.name, { tag: e.tag })) ? a : e != null && e.name && Pe(e.name, { tag: e.tag }) || e != null && e.dataGuider || e != null && e.id ? null : !(e != null && e.name) && !(e != null && e.href) ? a : null;
 }
-function Ni(i) {
+function Bi(i) {
   return i instanceof Element && Zt(i) || i;
 }
-function Hs(i) {
-  return !i || i.action === "manual" ? !0 : !i.selector && !i.match && !i.title ? !1 : !!Pe(i);
+function Ks(i) {
+  return !i || i.action === "manual" ? !0 : !i.selector && !i.match && !i.title ? !1 : !!Kt(i);
 }
-async function Fs(i, {
+async function zs(i, {
   timeout: t = 1500,
   stableFrames: e = 4,
   interval: s = 50
@@ -1944,23 +1965,23 @@ async function Fs(i, {
   let r = "", o = 0;
   for (; Date.now() <= n; ) {
     if (!i.isConnected) return null;
-    if (!Et(i))
+    if (!xt(i))
       o = 0, r = "";
     else {
-      const a = Ds(i.getBoundingClientRect());
+      const a = Vs(i.getBoundingClientRect());
       if (a === r ? o += 1 : (r = a, o = 1), o >= e) return i;
     }
     await new Promise((a) => setTimeout(a, s));
   }
   return He(i) ? i : null;
 }
-const Us = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), Ws = /* @__PURE__ */ new Set(["system", "inter", "arial", "roboto", "serif"]), qs = /* @__PURE__ */ new Set(["bottom-right", "bottom-left", "top-right", "top-left"]), Li = {
+const Zs = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), Xs = /* @__PURE__ */ new Set(["system", "inter", "arial", "roboto", "serif"]), Js = /* @__PURE__ */ new Set(["bottom-right", "bottom-left", "top-right", "top-left"]), Pi = {
   system: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   inter: "Inter, ui-sans-serif, system-ui, sans-serif",
   arial: "Arial, Helvetica, sans-serif",
   roboto: "Roboto, Arial, sans-serif",
   serif: 'Georgia, "Times New Roman", serif'
-}, di = () => ({
+}, pi = () => ({
   fontFamily: "system",
   animations: !0,
   highlightMotion: "pulse",
@@ -1973,11 +1994,26 @@ const Us = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), Ws = /*
   spotlightColor: "#3b82f6",
   overlayOpacity: 0.58,
   transitionMs: 220
-}), ji = () => ({
+}), Xi = () => ({
   size: 80,
   position: "bottom-right",
   animations: !0
-}), Vi = () => ({
+}), Ji = [
+  ".skeleton",
+  ".shimmer",
+  '[aria-busy="true"]',
+  ".p-skeleton"
+];
+function Yi(i) {
+  let t = [];
+  Array.isArray(i) ? t = i.map((s) => String(s || "").trim()).filter(Boolean) : i != null && i !== "" && (t = String(i).split(/[\n,]+/).map((s) => s.trim()).filter(Boolean));
+  const e = [...new Set(t)];
+  return e.length ? e : [...Ji];
+}
+function Ys(i) {
+  return Yi(i).join(", ");
+}
+const Qi = () => ({
   /** Full page reload before play (legacy). */
   resetBeforePlay: "none",
   /** When opening a guide on another route, hard-reload instead of soft navigate. */
@@ -1994,6 +2030,11 @@ const Us = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), Ws = /*
   pageSettleAppearGraceMs: 300,
   /** Extra ms after loaders clear before highlighting. Only used when a loader was seen. Default 1500. */
   postReadyDelay: 1500,
+  /**
+   * CSS selectors that mark loading / skeleton UI.
+   * Playback waits until none match (and targets containing them are not ready).
+   */
+  loadingSelectors: [...Ji],
   /** Panel chrome theme: dark | light */
   theme: "dark",
   /**
@@ -2019,20 +2060,20 @@ const Us = /* @__PURE__ */ new Set(["none", "pulse", "wobble", "fade"]), Ws = /*
    * Examples: /login, /, /time-log
    */
   hiddenUrls: ["/login", "/"],
-  launcher: ji(),
-  ui: di()
+  launcher: Xi(),
+  ui: pi()
 });
-function zi(i) {
+function ts(i) {
   return Array.isArray(i) ? [...new Set(i.map((t) => String(t).trim()).filter(Boolean))] : i == null || i === "" ? [] : [...new Set(
     String(i).split(/[\s,;]+/).map((t) => t.trim()).filter(Boolean)
   )];
 }
-function Ki(i) {
-  return Array.isArray(i) ? [...new Set(i.map((t) => ei(t)).filter(Boolean))] : i == null || i === "" ? [] : [...new Set(
-    String(i).split(/[\n,;]+/).map((t) => ei(t)).filter(Boolean)
+function es(i) {
+  return Array.isArray(i) ? [...new Set(i.map((t) => si(t)).filter(Boolean))] : i == null || i === "" ? [] : [...new Set(
+    String(i).split(/[\n,;]+/).map((t) => si(t)).filter(Boolean)
   )];
 }
-function ei(i) {
+function si(i) {
   let t = String(i || "").trim();
   if (!t) return "";
   try {
@@ -2041,8 +2082,8 @@ function ei(i) {
   }
   return t = t.split("?")[0].split("#")[0], t.startsWith("/") || (t = `/${t}`), t.length > 1 && (t = t.replace(/\/+$/, "")), t.toLowerCase();
 }
-function js(i, t = []) {
-  const e = ei(i || "/"), s = Ki(t);
+function Qs(i, t = []) {
+  const e = si(i || "/"), s = es(t);
   return s.length ? s.some((n) => {
     if (n.endsWith("*")) {
       const r = n.slice(0, -1);
@@ -2051,16 +2092,16 @@ function js(i, t = []) {
     return e === n || e.startsWith(`${n}/`);
   }) : !1;
 }
-function Vs(i, t = []) {
-  const e = zi(t);
+function tn(i, t = []) {
+  const e = ts(t);
   if (!e.length || i == null || i === "") return !1;
   const s = String(i).trim();
   return e.includes(s);
 }
-function zs(i, t = "123456") {
+function en(i, t = "123456") {
   return i == null ? String(t ?? "").replace(/\D/g, "").slice(0, 12) : String(i).replace(/\D/g, "").slice(0, 12);
 }
-function le(i, t) {
+function ce(i, t) {
   const e = String(i || "").trim();
   if (/^#[0-9a-fA-F]{6}$/.test(e)) return e.toLowerCase();
   if (/^#[0-9a-fA-F]{3}$/.test(e)) {
@@ -2069,21 +2110,21 @@ function le(i, t) {
   }
   return t;
 }
-function ye(i = {}) {
-  const t = di();
+function be(i = {}) {
+  const t = pi();
   if (!i || typeof i != "object" || Array.isArray(i)) return t;
   const e = String(i.highlightMotion || t.highlightMotion), s = String(i.fontFamily || t.fontFamily).toLowerCase();
   return {
-    fontFamily: Ws.has(s) ? s : t.fontFamily,
+    fontFamily: Xs.has(s) ? s : t.fontFamily,
     animations: i.animations !== !1,
-    highlightMotion: Us.has(e) ? e : t.highlightMotion,
+    highlightMotion: Zs.has(e) ? e : t.highlightMotion,
     spotlightFade: i.spotlightFade !== !1,
     animatedCursor: !!i.animatedCursor,
-    tipBg: le(i.tipBg, t.tipBg),
-    tipText: le(i.tipText, t.tipText),
-    skipBg: le(i.skipBg, t.skipBg),
-    skipText: le(i.skipText, t.skipText),
-    spotlightColor: le(i.spotlightColor, t.spotlightColor),
+    tipBg: ce(i.tipBg, t.tipBg),
+    tipText: ce(i.tipText, t.tipText),
+    skipBg: ce(i.skipBg, t.skipBg),
+    skipText: ce(i.skipText, t.skipText),
+    spotlightColor: ce(i.spotlightColor, t.spotlightColor),
     overlayOpacity: (() => {
       const n = Number(i.overlayOpacity);
       return Number.isFinite(n) ? Math.min(0.9, Math.max(0, n)) : t.overlayOpacity;
@@ -2094,19 +2135,19 @@ function ye(i = {}) {
     })()
   };
 }
-function Ks(i = {}) {
-  const t = ji();
+function sn(i = {}) {
+  const t = Xi();
   if (!i || typeof i != "object" || Array.isArray(i)) return t;
   const e = String(i.position || t.position).toLowerCase(), s = Math.round(Number(i.size));
   return {
     size: Number.isFinite(s) ? Math.min(96, Math.max(48, s)) : t.size,
-    position: qs.has(e) ? e : t.position,
+    position: Js.has(e) ? e : t.position,
     animations: i.animations !== !1
   };
 }
-function Bt(i = {}) {
+function Pt(i = {}) {
   var r, o;
-  const t = Vi();
+  const t = Qi();
   if (!i || typeof i != "object" || Array.isArray(i)) return t;
   const e = Number((r = i.ui) == null ? void 0 : r.overlayOpacity), s = Number((o = i.ui) == null ? void 0 : o.transitionMs), n = {
     ...i.ui && typeof i.ui == "object" ? i.ui : {},
@@ -2121,38 +2162,44 @@ function Bt(i = {}) {
     resetBeforePlayDelay: Math.max(0, Number(i.resetBeforePlayDelay) || t.resetBeforePlayDelay),
     pageSettleAfterClick: Object.prototype.hasOwnProperty.call(i, "pageSettleAfterClick") ? !!i.pageSettleAfterClick : !!t.pageSettleAfterClick,
     pageSettleTimeout: Math.max(0, Number(i.pageSettleTimeout) || t.pageSettleTimeout),
+    pageSettleAppearGraceMs: Math.max(0, Number(
+      Object.prototype.hasOwnProperty.call(i, "pageSettleAppearGraceMs") ? i.pageSettleAppearGraceMs : t.pageSettleAppearGraceMs
+    ) || 0),
     postReadyDelay: Math.max(0, Number(
       Object.prototype.hasOwnProperty.call(i, "postReadyDelay") ? i.postReadyDelay : t.postReadyDelay
     ) || 0),
+    loadingSelectors: Yi(
+      Object.prototype.hasOwnProperty.call(i, "loadingSelectors") ? i.loadingSelectors : t.loadingSelectors
+    ),
     theme: String(i.theme || t.theme).toLowerCase() === "light" ? "light" : "dark",
-    editorAccountIds: zi(
+    editorAccountIds: ts(
       i.editorAccountIds ?? i.guiderAccounts ?? t.editorAccountIds
     ),
-    bypassPin: zs(
+    bypassPin: en(
       Object.prototype.hasOwnProperty.call(i, "bypassPin") ? i.bypassPin : t.bypassPin,
       t.bypassPin
     ),
     showAccountId: Object.prototype.hasOwnProperty.call(i, "showAccountId") ? !!i.showAccountId : !!t.showAccountId,
     showOrb: Object.prototype.hasOwnProperty.call(i, "showOrb") ? !!i.showOrb : Object.prototype.hasOwnProperty.call(i, "showLauncher") ? !!i.showLauncher : !!t.showOrb,
-    hiddenUrls: Ki(
+    hiddenUrls: es(
       i.hiddenUrls ?? i.hiddenRoutes ?? t.hiddenUrls
     ),
-    launcher: Ks(i.launcher),
-    ui: ye(n)
+    launcher: sn(i.launcher),
+    ui: be(n)
   };
 }
-function ce(i = {}) {
-  const t = Bt(i), e = t.ui, s = t.theme === "light" ? "light" : "dark", n = document.documentElement;
-  return n && (n.dataset.sgTheme = s, n.style.setProperty("--sg-tip-bg", e.tipBg), n.style.setProperty("--sg-tip-text", e.tipText), n.style.setProperty("--sg-skip-bg", e.skipBg), n.style.setProperty("--sg-skip-text", e.skipText), n.style.setProperty("--sg-spotlight", e.spotlightColor), n.style.setProperty("--sg-overlay-opacity", String(e.overlayOpacity)), n.style.setProperty("--sg-spotlight-ms", `${e.transitionMs}ms`), n.style.setProperty("--sg-font-family", Li[e.fontFamily] || Li.system), n.dataset.sgAnimations = e.animations ? "on" : "off", n.dataset.sgHighlightMotion = e.highlightMotion, n.dataset.sgSpotlightFade = e.spotlightFade ? "on" : "off"), e;
+function de(i = {}) {
+  const t = Pt(i), e = t.ui, s = t.theme === "light" ? "light" : "dark", n = document.documentElement;
+  return n && (n.dataset.sgTheme = s, n.style.setProperty("--sg-tip-bg", e.tipBg), n.style.setProperty("--sg-tip-text", e.tipText), n.style.setProperty("--sg-skip-bg", e.skipBg), n.style.setProperty("--sg-skip-text", e.skipText), n.style.setProperty("--sg-spotlight", e.spotlightColor), n.style.setProperty("--sg-overlay-opacity", String(e.overlayOpacity)), n.style.setProperty("--sg-spotlight-ms", `${e.transitionMs}ms`), n.style.setProperty("--sg-font-family", Pi[e.fontFamily] || Pi.system), n.dataset.sgAnimations = e.animations ? "on" : "off", n.dataset.sgHighlightMotion = e.highlightMotion, n.dataset.sgSpotlightFade = e.spotlightFade ? "on" : "off"), e;
 }
-const Zs = [
+const nn = [
   ".sg-panel",
   ".sg-overlay",
   ".sg-launcher",
   ".sg-recording-indicator",
   ".sg-target-picker",
   ".modal-backdrop"
-].join(", "), Xs = [
+].join(", "), rn = [
   "html",
   "body",
   "#app",
@@ -2171,7 +2218,7 @@ const Zs = [
   ".container-fluid",
   ".wrapper",
   "[data-inertia]"
-].join(", "), ii = [
+].join(", "), ni = [
   "a[href]",
   "button",
   "input",
@@ -2187,15 +2234,15 @@ const Zs = [
   ".p-button",
   ".nav-link",
   "[data-guider]",
-  De
+  Fe
 ].join(", ");
-function Zi(i) {
+function is(i) {
   var s, n, r, o, a, l;
   if (!(i instanceof Element)) return "";
   const t = ((s = i.getAttribute) == null ? void 0 : s.call(i, "aria-label")) || ((n = i.getAttribute) == null ? void 0 : n.call(i, "placeholder")) || ((r = i.getAttribute) == null ? void 0 : r.call(i, "title")) || "";
   if (t) return String(t).trim().slice(0, 48);
-  if ((o = i.matches) != null && o.call(i, 'button, a, [role="button"], .p-button, label') || It(i)) {
-    if (It(i)) {
+  if ((o = i.matches) != null && o.call(i, 'button, a, [role="button"], .p-button, label') || $t(i)) {
+    if ($t(i)) {
       const d = (a = i.querySelector) == null ? void 0 : a.call(
         i,
         'h1, h2, h3, h4, h5, .day-name, .card-title, [class*="card-title"]'
@@ -2208,22 +2255,22 @@ function Zi(i) {
   const e = i.getAttribute("name") || "";
   return e || "";
 }
-function Js(i) {
-  const t = i.tagName.toLowerCase(), e = i.getAttribute("name") || "", s = i.id && !me(i.id) ? i.id : "", n = i.getAttribute("data-guider") || "", r = i.getAttribute("href") || "", o = [...i.classList].filter((c) => !/^(p-focus|p-inputtext|p-placeholder|active|open|show|p-component)$/i.test(c)).slice(0, 2), a = [t];
+function on(i) {
+  const t = i.tagName.toLowerCase(), e = i.getAttribute("name") || "", s = i.id && !ye(i.id) ? i.id : "", n = i.getAttribute("data-guider") || "", r = i.getAttribute("href") || "", o = [...i.classList].filter((c) => !/^(p-focus|p-inputtext|p-placeholder|active|open|show|p-component)$/i.test(c)).slice(0, 2), a = [t];
   n ? a.push(`[data-guider="${n}"]`) : e ? a.push(`[name="${e}"]`) : s ? a.push(`#${s}`) : o.length && a.push(`.${o.join(".")}`), r && r !== "#" && a.push(r.slice(0, 32));
-  const l = Zi(i);
+  const l = is(i);
   return {
     title: a.join(""),
     detail: l && l.toLowerCase() !== e.toLowerCase() ? l : e || s || n || ""
   };
 }
-function ge(i) {
+function fe(i) {
   var e;
-  if (!(i instanceof Element) || i === document.body || i === document.documentElement || (e = i.matches) != null && e.call(i, Xs)) return !0;
+  if (!(i instanceof Element) || i === document.body || i === document.documentElement || (e = i.matches) != null && e.call(i, rn)) return !0;
   const t = (i.id || "").toLowerCase();
   return !!["app", "root", "content", "__next", "main", "wrapper"].includes(t);
 }
-function fe(i, t) {
+function me(i, t) {
   var r, o;
   if (!(i instanceof Element)) return !0;
   const e = (r = i.getBoundingClientRect) == null ? void 0 : r.call(i);
@@ -2237,50 +2284,50 @@ function fe(i, t) {
   }
   return !1;
 }
-function Ys(i, t) {
+function an(i, t) {
   var e;
-  if (!(i instanceof Element) || ge(i) || fe(i, t)) return !1;
-  if (i.getAttribute("data-guider") || i.getAttribute("name") || It(i) || (e = i.matches) != null && e.call(i, ".field, .form-group, .p-field, .p-float-label, .mb-0, .input-group, .btn-group"))
+  if (!(i instanceof Element) || fe(i) || me(i, t)) return !1;
+  if (i.getAttribute("data-guider") || i.getAttribute("name") || $t(i) || (e = i.matches) != null && e.call(i, ".field, .form-group, .p-field, .p-float-label, .mb-0, .input-group, .btn-group"))
     return !0;
-  if (i.id && !me(i.id)) {
+  if (i.id && !ye(i.id)) {
     const s = i.getBoundingClientRect();
     if (s.width <= 480 && s.height <= 320) return !0;
   }
   return !1;
 }
-function Qs(i, t, { interactive: e = null, raw: s = null } = {}) {
+function ln(i, t, { interactive: e = null, raw: s = null } = {}) {
   var a, l, c, d, u, h, p;
   let n = 0;
-  if (!(i instanceof Element) || ge(i)) return -999;
-  e && i === e && (n += 140), s && i === s && ((a = i.matches) != null && a.call(i, ii)) && (n += 120), (l = i.matches) != null && l.call(i, ii) && (n += 50), i.getAttribute("data-guider") && (n += 100), i.id && !me(i.id) && (n += 35), i.getAttribute("name") && (n += 95);
-  const r = Ui(i);
-  r && (n += 55, i.getAttribute("name") === r && (n += 25)), (c = i.matches) != null && c.call(i, 'a[href]:not([href="#"])') && (n += 40), (d = i.matches) != null && d.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect, .p-button") && (n += 45), (u = i.matches) != null && u.call(i, "input, textarea, select, button") && (n += 40), (h = i.matches) != null && h.call(i, "a.nav-link, .nav-link") && (n += 35), (p = i.matches) != null && p.call(i, ".branch-card, .day-column, [data-guider-tile]") ? n += 70 : It(i) && (n += 40), Ge(t) && (n -= 25), fe(i, e || s) && (n -= 120);
-  const o = Zi(i);
+  if (!(i instanceof Element) || fe(i)) return -999;
+  e && i === e && (n += 140), s && i === s && ((a = i.matches) != null && a.call(i, ni)) && (n += 120), (l = i.matches) != null && l.call(i, ni) && (n += 50), i.getAttribute("data-guider") && (n += 100), i.id && !ye(i.id) && (n += 35), i.getAttribute("name") && (n += 95);
+  const r = Vi(i);
+  r && (n += 55, i.getAttribute("name") === r && (n += 25)), (c = i.matches) != null && c.call(i, 'a[href]:not([href="#"])') && (n += 40), (d = i.matches) != null && d.call(i, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect, .p-button") && (n += 45), (u = i.matches) != null && u.call(i, "input, textarea, select, button") && (n += 40), (h = i.matches) != null && h.call(i, "a.nav-link, .nav-link") && (n += 35), (p = i.matches) != null && p.call(i, ".branch-card, .day-column, [data-guider-tile]") ? n += 70 : $t(i) && (n += 40), De(t) && (n -= 25), me(i, e || s) && (n -= 120);
+  const o = is(i);
   return o && o.length <= 40 && (n += 8), n;
 }
-function tn(i, { interactive: t = null } = {}) {
+function cn(i, { interactive: t = null } = {}) {
   var u;
   if (!(i instanceof Element)) return [];
-  const e = t instanceof Element ? t : i, s = Ai(i) || Ai(e), n = Zt(i) || Zt(e), r = /* @__PURE__ */ new Set(), o = [], a = (h) => {
+  const e = t instanceof Element ? t : i, s = Ni(i) || Ni(e), n = Zt(i) || Zt(e), r = /* @__PURE__ */ new Set(), o = [], a = (h) => {
     var f;
-    if (!(h instanceof Element) || r.has(h) || h === document.body || h === document.documentElement || ge(h) || fe(h, e) && h !== e && h !== i || (f = h.closest) != null && f.call(h, Zs) || rt(h)) return;
-    const p = ti(h);
+    if (!(h instanceof Element) || r.has(h) || h === document.body || h === document.documentElement || fe(h) || me(h, e) && h !== e && h !== i || (f = h.closest) != null && f.call(h, nn) || it(h)) return;
+    const p = ei(h);
     if (!p) return;
     r.add(h);
-    const g = Js(h);
+    const g = on(h);
     o.push({
       element: h,
       selector: p,
       title: g.title,
       detail: g.detail,
-      score: Qs(h, p, { interactive: e, raw: i }),
-      fragile: Ge(p)
+      score: ln(h, p, { interactive: e, raw: i }),
+      fragile: De(p)
     });
   };
-  n && a(n), a(e), i !== e && ((u = i.matches) != null && u.call(i, ii)) && a(i), s && !ge(s) && !fe(s, e) && a(s);
+  n && a(n), a(e), i !== e && ((u = i.matches) != null && u.call(i, ni)) && a(i), s && !fe(s) && !me(s, e) && a(s);
   let l = e.parentElement || i.parentElement;
-  for (let h = 0; h < 6 && l && !(ge(l) || fe(l, e)); h += 1)
-    Ys(l, e) && a(l), l = l.parentElement;
+  for (let h = 0; h < 6 && l && !(fe(l) || me(l, e)); h += 1)
+    an(l, e) && a(l), l = l.parentElement;
   o.sort((h, p) => p.score - h.score);
   let c = o.slice(0, 6);
   if (!c.length && e && (a(e), c = o.slice(0, 1)), !c.length) return [];
@@ -2290,7 +2337,7 @@ function tn(i, { interactive: t = null } = {}) {
     suggested: p === 0 && d >= 40
   }));
 }
-const Lt = 'input:not([type="password"]), textarea, select', Xi = [
+const Nt = 'input:not([type="password"]), textarea, select', ss = [
   '[role="option"]',
   "[data-option]",
   ".dropdown-item",
@@ -2322,7 +2369,7 @@ const Lt = 'input:not([type="password"]), textarea, select', Xi = [
   ".ui-menu-item",
   ".ui-menu-item-wrapper",
   ".ui-datepicker-calendar td"
-].join(", "), en = [
+].join(", "), dn = [
   ".p-calendar",
   ".p-datepicker",
   ".input-group",
@@ -2333,7 +2380,7 @@ const Lt = 'input:not([type="password"]), textarea, select', Xi = [
   ".v-date-picker",
   '[class*="datepicker"]',
   '[class*="date-picker"]'
-].join(", "), sn = [
+].join(", "), un = [
   ".p-datepicker-prev",
   ".p-datepicker-next",
   ".p-datepicker-prev-icon",
@@ -2343,7 +2390,7 @@ const Lt = 'input:not([type="password"]), textarea, select', Xi = [
   ".p-datepicker-month",
   ".p-datepicker-year",
   ".p-datepicker-buttonbar"
-].join(", "), Mi = [
+].join(", "), Ii = [
   '[role="listbox"]',
   '[role="menu"]',
   ".dropdown-menu",
@@ -2376,34 +2423,34 @@ const Lt = 'input:not([type="password"]), textarea, select', Xi = [
   ".ui-datepicker",
   ".autocomplete-results",
   ".tt-menu"
-].join(", "), bt = ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect", Ie = [
+].join(", "), bt = ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect", $e = [
   ".p-dropdown-panel",
   ".p-multiselect-panel",
   ".p-autocomplete-panel",
   ".p-cascadeselect-panel"
 ].join(", ");
-function Ji(i) {
+function ns(i) {
   var t;
   return (t = globalThis.CSS) != null && t.escape ? globalThis.CSS.escape(i) : String(i).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
-function it(i) {
+function tt(i) {
   return i instanceof Element ? i.matches(bt) ? i : i.closest(bt) : null;
 }
-function nn(i) {
+function hn(i) {
   var s;
   const t = (s = i.labels) == null ? void 0 : s[0];
   if (!t) return "";
   const e = t.cloneNode(!0);
   return e.querySelectorAll("input, select, textarea, button").forEach((n) => n.remove()), e.textContent.trim();
 }
-function rn(i) {
+function pn(i) {
   var n;
-  const t = it(i) || i, e = ((n = t.closest) == null ? void 0 : n.call(t, '.p-float-label, .form-group, .mb-1, .mb-3, .col, [class*="form-group"]')) || t.parentElement;
+  const t = tt(i) || i, e = ((n = t.closest) == null ? void 0 : n.call(t, '.p-float-label, .form-group, .mb-1, .mb-3, .col, [class*="form-group"]')) || t.parentElement;
   if (!(e instanceof Element)) return "";
   const s = e.querySelector(":scope > label, label");
   return s instanceof Element ? s.textContent.trim().replace(/\s+/g, " ") : "";
 }
-function si(i) {
+function ri(i) {
   if (!(i instanceof Element)) return "";
   const t = i.cloneNode(!0);
   return t.querySelectorAll([
@@ -2420,20 +2467,20 @@ function si(i) {
     "textarea"
   ].join(", ")).forEach((e) => e.remove()), t.textContent.trim().replace(/\s+/g, " ");
 }
-function Yi(i) {
+function rs(i) {
   return String(i || "").replace(/\s+/g, " ").replace(/\s+\d+$/, "").trim().slice(0, 80);
 }
-function on(i) {
+function gn(i) {
   const t = String(i || "").trim();
   if (!t || t.length < 2 || /^(div|span|button|a|input|select|svg|path|g|rect|li|ul|td|th|tr|table|canvas)$/i.test(t) || /^(click|submit|button|link|here|null|undefined)$/i.test(t)) return !0;
   const e = t.replace(/\D/g, "");
   return !!(e.length >= 8 && e.length >= t.replace(/\s/g, "").length * 0.7 || !/\s/.test(t) && t.length > 28 || /^[.#\[]/.test(t) || /[{};>]/.test(t) || (t.match(/\b20\d{2}\b/g) || []).length >= 3);
 }
-function St(i) {
-  const t = Yi(i);
-  return on(t) ? "" : t;
+function vt(i) {
+  const t = rs(i);
+  return gn(t) ? "" : t;
 }
-function ni(i) {
+function oi(i) {
   var s, n, r, o, a, l;
   if (!(i instanceof Element)) return "";
   const t = [
@@ -2458,23 +2505,23 @@ function ni(i) {
   for (let c = 0; c < 10 && e; c += 1) {
     const d = (s = e.getAttribute) == null ? void 0 : s.call(e, "aria-labelledby");
     if (d) {
-      const g = document.getElementById(d.split(/\s+/)[0]), f = St(g == null ? void 0 : g.textContent);
+      const g = document.getElementById(d.split(/\s+/)[0]), f = vt(g == null ? void 0 : g.textContent);
       if (f) return f;
     }
     const u = (n = e.getAttribute) == null ? void 0 : n.call(e, "data-guider-label");
     if (u) {
-      const g = St(u);
+      const g = vt(u);
       if (g) return g;
     }
     let h = e.previousElementSibling;
     for (; h; ) {
       if ((r = h.matches) != null && r.call(h, t)) {
-        const f = St(h.textContent);
+        const f = vt(h.textContent);
         if (f) return f;
       }
       const g = (o = h.querySelector) == null ? void 0 : o.call(h, t);
       if (g) {
-        const f = St(g.textContent);
+        const f = vt(g.textContent);
         if (f) return f;
       }
       h = h.previousElementSibling;
@@ -2484,14 +2531,14 @@ function ni(i) {
       ":scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > .card-title, :scope > .card-header"
     );
     if (p && !p.contains(i)) {
-      const g = St(p.textContent);
+      const g = vt(p.textContent);
       if (g) return g;
     }
     e = e.parentElement;
   }
   return "";
 }
-function ui(i) {
+function gi(i) {
   return i instanceof Element ? !!i.closest([
     "canvas",
     "svg",
@@ -2505,56 +2552,56 @@ function ui(i) {
     '[class*="legend"]'
   ].join(", ")) : !1;
 }
-function an(i) {
-  return !(i instanceof Element) || !Pt(i) ? "" : St(si(i) || i.textContent);
+function fn(i) {
+  return !(i instanceof Element) || !It(i) ? "" : vt(ri(i) || i.textContent);
 }
-function Bi(i) {
+function $i(i) {
   var t, e, s, n, r;
   return i instanceof Element ? (t = i.matches) != null && t.call(i, 'input[type="checkbox"], input[type="radio"]') ? i : ((n = (s = (e = i.closest) == null ? void 0 : e.call(i, ".p-checkbox, .p-radiobutton")) == null ? void 0 : s.querySelector) == null ? void 0 : n.call(s, 'input[type="checkbox"], input[type="radio"]')) || ((r = i.querySelector) == null ? void 0 : r.call(i, 'input[type="checkbox"], input[type="radio"]')) || null : null;
 }
-function ln(i) {
+function mn(i) {
   var a, l, c, d, u, h, p;
-  const t = it(i), e = St(rn(i));
+  const t = tt(i), e = vt(pn(i));
   if (e) return e;
   const s = Zt(i);
   if (s) {
-    const g = St((l = (a = s.querySelector) == null ? void 0 : a.call(s, ".day-date")) == null ? void 0 : l.textContent);
+    const g = vt((l = (a = s.querySelector) == null ? void 0 : a.call(s, ".day-date")) == null ? void 0 : l.textContent);
     if (g && g !== "—") return g;
-    const f = St(
+    const f = vt(
       (d = (c = s.querySelector) == null ? void 0 : c.call(s, "h1, h2, h3, h4, h5, .card-title")) == null ? void 0 : d.textContent
     );
     if (f) return f;
-    const m = St((h = (u = s.querySelector) == null ? void 0 : u.call(s, ".day-name")) == null ? void 0 : h.textContent);
+    const m = vt((h = (u = s.querySelector) == null ? void 0 : u.call(s, ".day-name")) == null ? void 0 : h.textContent);
     if (m && m !== "—") return m;
-    const b = St(si(s));
-    if (b && b !== "—") return b;
+    const y = vt(ri(s));
+    if (y && y !== "—") return y;
   }
-  const n = i.matches("input, textarea, select"), r = !n && !t ? St(si(i)) : "";
+  const n = i.matches("input, textarea, select"), r = !n && !t ? vt(ri(i)) : "";
   if (r) return r;
   const o = [
     t ? "" : i.getAttribute("aria-label"),
     i.getAttribute("title"),
-    nn(i),
+    hn(i),
     n ? i.getAttribute("placeholder") : "",
     i.getAttribute("placeholder"),
     i.getAttribute("name"),
     i.getAttribute("data-guider-label"),
     // Skip section headings for tiles — they steal labels ("BRANCH").
-    s ? "" : ni(i),
+    s ? "" : oi(i),
     (p = t == null ? void 0 : t.matches) != null && p.call(t, ".p-autocomplete") ? "Search" : "",
     t ? "Dropdown" : ""
   ];
   for (const g of o) {
-    const f = St(g);
+    const f = vt(g);
     if (f) return f;
   }
-  return ui(i) ? ni(i) || "chart" : "";
+  return gi(i) ? oi(i) || "chart" : "";
 }
 function Re(i) {
-  const t = Yi(i);
+  const t = rs(i);
   return t ? /^[A-Z0-9\s\-_/]+$/.test(t) && t.length <= 24 ? t : t.charAt(0).toUpperCase() + t.slice(1) : "";
 }
-function cn({
+function yn({
   label: i,
   choiceField: t,
   isNativeField: e,
@@ -2564,7 +2611,7 @@ function cn({
 }) {
   var l, c, d, u, h;
   const o = Re(i), a = Re(r);
-  if (be(n) || n && Dt(n))
+  if (Se(n) || n && Ft(n))
     return o && !/^date|calendar$/i.test(o) ? `Pick a date for ${o}` : "Pick a date";
   if (t)
     return a && o ? `Select ${o}: ${a}` : a ? `Choose “${a}”` : o ? `Select ${o}` : "Choose a value";
@@ -2572,9 +2619,9 @@ function cn({
     const p = (((l = n == null ? void 0 : n.getAttribute) == null ? void 0 : l.call(n, "type")) || "").toLowerCase();
     return p === "checkbox" || p === "radio" ? o ? `Toggle ${o}` : "Toggle this option" : (c = n == null ? void 0 : n.matches) != null && c.call(n, "textarea") ? o ? `Fill in ${o}` : "Enter details" : o ? `Enter ${o}` : "Enter a value";
   }
-  return s === "click" || s === "input" ? ui(n) ? o && o.toLowerCase() !== "chart" ? `Interact with ${o}` : "Interact with the chart" : (d = n == null ? void 0 : n.matches) != null && d.call(n, 'a, [role="link"]') || (u = n == null ? void 0 : n.closest) != null && u.call(n, "a[href]") ? o ? `Go to ${o}` : "Follow this link" : (h = n == null ? void 0 : n.matches) != null && h.call(n, 'button, [role="button"], input[type="submit"], input[type="button"]') ? /^(save|submit|continue|next|confirm|apply|search|login|sign in)$/i.test(o) ? o : o ? `Click ${o}` : "Click this button" : o ? `Click ${o}` : "Click here" : o || "Continue";
+  return s === "click" || s === "input" ? gi(n) ? o && o.toLowerCase() !== "chart" ? `Interact with ${o}` : "Interact with the chart" : (d = n == null ? void 0 : n.matches) != null && d.call(n, 'a, [role="link"]') || (u = n == null ? void 0 : n.closest) != null && u.call(n, "a[href]") ? o ? `Go to ${o}` : "Follow this link" : (h = n == null ? void 0 : n.matches) != null && h.call(n, 'button, [role="button"], input[type="submit"], input[type="button"]') ? /^(save|submit|continue|next|confirm|apply|search|login|sign in)$/i.test(o) ? o : o ? `Click ${o}` : "Click this button" : o ? `Click ${o}` : "Click here" : o || "Continue";
 }
-function dn({
+function bn({
   title: i,
   label: t,
   choiceField: e,
@@ -2583,8 +2630,8 @@ function dn({
   optionText: r = ""
 }) {
   var d, u, h;
-  const o = Re(t), a = Re(r), l = ni(n);
-  if (be(n) || n && Dt(n))
+  const o = Re(t), a = Re(r), l = oi(n);
+  if (Se(n) || n && Ft(n))
     return "Choose a day on the calendar to continue.";
   if (e && a)
     return o ? `Pick “${a}” from ${o}.` : `Pick “${a}” from the list.`;
@@ -2594,18 +2641,18 @@ function dn({
     const p = (((d = n == null ? void 0 : n.getAttribute) == null ? void 0 : d.call(n, "type")) || "").toLowerCase();
     return p === "checkbox" || p === "radio" ? o ? `Check or uncheck ${o}.` : "Toggle this option." : o ? `Type the value for ${o}.` : "Type a value in this field.";
   }
-  if (ui(n))
+  if (gi(n))
     return `Use ${o && o.toLowerCase() !== "chart" ? o : l || "the chart"} to continue to the next step.`;
   if ((u = n == null ? void 0 : n.matches) != null && u.call(n, 'a, [role="link"]') || (h = n == null ? void 0 : n.closest) != null && h.call(n, "a[href]"))
     return o ? `Open ${o} to move forward.` : "Follow this link to continue.";
   const c = String(i || "").replace(/^(click|select|enter|choose|go to|interact with|toggle|pick|fill in)\s+/i, "").trim();
   return o && c && o.toLowerCase() === c.toLowerCase() ? "" : l && o && l.toLowerCase() !== o.toLowerCase() ? `In ${l}, continue with ${o}.` : "";
 }
-function Pt(i) {
+function It(i) {
   var t;
-  return !!((t = i == null ? void 0 : i.closest) != null && t.call(i, Xi));
+  return !!((t = i == null ? void 0 : i.closest) != null && t.call(i, ss));
 }
-function be(i) {
+function Se(i) {
   return i instanceof Element ? !!i.closest([
     ".p-datepicker-calendar td",
     ".p-datepicker-calendar td > span",
@@ -2624,56 +2671,56 @@ function be(i) {
     ".ui-datepicker-calendar td"
   ].join(", ")) : !1;
 }
-function un(i) {
-  return !(i instanceof Element) || be(i) ? !1 : !!i.closest(sn);
+function Sn(i) {
+  return !(i instanceof Element) || Se(i) ? !1 : !!i.closest(un);
 }
-function Dt(i) {
+function Ft(i) {
   if (!(i instanceof Element)) return !1;
   if (i instanceof HTMLInputElement && (["date", "datetime-local", "time", "month", "week"].includes(i.type) || i.getAttribute("inputmode") === "none" || /date|time/i.test(i.name || "") || /date|time/i.test(i.id || "") || i.className.toLowerCase().includes("date")) || i.closest(".p-calendar, .p-datepicker-trigger")) return !0;
-  const t = i.closest(en);
+  const t = i.closest(dn);
   return t ? /date|time|calendar|picker/i.test(t.className) ? !0 : !!t.querySelector('button, [class*="calendar"], table, .flatpickr-calendar, .dp__menu') : !1;
 }
-function Pi(i) {
+function Ri(i) {
   var l, c, d;
   if (!(i instanceof Element)) return null;
   const t = document.querySelectorAll(
     '.p-calendar input[aria-expanded="true"], .p-calendar [aria-expanded="true"], input[aria-expanded="true"]'
   );
   for (const u of t) {
-    if (!(u instanceof Element) || rt(u)) continue;
+    if (!(u instanceof Element) || it(u)) continue;
     const h = u.closest(".p-calendar") || u, p = (l = h.matches) != null && l.call(h, "input") ? h : (c = h.querySelector) == null ? void 0 : c.call(h, 'input:not([type="hidden"])');
-    if (p && !rt(p)) return p;
+    if (p && !it(p)) return p;
   }
   const e = document.querySelector(".p-calendar.p-inputwrapper-focus, .p-calendar.p-focus, .p-calendar.p-overlay-open");
   if (e) {
     const u = e.querySelector('input:not([type="hidden"])');
-    if (u && !rt(u)) return u;
+    if (u && !it(u)) return u;
   }
   const s = document.activeElement;
-  if (s instanceof HTMLInputElement && Dt(s) && !rt(s))
+  if (s instanceof HTMLInputElement && Ft(s) && !it(s))
     return s;
-  const r = [...(document.querySelector('.p-overlaypanel, .modal.show, [role="dialog"]') || document.body).querySelectorAll('input:not([type="hidden"]):not([type="password"])')].filter((u) => Dt(u) && !rt(u));
+  const r = [...(document.querySelector('.p-overlaypanel, .modal.show, [role="dialog"]') || document.body).querySelectorAll('input:not([type="hidden"]):not([type="password"])')].filter((u) => Ft(u) && !it(u));
   if (!r.length) return null;
   const o = ((d = i.getBoundingClientRect) == null ? void 0 : d.call(i).top) ?? 0, a = r.map((u) => ({ node: u, top: u.getBoundingClientRect().top })).filter((u) => u.top <= o + 8).sort((u, h) => h.top - u.top)[0];
   return (a == null ? void 0 : a.node) || r[0] || null;
 }
-function Gt(i) {
-  return i instanceof Element ? !!(i instanceof HTMLSelectElement || Dt(i) || it(i) || i.closest(Ie) || i.matches('[role="combobox"], [aria-autocomplete], [aria-haspopup="listbox"]') || i.getAttribute("aria-expanded") != null || i.closest('[role="combobox"]')) : !1;
+function Dt(i) {
+  return i instanceof Element ? !!(i instanceof HTMLSelectElement || Ft(i) || tt(i) || i.closest($e) || i.matches('[role="combobox"], [aria-autocomplete], [aria-haspopup="listbox"]') || i.getAttribute("aria-expanded") != null || i.closest('[role="combobox"]')) : !1;
 }
-function $e(i) {
+function Oe(i) {
   if (!i) return null;
-  const t = it(i);
+  const t = tt(i);
   if (t) return t;
-  if (i.matches(Lt) || i.matches('[role="combobox"]')) return i;
-  const e = i.querySelector(`${Lt}, [role="combobox"]`);
-  return it(e) || e;
+  if (i.matches(Nt) || i.matches('[role="combobox"]')) return i;
+  const e = i.querySelector(`${Nt}, [role="combobox"]`);
+  return tt(e) || e;
 }
-function ri(i) {
+function ai(i) {
   if (!(i instanceof Element)) return null;
   const t = i.querySelector('[role="listbox"], .p-dropdown-items, .p-multiselect-items, .p-autocomplete-items'), e = (t == null ? void 0 : t.id) || i.id;
   if (e) {
-    const n = Ji(e), r = ci(`[aria-controls="${n}"], [aria-owns="${n}"]`), o = it(r) || $e(r);
-    if (o) return it(o) || o;
+    const n = ns(e), r = ui(`[aria-controls="${n}"], [aria-owns="${n}"]`), o = tt(r) || Oe(r);
+    if (o) return tt(o) || o;
   }
   const s = document.querySelector([
     ".p-dropdown.p-overlay-open",
@@ -2684,9 +2731,9 @@ function ri(i) {
     `${bt} [aria-expanded="true"]`,
     `${bt}[aria-expanded="true"]`
   ].join(", "));
-  return it(s);
+  return tt(s);
 }
-function Qe(i) {
+function ti(i) {
   var t;
   return (t = i == null ? void 0 : i.closest) == null ? void 0 : t.call(i, [
     ".form-group",
@@ -2703,18 +2750,18 @@ function Qe(i) {
     "label"
   ].join(", "));
 }
-function gt(i) {
+function ft(i) {
   var u, h, p;
   if (!(i instanceof Element)) return null;
-  const t = it(i);
+  const t = tt(i);
   if (t) return t;
-  if (be(i)) {
-    const g = i.closest(".p-datepicker, .flatpickr-calendar, .dp__menu, .ant-picker-dropdown, .p-datepicker-panel"), f = Pi(g || i);
+  if (Se(i)) {
+    const g = i.closest(".p-datepicker, .flatpickr-calendar, .dp__menu, .ant-picker-dropdown, .p-datepicker-panel"), f = Ri(g || i);
     if (f) return f;
   }
-  const e = i.closest(Ie);
+  const e = i.closest($e);
   if (e) {
-    const g = ri(e);
+    const g = ai(e);
     if (g) return g;
   }
   const s = i.closest(".p-calendar");
@@ -2722,49 +2769,49 @@ function gt(i) {
     const g = s.querySelector('input:not([type="hidden"])');
     if (g) return g;
   }
-  if (i.matches(Lt)) return i;
-  const n = i.closest(Lt);
+  if (i.matches(Nt)) return i;
+  const n = i.closest(Nt);
   if (n) return n;
   const r = i.matches('[role="combobox"]') ? i : i.closest('[role="combobox"]');
-  if (r) return it(r) || r;
-  const o = i.closest(Xi);
+  if (r) return tt(r) || r;
+  const o = i.closest(ss);
   if (o) {
-    if (be(o)) {
-      const y = Pi(
+    if (Se(o)) {
+      const b = Ri(
         o.closest(".p-datepicker, .flatpickr-calendar, .dp__menu, .p-datepicker-panel") || o
       );
-      if (y) return y;
+      if (b) return b;
     }
-    const g = ri(o.closest(Ie) || o.closest(Mi));
+    const g = ai(o.closest($e) || o.closest(Ii));
     if (g) return g;
     const f = document.activeElement;
-    if (f instanceof Element && (f.matches(Lt) || f.matches('[role="combobox"]') || it(f)) && !rt(f))
-      return it(f) || f;
-    const m = o.closest(Mi);
+    if (f instanceof Element && (f.matches(Nt) || f.matches('[role="combobox"]') || tt(f)) && !it(f))
+      return tt(f) || f;
+    const m = o.closest(Ii);
     if (m != null && m.id) {
-      const y = Ji(m.id), x = ci(`[aria-controls="${y}"], [aria-owns="${y}"]`), _ = $e(x);
-      if (_) return _;
+      const b = ns(m.id), k = ui(`[aria-controls="${b}"], [aria-owns="${b}"]`), C = Oe(k);
+      if (C) return C;
     }
-    const b = document.querySelector(
+    const y = document.querySelector(
       `${bt} [aria-expanded="true"], ${bt}[aria-expanded="true"], [aria-expanded="true"]`
-    ), w = $e(b);
-    if (w && !rt(w)) return w;
-    const S = Qe(m) || Qe(o) || Qe(b);
-    if (S) {
-      const y = S.querySelector(bt);
-      if (y && !rt(y)) return y;
-      const x = S.querySelector(`select, ${Lt}, [role="combobox"]`);
-      if (x && !rt(x)) return it(x) || x;
+    ), S = Oe(y);
+    if (S && !it(S)) return S;
+    const w = ti(m) || ti(o) || ti(y);
+    if (w) {
+      const b = w.querySelector(bt);
+      if (b && !it(b)) return b;
+      const k = w.querySelector(`select, ${Nt}, [role="combobox"]`);
+      if (k && !it(k)) return tt(k) || k;
     }
-    const C = [...((m == null ? void 0 : m.closest('.modal.show, .modal, [role="dialog"], .p-overlaypanel, form')) || document.body).querySelectorAll(`${bt}, select, [role="combobox"]`)].filter((y) => !rt(y)).map((y) => it(y) || y);
-    if (C.length) {
-      const y = ((u = m == null ? void 0 : m.getBoundingClientRect) == null ? void 0 : u.call(m).top) ?? o.getBoundingClientRect().top, x = C.map((_) => ({ node: _, top: _.getBoundingClientRect().top })).filter((_) => _.top <= y + 8).sort((_, A) => A.top - _.top)[0];
-      if (x) return x.node;
+    const x = [...((m == null ? void 0 : m.closest('.modal.show, .modal, [role="dialog"], .p-overlaypanel, form')) || document.body).querySelectorAll(`${bt}, select, [role="combobox"]`)].filter((b) => !it(b)).map((b) => tt(b) || b);
+    if (x.length) {
+      const b = ((u = m == null ? void 0 : m.getBoundingClientRect) == null ? void 0 : u.call(m).top) ?? o.getBoundingClientRect().top, k = x.map((C) => ({ node: C, top: C.getBoundingClientRect().top })).filter((C) => C.top <= b + 8).sort((C, T) => T.top - C.top)[0];
+      if (k) return k.node;
     }
   }
   const a = i.closest(".p-calendar, .input-group, .date, .mx-datepicker, .vdatetime, .flatpickr-wrapper, .dp__main");
   if (a) {
-    const g = a.querySelector(Lt);
+    const g = a.querySelector(Nt);
     if (g) return g;
   }
   const l = i.closest(
@@ -2782,16 +2829,16 @@ function gt(i) {
       d,
       `${bt}, input:not([type="hidden"]), textarea, select, button, a`
     );
-    if (g) return it(g) || g;
+    if (g) return tt(g) || g;
   }
   return i;
 }
-function hn(i = document) {
+function vn(i = document) {
   const t = [
     ...i.querySelectorAll(`${bt}, select, [role="combobox"], input:not([type="hidden"]):not([type="password"]), textarea`)
   ], e = /* @__PURE__ */ new Set();
-  return t.map((s) => it(s) || s).filter((s) => {
-    if (e.has(s) || rt(s)) return !1;
+  return t.map((s) => tt(s) || s).filter((s) => {
+    if (e.has(s) || it(s)) return !1;
     e.add(s);
     const n = getComputedStyle(s);
     if (n.display === "none" || n.visibility === "hidden") return !1;
@@ -2799,22 +2846,22 @@ function hn(i = document) {
     return r.width >= 2 && r.height >= 2;
   });
 }
-function zt() {
-  const i = ri(document.querySelector(Ie)) || it(document.querySelector([
+function re() {
+  const i = ai(document.querySelector($e)) || tt(document.querySelector([
     ".p-dropdown.p-overlay-open",
     ".p-multiselect.p-overlay-open",
     `${bt} [aria-expanded="true"]`,
     `${bt}[aria-expanded="true"]`
   ].join(", ")));
-  if (i && !rt(i)) return i;
-  const t = document.querySelector('[aria-expanded="true"]'), e = $e(t);
-  if (e && !rt(e)) return e;
+  if (i && !it(i)) return i;
+  const t = document.querySelector('[aria-expanded="true"]'), e = Oe(t);
+  if (e && !it(e)) return e;
   const s = document.querySelector('.modal.show, [role="dialog"][aria-modal="true"], [role="dialog"].show, .p-overlaypanel');
   if (!s) return null;
   const n = document.activeElement;
-  return n instanceof Element && s.contains(n) && (n.matches(Lt) || n.matches('[role="combobox"]') || it(n)) && !rt(n) ? it(n) || n : null;
+  return n instanceof Element && s.contains(n) && (n.matches(Nt) || n.matches('[role="combobox"]') || tt(n)) && !it(n) ? tt(n) || n : null;
 }
-class pn {
+class wn {
   constructor({ onStep: t } = {}) {
     this.onStep = t, this.active = !1, this.lastKey = "", this.lastAt = 0, this.lastToggleEl = null, this.onClick = this.onClick.bind(this), this.onFocus = this.onFocus.bind(this);
   }
@@ -2825,15 +2872,15 @@ class pn {
     this.active = !1, document.removeEventListener("click", this.onClick, !0), document.removeEventListener("focusin", this.onFocus, !0);
   }
   shouldIgnore(t) {
-    return !this.active || !(t instanceof Element) || rt(t) || !!t.closest(".sg-panel, .sg-overlay, .sg-launcher, .sg-recording-indicator, .sg-target-picker");
+    return !this.active || !(t instanceof Element) || it(t) || !!t.closest(".sg-panel, .sg-overlay, .sg-launcher, .sg-recording-indicator, .sg-target-picker");
   }
   buildSelectorAlternatives(t, e) {
-    const s = gt(e) || e, n = tn(t, { interactive: s }), r = [], o = /* @__PURE__ */ new Set(), a = (l, c = {}) => {
+    const s = ft(e) || e, n = cn(t, { interactive: s }), r = [], o = /* @__PURE__ */ new Set(), a = (l, c = {}) => {
       if (!(l instanceof Element)) return null;
-      const d = c.selector || ti(l);
+      const d = c.selector || ei(l);
       if (!d || o.has(d)) return null;
       o.add(d);
-      const u = Ei(l), h = {
+      const u = Mi(l), h = {
         selector: d,
         label: c.title || c.detail || d,
         title: c.title || "",
@@ -2852,54 +2899,54 @@ class pn {
     }) : a(e, { suggested: !0 }), r.length && !r.some((l) => l.suggested) && (r[0].suggested = !0), r;
   }
   commitCapture(t, e, s = t) {
-    var _, A, M, I, z;
-    if (!(t instanceof Element) || !t.isConnected || rt(t)) return;
-    const n = e === "click" && Pt(s);
-    let r = gt(t) || t;
-    if (!r || rt(r)) return;
-    if (!gt(t) && t.querySelector) {
-      const L = t.querySelector(
+    var C, T, L, B, j;
+    if (!(t instanceof Element) || !t.isConnected || it(t)) return;
+    const n = e === "click" && It(s);
+    let r = ft(t) || t;
+    if (!r || it(r)) return;
+    if (!ft(t) && t.querySelector) {
+      const M = t.querySelector(
         `${bt}, input:not([type="hidden"]), textarea, select`
       );
-      L && (r = it(L) || L);
+      M && (r = tt(M) || M);
     }
-    const o = this.buildSelectorAlternatives(s, r), a = o.find((L) => L.suggested) || o[0];
+    const o = this.buildSelectorAlternatives(s, r), a = o.find((M) => M.suggested) || o[0];
     (a == null ? void 0 : a.element) instanceof Element && (r = a.element);
-    const l = (a == null ? void 0 : a.selector) || ti(r);
+    const l = (a == null ? void 0 : a.selector) || ei(r);
     if (!l) return;
-    const c = r.matches(Lt), d = Bi(s) || Bi(r), u = Gt(r) || n, h = c || n || u ? "input" : e, p = Date.now(), g = `${h}:${l}`, f = h === "input" && g === this.lastKey, m = g === this.lastKey && p - this.lastAt < 300, b = !!(d && this.lastToggleEl && (this.lastToggleEl === d || (A = (_ = this.lastToggleEl).contains) != null && A.call(_, d) || (M = d.contains) != null && M.call(d, this.lastToggleEl)) && p - this.lastAt < 600);
-    if (f || m || b) return;
+    const c = r.matches(Nt), d = $i(s) || $i(r), u = Dt(r) || n, h = c || n || u ? "input" : e, p = Date.now(), g = `${h}:${l}`, f = h === "input" && g === this.lastKey, m = g === this.lastKey && p - this.lastAt < 300, y = !!(d && this.lastToggleEl && (this.lastToggleEl === d || (T = (C = this.lastToggleEl).contains) != null && T.call(C, d) || (L = d.contains) != null && L.call(d, this.lastToggleEl)) && p - this.lastAt < 600);
+    if (f || m || y) return;
     this.lastKey = g, this.lastAt = p, this.lastToggleEl = d || null;
-    const w = ln(r), S = n ? an(s) : "", k = cn({
-      label: w,
+    const S = mn(r), w = n ? fn(s) : "", _ = yn({
+      label: S,
       choiceField: u,
       isNativeField: c,
       action: h,
       element: r,
-      optionText: S
-    }), C = dn({
-      title: k,
-      label: w,
+      optionText: w
+    }), x = bn({
+      title: _,
+      label: S,
       choiceField: u,
       isNativeField: c,
       element: r,
-      optionText: S
-    }), y = (a == null ? void 0 : a.match) || Ei(r), x = o.map(({ selector: L, label: T, title: B, detail: R, suggested: q, match: G }) => ({
-      selector: L,
-      label: T,
-      title: B,
-      detail: R,
+      optionText: w
+    }), b = (a == null ? void 0 : a.match) || Mi(r), k = o.map(({ selector: M, label: A, title: P, detail: $, suggested: q, match: D }) => ({
+      selector: M,
+      label: A,
+      title: P,
+      detail: $,
       suggested: q,
-      ...G ? { match: G } : {}
+      ...D ? { match: D } : {}
     }));
     this.onStep({
-      id: ((z = (I = globalThis.crypto) == null ? void 0 : I.randomUUID) == null ? void 0 : z.call(I)) || `step-${p}-${Math.random().toString(36).slice(2, 7)}`,
+      id: ((j = (B = globalThis.crypto) == null ? void 0 : B.randomUUID) == null ? void 0 : j.call(B)) || `step-${p}-${Math.random().toString(36).slice(2, 7)}`,
       selector: l,
-      ...y ? { match: y } : {},
-      ...x.length > 1 ? { selectorAlternatives: x } : {},
+      ...b ? { match: b } : {},
+      ...k.length > 1 ? { selectorAlternatives: k } : {},
       action: h,
-      title: k,
-      description: C,
+      title: _,
+      description: x,
       waitFor: c || n || u ? {
         type: "input",
         required: !0,
@@ -2912,19 +2959,19 @@ class pn {
   }
   onClick(t) {
     const e = t.target instanceof Element ? t.target : null;
-    if (!e || this.shouldIgnore(e) || typeof t.button == "number" && t.button !== 0 || e instanceof HTMLSelectElement && !Pt(e) || un(e)) return;
-    if (Pt(e)) {
+    if (!e || this.shouldIgnore(e) || typeof t.button == "number" && t.button !== 0 || e instanceof HTMLSelectElement && !It(e) || Sn(e)) return;
+    if (It(e)) {
       this.capture(e, "click");
       return;
     }
-    const s = gt(e);
-    !s || rt(s) || this.commitCapture(s, "click", e);
+    const s = ft(e);
+    !s || it(s) || this.commitCapture(s, "click", e);
   }
   onFocus(t) {
     var s;
     const e = t.target;
-    if ((s = e == null ? void 0 : e.matches) != null && s.call(e, Lt) && !this.shouldIgnore(e) && !e.matches('input[type="checkbox"], input[type="radio"]') && !(e instanceof HTMLSelectElement)) {
-      if (Dt(e)) {
+    if ((s = e == null ? void 0 : e.matches) != null && s.call(e, Nt) && !this.shouldIgnore(e) && !e.matches('input[type="checkbox"], input[type="radio"]') && !(e instanceof HTMLSelectElement)) {
+      if (Ft(e)) {
         this.capture(e, "input");
         return;
       }
@@ -2935,7 +2982,7 @@ class pn {
     this.stop();
   }
 }
-const gn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>', fn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>', mn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>', Fe = [
+const kn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>', _n = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>', Cn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>', xn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>', Ue = [
   "td.day",
   ".day",
   '[role="gridcell"]',
@@ -2952,7 +2999,7 @@ const gn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
   ".react-datepicker__day",
   ".el-date-table td",
   ".bootstrap-datepicker td"
-].join(", "), hi = [
+].join(", "), fi = [
   '[role="listbox"]',
   '[role="menu"]',
   ".dropdown-menu",
@@ -2999,7 +3046,7 @@ const gn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
   ".typeahead",
   '[class*="picker-panel"]',
   '[class*="calendar-panel"]'
-].join(", "), Qi = [
+].join(", "), os = [
   ".datepicker-dropdown",
   ".datepicker",
   ".flatpickr-calendar",
@@ -3022,7 +3069,7 @@ const gn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-wi
   '[class*="picker-panel"]',
   '[class*="calendar-panel"]'
 ].join(", ");
-function oi(i) {
+function li(i) {
   if (!(i instanceof HTMLElement) || i.closest(".sg-overlay, .sg-panel, .sg-launcher, .sg-skip-chip")) return !1;
   const t = getComputedStyle(i);
   if (t.display === "none" || t.visibility === "hidden" || Number(t.opacity) === 0)
@@ -3030,7 +3077,7 @@ function oi(i) {
   const e = i.getBoundingClientRect();
   return e.width >= 2 && e.height >= 2;
 }
-function Oe(i) {
+function Ge(i) {
   var n;
   if (!(i instanceof Element)) return !1;
   const t = i.getBoundingClientRect(), s = ((n = i.matches) == null ? void 0 : n.call(
@@ -3044,14 +3091,14 @@ function Oe(i) {
   }
   return !0;
 }
-function yn(i) {
+function En(i) {
   if (!(i instanceof Element)) return null;
-  const t = i.closest(Qi);
-  if (t && Oe(t)) return t;
+  const t = i.closest(os);
+  if (t && Ge(t)) return t;
   const e = i.closest('table, [role="grid"]');
-  return e && e.querySelector(Fe) && Oe(e) ? e : null;
+  return e && e.querySelector(Ue) && Ge(e) ? e : null;
 }
-function bn(i) {
+function Tn(i) {
   if (!(i instanceof Element)) return [];
   const t = i.getBoundingClientRect();
   return [...document.querySelectorAll([
@@ -3066,12 +3113,12 @@ function bn(i) {
     ".p-autocomplete-panel"
   ].join(", "))].filter((s) => {
     var l;
-    if (!oi(s) || !Oe(s) || s === i || i.contains(s) || !(s.matches(Qi) || !!((l = s.querySelector) != null && l.call(s, Fe))) && !s.matches(hi)) return !1;
+    if (!li(s) || !Ge(s) || s === i || i.contains(s) || !(s.matches(os) || !!((l = s.querySelector) != null && l.call(s, Ue))) && !s.matches(fi)) return !1;
     const r = s.getBoundingClientRect(), o = r.top >= t.top - 48 && r.top <= t.bottom + 380, a = r.left < t.right + 140 && r.right > t.left - 140;
     return o && a;
   });
 }
-function Ii(i = null) {
+function Oi(i = null) {
   const t = /* @__PURE__ */ new Set(), e = (s) => {
     var c;
     if (!(i instanceof Element)) return !0;
@@ -3087,39 +3134,44 @@ function Ii(i = null) {
       return !!(h && (i === h || i.contains(h) || h.contains(i)));
     });
   };
-  return document.querySelectorAll(hi).forEach((s) => {
-    !oi(s) || !Oe(s) || e(s) && t.add(s);
-  }), document.querySelectorAll(Fe).forEach((s) => {
-    const n = yn(s);
-    n && oi(n) && e(n) && t.add(n);
-  }), i instanceof Element && bn(i).forEach((s) => t.add(s)), [...t];
+  return document.querySelectorAll(fi).forEach((s) => {
+    !li(s) || !Ge(s) || e(s) && t.add(s);
+  }), document.querySelectorAll(Ue).forEach((s) => {
+    const n = En(s);
+    n && li(n) && e(n) && t.add(n);
+  }), i instanceof Element && Tn(i).forEach((s) => t.add(s)), [...t];
 }
-class vn {
+class An {
   constructor({
     overlayOpacity: t = 0.58,
     zIndex: e = 2147483e3,
     onSkip: s = null,
     onEnd: n = null,
-    skipLabel: r = "Next Step",
-    onHighlightBox: o = null,
-    onTargetLost: a = null,
-    ui: l = null
+    onPrev: r = null,
+    skipLabel: o = "Next Step",
+    prevLabel: a = "Prev",
+    onHighlightBox: l = null,
+    onTargetLost: c = null,
+    ui: d = null
   } = {}) {
-    this.opacity = t, this.zIndex = e, this.onSkip = s, this.onEnd = n, this.skipLabel = r, this.onHighlightBox = o, this.onTargetLost = a, this.ui = ye(l || { overlayOpacity: t }), this.root = null, this.frame = null, this.blocks = null, this.skipChip = null, this.goChip = null, this.onGo = null, this.stepTip = null, this.stepTipContent = null, this.guideCursor = null, this.cursorTimer = null, this.warningBanner = null, this.waitingBanner = null, this.controlsEnabled = !1, this.raf = null, this.target = null, this.highlightHost = null, this.blockOutside = !1, this.raisedTarget = null, this.previousTargetStyle = null, this.resizeObserver = null, this.menuObserver = null, this.menuWatchTimer = null, this.menuRefreshTimer = null, this.relayoutTimers = [], this.elevatedMenus = [], this.syncing = !1, this.targetLostNotified = !1, this.lastHighlightCenter = null, this.onViewportChange = () => this.scheduleLayout(), this.onBlockInteraction = (c) => {
-      this.allowsInteractionAt(c.clientX, c.clientY) || (c.preventDefault(), c.stopPropagation());
-    }, this.onSkipClick = (c) => {
-      var d;
-      c.preventDefault(), c.stopPropagation(), (d = this.onSkip) == null || d.call(this);
-    }, this.onEndClick = (c) => {
-      var d;
-      c.preventDefault(), c.stopPropagation(), (d = this.onEnd || this.onSkip) == null || d();
-    }, this.onGoClick = (c) => {
-      var d;
-      c.preventDefault(), c.stopPropagation(), (d = this.onGo) == null || d.call(this);
+    this.opacity = t, this.zIndex = e, this.onSkip = s, this.onEnd = n, this.onPrev = r, this.skipLabel = o, this.prevLabel = a, this.onHighlightBox = l, this.onTargetLost = c, this.ui = be(d || { overlayOpacity: t }), this.root = null, this.frame = null, this.blocks = null, this.skipChip = null, this.goChip = null, this.onGo = null, this.stepTip = null, this.stepTipContent = null, this.guideCursor = null, this.cursorTimer = null, this.warningBanner = null, this.waitingBanner = null, this.controlsEnabled = !1, this.raf = null, this.target = null, this.highlightHost = null, this.blockOutside = !1, this.raisedTarget = null, this.previousTargetStyle = null, this.resizeObserver = null, this.menuObserver = null, this.menuWatchTimer = null, this.menuRefreshTimer = null, this.relayoutTimers = [], this.elevatedMenus = [], this.syncing = !1, this.targetLostNotified = !1, this.lastHighlightCenter = null, this.onViewportChange = () => this.scheduleLayout(), this.onBlockInteraction = (u) => {
+      this.allowsInteractionAt(u.clientX, u.clientY) || (u.preventDefault(), u.stopPropagation());
+    }, this.onSkipClick = (u) => {
+      var h;
+      u.preventDefault(), u.stopPropagation(), (h = this.onSkip) == null || h.call(this);
+    }, this.onPrevClick = (u) => {
+      var h;
+      u.preventDefault(), u.stopPropagation(), (h = this.onPrev) == null || h.call(this);
+    }, this.onEndClick = (u) => {
+      var h;
+      u.preventDefault(), u.stopPropagation(), (h = this.onEnd || this.onSkip) == null || h();
+    }, this.onGoClick = (u) => {
+      var h;
+      u.preventDefault(), u.stopPropagation(), (h = this.onGo) == null || h.call(this);
     };
   }
   applyUiSettings(t) {
-    this.ui = ye(t || {}), this.opacity = this.ui.overlayOpacity, this.root && (this.root.style.setProperty("--sg-overlay-opacity", String(this.opacity)), this.syncSpotlightMotionClass());
+    this.ui = be(t || {}), this.opacity = this.ui.overlayOpacity, this.root && (this.root.style.setProperty("--sg-overlay-opacity", String(this.opacity)), this.syncSpotlightMotionClass());
   }
   prefersReducedMotion() {
     var t, e;
@@ -3175,6 +3227,9 @@ class vn {
   }
   setSkipHandler(t) {
     this.onSkip = t;
+  }
+  setPrevHandler(t) {
+    this.onPrev = t;
   }
   setControlsEnabled(t) {
     var e;
@@ -3257,48 +3312,53 @@ class vn {
     title: t = "",
     description: e = "",
     stepNumber: s = null,
-    totalSteps: n = null
+    totalSteps: n = null,
+    showPrev: r = !1
   } = {}) {
     this.mountStepTip();
-    const r = String(t || "").trim(), o = String(e || "").trim(), a = Number.isFinite(Number(s)) ? Math.max(1, Number(s)) : null, l = Number.isFinite(Number(n)) ? Math.max(1, Number(n)) : null;
+    const o = String(t || "").trim(), a = String(e || "").trim(), l = Number.isFinite(Number(s)) ? Math.max(1, Number(s)) : null, c = Number.isFinite(Number(n)) ? Math.max(1, Number(n)) : null, d = !!r && typeof this.onPrev == "function";
     if (this.stepTipContent = {
-      title: r,
-      description: o,
-      stepNumber: a,
-      totalSteps: l
-    }, !r) {
+      title: o,
+      description: a,
+      stepNumber: l,
+      totalSteps: c,
+      showPrev: d
+    }, !o) {
       this.hideStepTip();
       return;
     }
     this.stepTip.replaceChildren(), this.skipChip && (this.skipChip.hidden = !0);
-    const c = document.createElement("span");
-    c.className = "sg-step-tip__arrow", c.setAttribute("aria-hidden", "true");
-    const d = document.createElement("div");
-    d.className = "sg-step-tip__header";
-    const u = document.createElement("div");
-    u.className = "sg-step-tip__badge", u.textContent = String(a || 1), u.setAttribute(
+    const u = document.createElement("span");
+    u.className = "sg-step-tip__arrow", u.setAttribute("aria-hidden", "true");
+    const h = document.createElement("div");
+    h.className = "sg-step-tip__header";
+    const p = document.createElement("div");
+    p.className = "sg-step-tip__badge", p.textContent = String(l || 1), p.setAttribute(
       "aria-label",
-      l ? `Step ${a || 1} of ${l}` : `Step ${a || 1}`
+      c ? `Step ${l || 1} of ${c}` : `Step ${l || 1}`
     );
-    const h = document.createElement("span");
-    h.className = "sg-step-tip__counter", h.textContent = l ? `Step ${a || 1} of ${l}` : `Step ${a || 1}`;
-    const p = document.createElement("button");
-    p.type = "button", p.className = "sg-step-tip__close", p.setAttribute("aria-label", "End tutorial"), p.innerHTML = gn, p.addEventListener("click", this.onEndClick), d.append(u, h, p);
-    const g = document.createElement("div");
-    if (g.className = "sg-step-tip__title", g.textContent = r, this.stepTip.append(c, d, g), o) {
-      const C = document.createElement("div");
-      C.className = "sg-step-tip__description", C.textContent = o, this.stepTip.append(C);
-    }
-    const f = document.createElement("div");
-    f.className = "sg-step-tip__divider";
+    const g = document.createElement("span");
+    g.className = "sg-step-tip__counter", g.textContent = c ? `Step ${l || 1} of ${c}` : `Step ${l || 1}`;
+    const f = document.createElement("button");
+    f.type = "button", f.className = "sg-step-tip__close", f.setAttribute("aria-label", "End tutorial"), f.innerHTML = kn, f.addEventListener("click", this.onEndClick), h.append(p, g, f);
     const m = document.createElement("div");
-    m.className = "sg-step-tip__actions";
-    const b = document.createElement("button");
-    b.type = "button", b.className = "sg-step-tip__end", b.innerHTML = `${mn}<span>End Tutorial</span>`, b.addEventListener("click", this.onEndClick);
+    if (m.className = "sg-step-tip__title", m.textContent = o, this.stepTip.append(u, h, m), a) {
+      const k = document.createElement("div");
+      k.className = "sg-step-tip__description", k.textContent = a, this.stepTip.append(k);
+    }
+    const y = document.createElement("div");
+    y.className = "sg-step-tip__divider";
+    const S = document.createElement("div");
+    S.className = "sg-step-tip__actions";
     const w = document.createElement("button");
-    w.type = "button", w.className = "sg-step-tip__next";
-    const k = (l ? Number(a) >= Number(l) : !1) ? "Finish" : this.skipLabel || "Next Step";
-    w.innerHTML = `<span>${k}</span>${fn}`, w.addEventListener("click", this.onSkipClick), m.append(b, w), this.stepTip.append(f, m), this.stepTip.hidden = !1;
+    if (w.type = "button", w.className = "sg-step-tip__end", w.innerHTML = `${xn}<span>End Tutorial</span>`, w.addEventListener("click", this.onEndClick), S.append(w), d) {
+      const k = document.createElement("button");
+      k.type = "button", k.className = "sg-step-tip__prev", k.innerHTML = `${Cn}<span>${this.prevLabel || "Prev"}</span>`, k.addEventListener("click", this.onPrevClick), S.append(k);
+    }
+    const _ = document.createElement("button");
+    _.type = "button", _.className = "sg-step-tip__next";
+    const b = (c ? Number(l) >= Number(c) : !1) ? "Finish" : this.skipLabel || "Next Step";
+    _.innerHTML = `<span>${b}</span>${_n}`, _.addEventListener("click", this.onSkipClick), S.append(_), this.stepTip.append(y, S), this.stepTip.hidden = !1;
   }
   hideStepTip() {
     this.stepTip && (this.stepTip.hidden = !0, this.stepTip.removeAttribute("data-arrow"), this.stepTip.style.removeProperty("--sg-arrow-offset"), this.stepTip.style.removeProperty("--sg-arrow-fill")), this.stepTipContent = null, this.syncSkipChipVisibility();
@@ -3318,72 +3378,72 @@ class vn {
    */
   updateStepTipArrow(t, e, s, n) {
     if (!this.stepTip || this.stepTip.hidden) return;
-    const r = this.stepTip, o = r.getBoundingClientRect(), a = o.left, l = o.top, c = o.width || r.offsetWidth || 220, d = o.height || r.offsetHeight || 48, u = a + c / 2, h = l + d / 2, p = t + s / 2, g = e + n / 2, f = a + c, m = l + d, b = t + s, w = e + n, S = {
-      left: a - b,
+    const r = this.stepTip, o = r.getBoundingClientRect(), a = o.left, l = o.top, c = o.width || r.offsetWidth || 220, d = o.height || r.offsetHeight || 48, u = a + c / 2, h = l + d / 2, p = t + s / 2, g = e + n / 2, f = a + c, m = l + d, y = t + s, S = e + n, w = {
+      left: a - y,
       right: t - f,
-      top: l - w,
+      top: l - S,
       bottom: e - m
     };
-    let k = "left", C = -1 / 0;
-    for (const [_, A] of Object.entries(S))
-      A > C && (C = A, k = _);
-    if (C < 4) {
-      const _ = p - u, A = g - h;
-      k = Math.abs(_) >= Math.abs(A) ? _ < 0 ? "left" : "right" : A < 0 ? "top" : "bottom";
+    let _ = "left", x = -1 / 0;
+    for (const [C, T] of Object.entries(w))
+      T > x && (x = T, _ = C);
+    if (x < 4) {
+      const C = p - u, T = g - h;
+      _ = Math.abs(C) >= Math.abs(T) ? C < 0 ? "left" : "right" : T < 0 ? "top" : "bottom";
     }
-    const y = 18;
-    let x = 0;
-    k === "left" || k === "right" ? x = Math.min(Math.max(g - l, y), d - y) : x = Math.min(Math.max(p - a, y), c - y), r.dataset.arrow = k, r.style.setProperty("--sg-arrow-offset", `${Math.round(x)}px`), r.style.setProperty("--sg-arrow-fill", this.resolveStepTipFill());
+    const b = 18;
+    let k = 0;
+    _ === "left" || _ === "right" ? k = Math.min(Math.max(g - l, b), d - b) : k = Math.min(Math.max(p - a, b), c - b), r.dataset.arrow = _, r.style.setProperty("--sg-arrow-offset", `${Math.round(k)}px`), r.style.setProperty("--sg-arrow-fill", this.resolveStepTipFill());
   }
   positionSkipChip(t, e, s, n) {
     if (!this.controlsEnabled) return;
-    const r = 10, o = 8, a = window.innerWidth, l = window.innerHeight, c = this.stepTip && !this.stepTip.hidden, d = c ? this.stepTip.offsetWidth || 220 : 0, u = c ? this.stepTip.offsetHeight || 48 : 0, h = this.goChip && !this.goChip.hidden, p = h ? this.goChip.offsetWidth || 72 : 0, g = h ? this.goChip.offsetHeight || 36 : 0, f = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, m = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, b = 8;
-    let w = 0, S = 0;
-    h && (w = t + s + r, S = e + Math.max(0, Math.round((n - g) / 2)), w + p > a - o && (w = Math.max(o, t - p - r)), S < o && (S = o), S + g > l - o && (S = Math.max(o, l - g - o)), this.goChip.style.left = `${w}px`, this.goChip.style.top = `${S}px`);
-    const k = Math.max(d, f), C = (c ? u : 0) + (c && f ? b : 0) + (f ? m : 0), y = t + s / 2, x = e + n / 2, _ = (T, B) => ({
-      left: Math.min(Math.max(o, T), Math.max(o, a - k - o)),
-      top: Math.min(Math.max(o, B), Math.max(o, l - C - o))
-    }), A = [
-      _(y - k / 2, e + n + r),
+    const r = 10, o = 8, a = window.innerWidth, l = window.innerHeight, c = this.stepTip && !this.stepTip.hidden, d = c ? this.stepTip.offsetWidth || 220 : 0, u = c ? this.stepTip.offsetHeight || 48 : 0, h = this.goChip && !this.goChip.hidden, p = h ? this.goChip.offsetWidth || 72 : 0, g = h ? this.goChip.offsetHeight || 36 : 0, f = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, m = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, y = 8;
+    let S = 0, w = 0;
+    h && (S = t + s + r, w = e + Math.max(0, Math.round((n - g) / 2)), S + p > a - o && (S = Math.max(o, t - p - r)), w < o && (w = o), w + g > l - o && (w = Math.max(o, l - g - o)), this.goChip.style.left = `${S}px`, this.goChip.style.top = `${w}px`);
+    const _ = Math.max(d, f), x = (c ? u : 0) + (c && f ? y : 0) + (f ? m : 0), b = t + s / 2, k = e + n / 2, C = (A, P) => ({
+      left: Math.min(Math.max(o, A), Math.max(o, a - _ - o)),
+      top: Math.min(Math.max(o, P), Math.max(o, l - x - o))
+    }), T = [
+      C(b - _ / 2, e + n + r),
       // below, centered
-      _(y - k / 2, e - C - r),
+      C(b - _ / 2, e - x - r),
       // above, centered
-      _(t - k - r, x - C / 2),
+      C(t - _ - r, k - x / 2),
       // left, centered
-      _(t + s + r, x - C / 2),
+      C(t + s + r, k - x / 2),
       // right, centered
-      _(t, e + n + r),
+      C(t, e + n + r),
       // below-start
-      _(t + s - k, e + n + r)
+      C(t + s - _, e + n + r)
       // below-end
     ];
-    h && A.unshift(
-      _(w + p + r, Math.min(S, e)),
-      _(w - k - r, Math.min(S, e))
+    h && T.unshift(
+      C(S + p + r, Math.min(w, e)),
+      C(S - _ - r, Math.min(w, e))
     );
-    let M = A[0], I = 1 / 0;
-    for (const T of A) {
-      const B = T.left + k / 2, R = T.top + C / 2, q = B - y, G = R - x;
-      let H = q * q + G * G;
-      const U = Math.max(0, Math.min(T.left + k, t + s) - Math.max(T.left, t)), st = Math.max(0, Math.min(T.top + C, e + n) - Math.max(T.top, e));
-      U > 0 && st > 0 && (H += 1e6 + U * st), H < I && (I = H, M = T);
+    let L = T[0], B = 1 / 0;
+    for (const A of T) {
+      const P = A.left + _ / 2, $ = A.top + x / 2, q = P - b, D = $ - k;
+      let F = q * q + D * D;
+      const U = Math.max(0, Math.min(A.left + _, t + s) - Math.max(A.left, t)), et = Math.max(0, Math.min(A.top + x, e + n) - Math.max(A.top, e));
+      U > 0 && et > 0 && (F += 1e6 + U * et), F < B && (B = F, L = A);
     }
-    let z = M.left, L = M.top;
-    c && (this.stepTip.style.left = `${z}px`, this.stepTip.style.top = `${L}px`, this.updateStepTipArrow(t, e, s, n), L += u + b), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${z}px`, this.skipChip.style.top = `${L}px`);
+    let j = L.left, M = L.top;
+    c && (this.stepTip.style.left = `${j}px`, this.stepTip.style.top = `${M}px`, this.updateStepTipArrow(t, e, s, n), M += u + y), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${j}px`, this.skipChip.style.top = `${M}px`);
   }
   positionSkipChipFallback() {
     if (!this.controlsEnabled) return;
     const t = this.highlightHost || this.target;
     if (t instanceof Element && t.isConnected) {
-      const S = t.getBoundingClientRect();
-      if (S.width > 0 && S.height > 0) {
-        this.positionSkipChip(S.left, S.top, S.width, S.height);
+      const w = t.getBoundingClientRect();
+      if (w.width > 0 && w.height > 0) {
+        this.positionSkipChip(w.left, w.top, w.width, w.height);
         return;
       }
     }
-    const e = this.stepTip && !this.stepTip.hidden, s = e ? this.stepTip.offsetWidth || 220 : 0, n = e ? this.stepTip.offsetHeight || 48 : 0, r = this.goChip && !this.goChip.hidden, o = r ? this.goChip.offsetWidth || 72 : 0, a = r ? this.goChip.offsetHeight || 36 : 0, l = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, c = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, d = 8, u = this.warningBanner && !this.warningBanner.hidden, h = this.waitingBanner && !this.waitingBanner.hidden, p = u ? this.warningBanner.offsetHeight || 40 : 0, g = h ? this.waitingBanner.offsetHeight || 40 : 0, f = 24 + p + g + (u || h ? 12 : 0), m = (e ? n + d : 0) + (l ? c : 0), b = Math.max(8, Math.round((window.innerWidth - Math.max(s, l || s)) / 2));
-    let w = Math.max(8, window.innerHeight - f - m - (r ? a + d : 0));
-    e && (this.stepTip.style.left = `${b}px`, this.stepTip.style.top = `${w}px`, this.stepTip.removeAttribute("data-arrow"), w += n + d), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${b}px`, this.skipChip.style.top = `${w}px`, w += c + d), r && (this.goChip.style.left = `${Math.max(8, Math.round((window.innerWidth - o) / 2))}px`, this.goChip.style.top = `${w}px`);
+    const e = this.stepTip && !this.stepTip.hidden, s = e ? this.stepTip.offsetWidth || 220 : 0, n = e ? this.stepTip.offsetHeight || 48 : 0, r = this.goChip && !this.goChip.hidden, o = r ? this.goChip.offsetWidth || 72 : 0, a = r ? this.goChip.offsetHeight || 36 : 0, l = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetWidth || 100 : 0, c = this.skipChip && !this.skipChip.hidden ? this.skipChip.offsetHeight || 36 : 0, d = 8, u = this.warningBanner && !this.warningBanner.hidden, h = this.waitingBanner && !this.waitingBanner.hidden, p = u ? this.warningBanner.offsetHeight || 40 : 0, g = h ? this.waitingBanner.offsetHeight || 40 : 0, f = 24 + p + g + (u || h ? 12 : 0), m = (e ? n + d : 0) + (l ? c : 0), y = Math.max(8, Math.round((window.innerWidth - Math.max(s, l || s)) / 2));
+    let S = Math.max(8, window.innerHeight - f - m - (r ? a + d : 0));
+    e && (this.stepTip.style.left = `${y}px`, this.stepTip.style.top = `${S}px`, this.stepTip.removeAttribute("data-arrow"), S += n + d), this.skipChip && !this.skipChip.hidden && (this.skipChip.style.left = `${y}px`, this.skipChip.style.top = `${S}px`, S += c + d), r && (this.goChip.style.left = `${Math.max(8, Math.round((window.innerWidth - o) / 2))}px`, this.goChip.style.top = `${S}px`);
   }
   createBlock(t) {
     const e = document.createElement("div");
@@ -3391,9 +3451,9 @@ class vn {
   }
   highlight(t, e = !0, { blockOutside: s = !1, tip: n = null } = {}) {
     var r, o;
-    t instanceof Element && (this.hideWarning(), this.hideWaiting(), this.hideGuideCursor(), this.targetLostNotified = !1, this.mount(), this.controlsEnabled && (this.mountSkipChip(), this.mountStepTip()), this.root && (this.root.style.display = "", this.root.style.setProperty("--sg-overlay-opacity", String(((r = this.ui) == null ? void 0 : r.overlayOpacity) ?? this.opacity))), this.clearRelayoutTimers(), this.unobserveTarget(), this.target = t, this.highlightHost = pe(t) || t, this.blockOutside = !!s, this.root.classList.toggle("sg-overlay--blocking", this.blockOutside), this.raiseTarget(this.blockOutside ? this.highlightHost : null), n && n.title ? this.setStepTip(n) : this.hideStepTip(), e && Et(this.highlightHost) && Gs(this.highlightHost, { behavior: "smooth", block: "center" }), this.observeTarget(this.highlightHost), this.watchMenus(), this.root.classList.add("sg-overlay--visible"), this.syncSpotlightMotionClass(), this.frame && this.motionsEnabled() && ((o = this.ui) != null && o.spotlightFade) && (this.frame.classList.remove("sg-spotlight--fade-in"), this.frame.offsetWidth, this.frame.classList.add("sg-spotlight--fade-in")), this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter(), this.syncSkipChipVisibility(), [80, 180, 320, 520, 800].forEach((a) => {
+    t instanceof Element && (this.hideWarning(), this.hideWaiting(), this.hideGuideCursor(), this.targetLostNotified = !1, this.mount(), this.controlsEnabled && (this.mountSkipChip(), this.mountStepTip()), this.root && (this.root.style.display = "", this.root.style.setProperty("--sg-overlay-opacity", String(((r = this.ui) == null ? void 0 : r.overlayOpacity) ?? this.opacity))), this.clearRelayoutTimers(), this.unobserveTarget(), this.target = t, this.highlightHost = ge(t) || t, this.blockOutside = !!s, this.root.classList.toggle("sg-overlay--blocking", this.blockOutside), this.raiseTarget(this.blockOutside ? this.highlightHost : null), n && n.title ? this.setStepTip(n) : this.hideStepTip(), e && xt(this.highlightHost) && qs(this.highlightHost, { behavior: "smooth", block: "center" }), this.observeTarget(this.highlightHost), this.watchMenus(), this.root.classList.add("sg-overlay--visible"), this.syncSpotlightMotionClass(), this.frame && this.motionsEnabled() && ((o = this.ui) != null && o.spotlightFade) && (this.frame.classList.remove("sg-spotlight--fade-in"), this.frame.offsetWidth, this.frame.classList.add("sg-spotlight--fade-in")), this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter(), this.syncSkipChipVisibility(), [80, 180, 320, 520, 800].forEach((a) => {
       this.relayoutTimers.push(setTimeout(() => {
-        this.target && (this.highlightHost = pe(this.target) || this.target, this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter(), this.syncSkipChipVisibility());
+        this.target && (this.highlightHost = ge(this.target) || this.target, this.scheduleLayout(), this.elevateOpenMenus(), this.lastHighlightCenter = this.getHighlightCenter(), this.syncSkipChipVisibility());
       }, a));
     }));
   }
@@ -3403,10 +3463,10 @@ class vn {
   }
   getVisibleMenus() {
     const t = this.highlightHost || this.target;
-    return Ii(t);
+    return Oi(t);
   }
   allowsInteractionAt(t, e) {
-    const s = this.highlightHost || this.target, n = Ii(s);
+    const s = this.highlightHost || this.target, n = Oi(s);
     return n.length ? n.some((r) => {
       const o = r.getBoundingClientRect();
       return t >= o.left && t <= o.right && e >= o.top && e <= o.bottom;
@@ -3487,7 +3547,7 @@ class vn {
   layout() {
     var h, p;
     if (!this.root || this.syncing || !this.target) return;
-    const t = pe(this.target) || this.highlightHost || this.target;
+    const t = ge(this.target) || this.highlightHost || this.target;
     if (!(t instanceof Element) || !t.isConnected) {
       this.hide(), this.targetLostNotified || (this.targetLostNotified = !0, (h = this.onTargetLost) == null || h.call(this));
       return;
@@ -3549,7 +3609,44 @@ class vn {
     }), this.skipChip && (this.skipChip.removeEventListener("click", this.onSkipClick), this.skipChip.remove(), this.skipChip = null), this.goChip && (this.goChip.removeEventListener("click", this.onGoClick), this.goChip.remove(), this.goChip = null, this.onGo = null), this.stepTip && (this.stepTip.remove(), this.stepTip = null, this.stepTipContent = null), this.warningBanner && (this.warningBanner.remove(), this.warningBanner = null), this.waitingBanner && (this.waitingBanner.remove(), this.waitingBanner = null), this.guideCursor && (clearTimeout(this.cursorTimer), this.guideCursor.remove(), this.guideCursor = null), (t = this.root) == null || t.remove(), this.root = null, this.frame = null, this.blocks = null, this.target = null, this.highlightHost = null;
   }
 }
-function wn(i, t) {
+const Mn = [
+  ".modal.show",
+  ".modal.in",
+  '[role="dialog"][aria-modal="true"]',
+  '[role="dialog"].show',
+  ".p-dialog",
+  ".p-overlaypanel",
+  ".p-sidebar"
+].join(", ");
+function Gi(i) {
+  if (!(i instanceof Element)) return null;
+  try {
+    return i.closest(Mn);
+  } catch {
+    return null;
+  }
+}
+function Ln(i) {
+  var s;
+  if ((i == null ? void 0 : i.action) !== "click") return !1;
+  const t = String(((s = i.match) == null ? void 0 : s.href) || "").trim();
+  if (t && t !== "#" && !/^javascript:/i.test(t)) return !0;
+  const e = String(i.selector || "");
+  return !!/\.nav-link|\.custom-nav-class|\[data-inertia\]/i.test(e);
+}
+function Nn(i, t) {
+  var l, c;
+  if (!Array.isArray(i) || t <= 0) return !1;
+  const e = i[t], s = i[t - 1];
+  if (!s || ((l = e == null ? void 0 : e.settings) == null ? void 0 : l.allowPrev) === !1) return !1;
+  if (((c = e == null ? void 0 : e.settings) == null ? void 0 : c.allowPrev) === !0) return !0;
+  if (Ln(s)) return !1;
+  const n = Kt(s, { requirePresent: !0 });
+  if (!n) return !1;
+  const r = Kt(e, { requirePresent: !1 }), o = Gi(n), a = Gi(r);
+  return !(s.action === "click" && (a && !o || a && o && a !== o));
+}
+function Bn(i, t) {
   var l, c, d, u, h;
   const e = i instanceof Element ? i : t;
   if (!(e instanceof Element)) return !1;
@@ -3560,13 +3657,13 @@ function wn(i, t) {
   const r = (((d = s.getAttribute) == null ? void 0 : d.call(s, "href")) || "").trim(), o = r.toLowerCase();
   return !(!r || r === "#" || o.startsWith("javascript:")) || (u = s.matches) != null && u.call(s, ".nav-link, .custom-nav-class, [data-inertia]") ? !0 : ((h = s.matches) != null && h.call(s, '.btn, .btn-added, .btn-searchset, button, [role="button"]') || [...s.classList || []].some((p) => /^btn([_-]|$)/i.test(p)), !1);
 }
-function Sn(i) {
+function Pn(i) {
   const t = String((i == null ? void 0 : i.title) || "").trim(), e = String((i == null ? void 0 : i.description) || "").trim();
   if (!e || e === t) return "";
   const s = e.replace(/^(click|select|enter|choose)\s+/i, "").trim(), n = t.replace(/^(click|select|enter|choose)\s+/i, "").trim();
   return s && n && s.toLowerCase() === n.toLowerCase() || /^(click|select|enter|choose)\s+.+/i.test(e) && e.length <= t.length + 12 ? "" : e;
 }
-class _n {
+class In {
   constructor({
     overlay: t,
     timeout: e = 5e3,
@@ -3574,31 +3671,37 @@ class _n {
     autoAdvanceDelay: n = 600,
     autoSkipMissing: r = !0,
     autoSkipMissingDelay: o = 400,
-    stableWaitTimeout: a = 1500,
-    targetWaitTimeout: l = 2e4,
-    targetRetryInterval: c = 250,
-    targetReadyHits: d = 2,
-    stepDelay: u = 0,
-    autoScroll: h = !0,
+    /**
+     * When auto-skip is on and the page is idle (no skeletons), how long to wait
+     * with no match before treating the target as missing. Default 2000.
+     * Loading / skeleton still uses the full targetWaitTimeout (+ settle cap).
+     */
+    autoSkipIdleMissTimeout: a = 2e3,
+    stableWaitTimeout: l = 1500,
+    targetWaitTimeout: c = 2e4,
+    targetRetryInterval: d = 250,
+    targetReadyHits: u = 2,
+    stepDelay: h = 0,
+    autoScroll: p = !0,
     /** After a click step: wait for page loaders/skeletons before the next step. */
-    pageSettleAfterClick: p = !0,
-    pageSettleTimeout: g = 2e4,
-    pageSettleAppearGraceMs: f = 300,
+    pageSettleAfterClick: g = !0,
+    pageSettleTimeout: f = 2e4,
+    pageSettleAppearGraceMs: m = 300,
     /** Extra settle ms after loaders clear (and after non-loading clicks). */
-    postReadyDelay: m = 1500,
-    ui: b = null,
+    postReadyDelay: y = 1500,
+    ui: S = null,
     onChange: w,
-    onFail: S,
-    onComplete: k,
-    onClickAdvance: C = null
+    onFail: _,
+    onComplete: x,
+    onClickAdvance: b = null
   }) {
-    this.overlay = t, this.timeout = e, this.autoAdvanceOnInput = s, this.autoAdvanceDelay = n, this.autoSkipMissing = r, this.autoSkipMissingDelay = o, this.stableWaitTimeout = a, this.targetWaitTimeout = Math.max(1e3, Number(l) || 2e4), this.targetRetryInterval = Math.max(50, Number(c) || 250), this.targetReadyHits = Math.max(1, Number(d) || 2), this.stepDelay = u, this.autoScroll = h !== !1, this.pageSettleAfterClick = p !== !1, this.pageSettleTimeout = Math.max(0, Number(g) || 2e4), this.pageSettleAppearGraceMs = Math.max(0, Number(f) || 0), this.postReadyDelay = Math.max(0, Number(m) || 0), this.ui = ye(b || {}), this.onChange = w, this.onFail = S, this.onComplete = k, this.onClickAdvance = C, this.steps = [], this.index = 0, this.active = !1, this.token = 0, this.waitCleanup = null, this.autoSkipTimer = null, this.navWaitTimer = null, this.readyWaitInterval = null, this.readyWaitResolve = null, this.targetLostTimer = null, this.rebindDebounceTimer = null, this.waitingForNavigation = !1, this.settleBeforeShow = !1, this.pageSettleAbort = null, this.lastChoiceField = null, this.lastCompletedField = null;
+    this.overlay = t, this.timeout = e, this.autoAdvanceOnInput = s, this.autoAdvanceDelay = n, this.autoSkipMissing = r, this.autoSkipMissingDelay = o, this.autoSkipIdleMissTimeout = Math.max(300, Number(a) || 2e3), this.stableWaitTimeout = l, this.targetWaitTimeout = Math.max(1e3, Number(c) || 2e4), this.targetRetryInterval = Math.max(50, Number(d) || 250), this.targetReadyHits = Math.max(1, Number(u) || 2), this.stepDelay = h, this.autoScroll = p !== !1, this.pageSettleAfterClick = g !== !1, this.pageSettleTimeout = Math.max(0, Number(f) || 2e4), this.pageSettleAppearGraceMs = Math.max(0, Number(m) || 0), this.postReadyDelay = Math.max(0, Number(y) || 0), this.ui = be(S || {}), this.onChange = w, this.onFail = _, this.onComplete = x, this.onClickAdvance = b, this.steps = [], this.index = 0, this.active = !1, this.token = 0, this.waitCleanup = null, this.autoSkipTimer = null, this.navWaitTimer = null, this.readyWaitInterval = null, this.readyWaitResolve = null, this.targetLostTimer = null, this.rebindDebounceTimer = null, this.waitingForNavigation = !1, this.settleBeforeShow = !1, this.pageSettleAbort = null, this.lastChoiceField = null, this.lastCompletedField = null;
   }
   setUiOptions(t) {
-    this.ui = ye(t || {});
+    this.ui = be(t || {});
   }
   setOptions(t = {}) {
-    t.autoAdvanceDelay != null && (this.autoAdvanceDelay = Number(t.autoAdvanceDelay) || 0), t.stepDelay != null && (this.stepDelay = Number(t.stepDelay) || 0), t.autoScroll != null && (this.autoScroll = !!t.autoScroll), t.timeout != null && (this.timeout = Number(t.timeout) || this.timeout), t.stableWaitTimeout != null && (this.stableWaitTimeout = Number(t.stableWaitTimeout) || this.stableWaitTimeout), t.targetWaitTimeout != null && (this.targetWaitTimeout = Math.max(1e3, Number(t.targetWaitTimeout) || this.targetWaitTimeout)), t.targetRetryInterval != null && (this.targetRetryInterval = Math.max(50, Number(t.targetRetryInterval) || this.targetRetryInterval)), t.targetReadyHits != null && (this.targetReadyHits = Math.max(1, Number(t.targetReadyHits) || this.targetReadyHits)), t.pageSettleAfterClick != null && (this.pageSettleAfterClick = !!t.pageSettleAfterClick), t.pageSettleTimeout != null && (this.pageSettleTimeout = Math.max(0, Number(t.pageSettleTimeout) || 0)), t.pageSettleAppearGraceMs != null && (this.pageSettleAppearGraceMs = Math.max(0, Number(t.pageSettleAppearGraceMs) || 0)), t.postReadyDelay != null && (this.postReadyDelay = Math.max(0, Number(t.postReadyDelay) || 0));
+    t.autoAdvanceDelay != null && (this.autoAdvanceDelay = Number(t.autoAdvanceDelay) || 0), t.stepDelay != null && (this.stepDelay = Number(t.stepDelay) || 0), t.autoScroll != null && (this.autoScroll = !!t.autoScroll), t.timeout != null && (this.timeout = Number(t.timeout) || this.timeout), t.stableWaitTimeout != null && (this.stableWaitTimeout = Number(t.stableWaitTimeout) || this.stableWaitTimeout), t.targetWaitTimeout != null && (this.targetWaitTimeout = Math.max(1e3, Number(t.targetWaitTimeout) || this.targetWaitTimeout)), t.targetRetryInterval != null && (this.targetRetryInterval = Math.max(50, Number(t.targetRetryInterval) || this.targetRetryInterval)), t.targetReadyHits != null && (this.targetReadyHits = Math.max(1, Number(t.targetReadyHits) || this.targetReadyHits)), t.pageSettleAfterClick != null && (this.pageSettleAfterClick = !!t.pageSettleAfterClick), t.pageSettleTimeout != null && (this.pageSettleTimeout = Math.max(0, Number(t.pageSettleTimeout) || 0)), t.pageSettleAppearGraceMs != null && (this.pageSettleAppearGraceMs = Math.max(0, Number(t.pageSettleAppearGraceMs) || 0)), t.postReadyDelay != null && (this.postReadyDelay = Math.max(0, Number(t.postReadyDelay) || 0)), t.autoSkipMissing != null && (this.autoSkipMissing = !!t.autoSkipMissing), t.autoSkipMissingDelay != null && (this.autoSkipMissingDelay = Math.max(0, Number(t.autoSkipMissingDelay) || 0)), t.autoSkipIdleMissTimeout != null && (this.autoSkipIdleMissTimeout = Math.max(300, Number(t.autoSkipIdleMissTimeout) || 2e3));
   }
   abortPageSettle() {
     if (this.pageSettleAbort) {
@@ -3619,23 +3722,33 @@ class _n {
     this.abortPageSettle();
     const e = typeof AbortController < "u" ? new AbortController() : null;
     this.pageSettleAbort = e;
-    const s = await $s({
+    const s = await Ws({
       timeout: Math.max(this.timeout, this.pageSettleTimeout, this.targetWaitTimeout),
       appearGraceMs: this.pageSettleAppearGraceMs,
       postReadyDelay: this.postReadyDelay,
       signal: e == null ? void 0 : e.signal,
-      isLoading: qi,
+      isLoading: ii,
       onTick: null
     });
     return this.pageSettleAbort === e && (this.pageSettleAbort = null), !this.active || t !== this.token ? !1 : s;
   }
   resolveStepField(t) {
     if (!(t != null && t.selector) && !(t != null && t.match) && !(t != null && t.title)) return null;
-    const e = Pe(t, { requirePresent: !1 });
-    return e ? gt(e) || e : null;
+    const e = Kt(t, { requirePresent: !1 });
+    return e ? ft(e) || e : null;
   }
   findStepTarget(t) {
-    return Pe(t, { requirePresent: !0 });
+    return Kt(t, { requirePresent: !0 });
+  }
+  /** Soft resolve — may return a node that still has skeleton / aria-busy. */
+  findStepTargetCandidate(t) {
+    return Kt(t, { requirePresent: !1 });
+  }
+  /** True when page loaders are up, or the step's candidate is still skeleton/busy. */
+  isWaitingOnTargetLoad(t) {
+    if (ii()) return !0;
+    const e = this.findStepTargetCandidate(t);
+    return !!(e && Zi(e));
   }
   clearReadyWait(t = null) {
     var s, n;
@@ -3644,53 +3757,62 @@ class _n {
     this.readyWaitResolve = null, e && e(t), (n = (s = this.overlay).hideWaiting) == null || n.call(s);
   }
   /**
-   * Poll until the step target exists in the DOM (SPA/page load safe).
-   * Owns a single interval — always cleared via clearReadyWait / clearWait / stop.
+   * Poll until the step target is present and ready (SPA/page load safe).
+   * - Ready match → resolve element
+   * - Skeleton / page loading → wait up to hard cap (do not fast-skip)
+   * - Idle + auto-skip on → short idle-miss timeout, then null (auto-skip)
+   * - Idle + auto-skip off → full targetWaitTimeout, then null (TARGET MISSING)
    */
   waitUntilTargetReady(t, e) {
     this.clearReadyWait(null);
     const s = this.findStepTarget(t);
     if (s) return Promise.resolve(s);
-    const n = Date.now(), r = Math.max(this.timeout, this.targetWaitTimeout);
-    let o = 0, a = 0, l = null, c = null;
-    return new Promise((d) => {
-      this.readyWaitResolve = d;
-      const u = (p) => {
-        this.readyWaitResolve === d && this.clearReadyWait(p);
-      }, h = () => {
-        var m, b, w, S;
+    const n = Date.now(), r = Math.max(this.timeout, this.targetWaitTimeout), o = r + Math.max(0, Number(this.pageSettleTimeout) || 0), a = Math.max(0, Number(this.pageSettleAppearGraceMs) || 0), c = this.shouldAutoSkipMissing(t) ? Math.min(r, Math.max(300, Number(this.autoSkipIdleMissTimeout) || 2e3)) : r;
+    let d = 0, u = 0, h = null, p = null, g = null;
+    return new Promise((f) => {
+      this.readyWaitResolve = f;
+      const m = (S) => {
+        this.readyWaitResolve === f && this.clearReadyWait(S);
+      }, y = () => {
+        var T, L, B, j;
         if (!this.active || e !== this.token) {
-          u(null);
+          m(null);
           return;
         }
-        o += 1;
-        const p = this.findStepTarget(t);
-        if (p) {
-          if (a = p === l ? a + 1 : 1, l = p, a >= this.targetReadyHits) {
-            u(p);
+        d += 1;
+        const S = this.findStepTarget(t);
+        if (S) {
+          if (u = S === h ? u + 1 : 1, h = S, g = null, u >= this.targetReadyHits) {
+            m(S);
             return;
           }
         } else
-          a = 0, l = null;
-        const g = Date.now() - n;
-        if (g >= r) {
-          u(p || null);
+          u = 0, h = null;
+        const w = Date.now() - n, _ = !S && this.isWaitingOnTargetLoad(t);
+        _ ? g = null : !S && w >= a ? g == null && (g = Date.now()) : g = null;
+        const x = g == null ? 0 : Date.now() - g, b = _ ? o : a + c, k = Math.max(0, Math.ceil((b - w) / 1e3));
+        if (w >= o) {
+          m(S || null);
           return;
         }
-        const f = Math.max(0, Math.ceil((r - g) / 1e3));
-        if (f !== c) {
-          c = f;
-          const k = `Waiting… ${f}s`;
+        if (!_ && !S && g != null && x >= c) {
+          m(null);
+          return;
+        }
+        const C = _ ? `loading:${k}` : `target:${k}`;
+        if (C !== p) {
+          p = C;
+          const M = _ ? `Waiting for content… ${k}s` : `Waiting… ${k}s`;
           this.onChange(t, this.index, {
             waiting: !0,
             failed: !1,
-            waitKind: "target",
-            retryCount: o,
-            message: k
-          }), (b = (m = this.overlay).showWaiting) == null || b.call(m, k, { seconds: f }), (S = (w = this.overlay).positionSkipChipFallback) == null || S.call(w);
+            waitKind: _ ? "loading" : "target",
+            retryCount: d,
+            message: M
+          }), (L = (T = this.overlay).showWaiting) == null || L.call(T, M, { seconds: k }), (j = (B = this.overlay).positionSkipChipFallback) == null || j.call(B);
         }
       };
-      h(), this.readyWaitResolve === d && (this.readyWaitInterval = setInterval(h, this.targetRetryInterval));
+      y(), this.readyWaitResolve === f && (this.readyWaitInterval = setInterval(y, this.targetRetryInterval));
     });
   }
   dedupeSteps(t) {
@@ -3723,25 +3845,49 @@ class _n {
       "then continue — or skip this step."
     ].join(" ");
   }
+  /** Per-step override wins; otherwise global player option (default true). */
+  shouldAutoSkipMissing(t) {
+    var e, s;
+    return ((e = t == null ? void 0 : t.settings) == null ? void 0 : e.autoSkipMissing) === !1 ? !1 : ((s = t == null ? void 0 : t.settings) == null ? void 0 : s.autoSkipMissing) === !0 ? !0 : this.autoSkipMissing !== !1;
+  }
+  /**
+   * After full target wait failed: briefly show skip status, then advance.
+   * Does not call onFail — intentional skip, not a hard failure.
+   */
+  scheduleAutoSkipMissing(t, e) {
+    var r, o, a, l, c, d;
+    const s = "Target not found after wait. Skipping to the next step…";
+    (o = (r = this.overlay).hideWarning) == null || o.call(r), (l = (a = this.overlay).showWaiting) == null || l.call(a, s), this.onChange(t, this.index, {
+      waiting: !1,
+      failed: !0,
+      autoSkipping: !0,
+      failKind: "missing-target",
+      message: s
+    }), (d = (c = this.overlay).positionSkipChipFallback) == null || d.call(c), clearTimeout(this.autoSkipTimer);
+    const n = Math.max(0, Number(this.autoSkipMissingDelay) || 0);
+    this.autoSkipTimer = setTimeout(() => {
+      var u, h, p, g;
+      this.autoSkipTimer = null, !(!this.active || e !== this.token) && ((h = (u = this.overlay).hideWaiting) == null || h.call(u), (g = (p = this.overlay).hideWarning) == null || g.call(p), this.next());
+    }, n);
+  }
   normalizeStepTarget(t, e) {
-    if (!e)
-      return t.action === "click" || t.action === "input" ? zt() : null;
-    if (Pt(e))
-      return gt(e) || e;
+    if (!e) return null;
+    if (It(e))
+      return ft(e) || e;
     if (t.action === "click") {
-      const s = gt(e);
-      if (s && Gt(s)) return s;
+      const s = ft(e);
+      if (s && Dt(s)) return s;
     }
     return e;
   }
   async showCurrent() {
-    var h, p, g, f, m, b, w, S, k, C, y, x, _, A, M, I, z, L, T, B, R, q, G, H, U, st, nt, ft;
+    var h, p, g, f, m, y, S, w, _, x, b, k, C, T, L, B, j, M, A, P, $, q, D, F, U, et, rt, ut;
     if (!this.active) return;
     this.clearWait();
     const t = ++this.token, e = this.steps[this.index], s = ((p = (h = this.overlay) == null ? void 0 : h.getHighlightCenter) == null ? void 0 : p.call(h)) || ((g = this.overlay) == null ? void 0 : g.lastHighlightCenter) || null;
     this.onChange(e, this.index, { waiting: !1, failed: !1 }), this.overlay.hide();
     const n = Number((f = e == null ? void 0 : e.settings) == null ? void 0 : f.delay) || 0;
-    if (n > 0 && (await new Promise((F) => setTimeout(F, n)), !this.active || t !== this.token) || this.settleBeforeShow && (this.settleBeforeShow = !1, !await this.waitForPageSettle(t) || !this.active || t !== this.token))
+    if (n > 0 && (await new Promise((H) => setTimeout(H, n)), !this.active || t !== this.token) || this.settleBeforeShow && (this.settleBeforeShow = !1, !await this.waitForPageSettle(t) || !this.active || t !== this.token))
       return;
     if (e.action === "manual" || !e.selector && !e.match) {
       this.overlay.hide();
@@ -3751,92 +3897,96 @@ class _n {
     if (!this.active || t !== this.token) return;
     let o = this.normalizeStepTarget(e, r);
     if (o) {
-      const F = !!this.lastCompletedField, j = F ? Math.min(220, this.stableWaitTimeout) : this.stableWaitTimeout;
-      o = await Fs(o, {
-        timeout: j,
-        stableFrames: F ? 2 : 4
+      const H = !!this.lastCompletedField, z = H ? Math.min(220, this.stableWaitTimeout) : this.stableWaitTimeout;
+      o = await zs(o, {
+        timeout: z,
+        stableFrames: H ? 2 : 4
       }) || o;
     }
     if (!this.active || t !== this.token) return;
-    if (o && !Et(o)) {
-      const F = await this.waitUntilTargetReady(e, t);
+    if (o && !xt(o)) {
+      const H = await this.waitUntilTargetReady(e, t);
       if (!this.active || t !== this.token) return;
-      o = this.normalizeStepTarget(e, F);
+      o = this.normalizeStepTarget(e, H);
     }
     if (!this.active || t !== this.token) return;
-    const a = !!(o && (Gt(o) || Dt(o)) || ((m = e.waitFor) == null ? void 0 : m.mode) === "interaction" || Pt(r));
-    if (a && (!o || !He(o))) {
-      const F = (D) => {
-        var Z, ct, Mt, ut;
-        if (!(D instanceof Element)) return !1;
-        if ((Z = D.matches) != null && Z.call(D, 'input[type="search"]')) return !0;
+    const a = !!(o && (Dt(o) || Ft(o)) || ((m = e.waitFor) == null ? void 0 : m.mode) === "interaction" || It(r));
+    if (r && a && (!o || !He(o))) {
+      const H = (R) => {
+        var Z, lt, Bt, Lt;
+        if (!(R instanceof Element)) return !1;
+        if ((Z = R.matches) != null && Z.call(R, 'input[type="search"]')) return !0;
         const K = [
-          (ct = D.getAttribute) == null ? void 0 : ct.call(D, "placeholder"),
-          (Mt = D.getAttribute) == null ? void 0 : Mt.call(D, "name"),
-          (ut = D.getAttribute) == null ? void 0 : ut.call(D, "aria-label"),
-          D.id,
-          D.className
+          (lt = R.getAttribute) == null ? void 0 : lt.call(R, "placeholder"),
+          (Bt = R.getAttribute) == null ? void 0 : Bt.call(R, "name"),
+          (Lt = R.getAttribute) == null ? void 0 : Lt.call(R, "aria-label"),
+          R.id,
+          R.className
         ].filter(Boolean).join(" ").toLowerCase();
         return /\bsearch\b/.test(K);
-      }, j = document.querySelector('.modal.show, [role="dialog"][aria-modal="true"], [role="dialog"].show');
-      if (j) {
-        const D = hn(j).filter((Z) => (Z.matches('select, [role="combobox"]') || Gt(Z)) && !F(Z));
-        let K = zt();
-        if (K && F(K) && (K = null), !K && this.lastChoiceField && j.contains(this.lastChoiceField)) {
-          const Z = ((w = (b = this.lastChoiceField).getBoundingClientRect) == null ? void 0 : w.call(b).top) ?? -1 / 0;
-          K = D.find((ct) => ct.getBoundingClientRect().top > Z + 4) || null;
+      }, z = document.querySelector('.modal.show, [role="dialog"][aria-modal="true"], [role="dialog"].show');
+      if (z) {
+        const R = vn(z).filter((Z) => (Z.matches('select, [role="combobox"]') || Dt(Z)) && !H(Z));
+        let K = re();
+        if (K && H(K) && (K = null), !K && this.lastChoiceField && z.contains(this.lastChoiceField)) {
+          const Z = ((S = (y = this.lastChoiceField).getBoundingClientRect) == null ? void 0 : S.call(y).top) ?? -1 / 0;
+          K = R.find((lt) => lt.getBoundingClientRect().top > Z + 4) || null;
         }
-        K || (K = D[0] || null), K && (o = K);
+        K || (K = R[0] || null), K && (o = K);
       }
     }
-    const l = pe(o) || o;
+    const l = ge(o) || o;
     if (!o && !l) {
-      this.overlay.hide();
-      const F = this.missingTargetMessage(e);
-      (k = (S = this.overlay).showWarning) == null || k.call(S, F), this.onFail(e, this.index), this.onChange(e, this.index, {
+      if (this.overlay.hide(), this.shouldAutoSkipMissing(e)) {
+        this.scheduleAutoSkipMissing(e, t);
+        return;
+      }
+      const H = this.missingTargetMessage(e);
+      (_ = (w = this.overlay).showWarning) == null || _.call(w, H), this.onFail(e, this.index), this.onChange(e, this.index, {
         waiting: !1,
         failed: !0,
         autoSkipping: !1,
         failKind: "missing-target",
-        message: F
-      }), (y = (C = this.overlay).positionSkipChipFallback) == null || y.call(C);
+        message: H
+      }), (b = (x = this.overlay).positionSkipChipFallback) == null || b.call(x);
       return;
     }
-    (_ = (x = this.overlay).hideWarning) == null || _.call(x), (M = (A = this.overlay).hideWaiting) == null || M.call(A);
+    (C = (k = this.overlay).hideWarning) == null || C.call(k), (L = (T = this.overlay).hideWaiting) == null || L.call(T);
     const c = o || l;
-    if (s && ((I = this.ui) != null && I.animatedCursor) && ((z = this.ui) != null && z.animations)) {
-      const F = (L = c.getBoundingClientRect) == null ? void 0 : L.call(c);
-      if (F && F.width >= 1 && F.height >= 1) {
-        const j = {
-          x: F.left + F.width / 2,
-          y: F.top + F.height / 2
+    if (s && ((B = this.ui) != null && B.animatedCursor) && ((j = this.ui) != null && j.animations)) {
+      const H = (M = c.getBoundingClientRect) == null ? void 0 : M.call(c);
+      if (H && H.width >= 1 && H.height >= 1) {
+        const z = {
+          x: H.left + H.width / 2,
+          y: H.top + H.height / 2
         };
-        if (await ((B = (T = this.overlay).animateCursorTo) == null ? void 0 : B.call(T, s, j, this.ui.transitionMs)), !this.active || t !== this.token) return;
+        if (await ((P = (A = this.overlay).animateCursorTo) == null ? void 0 : P.call(A, s, z, this.ui.transitionMs)), !this.active || t !== this.token) return;
       }
     }
-    const d = e.action === "input" || ((R = e.waitFor) == null ? void 0 : R.type) === "input" || a || Gt(c), u = ((q = e == null ? void 0 : e.settings) == null ? void 0 : q.autoScroll) !== !1;
+    const d = e.action === "input" || (($ = e.waitFor) == null ? void 0 : $.type) === "input" || a || Dt(c), u = ((q = e == null ? void 0 : e.settings) == null ? void 0 : q.autoScroll) !== !1;
     if (this.overlay.highlight(l || c, u, {
       // Keep spotlight cutout for selects so the active field stays bright.
       blockOutside: !0,
       tip: {
         title: e.title || "",
-        description: Sn(e),
+        description: Pn(e),
         stepNumber: this.index + 1,
-        totalSteps: this.steps.length
+        totalSteps: this.steps.length,
+        showPrev: this.canGoPrev()
       }
     }), d) {
-      let F = (G = c.matches) != null && G.call(c, "input, textarea, select, .p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? c : ((H = c.querySelector) == null ? void 0 : H.call(c, "input, textarea, select, .p-dropdown, .p-multiselect")) || c;
-      const j = (U = F.closest) == null ? void 0 : U.call(F, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
-      j && (F = j);
-      const D = Number((st = e == null ? void 0 : e.settings) == null ? void 0 : st.autoAdvanceDelay), K = this.autoAdvanceDelay;
-      Number.isFinite(D) && (this.autoAdvanceDelay = D);
-      const Z = a || Gt(F) || !!j || ((nt = e.waitFor) == null ? void 0 : nt.mode) === "interaction";
-      this.watchInput(F, {
+      let H = (D = c.matches) != null && D.call(c, "input, textarea, select, .p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? c : ((F = c.querySelector) == null ? void 0 : F.call(c, "input, textarea, select, .p-dropdown, .p-multiselect")) || c;
+      const z = (U = H.closest) == null ? void 0 : U.call(H, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
+      z && (H = z);
+      const R = Number((et = e == null ? void 0 : e.settings) == null ? void 0 : et.autoAdvanceDelay), K = this.autoAdvanceDelay;
+      Number.isFinite(R) && (this.autoAdvanceDelay = R);
+      const Z = a || Dt(H) || !!z || ((rt = e.waitFor) == null ? void 0 : rt.mode) === "interaction";
+      this.watchInput(H, {
         ...e,
         waitFor: {
           type: "input",
           required: !0,
-          mode: Z ? "interaction" : ((ft = e.waitFor) == null ? void 0 : ft.mode) || "value"
+          mode: Z ? "interaction" : ((ut = e.waitFor) == null ? void 0 : ut.mode) || "value"
         }
       }, !0), this.autoAdvanceDelay = K;
       return;
@@ -3851,7 +4001,7 @@ class _n {
       const o = r.target instanceof Element ? r.target : null;
       if (!o || !(o === t || t.contains(o)) || !this.active || this.index !== s) return;
       this.overlay.hide(), this.clearWait();
-      const a = this.resolveNextIndex(s), l = wn(o, t);
+      const a = this.resolveNextIndex(s), l = Bn(o, t);
       if ((c = this.onClickAdvance) == null || c.call(this, e, s, a, { mayNavigate: l }), await this.applyHideDelay(e), !!this.active) {
         if (a >= this.steps.length) {
           this.complete();
@@ -3882,7 +4032,7 @@ class _n {
     const t = this.steps[this.index];
     if (!t) return !1;
     const e = ((n = this.overlay) == null ? void 0 : n.target) || ((r = this.overlay) == null ? void 0 : r.highlightHost);
-    if (!(e instanceof Element) || !e.isConnected || !Et(e) || !((a = (o = this.overlay) == null ? void 0 : o.root) != null && a.classList.contains("sg-overlay--visible"))) return !1;
+    if (!(e instanceof Element) || !e.isConnected || !xt(e) || !((a = (o = this.overlay) == null ? void 0 : o.root) != null && a.classList.contains("sg-overlay--visible"))) return !1;
     const s = this.findStepTarget(t);
     return s ? s === e || e.contains(s) || s.contains(e) : !1;
   }
@@ -3928,12 +4078,12 @@ class _n {
     return n;
   }
   watchInput(t, e, s = !0) {
-    var ve, Ht, Xt, mt, Rt, Jt, Ft, Yt, Ut, we, ht, vt;
-    const n = this.index, r = (ve = t == null ? void 0 : t.closest) == null ? void 0 : ve.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
+    var wt, ve, Ht, Xt, mt, Rt, Jt, Ut, Yt, Wt, we, ht;
+    const n = this.index, r = (wt = t == null ? void 0 : t.closest) == null ? void 0 : wt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
     r && (t = r);
-    const o = t instanceof HTMLSelectElement, a = Dt(t), l = !!((Ht = t == null ? void 0 : t.matches) != null && Ht.call(t, ".p-autocomplete") || (Xt = t == null ? void 0 : t.closest) != null && Xt.call(t, ".p-autocomplete")), c = !!((mt = t == null ? void 0 : t.matches) != null && mt.call(t, ".p-multiselect") || (Rt = t == null ? void 0 : t.closest) != null && Rt.call(t, ".p-multiselect")), d = !!((Jt = t == null ? void 0 : t.matches) != null && Jt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") || (Ft = t == null ? void 0 : t.closest) != null && Ft.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")), u = o || a || ((Yt = e.waitFor) == null ? void 0 : Yt.mode) === "interaction" || Gt(t) || d, h = t instanceof HTMLInputElement && ["date", "datetime-local", "time", "month", "week", "color", "range"].includes(t.type);
-    let p = !1, g = !1, f = !1, m = null, b = null, w = null, S = null;
-    const k = o || h || u || d || l ? Math.min(this.autoAdvanceDelay || 0, 50) : this.autoAdvanceDelay, C = ((Ut = t.closest) == null ? void 0 : Ut.call(t, '.modal.show, .modal, [role="dialog"], .p-overlaypanel')) || document.querySelector('.modal.show, [role="dialog"], .p-overlaypanel') || document, y = hi, x = [
+    const o = t instanceof HTMLSelectElement, a = Ft(t), l = !!((ve = t == null ? void 0 : t.matches) != null && ve.call(t, ".p-autocomplete") || (Ht = t == null ? void 0 : t.closest) != null && Ht.call(t, ".p-autocomplete")), c = !!((Xt = t == null ? void 0 : t.matches) != null && Xt.call(t, ".p-multiselect") || (mt = t == null ? void 0 : t.closest) != null && mt.call(t, ".p-multiselect")), d = !!((Rt = t == null ? void 0 : t.matches) != null && Rt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") || (Jt = t == null ? void 0 : t.closest) != null && Jt.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect")), u = o || a || ((Ut = e.waitFor) == null ? void 0 : Ut.mode) === "interaction" || Dt(t) || d, h = t instanceof HTMLInputElement && ["date", "datetime-local", "time", "month", "week", "color", "range"].includes(t.type);
+    let p = !1, g = !1, f = !1, m = null, y = null, S = null, w = null;
+    const _ = o || h || u || d || l ? Math.min(this.autoAdvanceDelay || 0, 50) : this.autoAdvanceDelay, x = ((Yt = t.closest) == null ? void 0 : Yt.call(t, '.modal.show, .modal, [role="dialog"], .p-overlaypanel')) || document.querySelector('.modal.show, [role="dialog"], .p-overlaypanel') || document, b = fi, k = [
       ".p-dropdown-item",
       ".p-multiselect-item",
       ".p-autocomplete-item",
@@ -3945,12 +4095,12 @@ class _n {
       ".n-base-select-option",
       ".vs__dropdown-option",
       ".multiselect__option"
-    ].join(", "), _ = [
+    ].join(", "), C = [
       ".p-autocomplete-panel",
       ".p-dropdown-panel",
       ".p-multiselect-panel",
       ".p-cascadeselect-panel"
-    ].join(", "), A = [
+    ].join(", "), T = [
       "select",
       '[role="combobox"]',
       "input",
@@ -3981,44 +4131,44 @@ class _n {
       ".mx-input-append",
       ".ant-picker-suffix",
       ".p-datepicker-trigger"
-    ].join(", "), M = (v) => !!(v instanceof Element && (v.matches(Fe) || Pt(v))), I = () => {
-      var ot, X, at;
+    ].join(", "), L = (v) => !!(v instanceof Element && (v.matches(Ue) || It(v))), B = () => {
+      var ot, X, st;
       if (!c || !(t instanceof Element)) return !1;
       if (t.classList.contains("p-overlay-open") || t.classList.contains("p-inputwrapper-focus") && t.querySelector('[aria-expanded="true"]') || t.getAttribute("aria-expanded") === "true" || (ot = t.querySelector) != null && ot.call(t, '[aria-expanded="true"]')) return !0;
       const v = document.querySelector(".p-multiselect-panel");
       if (!(v instanceof Element)) return !1;
       const E = (X = globalThis.getComputedStyle) == null ? void 0 : X.call(globalThis, v);
       if (E && (E.display === "none" || E.visibility === "hidden")) return !1;
-      const W = gt(v) || zt();
-      return !!(W && (W === t || t.contains(W) || (at = W.contains) != null && at.call(W, t)));
-    }, z = () => c && I(), L = () => {
+      const W = ft(v) || re();
+      return !!(W && (W === t || t.contains(W) || (st = W.contains) != null && st.call(W, t)));
+    }, j = () => c && B(), M = () => {
       var W, ot;
       const v = (W = t.matches) != null && W.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect") ? t : (ot = t.closest) == null ? void 0 : ot.call(t, ".p-dropdown, .p-multiselect, .p-autocomplete, .p-cascadeselect");
       if (!v) return "";
       const E = v.querySelector(".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
       return !E || E.classList.contains("p-placeholder") || E.classList.contains("p-dropdown-label-empty") ? "" : E instanceof HTMLInputElement ? String(E.value || "").trim() : String(E.textContent || "").trim();
-    }, T = () => {
+    }, A = () => {
       var E;
       const v = t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement ? t : ((E = t.querySelector) == null ? void 0 : E.call(t, 'input:not([type="hidden"]), textarea, select')) || t;
-      return v instanceof HTMLInputElement && ["checkbox", "radio"].includes(v.type) ? String(v.checked) : v instanceof HTMLInputElement || v instanceof HTMLTextAreaElement || v instanceof HTMLSelectElement ? String(v.value ?? "") : L();
+      return v instanceof HTMLInputElement && ["checkbox", "radio"].includes(v.type) ? String(v.checked) : v instanceof HTMLInputElement || v instanceof HTMLTextAreaElement || v instanceof HTMLSelectElement ? String(v.value ?? "") : M();
     };
-    let B = T();
-    const R = () => u ? p : t instanceof HTMLInputElement && ["checkbox", "radio"].includes(t.type) ? t.checked : d ? p || !!L() : String(T()).trim().length > 0, q = () => {
+    let P = A();
+    const $ = () => u ? p : t instanceof HTMLInputElement && ["checkbox", "radio"].includes(t.type) ? t.checked : d ? p || !!M() : String(A()).trim().length > 0, q = () => {
       this.onChange(e, n, {
-        waiting: s && !R(),
+        waiting: s && !$(),
         failed: !1,
         waitKind: u || d ? "choice" : "input"
       });
-    }, G = (v) => {
+    }, D = (v) => {
       var ot, X;
       if (!(v instanceof Element)) return;
-      const E = pe(v) || v;
+      const E = ge(v) || v;
       if (this.overlay.target === E || this.overlay.highlightHost === E || this.overlay.target === v || this.overlay.highlightHost === v) {
         (X = (ot = this.overlay).refreshMenus) == null || X.call(ot);
         return;
       }
       this.overlay.highlight(E, !1, { blockOutside: !0 });
-    }, H = !u && !d && !l, U = () => {
+    }, F = !u && !d && !l, U = () => {
       var E;
       const v = t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement ? t : (E = t.querySelector) == null ? void 0 : E.call(t, 'input:not([type="hidden"]), textarea');
       if (v instanceof HTMLElement)
@@ -4030,193 +4180,193 @@ class _n {
         document.activeElement instanceof HTMLElement && document.activeElement.blur();
       } catch {
       }
-    }, st = () => {
+    }, et = () => {
       this.active && this.index === n && this.next();
-    }, nt = (v = t) => {
+    }, rt = (v = t) => {
       var E, W;
-      !this.active || this.index !== n || p || (p = !0, B = T(), clearTimeout(m), (W = (E = this.overlay).hideGoChip) == null || W.call(E), v instanceof Element && (this.lastChoiceField = v, this.lastCompletedField = gt(v) || v), q(), U(), this.overlay.hide(), m = setTimeout(st, H ? Math.min(k, 120) : k));
-    }, ft = () => {
-      var v, E, W, ot, X, at;
-      if (H) {
+      !this.active || this.index !== n || p || (p = !0, P = A(), clearTimeout(m), (W = (E = this.overlay).hideGoChip) == null || W.call(E), v instanceof Element && (this.lastChoiceField = v, this.lastCompletedField = ft(v) || v), q(), U(), this.overlay.hide(), m = setTimeout(et, F ? Math.min(_, 120) : _));
+    }, ut = () => {
+      var v, E, W, ot, X, st;
+      if (F) {
         if (!this.active || this.index !== n || p) {
           (E = (v = this.overlay).hideGoChip) == null || E.call(v);
           return;
         }
-        R() ? (ot = (W = this.overlay).showGoChip) == null || ot.call(W, () => {
-          var Q, _t;
+        $() ? (ot = (W = this.overlay).showGoChip) == null || ot.call(W, () => {
+          var ct, pt;
           if (!(!this.active || this.index !== n || p)) {
-            if (!R()) {
-              q(), (_t = (Q = this.overlay).hideGoChip) == null || _t.call(Q);
+            if (!$()) {
+              q(), (pt = (ct = this.overlay).hideGoChip) == null || pt.call(ct);
               return;
             }
-            nt(t);
+            rt(t);
           }
-        }, "Go") : (at = (X = this.overlay).hideGoChip) == null || at.call(X);
+        }, "Go") : (st = (X = this.overlay).hideGoChip) == null || st.call(X);
       }
-    }, F = (v = t) => {
-      if (!this.active || this.index !== n || p || z()) return;
-      if (!(u || d ? !0 : R())) {
-        q(), ft();
+    }, H = (v = t) => {
+      if (!this.active || this.index !== n || p || j()) return;
+      if (!(u || d ? !0 : $())) {
+        q(), ut();
         return;
       }
-      if (H) {
-        B = T(), q(), ft();
+      if (F) {
+        P = A(), q(), ut();
         return;
       }
       if (!this.autoAdvanceOnInput) {
-        p = !0, B = T(), v instanceof Element && (this.lastChoiceField = v, this.lastCompletedField = gt(v) || v), q();
+        p = !0, P = A(), v instanceof Element && (this.lastChoiceField = v, this.lastCompletedField = ft(v) || v), q();
         return;
       }
-      nt(v);
-    }, j = (v) => {
-      var at, Q, _t, dt;
+      rt(v);
+    }, z = (v) => {
+      var st, ct, pt, at;
       if (!(v instanceof Element)) return !1;
       if (v === t || t.contains(v)) return !0;
-      const E = (at = t.querySelector) == null ? void 0 : at.call(t, "input, textarea, select");
+      const E = (st = t.querySelector) == null ? void 0 : st.call(t, "input, textarea, select");
       if (E && (v === E || E.contains(v))) return !0;
-      const W = gt(v);
-      if (W && (W === t || t.contains(W) || (Q = W.contains) != null && Q.call(W, t)))
+      const W = ft(v);
+      if (W && (W === t || t.contains(W) || (ct = W.contains) != null && ct.call(W, t)))
         return !0;
-      if (v.closest(_) && (l || d)) {
-        const yt = gt(v) || zt();
-        if (yt && (yt === t || t.contains(yt) || (_t = yt.contains) != null && _t.call(yt, t)))
+      if (v.closest(C) && (l || d)) {
+        const yt = ft(v) || re();
+        if (yt && (yt === t || t.contains(yt) || (pt = yt.contains) != null && pt.call(yt, t)))
           return !0;
-        const tt = zt();
-        return !!(tt && (tt === t || t.contains(tt)));
+        const Et = re();
+        return !!(Et && (Et === t || t.contains(Et)));
       }
-      const X = zt();
-      return !!(X && (X === t || t.contains(X) || (dt = X.contains) != null && dt.call(X, t)));
-    }, D = (v = t) => {
-      !this.active || this.index !== n || p || z() || (clearTimeout(m), m = setTimeout(() => F(v), 0));
+      const X = re();
+      return !!(X && (X === t || t.contains(X) || (at = X.contains) != null && at.call(X, t)));
+    }, R = (v = t) => {
+      !this.active || this.index !== n || p || j() || (clearTimeout(m), m = setTimeout(() => H(v), 0));
     }, K = () => {
-      !c || p || z() || (f || T() !== B) && D(t);
+      !c || p || j() || (f || A() !== P) && R(t);
     }, Z = (v) => {
       const E = v == null ? void 0 : v.target;
       if (l) {
         if (!f) return;
-        D(t);
+        R(t);
         return;
       }
       if (c) {
-        j(E instanceof Element ? E : t) && (f = !0, g = !0), K();
+        z(E instanceof Element ? E : t) && (f = !0, g = !0), K();
         return;
       }
       if (!(d && !a && !o && ((v == null ? void 0 : v.type) === "input" || (v == null ? void 0 : v.type) === "change" && !f && !g))) {
-        if (u && E instanceof Element && (C.contains(E) || !!E.closest(y) || j(E)) && (E.matches("select, input, textarea") || Gt(E) || Pt(E))) {
-          if (d && E.matches("input, textarea") && !Pt(E) && (v == null ? void 0 : v.type) === "input")
+        if (u && E instanceof Element && (x.contains(E) || !!E.closest(b) || z(E)) && (E.matches("select, input, textarea") || Dt(E) || It(E))) {
+          if (d && E.matches("input, textarea") && !It(E) && (v == null ? void 0 : v.type) === "input")
             return;
-          D(gt(E) || t);
+          R(ft(E) || t);
           return;
         }
-        u && E instanceof Element && !j(E) || !u && !d && E instanceof Element && !j(E) || D(t);
+        u && E instanceof Element && !z(E) || !u && !d && E instanceof Element && !z(E) || R(t);
       }
-    }, ct = (v) => {
-      var yt, tt, Qt, $t, re, te, Wt, qt;
+    }, lt = (v) => {
+      var yt, Et, dt, Qt, Ot, oe, te, jt;
       if (!u || p) return;
       const E = v.target instanceof Element ? v.target : null;
       if (!E) return;
-      const W = C.contains(E), X = !!E.closest(y), at = E.closest(x), Q = M(E);
+      const W = x.contains(E), X = !!E.closest(b), st = E.closest(k), ct = L(E);
       if (c && !!E.closest([
         ".p-multiselect-close",
         ".p-multiselect-remove",
         '[data-pc-section="closebutton"]',
         '[data-pc-section="clearicon"]',
         ".p-multiselect-header .p-multiselect-close"
-      ].join(", ")) && j(E)) {
+      ].join(", ")) && z(E)) {
         g = !0, setTimeout(K, 40);
         return;
       }
-      if ((at || Q) && j(E)) {
-        if (g = !0, E.matches("input, textarea") && !at && !Q) {
-          (tt = (yt = this.overlay).refreshMenus) == null || tt.call(yt);
+      if ((st || ct) && z(E)) {
+        if (g = !0, E.matches("input, textarea") && !st && !ct) {
+          (Et = (yt = this.overlay).refreshMenus) == null || Et.call(yt);
           return;
         }
-        if (l && !at) {
-          ($t = (Qt = this.overlay).refreshMenus) == null || $t.call(Qt);
+        if (l && !st) {
+          (Qt = (dt = this.overlay).refreshMenus) == null || Qt.call(dt);
           return;
         }
-        if (v.type === "pointerdown" || v.type === "pointerup" || v.type === "click" || Q) {
+        if (v.type === "pointerdown" || v.type === "pointerup" || v.type === "click" || ct) {
           if (f = !0, c) {
-            (te = (re = this.overlay).refreshMenus) == null || te.call(re);
+            (oe = (Ot = this.overlay).refreshMenus) == null || oe.call(Ot);
             return;
           }
-          D(gt(E) || zt() || t);
+          R(ft(E) || re() || t);
         }
         return;
       }
-      if (!W && !X && !Q) {
+      if (!W && !X && !ct) {
         c && g && setTimeout(K, 40);
         return;
       }
-      const dt = E.closest(A);
-      if (dt && (W || C.contains(dt)) && !X && !at && !Q) {
+      const at = E.closest(T);
+      if (at && (W || x.contains(at)) && !X && !st && !ct) {
         g = !0;
-        const Ot = gt(dt) || dt;
-        if ((j(Ot) || j(dt)) && (G(Ot), (qt = (Wt = this.overlay).refreshMenus) == null || qt.call(Wt), c && setTimeout(K, 40)), dt instanceof HTMLSelectElement && v.type === "pointerdown") {
-          const jt = () => D(Ot), ee = Date.now();
-          dt.addEventListener("change", jt, { once: !0 }), dt.addEventListener("focusout", () => {
-            Date.now() - ee < 280 || setTimeout(jt, 40);
+        const Gt = ft(at) || at;
+        if ((z(Gt) || z(at)) && (D(Gt), (jt = (te = this.overlay).refreshMenus) == null || jt.call(te), c && setTimeout(K, 40)), at instanceof HTMLSelectElement && v.type === "pointerdown") {
+          const qt = () => R(Gt), ee = Date.now();
+          at.addEventListener("change", qt, { once: !0 }), at.addEventListener("focusout", () => {
+            Date.now() - ee < 280 || setTimeout(qt, 40);
           }, { once: !0 });
         }
       }
     };
-    if (t.addEventListener("input", Z), t.addEventListener("change", Z), document.addEventListener("change", Z, !0), document.addEventListener("input", Z, !0), document.addEventListener("pointerdown", ct, !0), document.addEventListener("pointerup", ct, !0), document.addEventListener("click", ct, !0), d && typeof MutationObserver < "u") {
-      const v = (we = t.querySelector) == null ? void 0 : we.call(t, ".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
-      v && !l && (b = new MutationObserver(() => {
-        if (T() !== B) {
+    if (t.addEventListener("input", Z), t.addEventListener("change", Z), document.addEventListener("change", Z, !0), document.addEventListener("input", Z, !0), document.addEventListener("pointerdown", lt, !0), document.addEventListener("pointerup", lt, !0), document.addEventListener("click", lt, !0), d && typeof MutationObserver < "u") {
+      const v = (Wt = t.querySelector) == null ? void 0 : Wt.call(t, ".p-dropdown-label, .p-multiselect-label, .p-autocomplete-input");
+      v && !l && (y = new MutationObserver(() => {
+        if (A() !== P) {
           if (c) {
             f = !0, g = !0, K();
             return;
           }
-          D(t);
+          R(t);
         }
-      }), b.observe(v, {
+      }), y.observe(v, {
         characterData: !0,
         childList: !0,
         subtree: !0,
         attributes: !0,
         attributeFilter: ["class", "value"]
       }));
-      const E = ((ht = t.querySelector) == null ? void 0 : ht.call(t, "[aria-expanded]")) || ((vt = t.hasAttribute) != null && vt.call(t, "aria-expanded") ? t : null);
-      E && (w = new MutationObserver(() => {
+      const E = ((we = t.querySelector) == null ? void 0 : we.call(t, "[aria-expanded]")) || ((ht = t.hasAttribute) != null && ht.call(t, "aria-expanded") ? t : null);
+      E && (S = new MutationObserver(() => {
         if (!(!g || p) && E.getAttribute("aria-expanded") === "false" && !(l && !f)) {
           if (c) {
             K();
             return;
           }
-          (f || T() !== B) && D(t);
+          (f || A() !== P) && R(t);
         }
-      }), w.observe(E, { attributes: !0, attributeFilter: ["aria-expanded"] })), c && (S = new MutationObserver(() => {
+      }), S.observe(E, { attributes: !0, attributeFilter: ["aria-expanded"] })), c && (w = new MutationObserver(() => {
         K();
-      }), S.observe(t, {
+      }), w.observe(t, {
         attributes: !0,
         attributeFilter: ["class", "aria-expanded"]
       }));
     }
-    const Mt = setInterval(() => {
+    const Bt = setInterval(() => {
       if (!p) {
         if (l) {
           if (!f) return;
-          D(t);
+          R(t);
           return;
         }
         if (c) {
-          T() !== B && (f = !0, g = !0), K();
+          A() !== P && (f = !0, g = !0), K();
           return;
         }
-        if (T() !== B) {
-          B = T(), D(t);
+        if (A() !== P) {
+          P = A(), R(t);
           return;
         }
-        H && ft();
+        F && ut();
       }
-    }, 80), ut = (v) => {
-      !H || p || v.key === "Enter" && j(v.target instanceof Element ? v.target : t) && R() && (v.preventDefault(), nt(t));
+    }, 80), Lt = (v) => {
+      !F || p || v.key === "Enter" && z(v.target instanceof Element ? v.target : t) && $() && (v.preventDefault(), rt(t));
     };
     this.waitCleanup = () => {
       var v, E;
-      clearTimeout(m), clearInterval(Mt), b == null || b.disconnect(), w == null || w.disconnect(), S == null || S.disconnect(), (E = (v = this.overlay).hideGoChip) == null || E.call(v), t.removeEventListener("input", Z), t.removeEventListener("change", Z), document.removeEventListener("change", Z, !0), document.removeEventListener("input", Z, !0), document.removeEventListener("keydown", ut, !0), document.removeEventListener("pointerdown", ct, !0), document.removeEventListener("pointerup", ct, !0), document.removeEventListener("click", ct, !0);
-    }, q(), H && (document.addEventListener("keydown", ut, !0), ft());
+      clearTimeout(m), clearInterval(Bt), y == null || y.disconnect(), S == null || S.disconnect(), w == null || w.disconnect(), (E = (v = this.overlay).hideGoChip) == null || E.call(v), t.removeEventListener("input", Z), t.removeEventListener("change", Z), document.removeEventListener("change", Z, !0), document.removeEventListener("input", Z, !0), document.removeEventListener("keydown", Lt, !0), document.removeEventListener("pointerdown", lt, !0), document.removeEventListener("pointerup", lt, !0), document.removeEventListener("click", lt, !0);
+    }, q(), F && (document.addEventListener("keydown", Lt, !0), ut());
   }
   async applyHideDelay(t) {
     var s;
@@ -4234,8 +4384,11 @@ class _n {
       this.index = e, this.waitingForNavigation = !1, clearTimeout(this.navWaitTimer), this.showCurrent();
     }
   }
+  canGoPrev() {
+    return Nn(this.steps, this.index);
+  }
   prev() {
-    !this.active || this.index <= 0 || (this.index -= 1, this.waitingForNavigation = !1, clearTimeout(this.navWaitTimer), this.showCurrent());
+    !this.active || !this.canGoPrev() || (this.index -= 1, this.waitingForNavigation = !1, clearTimeout(this.navWaitTimer), this.showCurrent());
   }
   skip() {
     this.next();
@@ -4265,22 +4418,22 @@ function Y(i) {
   const e = t.split("?")[0].split("#")[0] || "/";
   return e.startsWith("/") ? e : `/${e}`;
 }
-function kn(i) {
+function $n(i) {
   return Y(i).split("/").map((t) => t.trim()).filter(Boolean);
 }
-function Cn(i) {
+function Rn(i) {
   return String(i || "root").replace(/[-_]+/g, " ").replace(/\b\w/g, (t) => t.toUpperCase());
 }
-function xn(i = []) {
+function On(i = []) {
   const t = { path: "/", label: "Home", guides: [], children: /* @__PURE__ */ new Map() }, e = (n, r, o) => (n.children.has(r) || n.children.set(r, {
     path: o,
-    label: Cn(r),
+    label: Rn(r),
     guides: [],
     children: /* @__PURE__ */ new Map()
   }), n.children.get(r));
   for (const n of i) {
     if (!n || typeof n != "object") continue;
-    const r = Y(n.url || "/"), o = kn(r);
+    const r = Y(n.url || "/"), o = $n(r);
     if (!o.length) {
       t.guides.push(n);
       continue;
@@ -4298,10 +4451,10 @@ function xn(i = []) {
   });
   return [s(t)].filter((n) => n.guides.length > 0 || n.children.length > 0);
 }
-function ts(i, t = 0, e = []) {
+function as(i, t = 0, e = []) {
   for (const s of i || []) {
     const n = [];
-    ts(s.children, t + 1, n);
+    as(s.children, t + 1, n);
     const r = s.guides || [];
     if (r.length) {
       e.push({ type: "section", depth: t, path: s.path, label: s.label });
@@ -4312,26 +4465,26 @@ function ts(i, t = 0, e = []) {
   }
   return e;
 }
-const En = `
+const Gn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <rect x="4" y="4" width="7" height="7" rx="1.8" fill="currentColor"/>
   <rect x="13" y="4" width="7" height="7" rx="1.8" fill="currentColor"/>
   <rect x="4" y="13" width="7" height="7" rx="1.8" fill="currentColor"/>
   <rect x="13" y="13" width="7" height="7" rx="1.8" fill="currentColor"/>
-</svg>`, Tn = `
+</svg>`, Dn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/>
   <circle cx="12" cy="12" r="5" fill="currentColor"/>
-</svg>`, An = `
+</svg>`, Fn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/>
   <path d="M10.2 8.4L16.2 12L10.2 15.6V8.4Z" fill="currentColor"/>
-</svg>`, Nn = `
+</svg>`, Hn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/>
   <rect x="8.5" y="8.5" width="7" height="7" rx="1.2" fill="currentColor"/>
 </svg>`;
-function es(i = "sg") {
+function ls(i = "sg") {
   return `
 <svg class="sg-siri" viewBox="0 0 80 80" aria-hidden="true" focusable="false">
   <defs>
@@ -4401,34 +4554,34 @@ function es(i = "sg") {
   <ellipse cx="34" cy="19" rx="15" ry="5" fill="#ffffff" opacity="0.12" transform="rotate(-12 34 19)"/>
 </svg>`;
 }
-const Ln = es("sgA"), Mn = es("sgB"), Bn = `
+const Un = ls("sgA"), Wn = ls("sgB"), jn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M9 3.75h6M5.25 6.75h13.5M8.25 6.75V18a1.5 1.5 0 0 0 1.5 1.5h4.5a1.5 1.5 0 0 0 1.5-1.5V6.75" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M10.5 10.5v6M13.5 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-</svg>`, Pn = `
+</svg>`, qn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15.5H7.5A2.5 2.5 0 0 0 5 21V5.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
   <path d="M5 18.5A2.5 2.5 0 0 1 7.5 16H19" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-</svg>`, In = `
+</svg>`, Vn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M12 8.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Z" fill="none" stroke="currentColor" stroke-width="1.7"/>
   <path d="M19.4 13a7.7 7.7 0 0 0 .05-2l1.7-1.33-1.7-2.94-2.05.5a7.8 7.8 0 0 0-1.73-1L15.4 4h-3.4l-.27 2.23a7.8 7.8 0 0 0-1.73 1l-2.05-.5-1.7 2.94L8.55 11a7.7 7.7 0 0 0 0 2l-1.7 1.33 1.7 2.94 2.05-.5a7.8 7.8 0 0 0 1.73 1L12 20h3.4l.27-2.23a7.8 7.8 0 0 0 1.73-1l2.05.5 1.7-2.94L19.4 13Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-</svg>`, Rn = `
+</svg>`, Kn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <rect x="8" y="8" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/>
   <path d="M6 14.5V6.5A1.5 1.5 0 0 1 7.5 5H15.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-</svg>`, $n = `
+</svg>`, zn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M9 6.5 16 12 9 17.5V6.5Z" fill="currentColor"/>
-</svg>`, Ri = `
+</svg>`, Di = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M12 3c.6 3.4 2.3 5.1 5.7 5.7-3.4.6-5.1 2.3-5.7 5.7-.6-3.4-2.3-5.1-5.7-5.7C9.7 8.1 11.4 6.4 12 3Z" fill="currentColor"/>
   <path d="M18.5 14.5c.25 1.3.9 1.95 2.2 2.2-1.3.25-1.95.9-2.2 2.2-.25-1.3-.9-1.95-2.2-2.2 1.3-.25 1.95-.9 2.2-2.2Z" fill="currentColor"/>
-</svg>`, On = `
+</svg>`, Zn = `
 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
-class Gn {
+class Xn {
   constructor({
     zIndex: t,
     onOpenPanel: e,
@@ -4445,7 +4598,7 @@ class Gn {
       position: "bottom-right",
       animations: !0
     }, this.root = document.createElement("div"), this.root.className = "sg-launcher is-hidden", this.root.hidden = !0, this.root.style.zIndex = String(t + 5), this.root.setAttribute("aria-label", "System Guider actions"), this.root.setAttribute("aria-hidden", "true"), this.optionsRoot = document.createElement("section"), this.optionsRoot.className = "sg-guide-picker", this.optionsRoot.hidden = !0, this.optionsRoot.setAttribute("aria-label", "All guides"), this.trigger = document.createElement("button"), this.trigger.type = "button", this.trigger.className = "sg-launcher__trigger", this.trigger.dataset.action = "toggle-menu", this.trigger.setAttribute("aria-label", "Show System Guider toolbar"), this.trigger.setAttribute("aria-expanded", "false"), this.trigger.title = "Show toolbar", this.trigger.innerHTML = `
-      <span class="sg-launcher__avatar">${Ln}</span>
+      <span class="sg-launcher__avatar">${Un}</span>
     `, this.menu = this.createMenu(), this.recordButton = this.menu.querySelector('[data-action="start-recording"]'), this.panelButton = this.menu.querySelector('[data-action="open-panel"]'), this.playButton = this.menu.querySelector('[data-action="play-page"]'), this.playTitle = this.playButton.querySelector(".sg-launcher__tile-title"), this.root.append(this.optionsRoot, this.menu, this.trigger), this.bindOrbHover([this.trigger, this.orb].filter(Boolean)), this.applyControlsDisabled(), this.setMenuOpen(!1), this.onKeyDown = this.onKeyDown.bind(this), this.root.addEventListener("click", (d) => this.handleClick(d)), document.addEventListener("keydown", this.onKeyDown), document.body.append(this.root), this.setLauncherSettings(this.launcherSettings);
   }
   createMenu() {
@@ -4481,36 +4634,36 @@ class Gn {
       variant: "record",
       title: "Record",
       subtitle: "Create a guide",
-      icon: Tn,
+      icon: Dn,
       shortcut: "R"
     }), o = this.createTile({
       action: "open-panel",
       variant: "panel",
       title: "Panel",
       subtitle: "Guide controls",
-      icon: En,
+      icon: Gn,
       shortcut: "P"
     }), a = this.createTile({
       action: "play-page",
       variant: "play",
       title: "Play guides",
       subtitle: "Start a tutorial",
-      icon: An
+      icon: Fn
     });
     this.stopButton = this.createTile({
       action: "stop-tutorial",
       variant: "stop",
       title: "Stop",
       subtitle: "End tutorial",
-      icon: Nn
+      icon: Hn
     }), this.stopButton.hidden = !0, s.append(a, r, o, this.stopButton), this.petalGroup = s;
     const l = document.createElement("button");
     l.type = "button", l.className = "sg-launcher__orb", l.dataset.action = "toggle-menu", l.setAttribute("aria-label", "Hide System Guider toolbar"), l.title = "Close", l.innerHTML = `
-      <span class="sg-launcher__avatar">${Mn}</span>
+      <span class="sg-launcher__avatar">${Wn}</span>
     `, this.orb = l, e.append(n, s, l);
     const c = document.createElement("form");
     c.className = "sg-launcher__search", c.setAttribute("role", "search"), c.innerHTML = `
-      <span class="sg-launcher__search-spark">${Ri}</span>
+      <span class="sg-launcher__search-spark">${Di}</span>
       <input
         type="text"
         class="sg-launcher__search-input"
@@ -4519,7 +4672,7 @@ class Gn {
         spellcheck="false"
         aria-label="Search guides"
       />
-      <button type="submit" class="sg-launcher__search-go" aria-label="Search">${On}</button>
+      <button type="submit" class="sg-launcher__search-go" aria-label="Search">${Zn}</button>
     `, this.searchInput = c.querySelector(".sg-launcher__search-input"), this.searchInput.addEventListener("input", () => this.renderSearchResults()), c.addEventListener("submit", (u) => {
       u.preventDefault(), this.submitSearch();
     }), this.searchResults = document.createElement("div"), this.searchResults.className = "sg-launcher__results", this.searchResults.hidden = !0, this.accountLabel = document.createElement("span"), this.accountLabel.className = "sg-launcher__account", this.accountLabel.hidden = !0;
@@ -4608,7 +4761,7 @@ class Gn {
       r.type = "button", r.className = "sg-launcher__result", r.dataset.action = "search-select", r.dataset.guideId = n.id;
       const o = Array.isArray(n.steps) ? n.steps.length : 0, a = String(n.title || "Untitled guide").trim(), l = a.split(" · "), c = (l[0] || "Untitled guide").trim(), d = l.slice(1).join(" · ").trim(), h = /^\d+\s+steps?$/i.test(c) ? d || "Untitled guide" : a;
       r.innerHTML = `
-        <span class="sg-launcher__result-spark">${Ri}</span>
+        <span class="sg-launcher__result-spark">${Di}</span>
         <span class="sg-launcher__result-copy">
           <span class="sg-launcher__result-title"></span>
           <span class="sg-launcher__result-meta"></span>
@@ -4656,7 +4809,7 @@ class Gn {
         return;
       }
       if (e === "search-select") {
-        const f = (l = t.target.closest("[data-guide-id]")) == null ? void 0 : l.dataset.guideId, m = (c = this.searchGuides) == null ? void 0 : c.find((b) => b.id === f);
+        const f = (l = t.target.closest("[data-guide-id]")) == null ? void 0 : l.dataset.guideId, m = (c = this.searchGuides) == null ? void 0 : c.find((y) => y.id === f);
         m && this.selectSearchGuide(m);
         return;
       }
@@ -4665,10 +4818,10 @@ class Gn {
         this.hideGuideOptions(), (d = this.onOpenManage) == null || d.call(this);
       }
       if (e === "select-guide") {
-        const f = (u = t.target.closest("[data-guide-id]")) == null ? void 0 : u.dataset.guideId, m = (h = this.guides) == null ? void 0 : h.find((b) => b.id === f);
+        const f = (u = t.target.closest("[data-guide-id]")) == null ? void 0 : u.dataset.guideId, m = (h = this.guides) == null ? void 0 : h.find((y) => y.id === f);
         if (m) {
-          const b = this.onSelectGuide;
-          this.hideGuideOptions(), b == null || b(m);
+          const y = this.onSelectGuide;
+          this.hideGuideOptions(), y == null || y(m);
         }
       }
       if (e === "delete-guide") {
@@ -4788,7 +4941,7 @@ class Gn {
     const o = document.createElement("div");
     o.className = "sg-guide-picker__brand";
     const a = document.createElement("span");
-    a.className = "sg-guide-picker__brand-icon", a.setAttribute("aria-hidden", "true"), a.innerHTML = Pn;
+    a.className = "sg-guide-picker__brand-icon", a.setAttribute("aria-hidden", "true"), a.innerHTML = qn;
     const l = document.createElement("div");
     l.className = "sg-guide-picker__brand-copy";
     const c = document.createElement("strong");
@@ -4798,39 +4951,39 @@ class Gn {
     const u = document.createElement("div");
     u.className = "sg-guide-picker__actions";
     const h = document.createElement("button");
-    h.type = "button", h.className = "sg-guide-picker__manage", h.dataset.action = "open-manage", h.innerHTML = `<span class="sg-guide-picker__manage-icon">${In}</span><span>Manage</span>`, h.hidden = this.readOnly, this.manageButton = h;
+    h.type = "button", h.className = "sg-guide-picker__manage", h.dataset.action = "open-manage", h.innerHTML = `<span class="sg-guide-picker__manage-icon">${Vn}</span><span>Manage</span>`, h.hidden = this.readOnly, this.manageButton = h;
     const p = document.createElement("button");
     p.type = "button", p.className = "sg-guide-picker__close", p.dataset.action = "close-picker", p.setAttribute("aria-label", "Close guide options"), p.textContent = "×", u.append(h, p), r.append(o, u);
     const g = document.createElement("div");
     if (g.className = "sg-guide-picker__list", t.length)
       if (s) {
-        const f = ts(xn(t));
+        const f = as(On(t));
         let m = 0;
-        f.forEach((b) => {
-          if (b.type === "section") {
-            const w = document.createElement("div");
-            w.className = "sg-guide-picker__section", w.style.setProperty("--sg-toc-depth", String(b.depth));
-            const S = Y(n), k = Y(b.path);
-            (S === k || k !== "/" && S.startsWith(`${k}/`)) && w.classList.add("is-current");
-            const C = document.createElement("span");
-            C.className = "sg-guide-picker__section-label", C.textContent = b.label;
-            const y = document.createElement("span");
-            y.className = "sg-guide-picker__section-meta";
+        f.forEach((y) => {
+          if (y.type === "section") {
+            const S = document.createElement("div");
+            S.className = "sg-guide-picker__section", S.style.setProperty("--sg-toc-depth", String(y.depth));
+            const w = Y(n), _ = Y(y.path);
+            (w === _ || _ !== "/" && w.startsWith(`${_}/`)) && S.classList.add("is-current");
             const x = document.createElement("span");
-            x.className = "sg-guide-picker__section-path", x.textContent = b.path;
-            const _ = document.createElement("button");
-            _.type = "button", _.className = "sg-guide-picker__copy-path", _.title = "Copy path", _.setAttribute("aria-label", `Copy ${b.path}`), _.innerHTML = Rn, _.addEventListener("click", async (A) => {
-              var M, I;
-              A.preventDefault(), A.stopPropagation();
+            x.className = "sg-guide-picker__section-label", x.textContent = y.label;
+            const b = document.createElement("span");
+            b.className = "sg-guide-picker__section-meta";
+            const k = document.createElement("span");
+            k.className = "sg-guide-picker__section-path", k.textContent = y.path;
+            const C = document.createElement("button");
+            C.type = "button", C.className = "sg-guide-picker__copy-path", C.title = "Copy path", C.setAttribute("aria-label", `Copy ${y.path}`), C.innerHTML = Kn, C.addEventListener("click", async (T) => {
+              var L, B;
+              T.preventDefault(), T.stopPropagation();
               try {
-                await ((I = (M = navigator.clipboard) == null ? void 0 : M.writeText) == null ? void 0 : I.call(M, b.path)), _.classList.add("is-copied"), setTimeout(() => _.classList.remove("is-copied"), 900);
+                await ((B = (L = navigator.clipboard) == null ? void 0 : L.writeText) == null ? void 0 : B.call(L, y.path)), C.classList.add("is-copied"), setTimeout(() => C.classList.remove("is-copied"), 900);
               } catch {
               }
-            }), y.append(x, _), w.append(C, y), g.append(w);
+            }), b.append(k, C), S.append(x, b), g.append(S);
             return;
           }
-          m += 1, g.append(this.createGuideRow(b.guide, m, {
-            depth: b.depth,
+          m += 1, g.append(this.createGuideRow(y.guide, m, {
+            depth: y.depth,
             currentUrl: n
           }));
         });
@@ -4857,16 +5010,16 @@ class Gn {
     c.className = "sg-guide-picker__copy";
     const d = document.createElement("strong"), u = String(t.title || "Untitled guide").trim(), h = u.split(" · "), p = (h[0] || "Untitled guide").trim(), g = h.slice(1).join(" · ").trim(), f = /^\d+\s+steps?$/i.test(p);
     d.textContent = f ? g || "Untitled guide" : u;
-    const m = document.createElement("small"), b = Array.isArray(t.steps) ? t.steps.length : Number(t.steps) || 0, w = document.createElement("span");
-    w.className = "sg-guide-picker__path", w.textContent = o;
-    const S = document.createElement("span");
-    S.className = "sg-guide-picker__dot", S.textContent = "·";
-    const k = document.createElement("span");
-    k.textContent = `${b} step${b === 1 ? "" : "s"}`, m.append(w, S, k), c.append(d, m);
-    const C = document.createElement("span");
-    C.className = "sg-guide-picker__play", C.setAttribute("aria-hidden", "true"), C.innerHTML = $n, a.append(l, c, C);
-    const y = document.createElement("button");
-    return y.type = "button", y.className = "sg-guide-picker__delete", y.dataset.action = "delete-guide", y.dataset.guideId = t.id, y.setAttribute("aria-label", `Delete ${t.title || "guide"}`), y.title = "Delete guide", y.innerHTML = Bn, this.readOnly && (y.hidden = !0), r.append(a, y), r;
+    const m = document.createElement("small"), y = Array.isArray(t.steps) ? t.steps.length : Number(t.steps) || 0, S = document.createElement("span");
+    S.className = "sg-guide-picker__path", S.textContent = o;
+    const w = document.createElement("span");
+    w.className = "sg-guide-picker__dot", w.textContent = "·";
+    const _ = document.createElement("span");
+    _.textContent = `${y} step${y === 1 ? "" : "s"}`, m.append(S, w, _), c.append(d, m);
+    const x = document.createElement("span");
+    x.className = "sg-guide-picker__play", x.setAttribute("aria-hidden", "true"), x.innerHTML = zn, a.append(l, c, x);
+    const b = document.createElement("button");
+    return b.type = "button", b.className = "sg-guide-picker__delete", b.dataset.action = "delete-guide", b.dataset.guideId = t.id, b.setAttribute("aria-label", `Delete ${t.title || "guide"}`), b.title = "Delete guide", b.innerHTML = jn, this.readOnly && (b.hidden = !0), r.append(a, b), r;
   }
   hideGuideOptions() {
     this.optionsRoot.hidden = !0, this.optionsRoot.replaceChildren(), this.guides = null, this.onSelectGuide = null, this.syncClosedRail();
@@ -4881,8 +5034,8 @@ class Gn {
     this.hideGuideOptions(), document.removeEventListener("keydown", this.onKeyDown), this.root.remove();
   }
 }
-const Dn = (i) => JSON.parse(JSON.stringify(i));
-function xt(i) {
+const Jn = (i) => JSON.parse(JSON.stringify(i));
+function Ct(i) {
   if (!i || typeof i != "object" || !Array.isArray(i.steps))
     throw new TypeError("Guide must be an object with a steps array.");
   const t = /* @__PURE__ */ new Set();
@@ -4898,7 +5051,7 @@ function xt(i) {
       throw new TypeError(`Step ${s + 1} requires a selector or match hints.`);
     if (e.match != null && (typeof e.match != "object" || Array.isArray(e.match)))
       throw new TypeError(`Step ${s + 1} match must be an object.`);
-  }), Dn({
+  }), Jn({
     id: String(i.id || `guide-${Date.now()}`),
     title: String(i.title || "Untitled guide"),
     version: Number(i.version) || 1,
@@ -4907,7 +5060,7 @@ function xt(i) {
     steps: i.steps
   });
 }
-function $i(i) {
+function Fi(i) {
   const t = typeof i == "string" ? JSON.parse(i) : i;
   let e = [];
   if (Array.isArray(t))
@@ -4921,7 +5074,7 @@ function $i(i) {
   const s = [], n = [];
   if (e.forEach((r, o) => {
     try {
-      s.push(xt(r));
+      s.push(Ct(r));
     } catch (a) {
       n.push(`Guide ${o + 1}: ${a.message}`);
     }
@@ -4929,43 +5082,43 @@ function $i(i) {
     throw new TypeError(n[0] || "No valid guides found in the file.");
   return { guides: s, errors: n };
 }
-function Ue(i) {
-  return JSON.stringify(xt(i), null, 2);
+function We(i) {
+  return JSON.stringify(Ct(i), null, 2);
 }
-function Hn(i) {
-  const t = (Array.isArray(i) ? i : []).map((e) => xt(e));
+function Yn(i) {
+  const t = (Array.isArray(i) ? i : []).map((e) => Ct(e));
   return JSON.stringify({
     version: 1,
     exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
     guides: t
   }, null, 2);
 }
-function Fn(i, t) {
-  !i || typeof localStorage > "u" || localStorage.setItem(i, Ue(t));
+function Qn(i, t) {
+  !i || typeof localStorage > "u" || localStorage.setItem(i, We(t));
 }
-function Un(i) {
+function tr(i) {
   if (!i || typeof localStorage > "u") return null;
   const t = localStorage.getItem(i);
-  return t ? xt(JSON.parse(t)) : null;
+  return t ? Ct(JSON.parse(t)) : null;
 }
-function is(i, t, e = "application/json") {
+function cs(i, t, e = "application/json") {
   const s = new Blob([i], { type: e }), n = URL.createObjectURL(s), r = document.createElement("a");
   r.href = n, r.download = t, r.click(), URL.revokeObjectURL(n);
 }
-function Wn(i, t = "system-guide.json") {
-  is(Ue(i), t);
+function er(i, t = "system-guide.json") {
+  cs(We(i), t);
 }
-function qn(i, t = "system-guider-guides.json") {
-  is(Hn(i), t);
+function ir(i, t = "system-guider-guides.json") {
+  cs(Yn(i), t);
 }
-async function jn(i) {
+async function sr(i) {
   var e;
-  const t = Ue(i);
+  const t = We(i);
   if (!((e = navigator.clipboard) != null && e.writeText))
     throw new Error("Clipboard API is unavailable in this browser.");
   return await navigator.clipboard.writeText(t), t;
 }
-function Vn(i = ((e) => (e = globalThis.location) == null ? void 0 : e.href)(), t = "pathname") {
+function nr(i = ((e) => (e = globalThis.location) == null ? void 0 : e.href)(), t = "pathname") {
   var s;
   try {
     const n = new URL(i, ((s = globalThis.location) == null ? void 0 : s.origin) || "http://localhost");
@@ -4974,53 +5127,53 @@ function Vn(i = ((e) => (e = globalThis.location) == null ? void 0 : e.href)(), 
     return "/";
   }
 }
-function zn(i = "pathname") {
+function rr(i = "pathname") {
   var t;
-  return Vn((t = globalThis.location) == null ? void 0 : t.href, i);
+  return nr((t = globalThis.location) == null ? void 0 : t.href, i);
 }
-function ss(i) {
+function ds(i) {
   return `${i || "system-guider"}:by-url`;
 }
-function pi(i) {
+function mi(i) {
   if (typeof localStorage > "u") return {};
   try {
-    const t = localStorage.getItem(ss(i)), e = t ? JSON.parse(t) : {};
+    const t = localStorage.getItem(ds(i)), e = t ? JSON.parse(t) : {};
     return e && typeof e == "object" ? e : {};
   } catch {
     return {};
   }
 }
-function ns(i, t) {
-  typeof localStorage > "u" || localStorage.setItem(ss(i), JSON.stringify(t));
+function us(i, t) {
+  typeof localStorage > "u" || localStorage.setItem(ds(i), JSON.stringify(t));
 }
-function gi(i) {
+function yi(i) {
   return Array.isArray(i) ? i.filter(Boolean) : i ? [i] : [];
 }
-function Te(i, t, e) {
-  const s = pi(i), n = gi(s[t]), r = n.findIndex((o) => (o == null ? void 0 : o.id) === e.id);
-  return r >= 0 ? n[r] = e : n.push(e), s[t] = n, ns(i, s), n;
+function Me(i, t, e) {
+  const s = mi(i), n = yi(s[t]), r = n.findIndex((o) => (o == null ? void 0 : o.id) === e.id);
+  return r >= 0 ? n[r] = e : n.push(e), s[t] = n, us(i, s), n;
 }
-function Kn(i) {
-  const t = pi(i), e = [];
+function or(i) {
+  const t = mi(i), e = [];
   return Object.entries(t).forEach(([s, n]) => {
-    gi(n).forEach((r) => {
+    yi(n).forEach((r) => {
       e.push({ ...r, url: (r == null ? void 0 : r.url) || s });
     });
   }), e;
 }
-function Zn(i, t, e) {
-  const s = pi(i), n = gi(s[t]).filter((r) => (r == null ? void 0 : r.id) !== e);
-  return n.length ? s[t] = n : delete s[t], ns(i, s), n;
+function ar(i, t, e) {
+  const s = mi(i), n = yi(s[t]).filter((r) => (r == null ? void 0 : r.id) !== e);
+  return n.length ? s[t] = n : delete s[t], us(i, s), n;
 }
-function fi(i) {
+function bi(i) {
   return `${i || "system-guider"}:pending-play`;
 }
-function Ae(i, t) {
-  typeof sessionStorage > "u" || sessionStorage.setItem(fi(i), JSON.stringify(t));
+function Le(i, t) {
+  typeof sessionStorage > "u" || sessionStorage.setItem(bi(i), JSON.stringify(t));
 }
-function Xn(i) {
+function lr(i) {
   if (typeof sessionStorage > "u") return null;
-  const t = fi(i), e = sessionStorage.getItem(t);
+  const t = bi(i), e = sessionStorage.getItem(t);
   if (sessionStorage.removeItem(t), !e) return null;
   try {
     return JSON.parse(e);
@@ -5028,23 +5181,23 @@ function Xn(i) {
     return null;
   }
 }
-function de(i) {
-  typeof sessionStorage > "u" || sessionStorage.removeItem(fi(i));
+function ue(i) {
+  typeof sessionStorage > "u" || sessionStorage.removeItem(bi(i));
 }
-function rs(i) {
+function hs(i) {
   return String(i || "").trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "untitled";
 }
-function Jn(i) {
-  const t = String(i || "/").split(/[\\/]+/).map((e) => e.trim()).filter(Boolean).map(rs);
+function cr(i) {
+  const t = String(i || "/").split(/[\\/]+/).map((e) => e.trim()).filter(Boolean).map(hs);
   return t.length ? t.join("/") : "root";
 }
-function Yn(i) {
-  return `${rs((i == null ? void 0 : i.title) || (i == null ? void 0 : i.id) || "guide")}.json`;
+function dr(i) {
+  return `${hs((i == null ? void 0 : i.title) || (i == null ? void 0 : i.id) || "guide")}.json`;
 }
-function ai(i, t = i == null ? void 0 : i.url) {
-  return `${Jn(t)}/${Yn(i)}`;
+function ci(i, t = i == null ? void 0 : i.url) {
+  return `${cr(t)}/${dr(i)}`;
 }
-function Qn(i = {}) {
+function ur(i = {}) {
   if (i === !1) return null;
   const t = i === !0 || i == null ? {} : i;
   return {
@@ -5054,7 +5207,7 @@ function Qn(i = {}) {
     ...t
   };
 }
-async function mi(i, t, e) {
+async function Si(i, t, e) {
   const s = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -5083,9 +5236,9 @@ async function mi(i, t, e) {
   return (o.headers.get("content-type") || "").includes("application/json") ? o.json() : null;
 }
 async function Ne(i, t, e) {
-  const s = ai(t, e);
+  const s = ci(t, e);
   try {
-    const n = await mi(i.baseUrl, "POST", {
+    const n = await Si(i.baseUrl, "POST", {
       guide: t,
       urlKey: e || t.url || "/",
       path: s
@@ -5097,20 +5250,20 @@ async function Ne(i, t, e) {
     return l.href = a, l.download = r, l.click(), URL.revokeObjectURL(a), { ok: !0, path: s, via: "download", error: n.message };
   }
 }
-async function tr(i, { guideId: t, urlKey: e, path: s }) {
+async function hr(i, { guideId: t, urlKey: e, path: s }) {
   try {
-    return await mi(i.baseUrl, "DELETE", { guideId: t, urlKey: e, path: s }), { ok: !0 };
+    return await Si(i.baseUrl, "DELETE", { guideId: t, urlKey: e, path: s }), { ok: !0 };
   } catch {
     return { ok: !1 };
   }
 }
-async function er(i) {
+async function pr(i) {
   const t = `${String(i.publicBase || "/guides").replace(/\/$/, "")}/index.json`, e = await fetch(t, { headers: { Accept: "application/json" } });
   if (!e.ok) return { version: 1, guides: [] };
   const s = await e.json();
   return s && typeof s == "object" ? { version: Number(s.version) || 1, guides: Array.isArray(s.guides) ? s.guides : [] } : { version: 1, guides: [] };
 }
-async function Oi(i) {
+async function Hi(i) {
   if (!(i != null && i.baseUrl)) return !1;
   try {
     return (await fetch(i.baseUrl, {
@@ -5126,8 +5279,8 @@ async function Oi(i) {
     return !1;
   }
 }
-async function ir(i) {
-  const t = await er(i), e = String(i.publicBase || "/guides").replace(/\/$/, ""), s = [];
+async function gr(i) {
+  const t = await pr(i), e = String(i.publicBase || "/guides").replace(/\/$/, ""), s = [];
   for (const n of t.guides) {
     const r = n == null ? void 0 : n.path;
     if (r)
@@ -5148,7 +5301,7 @@ async function ir(i) {
   }
   return s;
 }
-async function sr(i) {
+async function fr(i) {
   const t = String(i.publicBase || "/guides").replace(/\/$/, ""), e = await fetch(`${t}/settings.json`, {
     headers: { Accept: "application/json" },
     cache: "no-store"
@@ -5157,8 +5310,8 @@ async function sr(i) {
   const s = await e.json();
   return s && typeof s == "object" && !Array.isArray(s) ? s : null;
 }
-async function nr(i, t) {
-  const e = await mi(i.baseUrl, "POST", {
+async function mr(i, t) {
+  const e = await Si(i.baseUrl, "POST", {
     type: "settings",
     settings: t,
     path: "settings.json"
@@ -5170,23 +5323,23 @@ async function nr(i, t) {
     settings: e != null && e.settings && typeof e.settings == "object" ? e.settings : null
   };
 }
-const rr = {
+const yr = {
   next: "Next Step",
   back: "Back",
   close: "Close Guide",
   skip: "Next Step",
   startRecording: "Start Recording",
   stopRecording: "Stop Recording"
-}, ue = (i = "") => ({
+}, he = (i = "") => ({
   id: `guide-${Date.now()}`,
   title: i ? `Guide for ${i}` : "New system guide",
   version: 1,
   url: i || void 0,
   steps: []
 });
-class or {
+class br {
   constructor(t = {}) {
-    var e, s, n, r, o, a, l, c, d, u, h, p, g;
+    var e, s, n, r, o, a, l, c, d, u, h, p, g, f, m;
     this.options = {
       overlayOpacity: 0.58,
       allowClose: !0,
@@ -5196,6 +5349,7 @@ class or {
       autoAdvanceDelay: 600,
       autoSkipMissing: !0,
       autoSkipMissingDelay: 400,
+      autoSkipIdleMissTimeout: 2e3,
       stableWaitTimeout: 1500,
       targetWaitTimeout: 2e4,
       targetRetryInterval: 250,
@@ -5210,33 +5364,36 @@ class or {
       storageKey: "system-guider",
       fileStorage: !1,
       ...t,
-      labels: { ...rr, ...t.labels }
-    }, this.settings = Bt({
-      ...Vi(),
+      labels: { ...yr, ...t.labels }
+    }, this.settings = Pt({
+      ...Qi(),
       ...t.settings || {}
-    }), this.options.resetBeforePlay = this.settings.resetBeforePlay || this.options.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay ?? this.options.resetBeforePlayDelay, this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick, this.options.pageSettleTimeout = this.settings.pageSettleTimeout, this.options.postReadyDelay = this.settings.postReadyDelay, ce(this.settings), this.fileStorage = Qn(this.options.fileStorage), this.fileGuides = [], this.guideSaveTimer = null, this.settingsSaveTimer = null, this.apiReady = !this.fileStorage, this.apiProbeTimer = null, this.guide = ue(this.getUrlKey()), this.mode = "idle", this.dirty = !1, this.recordingAppend = !1, this.destroyed = !1, this.recordingStepsBaseline = 0, this.panelVisible = !this.options.showLauncher, this.readOnly = !1, this.bypassUnlocked = !1, this.launcherVisible = !1, this.settingsReady = !this.fileStorage, this.accountId = t.accountId ?? null, this.overlay = new vn({
+    }), this.options.resetBeforePlay = this.settings.resetBeforePlay || this.options.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay ?? this.options.resetBeforePlayDelay, this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick, this.options.pageSettleTimeout = this.settings.pageSettleTimeout, this.options.postReadyDelay = this.settings.postReadyDelay, this.applyLoadingUiFromSettings(), de(this.settings), this.fileStorage = ur(this.options.fileStorage), this.fileGuides = [], this.guideSaveTimer = null, this.settingsSaveTimer = null, this.apiReady = !this.fileStorage, this.apiProbeTimer = null, this.guide = he(this.getUrlKey()), this.mode = "idle", this.dirty = !1, this.recordingAppend = !1, this.destroyed = !1, this.recordingStepsBaseline = 0, this.panelVisible = !this.options.showLauncher, this.readOnly = !1, this.bypassUnlocked = !1, this.launcherVisible = !1, this.settingsReady = !this.fileStorage, this.accountId = t.accountId ?? null, this.overlay = new An({
       ...this.options,
       skipLabel: ((e = this.options.labels) == null ? void 0 : e.skip) || ((s = this.options.labels) == null ? void 0 : s.next) || "Next Step",
+      prevLabel: ((n = this.options.labels) == null ? void 0 : n.back) || ((r = this.options.labels) == null ? void 0 : r.prev) || "Prev",
       onSkip: () => this.skip(),
+      onPrev: () => this.prev(),
       onEnd: () => this.endPlayback(),
-      onHighlightBox: (f) => {
-        var m;
-        return (m = this.panel) == null ? void 0 : m.avoidHighlight(f);
+      onHighlightBox: (y) => {
+        var S;
+        return (S = this.panel) == null ? void 0 : S.avoidHighlight(y);
       },
       onTargetLost: () => {
-        var f, m;
-        return (m = (f = this.player) == null ? void 0 : f.onSpotlightTargetLost) == null ? void 0 : m.call(f);
+        var y, S;
+        return (S = (y = this.player) == null ? void 0 : y.onSpotlightTargetLost) == null ? void 0 : S.call(y);
       },
       ui: this.settings.ui
-    }), this.recorder = new pn({
-      onStep: (f) => this.recordStep(f)
-    }), this.player = new _n({
+    }), this.recorder = new wn({
+      onStep: (y) => this.recordStep(y)
+    }), this.player = new In({
       overlay: this.overlay,
       timeout: this.options.selectorTimeout,
       autoAdvanceOnInput: this.options.autoAdvanceOnInput,
       autoAdvanceDelay: this.options.autoAdvanceDelay,
       autoSkipMissing: this.options.autoSkipMissing,
       autoSkipMissingDelay: this.options.autoSkipMissingDelay,
+      autoSkipIdleMissTimeout: this.options.autoSkipIdleMissTimeout ?? 2e3,
       stableWaitTimeout: this.options.stableWaitTimeout,
       targetWaitTimeout: this.options.targetWaitTimeout,
       targetRetryInterval: this.options.targetRetryInterval,
@@ -5246,28 +5403,28 @@ class or {
       stepDelay: 0,
       autoScroll: !0,
       ui: this.settings.ui,
-      onChange: (f, m, b) => this.onPlaybackChange(f, m, b),
-      onFail: (f, m) => this.onPlaybackFail(f, m),
+      onChange: (y, S, w) => this.onPlaybackChange(y, S, w),
+      onFail: (y, S) => this.onPlaybackFail(y, S),
       onComplete: () => this.onPlaybackComplete(),
-      onClickAdvance: (f, m, b, w) => {
-        this.persistPlaybackProgress(b, w);
+      onClickAdvance: (y, S, w, _) => {
+        this.persistPlaybackProgress(w, _);
       }
-    }), this.playbackResumeTimer = null, this.panel = new Ss({
+    }), this.playbackResumeTimer = null, this.panel = new As({
       labels: this.options.labels,
       zIndex: this.options.zIndex,
       handlers: this.createHandlers(),
       visible: this.panelVisible
-    }), this.launcher = this.options.showLauncher ? new Gn({
+    }), this.launcher = this.options.showLauncher ? new Xn({
       zIndex: this.options.zIndex,
       onOpenPanel: () => this.togglePanel(),
       onBypassOpenPanel: () => this.openPanelViaBypass(),
       onStartRecording: () => this.startRecording(),
       onPlayPageGuide: () => this.playPageGuide(),
-      onDeleteGuide: (f) => this.deletePageGuide(f),
+      onDeleteGuide: (y) => this.deletePageGuide(y),
       onOpenManage: () => this.openManageRoutes(),
       onStopTutorial: () => this.close(!0),
-      onSearchGuide: (f) => this.playGuide(f)
-    }) : null, (n = this.launcher) == null || n.setApiReady(this.apiReady), (r = this.launcher) == null || r.setReadOnly(this.readOnly), (l = (o = this.launcher) == null ? void 0 : o.setBypassPin) == null || l.call(o, (a = this.settings) == null ? void 0 : a.bypassPin), (u = (c = this.launcher) == null ? void 0 : c.setLauncherSettings) == null || u.call(c, (d = this.settings) == null ? void 0 : d.launcher), (p = (h = this.launcher) == null ? void 0 : h.setAccountId) == null || p.call(h, this.accountId), (g = this.launcher) == null || g.setVisible(!1), this.onKeyDown = this.onKeyDown.bind(this), this.onUrlChange = this.onUrlChange.bind(this), document.addEventListener("keydown", this.onKeyDown), window.addEventListener("popstate", this.onUrlChange), this.installHistoryHooks(), this.applyAccessPolicy(), this.bootstrap();
+      onSearchGuide: (y) => this.playGuide(y)
+    }) : null, (o = this.launcher) == null || o.setApiReady(this.apiReady), (a = this.launcher) == null || a.setReadOnly(this.readOnly), (d = (l = this.launcher) == null ? void 0 : l.setBypassPin) == null || d.call(l, (c = this.settings) == null ? void 0 : c.bypassPin), (p = (u = this.launcher) == null ? void 0 : u.setLauncherSettings) == null || p.call(u, (h = this.settings) == null ? void 0 : h.launcher), (f = (g = this.launcher) == null ? void 0 : g.setAccountId) == null || f.call(g, this.accountId), (m = this.launcher) == null || m.setVisible(!1), this.onKeyDown = this.onKeyDown.bind(this), this.onUrlChange = this.onUrlChange.bind(this), document.addEventListener("keydown", this.onKeyDown), window.addEventListener("popstate", this.onUrlChange), this.installHistoryHooks(), this.applyAccessPolicy(), this.bootstrap();
   }
   /** Inertia/Vue soft navigations use pushState — popstate alone misses them. */
   installHistoryHooks() {
@@ -5294,7 +5451,7 @@ class or {
       return;
     }
     try {
-      const e = await ir(this.fileStorage);
+      const e = await gr(this.fileStorage);
       if (this.fileGuides = Array.isArray(e) ? e : [], this.dirty && ((t = this.guide) != null && t.id)) {
         const s = structuredClone(this.guide), n = this.fileGuides.findIndex((r) => r.id === this.guide.id);
         n >= 0 ? this.fileGuides[n] = s : this.fileGuides = [...this.fileGuides, s];
@@ -5311,12 +5468,12 @@ class or {
       return;
     }
     try {
-      const c = await sr(this.fileStorage);
-      c && (this.settings = Bt({
+      const c = await fr(this.fileStorage);
+      c && (this.settings = Pt({
         ...this.settings,
         ...c,
         ...this.options.settings || {}
-      }), this.options.resetBeforePlay = this.settings.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay, this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick, this.options.pageSettleTimeout = this.settings.pageSettleTimeout, this.options.postReadyDelay = this.settings.postReadyDelay, ce(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (n = (s = this.player) == null ? void 0 : s.setUiOptions) == null || n.call(s, this.settings.ui), (o = (r = this.player) == null ? void 0 : r.setOptions) == null || o.call(r, {
+      }), this.options.resetBeforePlay = this.settings.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay, this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick, this.options.pageSettleTimeout = this.settings.pageSettleTimeout, this.options.postReadyDelay = this.settings.postReadyDelay, this.applyLoadingUiFromSettings(), de(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (n = (s = this.player) == null ? void 0 : s.setUiOptions) == null || n.call(s, this.settings.ui), (o = (r = this.player) == null ? void 0 : r.setOptions) == null || o.call(r, {
         pageSettleAfterClick: this.settings.pageSettleAfterClick,
         pageSettleTimeout: this.settings.pageSettleTimeout,
         postReadyDelay: this.settings.postReadyDelay
@@ -5325,6 +5482,11 @@ class or {
     } finally {
       this.settingsReady = !0, this.applyAccessPolicy();
     }
+  }
+  /** Sync settings.loadingSelectors into selector settle / present checks. */
+  applyLoadingUiFromSettings() {
+    var t;
+    Us(Ys((t = this.settings) == null ? void 0 : t.loadingSelectors));
   }
   /** Host app sets the logged-in account id used for editor allow-list checks. */
   setAccountId(t) {
@@ -5344,10 +5506,10 @@ class or {
   /** Sync read-only + toolbar visibility from settings + current account/url. */
   applyAccessPolicy() {
     var r, o, a, l, c, d, u, h, p, g, f, m;
-    const t = this.bypassUnlocked || Vs(this.accountId, (r = this.settings) == null ? void 0 : r.editorAccountIds);
+    const t = this.bypassUnlocked || tn(this.accountId, (r = this.settings) == null ? void 0 : r.editorAccountIds);
     if (this.setReadOnly(!t), this.fileStorage && !this.settingsReady)
       return this.setLauncherVisible(!1), this;
-    const e = js(this.getUrlKey(), (o = this.settings) == null ? void 0 : o.hiddenUrls), s = ((a = this.settings) == null ? void 0 : a.showOrb) !== !1, n = this.options.showLauncher !== !1 && s && !e;
+    const e = Qs(this.getUrlKey(), (o = this.settings) == null ? void 0 : o.hiddenUrls), s = ((a = this.settings) == null ? void 0 : a.showOrb) !== !1, n = this.options.showLauncher !== !1 && s && !e;
     return this.setLauncherVisible(n), (d = (l = this.launcher) == null ? void 0 : l.setBypassPin) == null || d.call(l, (c = this.settings) == null ? void 0 : c.bypassPin), (p = (u = this.launcher) == null ? void 0 : u.setShowAccountId) == null || p.call(u, !!((h = this.settings) != null && h.showAccountId)), (m = (g = this.launcher) == null ? void 0 : g.setLauncherSettings) == null || m.call(g, (f = this.settings) == null ? void 0 : f.launcher), this;
   }
   /** Unlock editor mode via orb hover + PIN, then open Global Settings panel. */
@@ -5362,12 +5524,12 @@ class or {
       const r = this.getGuideForCurrentPage();
       if (r) this.load(r, { dirty: !1, mode: "idle" });
       else if (!this.fileStorage) {
-        const o = Un(this.options.storageKey);
+        const o = tr(this.options.storageKey);
         o && this.load(o, { dirty: !1, mode: "manage" });
       }
     } catch {
     }
-    await this.ensureGuideApiReady(), this.syncLauncher(), this.render(), ce(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (n = (s = this.player) == null ? void 0 : s.setUiOptions) == null || n.call(s, this.settings.ui), this.resumePendingPlay();
+    await this.ensureGuideApiReady(), this.syncLauncher(), this.render(), de(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (n = (s = this.player) == null ? void 0 : s.setUiOptions) == null || n.call(s, this.settings.ui), this.resumePendingPlay();
   }
   setApiReady(t) {
     var e;
@@ -5384,12 +5546,12 @@ class or {
   async ensureGuideApiReady() {
     if (!this.fileStorage)
       return this.setApiReady(!0), !0;
-    if (this.clearApiProbeTimer(), await Oi(this.fileStorage) || this.fileStorage.downloadFallback)
+    if (this.clearApiProbeTimer(), await Hi(this.fileStorage) || this.fileStorage.downloadFallback)
       return this.setApiReady(!0), !0;
     if (this.setApiReady(!1), this.destroyed) return !1;
     const e = async () => {
       if (this.destroyed || !this.fileStorage) return;
-      if (await Oi(this.fileStorage) || this.fileStorage.downloadFallback) {
+      if (await Hi(this.fileStorage) || this.fileStorage.downloadFallback) {
         this.setApiReady(!0), this.clearApiProbeTimer(), this.syncLauncher();
         return;
       }
@@ -5444,7 +5606,7 @@ class or {
     };
   }
   getUrlKey() {
-    return typeof this.options.getUrlKey == "function" ? String(this.options.getUrlKey() || "/") : zn(this.options.urlMatch);
+    return typeof this.options.getUrlKey == "function" ? String(this.options.getUrlKey() || "/") : rr(this.options.urlMatch);
   }
   getGuideForCurrentPage() {
     return this.getGuidesForCurrentPage()[0] || null;
@@ -5458,10 +5620,10 @@ class or {
     Object.entries(this.options.guides || {}).forEach(([o, a]) => {
       (Array.isArray(a) ? a : a ? [a] : []).forEach((c) => t.push({ ...c, url: c.url || o }));
     });
-    const e = this.options.guidesByUrl ? Kn(this.options.storageKey) : [], s = this.fileGuides || [], n = /* @__PURE__ */ new Map(), r = this.fileStorage ? [...t, ...e, ...s] : [...t, ...s, ...e];
+    const e = this.options.guidesByUrl ? or(this.options.storageKey) : [], s = this.fileGuides || [], n = /* @__PURE__ */ new Map(), r = this.fileStorage ? [...t, ...e, ...s] : [...t, ...s, ...e];
     for (const o of r)
       try {
-        const a = xt(o);
+        const a = Ct(o);
         n.set(a.id, a);
       } catch {
       }
@@ -5476,17 +5638,17 @@ class or {
     if (!this.guide.steps.length)
       return (e = globalThis.alert) == null || e.call(globalThis, "Add at least one step before saving this page guide."), this;
     const t = this.getUrlKey();
-    if (this.guide = xt({
+    if (this.guide = Ct({
       ...this.guide,
       url: t,
       title: this.guide.title || `Guide for ${t}`
-    }), this.options.guidesByUrl && Te(this.options.storageKey, t, this.guide), this.dirty = !1, this.persistDraft(), Array.isArray(this.fileGuides)) {
+    }), this.options.guidesByUrl && Me(this.options.storageKey, t, this.guide), this.dirty = !1, this.persistDraft(), Array.isArray(this.fileGuides)) {
       const s = this.fileGuides.findIndex((n) => n.id === this.guide.id);
       s >= 0 ? this.fileGuides[s] = { ...this.fileGuides[s], ...this.guide } : this.fileGuides = [...this.fileGuides, structuredClone(this.guide)];
     }
     return this.syncLauncher(), this.render({
       flashMessage: `Saved “${this.guide.title || "Untitled guide"}”.`
-    }), this.fileStorage && (ai(this.guide, t), Ne(this.fileStorage, this.guide, t).then(async (s) => {
+    }), this.fileStorage && (ci(this.guide, t), Ne(this.fileStorage, this.guide, t).then(async (s) => {
       var n;
       await this.reloadFileGuides(), s.via === "download" && ((n = globalThis.alert) == null || n.call(
         globalThis,
@@ -5516,9 +5678,9 @@ class or {
   async playGuide(t) {
     var r;
     this.assertUsable();
-    const e = xt(t), s = Y(e.url || "/"), n = Y(this.getUrlKey());
+    const e = Ct(t), s = Y(e.url || "/"), n = Y(this.getUrlKey());
     if (s !== n) {
-      if (Ae(this.options.storageKey, {
+      if (Le(this.options.storageKey, {
         guideId: e.id,
         urlKey: s,
         guide: e,
@@ -5540,16 +5702,16 @@ class or {
     if (!t) return this;
     if (!((r = globalThis.confirm) != null && r.call(globalThis, "Delete this page guide? This cannot be undone."))) return this;
     const e = this.getAllGuides().find((l) => l.id === t), s = Y((e == null ? void 0 : e.url) || this.getUrlKey());
-    this.options.guidesByUrl && Zn(this.options.storageKey, s, t), this.fileGuides = (this.fileGuides || []).filter((l) => l.id !== t), this.fileStorage && e && tr(this.fileStorage, {
+    this.options.guidesByUrl && ar(this.options.storageKey, s, t), this.fileGuides = (this.fileGuides || []).filter((l) => l.id !== t), this.fileStorage && e && hr(this.fileStorage, {
       guideId: t,
       urlKey: s,
-      path: ai(e, s)
+      path: ci(e, s)
     }).then(() => this.reloadFileGuides()).catch(() => {
     });
     const n = this.getAllGuides().filter((l) => l.id !== t);
     if (((o = this.guide) == null ? void 0 : o.id) === t) {
       const l = n.find((c) => Y(c.url) === Y(this.getUrlKey())) || n[0];
-      l ? this.load(l, { dirty: !1, mode: this.mode === "manage-routes" ? "manage-routes" : "idle" }) : (this.guide = ue(this.getUrlKey()), this.mode = this.mode === "manage-routes" ? "manage-routes" : "idle", this.dirty = !1, this.persistDraft());
+      l ? this.load(l, { dirty: !1, mode: this.mode === "manage-routes" ? "manage-routes" : "idle" }) : (this.guide = he(this.getUrlKey()), this.mode = this.mode === "manage-routes" ? "manage-routes" : "idle", this.dirty = !1, this.persistDraft());
     }
     return this.syncLauncher(), this.render(), n.length && this.launcher && !this.launcher.optionsRoot.hidden ? this.launcher.showGuideOptions(
       n,
@@ -5558,15 +5720,15 @@ class or {
     ) : (a = this.launcher) == null || a.hideGuideOptions(), this;
   }
   startPageGuide(t, { skipReset: e = !1, stepIndex: s = 0 } = {}) {
-    const n = xt(t), r = this.getGuidePlaybackSettings(n);
+    const n = Ct(t), r = this.getGuidePlaybackSettings(n);
     if (!e && r.resetBeforePlay === "reload")
-      return Ae(this.options.storageKey, {
+      return Le(this.options.storageKey, {
         guideId: n.id,
         urlKey: Y(n.url || this.getUrlKey()),
         guide: n,
         stepIndex: 0
       }), globalThis.location.reload(), this;
-    e || de(this.options.storageKey), this.load(n, { dirty: !1, mode: "manage" });
+    e || ue(this.options.storageKey), this.load(n, { dirty: !1, mode: "manage" });
     const a = Math.max(0, Math.min(Number(s) || 0, Math.max(n.steps.length - 1, 0)));
     return this.startFrom(a);
   }
@@ -5575,10 +5737,10 @@ class or {
     if (!((n = this.guide) != null && n.id)) return;
     const s = ((r = this.guide.steps) == null ? void 0 : r.length) || 0;
     if (t >= s) {
-      de(this.options.storageKey);
+      ue(this.options.storageKey);
       return;
     }
-    Ae(this.options.storageKey, {
+    Le(this.options.storageKey, {
       guideId: this.guide.id,
       guide: this.guide,
       stepIndex: t,
@@ -5588,11 +5750,11 @@ class or {
     });
   }
   resumePendingPlay({ soft: t = !1 } = {}) {
-    const e = Xn(this.options.storageKey);
+    const e = lr(this.options.storageKey);
     if (!(e != null && e.guideId) && !(e != null && e.guide)) return;
     const s = !!e.resumeAnyUrl, n = Y(e.urlKey || "/"), r = Y(this.getUrlKey());
     if (e.urlKey && !s && n !== r) {
-      t && (Ae(this.options.storageKey, e), window.setTimeout(() => this.resumePendingPlay({ soft: !0 }), 300));
+      t && (Le(this.options.storageKey, e), window.setTimeout(() => this.resumePendingPlay({ soft: !0 }), 300));
       return;
     }
     const o = t ? 120 : Math.max(0, Number(this.settings.resetBeforePlayDelay || this.options.resetBeforePlayDelay) || 450);
@@ -5602,7 +5764,7 @@ class or {
       let a = this.getAllGuides().find((d) => d.id === e.guideId);
       if (!a && e.guide)
         try {
-          a = xt(e.guide);
+          a = Ct(e.guide);
         } catch {
           a = null;
         }
@@ -5633,7 +5795,7 @@ class or {
   }
   /** Effective navigation settings: per-guide first, then global defaults. */
   getGuidePlaybackSettings(t = this.guide) {
-    const e = Bt(this.settings), s = t != null && t.settings && typeof t.settings == "object" ? t.settings : {};
+    const e = Pt(this.settings), s = t != null && t.settings && typeof t.settings == "object" ? t.settings : {};
     return {
       reloadOnNavigate: s.reloadOnNavigate != null ? !!s.reloadOnNavigate : e.reloadOnNavigate,
       resetBeforePlay: s.resetBeforePlay === "reload" || s.resetBeforePlay === "none" ? s.resetBeforePlay : e.resetBeforePlay,
@@ -5652,10 +5814,10 @@ class or {
   }
   updateSetting(t, e) {
     var r, o, a, l, c, d, u, h, p, g;
-    if (this.readOnly && (t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin" || t === "showAccountId" || t === "showOrb" || t === "reloadOnNavigate" || t === "resetBeforePlay" || t === "resetBeforePlayDelay" || t === "pageSettleAfterClick" || t === "pageSettleTimeout" || t === "postReadyDelay" || t === "theme" || String(t || "").startsWith("launcher.") || String(t || "").startsWith("ui.")))
+    if (this.readOnly && (t === "editorAccountIds" || t === "hiddenUrls" || t === "bypassPin" || t === "showAccountId" || t === "showOrb" || t === "reloadOnNavigate" || t === "resetBeforePlay" || t === "resetBeforePlayDelay" || t === "pageSettleAfterClick" || t === "pageSettleTimeout" || t === "postReadyDelay" || t === "loadingSelectors" || t === "theme" || String(t || "").startsWith("launcher.") || String(t || "").startsWith("ui.")))
       return this;
-    const s = Bt({ ...this.settings });
-    if (t === "reloadOnNavigate" && (s.reloadOnNavigate = !!e), t === "resetBeforePlay" && (s.resetBeforePlay = e ? "reload" : "none"), t === "resetBeforePlayDelay" && (s.resetBeforePlayDelay = Math.max(0, Number(e) || 0)), t === "pageSettleAfterClick" && (s.pageSettleAfterClick = !!e), t === "pageSettleTimeout" && (s.pageSettleTimeout = Math.max(0, Number(e) || 0)), t === "postReadyDelay" && (s.postReadyDelay = Math.max(0, Number(e) || 0)), t === "theme" && (s.theme = String(e || "dark").toLowerCase() === "light" ? "light" : "dark"), t === "editorAccountIds" && (s.editorAccountIds = e), t === "hiddenUrls" && (s.hiddenUrls = e), t === "bypassPin" && (s.bypassPin = e), t === "showAccountId" && (s.showAccountId = !!e), t === "showOrb" && (s.showOrb = !!e), String(t || "").startsWith("launcher.")) {
+    const s = Pt({ ...this.settings });
+    if (t === "reloadOnNavigate" && (s.reloadOnNavigate = !!e), t === "resetBeforePlay" && (s.resetBeforePlay = e ? "reload" : "none"), t === "resetBeforePlayDelay" && (s.resetBeforePlayDelay = Math.max(0, Number(e) || 0)), t === "pageSettleAfterClick" && (s.pageSettleAfterClick = !!e), t === "pageSettleTimeout" && (s.pageSettleTimeout = Math.max(0, Number(e) || 0)), t === "postReadyDelay" && (s.postReadyDelay = Math.max(0, Number(e) || 0)), t === "loadingSelectors" && (s.loadingSelectors = e), t === "theme" && (s.theme = String(e || "dark").toLowerCase() === "light" ? "light" : "dark"), t === "editorAccountIds" && (s.editorAccountIds = e), t === "hiddenUrls" && (s.hiddenUrls = e), t === "bypassPin" && (s.bypassPin = e), t === "showAccountId" && (s.showAccountId = !!e), t === "showOrb" && (s.showOrb = !!e), String(t || "").startsWith("launcher.")) {
       const f = String(t).slice(9), m = { ...s.launcher };
       f === "size" && (m.size = Number(e)), f === "position" && (m.position = String(e || "bottom-right")), f === "animations" && (m.animations = !!e), s.launcher = m;
     }
@@ -5666,12 +5828,12 @@ class or {
       else if (f === "highlightMotion")
         m.highlightMotion = String(e || "pulse");
       else if (f === "overlayOpacity") {
-        const b = Number(e);
-        m.overlayOpacity = Number.isFinite(b) ? Math.min(0.9, Math.max(0, b > 1 ? b / 100 : b)) : m.overlayOpacity;
+        const y = Number(e);
+        m.overlayOpacity = Number.isFinite(y) ? Math.min(0.9, Math.max(0, y > 1 ? y / 100 : y)) : m.overlayOpacity;
       } else f === "transitionMs" ? m.transitionMs = Math.max(0, Math.round(Number(e) || 0)) : f === "fontFamily" ? m.fontFamily = String(e || "system") : ["tipBg", "tipText", "skipBg", "skipText", "spotlightColor"].includes(f) && (m[f] = String(e || ""));
       s.ui = m;
     }
-    return this.settings = Bt(s), this.options.resetBeforePlay = this.settings.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay, this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick, this.options.pageSettleTimeout = this.settings.pageSettleTimeout, this.options.postReadyDelay = this.settings.postReadyDelay, ce(this.settings), (o = (r = this.overlay) == null ? void 0 : r.applyUiSettings) == null || o.call(r, this.settings.ui), (l = (a = this.player) == null ? void 0 : a.setUiOptions) == null || l.call(a, this.settings.ui), (d = (c = this.player) == null ? void 0 : c.setOptions) == null || d.call(c, {
+    return this.settings = Pt(s), this.options.resetBeforePlay = this.settings.resetBeforePlay, this.options.resetBeforePlayDelay = this.settings.resetBeforePlayDelay, this.options.pageSettleAfterClick = this.settings.pageSettleAfterClick, this.options.pageSettleTimeout = this.settings.pageSettleTimeout, this.options.postReadyDelay = this.settings.postReadyDelay, this.applyLoadingUiFromSettings(), de(this.settings), (o = (r = this.overlay) == null ? void 0 : r.applyUiSettings) == null || o.call(r, this.settings.ui), (l = (a = this.player) == null ? void 0 : a.setUiOptions) == null || l.call(a, this.settings.ui), (d = (c = this.player) == null ? void 0 : c.setOptions) == null || d.call(c, {
       pageSettleAfterClick: this.settings.pageSettleAfterClick,
       pageSettleTimeout: this.settings.pageSettleTimeout,
       postReadyDelay: this.settings.postReadyDelay
@@ -5679,10 +5841,10 @@ class or {
   }
   resetUiSettings() {
     var t, e, s, n;
-    return this.settings = Bt({
+    return this.settings = Pt({
       ...this.settings,
-      ui: di()
-    }), ce(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (n = (s = this.player) == null ? void 0 : s.setUiOptions) == null || n.call(s, this.settings.ui), this.scheduleSettingsSave(), this.render(), this;
+      ui: pi()
+    }), de(this.settings), (e = (t = this.overlay) == null ? void 0 : t.applyUiSettings) == null || e.call(t, this.settings.ui), (n = (s = this.player) == null ? void 0 : s.setUiOptions) == null || n.call(s, this.settings.ui), this.scheduleSettingsSave(), this.render(), this;
   }
   scheduleSettingsSave() {
     clearTimeout(this.settingsSaveTimer), this.settingsSaveTimer = setTimeout(() => {
@@ -5693,8 +5855,8 @@ class or {
   async flushSettingsSave() {
     var s, n;
     if (!this.fileStorage) return;
-    const t = Bt(this.settings), e = await nr(this.fileStorage, t);
-    e != null && e.settings && typeof e.settings == "object" && (this.settings = Bt({
+    const t = Pt(this.settings), e = await mr(this.fileStorage, t);
+    e != null && e.settings && typeof e.settings == "object" && (this.settings = Pt({
       ...this.settings,
       ...e.settings
     }), (n = (s = this.launcher) == null ? void 0 : s.setBypassPin) == null || n.call(s, this.settings.bypassPin), this.applyAccessPolicy());
@@ -5723,7 +5885,7 @@ class or {
         return;
       }
       if (this.options.guidesByUrl) {
-        Te(this.options.storageKey, Y(this.guide.url || this.getUrlKey()), this.guide);
+        Me(this.options.storageKey, Y(this.guide.url || this.getUrlKey()), this.guide);
         return;
       }
       this.persistDraft();
@@ -5738,7 +5900,7 @@ class or {
       const c = Y(r.url || this.getUrlKey());
       Ne(this.fileStorage, r, c).then(() => this.reloadFileGuides()).catch(() => {
       });
-    } else this.options.guidesByUrl && Te(this.options.storageKey, Y(r.url || "/"), r);
+    } else this.options.guidesByUrl && Me(this.options.storageKey, Y(r.url || "/"), r);
     return this.render(), this;
   }
   togglePanel() {
@@ -5757,9 +5919,9 @@ class or {
     this.mode !== "recording" && (this.panelVisible = !1, this.panel.setVisible(!1), this.syncLauncher());
   }
   syncLauncher() {
-    var e, s, n, r, o, a, l, c, d, u, h, p, g, f, m, b, w, S;
+    var e, s, n, r, o, a, l, c, d, u, h, p, g, f, m, y, S, w;
     const t = this.getAllGuides().length;
-    (e = this.launcher) == null || e.setApiReady(this.apiReady), (s = this.launcher) == null || s.setReadOnly(this.readOnly), (o = (n = this.launcher) == null ? void 0 : n.setBypassPin) == null || o.call(n, (r = this.settings) == null ? void 0 : r.bypassPin), (c = (a = this.launcher) == null ? void 0 : a.setShowAccountId) == null || c.call(a, !!((l = this.settings) != null && l.showAccountId)), (h = (d = this.launcher) == null ? void 0 : d.setLauncherSettings) == null || h.call(d, (u = this.settings) == null ? void 0 : u.launcher), (g = (p = this.launcher) == null ? void 0 : p.setAccountId) == null || g.call(p, this.accountId), (f = this.launcher) == null || f.setVisible(this.launcherVisible), (m = this.launcher) == null || m.setSearchData(this.getAllGuides(), this.getUrlKey()), (b = this.launcher) == null || b.setPlayState(t), (w = this.launcher) == null || w.setPanelOpen(this.panelVisible), (S = this.launcher) == null || S.setPlaying(this.mode === "playback");
+    (e = this.launcher) == null || e.setApiReady(this.apiReady), (s = this.launcher) == null || s.setReadOnly(this.readOnly), (o = (n = this.launcher) == null ? void 0 : n.setBypassPin) == null || o.call(n, (r = this.settings) == null ? void 0 : r.bypassPin), (c = (a = this.launcher) == null ? void 0 : a.setShowAccountId) == null || c.call(a, !!((l = this.settings) != null && l.showAccountId)), (h = (d = this.launcher) == null ? void 0 : d.setLauncherSettings) == null || h.call(d, (u = this.settings) == null ? void 0 : u.launcher), (g = (p = this.launcher) == null ? void 0 : p.setAccountId) == null || g.call(p, this.accountId), (f = this.launcher) == null || f.setVisible(this.launcherVisible), (m = this.launcher) == null || m.setSearchData(this.getAllGuides(), this.getUrlKey()), (y = this.launcher) == null || y.setPlayState(t), (S = this.launcher) == null || S.setPanelOpen(this.panelVisible), (w = this.launcher) == null || w.setPlaying(this.mode === "playback");
   }
   onUrlChange() {
     if (this.applyAccessPolicy(), this.mode === "recording") return;
@@ -5768,13 +5930,13 @@ class or {
       return;
     }
     const t = this.mode === "manage-routes" && !this.readOnly, e = this.getGuideForCurrentPage();
-    e ? this.load(e, { dirty: !1, mode: t ? "manage-routes" : "idle" }) : (this.guide = ue(this.getUrlKey()), this.mode = t ? "manage-routes" : "idle", this.dirty = !1, this.render()), this.syncLauncher();
+    e ? this.load(e, { dirty: !1, mode: t ? "manage-routes" : "idle" }) : (this.guide = he(this.getUrlKey()), this.mode = t ? "manage-routes" : "idle", this.dirty = !1, this.render()), this.syncLauncher();
   }
   render(t = {}) {
     var n, r, o;
     const e = this.guide.steps.map((a) => ({
       ...a,
-      invalid: !Hs(a)
+      invalid: !Ks(a)
     })), s = !!this.focusGuideTitle;
     this.focusGuideTitle = !1, this.panel.update({
       mode: this.mode,
@@ -5816,11 +5978,11 @@ class or {
     }), this.syncLauncher();
   }
   startRecording() {
-    return this.assertUsable(), this.readOnly ? this : this.fileStorage && !this.apiReady ? this : (this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.openPanel(), this.guide = ue(this.getUrlKey()), this.dirty = !1, this.recordingAppend = !1, this.recordingStepsBaseline = 0, this.mode = "recording", this.recorder.start(), this.render(), this);
+    return this.assertUsable(), this.readOnly ? this : this.fileStorage && !this.apiReady ? this : (this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.openPanel(), this.guide = he(this.getUrlKey()), this.dirty = !1, this.recordingAppend = !1, this.recordingStepsBaseline = 0, this.mode = "recording", this.recorder.start(), this.render(), this);
   }
   /** Append more recorded interactions to the current guide (from Manage steps). */
   continueRecording() {
-    return this.assertUsable(), this.readOnly ? this : (this.guide || (this.guide = ue(this.getUrlKey())), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.openPanel(), this.recordingAppend = !0, this.recordingStepsBaseline = this.guide.steps.length, this.mode = "recording", this.recorder.start(), this.render(), this);
+    return this.assertUsable(), this.readOnly ? this : (this.guide || (this.guide = he(this.getUrlKey())), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.openPanel(), this.recordingAppend = !0, this.recordingStepsBaseline = this.guide.steps.length, this.mode = "recording", this.recorder.start(), this.render(), this);
   }
   stopRecording() {
     this.assertUsable(), this.recorder.stop(), this.mode = "manage", this.dirty = this.guide.steps.length > 0, this.guide.url = this.getUrlKey();
@@ -5838,10 +6000,10 @@ class or {
   load(t, { dirty: e = !1, mode: s = "manage" } = {}) {
     this.assertUsable();
     const n = typeof t == "string" ? JSON.parse(t) : t;
-    return this.guide = xt(n), this.recorder.stop(), this.player.stop(), this.overlay.setControlsEnabled(!1), this.mode = s, this.dirty = e, this.render(), this;
+    return this.guide = Ct(n), this.recorder.stop(), this.player.stop(), this.overlay.setControlsEnabled(!1), this.mode = s, this.dirty = e, this.render(), this;
   }
   updateSteps(t) {
-    return this.guide.steps = xt({ ...this.guide, steps: t }).steps, this.changed(), this;
+    return this.guide.steps = Ct({ ...this.guide, steps: t }).steps, this.changed(), this;
   }
   removeStep(t) {
     var n;
@@ -5923,7 +6085,7 @@ class or {
     this.scheduleGuideSave(), this.render();
   }
   preview(t) {
-    const e = this.guide.steps.find((n) => n.id === t), s = e && Pe(e);
+    const e = this.guide.steps.find((n) => n.id === t), s = e && Kt(e);
     s && this.overlay.highlight(s, !1);
   }
   start() {
@@ -5945,16 +6107,17 @@ class or {
     }), this.player.start(this.guide.steps, e), this;
   }
   onPlaybackChange(t, e, s) {
-    var n, r;
+    var n, r, o, a;
     (r = (n = this.options).onStepChange) == null || r.call(n, structuredClone(t), e), this.render({
       currentStep: t,
       currentIndex: e,
       total: this.guide.steps.length,
+      canPrev: ((a = (o = this.player) == null ? void 0 : o.canGoPrev) == null ? void 0 : a.call(o)) ?? !1,
       ...s
     });
   }
   onPlaybackFail(t, e) {
-    var s, n, r, o;
+    var s, n, r, o, a, l;
     (n = (s = this.options).onStepFail) == null || n.call(s, structuredClone(t), e), this.render({
       currentStep: t,
       currentIndex: e,
@@ -5962,16 +6125,17 @@ class or {
       waiting: !1,
       failed: !0,
       autoSkipping: !1,
-      message: ((o = (r = this.player) == null ? void 0 : r.missingTargetMessage) == null ? void 0 : o.call(r, t)) || ""
+      canPrev: ((o = (r = this.player) == null ? void 0 : r.canGoPrev) == null ? void 0 : o.call(r)) ?? !1,
+      message: ((l = (a = this.player) == null ? void 0 : a.missingTargetMessage) == null ? void 0 : l.call(a, t)) || ""
     });
   }
   onPlaybackComplete() {
     var t, e;
-    de(this.options.storageKey), clearTimeout(this.playbackResumeTimer), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.mode = this.options.showLauncher ? "idle" : "manage", this.render(), this.options.showLauncher ? this.closePanel() : this.openPanel(), (e = (t = this.options).onComplete) == null || e.call(t);
+    ue(this.options.storageKey), clearTimeout(this.playbackResumeTimer), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.mode = this.options.showLauncher ? "idle" : "manage", this.render(), this.options.showLauncher ? this.closePanel() : this.openPanel(), (e = (t = this.options).onComplete) == null || e.call(t);
   }
   endPlayback() {
     var t;
-    return this.mode !== "playback" && !((t = this.player) != null && t.active) ? this : (de(this.options.storageKey), clearTimeout(this.playbackResumeTimer), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.mode = this.options.showLauncher ? "idle" : "manage", this.render(), this.options.showLauncher ? this.closePanel() : this.openPanel(), this);
+    return this.mode !== "playback" && !((t = this.player) != null && t.active) ? this : (ue(this.options.storageKey), clearTimeout(this.playbackResumeTimer), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), this.mode = this.options.showLauncher ? "idle" : "manage", this.render(), this.options.showLauncher ? this.closePanel() : this.openPanel(), this);
   }
   next() {
     return this.player.next(), this;
@@ -5984,13 +6148,13 @@ class or {
   }
   close(t = !1) {
     var e, s;
-    return !this.options.allowClose && !t || this.dirty && !t && globalThis.confirm && !globalThis.confirm("Close with unsaved guide changes?") ? !1 : (this.recorder.stop(), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), de(this.options.storageKey), clearTimeout(this.playbackResumeTimer), this.mode = "idle", this.render(), this.options.showLauncher && this.closePanel(), (s = (e = this.options).onClose) == null || s.call(e), !0);
+    return !this.options.allowClose && !t || this.dirty && !t && globalThis.confirm && !globalThis.confirm("Close with unsaved guide changes?") ? !1 : (this.recorder.stop(), this.player.stop(), this.overlay.setControlsEnabled(!1), this.overlay.hide(), ue(this.options.storageKey), clearTimeout(this.playbackResumeTimer), this.mode = "idle", this.render(), this.options.showLauncher && this.closePanel(), (s = (e = this.options).onClose) == null || s.call(e), !0);
   }
   exportJSON() {
-    return Ue(this.guide);
+    return We(this.guide);
   }
   downloadJSON(t = `${this.guide.id}.json`) {
-    return Wn(this.guide, t), this.dirty = !1, this;
+    return er(this.guide, t), this.dirty = !1, this;
   }
   downloadAllGuides() {
     var s;
@@ -5999,16 +6163,16 @@ class or {
     if (!t.length)
       return (s = globalThis.alert) == null || s.call(globalThis, "No guides to download yet."), this;
     const e = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
-    return qn(t, `system-guider-guides-${e}.json`), this;
+    return ir(t, `system-guider-guides-${e}.json`), this;
   }
   async copyJSON() {
-    const t = await jn(this.guide);
+    const t = await sr(this.guide);
     return this.dirty = !1, t;
   }
   /** Persist one guide to local map + backend (file storage) without changing the active editor. */
   async persistImportedGuide(t) {
-    const e = xt(t), s = Y(e.url || "/");
-    if (e.url = s, this.options.guidesByUrl && Te(this.options.storageKey, s, e), Array.isArray(this.fileGuides)) {
+    const e = Ct(t), s = Y(e.url || "/");
+    if (e.url = s, this.options.guidesByUrl && Me(this.options.storageKey, s, e), Array.isArray(this.fileGuides)) {
       const n = this.fileGuides.findIndex((r) => r.id === e.id);
       n >= 0 ? this.fileGuides[n] = { ...e } : this.fileGuides = [...this.fileGuides, { ...e }];
     } else
@@ -6023,7 +6187,7 @@ class or {
     var l;
     if (this.readOnly) return [];
     this.assertUsable();
-    const { guides: s, errors: n } = $i(t), r = [], o = [...n];
+    const { guides: s, errors: n } = Fi(t), r = [], o = [...n];
     for (const c of s)
       try {
         r.push(await this.persistImportedGuide(c));
@@ -6054,7 +6218,7 @@ class or {
       const s = [], n = [];
       for (const c of e)
         try {
-          const d = await c.text(), { guides: u, errors: h } = $i(d);
+          const d = await c.text(), { guides: u, errors: h } = Fi(d);
           s.push(...u), n.push(...h.map((p) => `${c.name}: ${p}`));
         } catch (d) {
           n.push(`${c.name}: ${d.message}`);
@@ -6085,7 +6249,7 @@ ${n.slice(0, 8).join(`
     });
   }
   persistDraft() {
-    this.fileStorage || Fn(this.options.storageKey, this.guide);
+    this.fileStorage || Qn(this.options.storageKey, this.guide);
   }
   onKeyDown(t) {
     if (t.key === "Escape" && this.mode === "playback" && this.options.allowClose && this.close(), t.key === "Enter" && this.mode === "playback") {
@@ -6101,14 +6265,14 @@ ${n.slice(0, 8).join(`
     this.destroyed || (this.destroyed = !0, this.clearApiProbeTimer(), clearTimeout(this.playbackResumeTimer), clearTimeout(this.guideSaveTimer), clearTimeout(this.settingsSaveTimer), this.recorder.destroy(), this.player.destroy(), this.overlay.destroy(), this.panel.destroy(), (t = this.launcher) == null || t.destroy(), document.removeEventListener("keydown", this.onKeyDown), window.removeEventListener("popstate", this.onUrlChange), this.restoreHistoryHooks());
   }
 }
-let he = null;
-const lr = {
+let pe = null;
+const vr = {
   init(i = {}) {
     if (typeof window > "u" || typeof document > "u")
       throw new Error("System Guider can only be initialized in a browser.");
-    return he == null || he.destroy(), he = new or(i), he;
+    return pe == null || pe.destroy(), pe = new br(i), pe;
   }
 };
 export {
-  lr as default
+  vr as default
 };

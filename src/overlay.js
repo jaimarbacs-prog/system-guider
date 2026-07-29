@@ -3,6 +3,7 @@ import { normalizeUiSettings } from './settings.js'
 
 const SG_ICON_CLOSE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>'
 const SG_ICON_CHEVRON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>'
+const SG_ICON_CHEVRON_LEFT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>'
 const SG_ICON_BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>'
 
 export const CALENDAR_CELL_SELECTOR = [
@@ -207,7 +208,9 @@ export class SpotlightOverlay {
     zIndex = 2147483000,
     onSkip = null,
     onEnd = null,
+    onPrev = null,
     skipLabel = 'Next Step',
+    prevLabel = 'Prev',
     onHighlightBox = null,
     onTargetLost = null,
     ui = null,
@@ -216,7 +219,9 @@ export class SpotlightOverlay {
     this.zIndex = zIndex
     this.onSkip = onSkip
     this.onEnd = onEnd
+    this.onPrev = onPrev
     this.skipLabel = skipLabel
+    this.prevLabel = prevLabel
     this.onHighlightBox = onHighlightBox
     this.onTargetLost = onTargetLost
     this.ui = normalizeUiSettings(ui || { overlayOpacity })
@@ -258,6 +263,11 @@ export class SpotlightOverlay {
       event.preventDefault()
       event.stopPropagation()
       this.onSkip?.()
+    }
+    this.onPrevClick = (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+      this.onPrev?.()
     }
     this.onEndClick = (event) => {
       event.preventDefault()
@@ -361,6 +371,10 @@ export class SpotlightOverlay {
 
   setSkipHandler(handler) {
     this.onSkip = handler
+  }
+
+  setPrevHandler(handler) {
+    this.onPrev = handler
   }
 
   setControlsEnabled(enabled) {
@@ -561,17 +575,20 @@ export class SpotlightOverlay {
     description = '',
     stepNumber = null,
     totalSteps = null,
+    showPrev = false,
   } = {}) {
     this.mountStepTip()
     const tipTitle = String(title || '').trim()
     const tipDescription = String(description || '').trim()
     const number = Number.isFinite(Number(stepNumber)) ? Math.max(1, Number(stepNumber)) : null
     const total = Number.isFinite(Number(totalSteps)) ? Math.max(1, Number(totalSteps)) : null
+    const allowPrev = Boolean(showPrev) && typeof this.onPrev === 'function'
     this.stepTipContent = {
       title: tipTitle,
       description: tipDescription,
       stepNumber: number,
       totalSteps: total,
+      showPrev: allowPrev,
     }
     if (!tipTitle) {
       this.hideStepTip()
@@ -636,6 +653,17 @@ export class SpotlightOverlay {
     endButton.innerHTML = `${SG_ICON_BOOK}<span>End Tutorial</span>`
     endButton.addEventListener('click', this.onEndClick)
 
+    actions.append(endButton)
+
+    if (allowPrev) {
+      const prevButton = document.createElement('button')
+      prevButton.type = 'button'
+      prevButton.className = 'sg-step-tip__prev'
+      prevButton.innerHTML = `${SG_ICON_CHEVRON_LEFT}<span>${this.prevLabel || 'Prev'}</span>`
+      prevButton.addEventListener('click', this.onPrevClick)
+      actions.append(prevButton)
+    }
+
     const nextButton = document.createElement('button')
     nextButton.type = 'button'
     nextButton.className = 'sg-step-tip__next'
@@ -644,7 +672,7 @@ export class SpotlightOverlay {
     nextButton.innerHTML = `<span>${nextText}</span>${SG_ICON_CHEVRON}`
     nextButton.addEventListener('click', this.onSkipClick)
 
-    actions.append(endButton, nextButton)
+    actions.append(nextButton)
     this.stepTip.append(divider, actions)
 
     this.stepTip.hidden = false

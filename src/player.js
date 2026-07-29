@@ -1,4 +1,5 @@
 import {
+  isElementLoading,
   isElementPresent,
   isElementReady,
   isPageLoading,
@@ -18,6 +19,70 @@ import {
   resolveInteractiveField,
 } from './recorder.js'
 import { CALENDAR_CELL_SELECTOR, MENU_SELECTOR } from './overlay.js'
+
+const DIALOG_CONTEXT_SELECTOR = [
+  '.modal.show',
+  '.modal.in',
+  '[role="dialog"][aria-modal="true"]',
+  '[role="dialog"].show',
+  '.p-dialog',
+  '.p-overlaypanel',
+  '.p-sidebar',
+].join(', ')
+
+function findDialogContext(element) {
+  if (!(element instanceof Element)) return null
+  try {
+    return element.closest(DIALOG_CONTEXT_SELECTOR)
+  } catch {
+    return null
+  }
+}
+
+/** True when a recorded click likely left the page (href / nav selectors). */
+function stepLooksLikeNavigation(step) {
+  if (step?.action !== 'click') return false
+  const href = String(step.match?.href || '').trim()
+  if (href && href !== '#' && !/^javascript:/i.test(href)) return true
+  const sel = String(step.selector || '')
+  if (/\.nav-link|\.custom-nav-class|\[data-inertia\]/i.test(sel)) return true
+  return false
+}
+
+/**
+ * Whether Prev is safe for this step.
+ * Hide after one-way transitions (nav / open modal / view swap where the
+ * previous target is gone — e.g. branch card → schedule page).
+ * Override: step.settings.allowPrev true|false
+ */
+export function canGoToPreviousStep(steps, index) {
+  if (!Array.isArray(steps) || index <= 0) return false
+  const current = steps[index]
+  const previous = steps[index - 1]
+  if (!previous) return false
+
+  if (current?.settings?.allowPrev === false) return false
+  if (current?.settings?.allowPrev === true) return true
+
+  if (stepLooksLikeNavigation(previous)) return false
+
+  // Previous target must still be on this view. If it's gone, the prior click
+  // swapped the page/div (branch list → schedule) and Prev cannot undo that.
+  const prevPresent = resolveStepTarget(previous, { requirePresent: true })
+  if (!prevPresent) return false
+
+  const currEl = resolveStepTarget(current, { requirePresent: false })
+  const prevDialog = findDialogContext(prevPresent)
+  const currDialog = findDialogContext(currEl)
+
+  // Previous click opened (or switched) a dialog/modal — library cannot undo that.
+  if (previous.action === 'click') {
+    if (currDialog && !prevDialog) return false
+    if (currDialog && prevDialog && currDialog !== prevDialog) return false
+  }
+
+  return true
+}
 
 function looksLikeNavigationClick(clicked, element) {
   const node = clicked instanceof Element ? clicked : element
@@ -71,6 +136,12 @@ export class Player {
     autoAdvanceDelay = 600,
     autoSkipMissing = true,
     autoSkipMissingDelay = 400,
+    /**
+     * When auto-skip is on and the page is idle (no skeletons), how long to wait
+     * with no match before treating the target as missing. Default 2000.
+     * Loading / skeleton still uses the full targetWaitTimeout (+ settle cap).
+     */
+    autoSkipIdleMissTimeout = 2000,
     stableWaitTimeout = 1500,
     targetWaitTimeout = 20000,
     targetRetryInterval = 250,
@@ -95,6 +166,7 @@ export class Player {
     this.autoAdvanceDelay = autoAdvanceDelay
     this.autoSkipMissing = autoSkipMissing
     this.autoSkipMissingDelay = autoSkipMissingDelay
+    this.autoSkipIdleMissTimeout = Math.max(300, Number(autoSkipIdleMissTimeout) || 2000)
     this.stableWaitTimeout = stableWaitTimeout
     this.targetWaitTimeout = Math.max(1000, Number(targetWaitTimeout) || 20000)
     this.targetRetryInterval = Math.max(50, Number(targetRetryInterval) || 250)
@@ -148,6 +220,13 @@ export class Player {
       this.pageSettleAppearGraceMs = Math.max(0, Number(partial.pageSettleAppearGraceMs) || 0)
     }
     if (partial.postReadyDelay != null) this.postReadyDelay = Math.max(0, Number(partial.postReadyDelay) || 0)
+    if (partial.autoSkipMissing != null) this.autoSkipMissing = Boolean(partial.autoSkipMissing)
+    if (partial.autoSkipMissingDelay != null) {
+      this.autoSkipMissingDelay = Math.max(0, Number(partial.autoSkipMissingDelay) || 0)
+    }
+    if (partial.autoSkipIdleMissTimeout != null) {
+      this.autoSkipIdleMissTimeout = Math.max(300, Number(partial.autoSkipIdleMissTimeout) || 2000)
+    }
   }
 
   abortPageSettle() {
@@ -193,6 +272,18 @@ export class Player {
     return resolveStepTarget(step, { requirePresent: true })
   }
 
+  /** Soft resolve — may return a node that still has skeleton / aria-busy. */
+  findStepTargetCandidate(step) {
+    return resolveStepTarget(step, { requirePresent: false })
+  }
+
+  /** True when page loaders are up, or the step's candidate is still skeleton/busy. */
+  isWaitingOnTargetLoad(step) {
+    if (isPageLoading()) return true
+    const candidate = this.findStepTargetCandidate(step)
+    return Boolean(candidate && isElementLoading(candidate))
+  }
+
   clearReadyWait(resolveWith = null) {
     if (this.readyWaitInterval != null) {
       clearInterval(this.readyWaitInterval)
@@ -205,8 +296,11 @@ export class Player {
   }
 
   /**
-   * Poll until the step target exists in the DOM (SPA/page load safe).
-   * Owns a single interval — always cleared via clearReadyWait / clearWait / stop.
+   * Poll until the step target is present and ready (SPA/page load safe).
+   * - Ready match → resolve element
+   * - Skeleton / page loading → wait up to hard cap (do not fast-skip)
+   * - Idle + auto-skip on → short idle-miss timeout, then null (auto-skip)
+   * - Idle + auto-skip off → full targetWaitTimeout, then null (TARGET MISSING)
    */
   waitUntilTargetReady(step, requestToken) {
     this.clearReadyWait(null)
@@ -215,11 +309,18 @@ export class Player {
     if (immediate) return Promise.resolve(immediate)
 
     const startedAt = Date.now()
-    const timeout = Math.max(this.timeout, this.targetWaitTimeout)
+    const baseTimeout = Math.max(this.timeout, this.targetWaitTimeout)
+    const hardCap = baseTimeout + Math.max(0, Number(this.pageSettleTimeout) || 0)
+    const appearGrace = Math.max(0, Number(this.pageSettleAppearGraceMs) || 0)
+    const fastSkip = this.shouldAutoSkipMissing(step)
+    const idleMissTimeout = fastSkip
+      ? Math.min(baseTimeout, Math.max(300, Number(this.autoSkipIdleMissTimeout) || 2000))
+      : baseTimeout
     let attempt = 0
     let readyHits = 0
     let lastFound = null
-    let lastShownSec = null
+    let lastStatusKey = null
+    let idleMissSince = null
 
     return new Promise((resolve) => {
       this.readyWaitResolve = resolve
@@ -240,6 +341,7 @@ export class Player {
         if (found) {
           readyHits = found === lastFound ? readyHits + 1 : 1
           lastFound = found
+          idleMissSince = null
           if (readyHits >= this.targetReadyHits) {
             finish(found)
             return
@@ -250,19 +352,45 @@ export class Player {
         }
 
         const elapsed = Date.now() - startedAt
-        if (elapsed >= timeout) {
+        const loading = !found && this.isWaitingOnTargetLoad(step)
+
+        if (loading) {
+          idleMissSince = null
+        } else if (!found && elapsed >= appearGrace) {
+          if (idleMissSince == null) idleMissSince = Date.now()
+        } else {
+          idleMissSince = null
+        }
+
+        const idleElapsed = idleMissSince == null ? 0 : Date.now() - idleMissSince
+        const effectiveLimit = loading
+          ? hardCap
+          : (appearGrace + idleMissTimeout)
+        const remainingSec = Math.max(0, Math.ceil((effectiveLimit - elapsed) / 1000))
+
+        if (elapsed >= hardCap) {
           finish(found || null)
           return
         }
 
-        const remainingSec = Math.max(0, Math.ceil((timeout - elapsed) / 1000))
-        if (remainingSec !== lastShownSec) {
-          lastShownSec = remainingSec
-          const label = `Waiting… ${remainingSec}s`
+        // Idle miss: short wait when auto-skip is on; full wait when required.
+        if (!loading && !found && idleMissSince != null && idleElapsed >= idleMissTimeout) {
+          finish(null)
+          return
+        }
+
+        const statusKey = loading
+          ? `loading:${remainingSec}`
+          : `target:${remainingSec}`
+        if (statusKey !== lastStatusKey) {
+          lastStatusKey = statusKey
+          const label = loading
+            ? `Waiting for content… ${remainingSec}s`
+            : `Waiting… ${remainingSec}s`
           this.onChange(step, this.index, {
             waiting: true,
             failed: false,
-            waitKind: 'target',
+            waitKind: loading ? 'loading' : 'target',
             retryCount: attempt,
             message: label,
           })
@@ -316,14 +444,44 @@ export class Player {
     ].join(' ')
   }
 
+  /** Per-step override wins; otherwise global player option (default true). */
+  shouldAutoSkipMissing(step) {
+    if (step?.settings?.autoSkipMissing === false) return false
+    if (step?.settings?.autoSkipMissing === true) return true
+    return this.autoSkipMissing !== false
+  }
+
+  /**
+   * After full target wait failed: briefly show skip status, then advance.
+   * Does not call onFail — intentional skip, not a hard failure.
+   */
+  scheduleAutoSkipMissing(step, requestToken) {
+    const message = 'Target not found after wait. Skipping to the next step…'
+    this.overlay.hideWarning?.()
+    this.overlay.showWaiting?.(message)
+    this.onChange(step, this.index, {
+      waiting: false,
+      failed: true,
+      autoSkipping: true,
+      failKind: 'missing-target',
+      message,
+    })
+    this.overlay.positionSkipChipFallback?.()
+    clearTimeout(this.autoSkipTimer)
+    const delay = Math.max(0, Number(this.autoSkipMissingDelay) || 0)
+    this.autoSkipTimer = setTimeout(() => {
+      this.autoSkipTimer = null
+      if (!this.active || requestToken !== this.token) return
+      this.overlay.hideWaiting?.()
+      this.overlay.hideWarning?.()
+      this.next()
+    }, delay)
+  }
+
   normalizeStepTarget(step, found) {
-    if (!found) {
-      // Only retarget to a truly open choice control — never a random page Search input.
-      if (step.action === 'click' || step.action === 'input') {
-        return findOpenChoiceField()
-      }
-      return null
-    }
+    // After a full miss, stay null so auto-skip / TARGET MISSING can run.
+    // Do not invent an unrelated open dropdown (that blocked skip after countdown).
+    if (!found) return null
 
     if (isChoiceElement(found)) {
       return resolveInteractiveField(found) || found
@@ -397,9 +555,9 @@ export class Player {
       || isChoiceElement(found),
     )
 
-    // Only retarget when the recorded element is missing/hidden AND a dialog choice is available.
-    // Never steal focus to the page Search bar.
-    if (treatAsChoiceField && (!element || !isElementReady(element))) {
+    // Only retarget when we had a scored/CSS hit that went stale inside a dialog.
+    // Never invent a target after a full miss — that blocked wait-then-auto-skip.
+    if (found && treatAsChoiceField && (!element || !isElementReady(element))) {
       const looksLikeSearch = (node) => {
         if (!(node instanceof Element)) return false
         if (node.matches?.('input[type="search"]')) return true
@@ -433,6 +591,11 @@ export class Player {
 
     if (!element && !highlightHost) {
       this.overlay.hide()
+      // Wait already finished (settle + targetWaitTimeout). Only then auto-skip.
+      if (this.shouldAutoSkipMissing(step)) {
+        this.scheduleAutoSkipMissing(step, requestToken)
+        return
+      }
       const message = this.missingTargetMessage(step)
       this.overlay.showWarning?.(message)
       this.onFail(step, this.index)
@@ -478,6 +641,7 @@ export class Player {
         description: tipDescriptionFor(step),
         stepNumber: this.index + 1,
         totalSteps: this.steps.length,
+        showPrev: this.canGoPrev(),
       },
     })
 
@@ -1253,8 +1417,12 @@ export class Player {
     this.showCurrent()
   }
 
+  canGoPrev() {
+    return canGoToPreviousStep(this.steps, this.index)
+  }
+
   prev() {
-    if (!this.active || this.index <= 0) return
+    if (!this.active || !this.canGoPrev()) return
     this.index -= 1
     this.waitingForNavigation = false
     clearTimeout(this.navWaitTimer)

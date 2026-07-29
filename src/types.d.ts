@@ -49,9 +49,18 @@ export interface GuideStep {
     /** Delay before hiding spotlight when leaving step (ms). */
     hideDelay?: number
     autoAdvanceDelay?: number
+    /**
+     * After settle + full target wait, auto-advance if the element never appeared.
+     * Default true. Set false to keep TARGET MISSING until the user skips manually.
+     */
     autoSkipMissing?: boolean
     /** Scroll target into view when highlighting. Default true. */
     autoScroll?: boolean
+    /**
+     * Force show/hide Prev on this step.
+     * Unset = auto (hide after nav/modal open; show for same-page fields).
+     */
+    allowPrev?: boolean
   }
 }
 
@@ -89,14 +98,21 @@ export interface GuiderSettings {
   reloadOnNavigate?: boolean
   resetBeforePlayDelay?: number
   /**
-   * After a click step, wait for page loaders (`.skeleton`, `.shimmer`,
-   * `[aria-busy="true"]`) to clear before the next step. Default true.
+   * After a click step, wait for page loaders (see `loadingSelectors`)
+   * to clear before the next step. Default true.
    */
   pageSettleAfterClick?: boolean
   /** Max ms to wait for page loaders after a click. Default 20000. */
   pageSettleTimeout?: number
+  /** Ms to allow loaders to appear after a click before treating the page as idle. Default 300. */
+  pageSettleAppearGraceMs?: number
   /** Extra ms after loaders clear before highlighting. Only when a loader was detected. Default 1500. */
   postReadyDelay?: number
+  /**
+   * CSS selectors for loading / skeleton UI (e.g. `.skeleton`, `.p-skeleton`).
+   * Default: `.skeleton`, `.shimmer`, `[aria-busy="true"]`, `.p-skeleton`.
+   */
+  loadingSelectors?: string[]
   /** Panel chrome theme. */
   theme?: 'dark' | 'light'
   /**
@@ -156,7 +172,13 @@ export interface GuiderOptions {
   autoAdvanceOnInput?: boolean
   autoAdvanceDelay?: number
   autoSkipMissing?: boolean
+  /** Brief delay after wait fails before advancing when auto-skipping. Default 400. */
   autoSkipMissingDelay?: number
+  /**
+   * Idle (no skeleton) miss wait before auto-skip. Default 2000.
+   * Loading still uses targetWaitTimeout. Ignored when auto-skip is off.
+   */
+  autoSkipIdleMissTimeout?: number
   stableWaitTimeout?: number
   /** Max ms to poll for a missing step target (SPA page loads). Default 20000. */
   targetWaitTimeout?: number

@@ -31,6 +31,34 @@ export const defaultLauncherSettings = () => ({
   animations: true,
 })
 
+/** Built-in CSS selectors treated as page loading / skeleton UI. */
+export const DEFAULT_LOADING_SELECTORS = [
+  '.skeleton',
+  '.shimmer',
+  '[aria-busy="true"]',
+  '.p-skeleton',
+]
+
+/** Normalize a list of loading CSS selectors (comma / newline separated or array). */
+export function normalizeLoadingSelectorList(value) {
+  let items = []
+  if (Array.isArray(value)) {
+    items = value.map((item) => String(item || '').trim()).filter(Boolean)
+  } else if (value != null && value !== '') {
+    items = String(value)
+      .split(/[\n,]+/)
+      .map((item) => item.trim())
+      .filter(Boolean)
+  }
+  const unique = [...new Set(items)]
+  return unique.length ? unique : [...DEFAULT_LOADING_SELECTORS]
+}
+
+/** Join loading selectors into a single CSS selector string. */
+export function loadingSelectorsToCss(selectors) {
+  return normalizeLoadingSelectorList(selectors).join(', ')
+}
+
 export const defaultGuiderSettings = () => ({
   /** Full page reload before play (legacy). */
   resetBeforePlay: 'none',
@@ -48,6 +76,11 @@ export const defaultGuiderSettings = () => ({
   pageSettleAppearGraceMs: 300,
   /** Extra ms after loaders clear before highlighting. Only used when a loader was seen. Default 1500. */
   postReadyDelay: 1500,
+  /**
+   * CSS selectors that mark loading / skeleton UI.
+   * Playback waits until none match (and targets containing them are not ready).
+   */
+  loadingSelectors: [...DEFAULT_LOADING_SELECTORS],
   /** Panel chrome theme: dark | light */
   theme: 'dark',
   /**
@@ -220,11 +253,21 @@ export function normalizeGuiderSettings(value = {}) {
       ? Boolean(value.pageSettleAfterClick)
       : Boolean(base.pageSettleAfterClick),
     pageSettleTimeout: Math.max(0, Number(value.pageSettleTimeout) || base.pageSettleTimeout),
+    pageSettleAppearGraceMs: Math.max(0, Number(
+      Object.prototype.hasOwnProperty.call(value, 'pageSettleAppearGraceMs')
+        ? value.pageSettleAppearGraceMs
+        : base.pageSettleAppearGraceMs,
+    ) || 0),
     postReadyDelay: Math.max(0, Number(
       Object.prototype.hasOwnProperty.call(value, 'postReadyDelay')
         ? value.postReadyDelay
         : base.postReadyDelay,
     ) || 0),
+    loadingSelectors: normalizeLoadingSelectorList(
+      Object.prototype.hasOwnProperty.call(value, 'loadingSelectors')
+        ? value.loadingSelectors
+        : base.loadingSelectors,
+    ),
     theme: String(value.theme || base.theme).toLowerCase() === 'light' ? 'light' : 'dark',
     editorAccountIds: normalizeAccountIdList(
       value.editorAccountIds ?? value.guiderAccounts ?? base.editorAccountIds,

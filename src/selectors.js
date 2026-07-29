@@ -301,16 +301,31 @@ export function resolveElement(selector) {
 
 /**
  * Loading placeholders — not ready for highlight / interaction yet.
- * Host apps with custom loaders should set aria-busy="true" on the loading
- * region (and remove it when done) so playback can wait for content.
+ * Host apps can override via settings.loadingSelectors (see setLoadingUiSelector).
+ * Prefer aria-busy="true" on loading regions when possible.
  */
-export const LOADING_UI_SELECTOR = '.skeleton, .shimmer, [aria-busy="true"]'
+export const LOADING_UI_SELECTOR = '.skeleton, .shimmer, [aria-busy="true"], .p-skeleton'
 
-/** True when the element or an ancestor is still in a skeleton/loading state. */
+let activeLoadingUiSelector = LOADING_UI_SELECTOR
+
+/** Apply the effective loading CSS selector from global settings. */
+export function setLoadingUiSelector(selector) {
+  const next = String(selector || '').trim()
+  activeLoadingUiSelector = next || LOADING_UI_SELECTOR
+}
+
+export function getLoadingUiSelector() {
+  return activeLoadingUiSelector || LOADING_UI_SELECTOR
+}
+
+/** True when the element, an ancestor, or a descendant is still loading/skeleton. */
 export function isElementLoading(element) {
   if (!(element instanceof Element)) return false
   try {
-    return Boolean(element.closest(LOADING_UI_SELECTOR))
+    const sel = getLoadingUiSelector()
+    if (element.closest(sel)) return true
+    // Containers that wrap skeletons (e.g. day-column > .p-skeleton) are not ready.
+    return Boolean(element.querySelector?.(sel))
   } catch {
     return false
   }
@@ -320,7 +335,7 @@ export function isElementLoading(element) {
 export function isPageLoading(root = document) {
   try {
     const scope = root instanceof Element || root === document ? root : document
-    return Boolean(scope.querySelector?.(LOADING_UI_SELECTOR))
+    return Boolean(scope.querySelector?.(getLoadingUiSelector()))
   } catch {
     return false
   }
