@@ -38,6 +38,7 @@ Recording captures clicks and form interactions **without storing typed values**
 - Left settings panel for guides, access, defaults, and appearance
 - Spotlight overlay with a coachmark tip (arrow toward the highlight)
 - Smart step titles/descriptions when recording (labels, headings, chart context)
+- Auto-play a route guide from the URL (`?demo=0`, `?demo=1`, …)
 - Export/import as JSON; optional draft persistence
 - ESM and UMD builds with TypeScript declarations
 
@@ -94,8 +95,9 @@ During playback the tip shows:
 1. Step badge + **STEP X OF Y**
 2. Title (and optional description)
 3. **End Tutorial** — stops the whole guide
-4. **Skip Step** — advances to the next step
-5. A caret arrow that points toward the highlighted element
+4. **Prev** — only when going back is safe (same page / same modal; hidden after nav or view swaps)
+5. **Next Step** / **Finish** — advances to the next step (or completes)
+6. A caret arrow that points toward the highlighted element
 
 Tip and spotlight colors follow **Appearance** settings (`tipBg`, `spotlightColor`, etc.).
 
@@ -405,13 +407,16 @@ See [Framework setup](#framework-setup) for plain JS and React samples.
   "resetBeforePlayDelay": 450,
   "pageSettleAfterClick": true,
   "postReadyDelay": 1500,
+  "loadingSelectors": [".skeleton", ".shimmer", "[aria-busy=\"true\"]", ".p-skeleton"],
+  "autoPlayQueryParam": "demo",
+  "autoPlayStripQuery": true,
   "editorAccountIds": ["1", "12"]
 }
 ```
 
 An empty `editorAccountIds` list means Play-only for everyone. The current user’s id (step 4) must match an entry in this list.
 
-**Custom page loaders:** after a click step, playback waits for `.skeleton`, `.shimmer`, or `[aria-busy="true"]` to clear before the next step. `postReadyDelay` (default 1500ms) runs only when a loader was actually seen. If your app uses a custom spinner/overlay, set `aria-busy="true"` on the loading region while fetching and remove it when ready:
+**Custom page loaders:** after a click step, playback waits for loaders in `loadingSelectors` (default includes `.skeleton`, `.shimmer`, `[aria-busy="true"]`, `.p-skeleton`) to clear before the next step. `postReadyDelay` (default 1500ms) runs only when a loader was actually seen. If your app uses a custom spinner/overlay, add its class to `loadingSelectors` or set `aria-busy="true"` on the loading region while fetching and remove it when ready:
 
 ```html
 <div class="report-panel" aria-busy="true">…</div>
@@ -422,6 +427,25 @@ panel.setAttribute('aria-busy', isLoading ? 'true' : 'false')
 ```
 
 See also [`integrations/laravel/README.md`](integrations/laravel/README.md#custom-page-loaders).
+
+### Auto-play from URL (`?demo=N`)
+
+After guides load, System Guider can start a guide for the **current pathname** from a query param (default `demo`):
+
+| URL | Behavior |
+|---|---|
+| `/company-branch-schedule?demo=0` | Play the **1st** guide for that route (newest first) |
+| `/company-branch-schedule?demo=1` | Play the **2nd** guide for that route |
+| no `demo` param | No auto-play |
+
+- Route matching uses **pathname only** (`urlMatch: 'pathname'`); the query does not change which page’s guides are selected.
+- Index order is **newest first** (from guide id timestamp / date in the title).
+- With `autoPlayStripQuery: true` (default), `demo` is removed from the URL after playback starts so a refresh does not replay.
+- Set `"autoPlayQueryParam": false` in `settings.json` to disable.
+
+```text
+https://localhost/company-branch-schedule?demo=0
+```
 
 **6. Rebuild frontend assets:**
 
@@ -668,6 +692,8 @@ guider.destroy()
 ```
 
 Common options: `overlayOpacity`, `allowClose`, `storageKey`, `zIndex`, `selectorTimeout`, `autoAdvanceOnInput`, `autoAdvanceDelay`, `labels`, lifecycle callbacks.
+
+Settings (also via `public/guides/settings.json`): `autoPlayQueryParam` (`"demo"` / `false`), `autoPlayStripQuery`, `loadingSelectors`, settle timeouts, `editorAccountIds`, and UI tokens.
 
 Input steps auto-advance after a non-empty value (debounced, default 600 ms). Dropdown steps advance on any committed selection. Only one instance is active; a new `init()` destroys the previous one.
 

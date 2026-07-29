@@ -528,9 +528,29 @@ router.on('navigate', (event) => {
             ['showAccountId', 'Show Account ID label on the launcher (default false).'],
             ['hiddenUrls', 'Path prefixes where the launcher is hidden.'],
             ['theme', 'Panel chrome: dark | light.'],
+            ['loadingSelectors', 'CSS selectors for skeleton/busy UI (default includes .p-skeleton).'],
+            ['autoPlayQueryParam', 'Query param for auto-play (default "demo"). ?demo=0 = 1st guide on route. false disables.'],
+            ['autoPlayStripQuery', 'Remove auto-play query param after playback starts (default true).'],
             ['ui.*', 'Playback appearance tokens (colors, opacity, motion).'],
           ],
           [2800, 6560],
+        ),
+
+        h2('6.4 Auto-play from URL (?demo=N)'),
+        p(
+          'After guides load, System Guider can start a guide for the current pathname from a query parameter (default demo).',
+        ),
+        table(
+          ['URL', 'Behavior'],
+          [
+            ['/path?demo=0', 'Play the 1st guide for that route (newest first).'],
+            ['/path?demo=1', 'Play the 2nd guide for that route.'],
+            ['no demo param', 'No auto-play.'],
+          ],
+          [3600, 5760],
+        ),
+        p(
+          'Route matching uses pathname only. With autoPlayStripQuery true (default), the demo param is removed after playback starts so a refresh does not replay.',
         ),
 
         h1('7. Host authorization (HTTP API)'),
